@@ -1,0 +1,15 @@
+<div class="labels" *ngIf="label || percent">
+  <p *ngIf="label" class="label">{{ label }}</p>
+  <p *ngIf="percent" class="percent-label">{{ progress }}%</p>
+</div>
+
+<div class="progress">
+  <div class="bar" [ngStyle]="{'width': innerProgress + '%', 'background': color }"></div>
+
+  <div class="marker-box" [ngStyle]="{'left': innerProgress + '%', 'color': color }">
+    <div class="marker-bg"></div>
+    <div class="marker"></div>
+  </div>
+
+  <div class="progress-bg" [ngStyle]="{ 'background': color }"></div>
+</div>

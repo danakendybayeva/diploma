@@ -1,0 +1,27 @@
+<ng-container *ngIf="user">
+  <div class="user-bg" [ngStyle]="{ 'background-image': 'url(' + user.bg + ')' }"></div>
+
+  <div class="card-body">
+    <div class="user-info">
+      <div class="user-img">
+        <a href="#">
+          <tc-avatar [initials]="user.name[0]" [size]="76" [src]="user.img"></tc-avatar>
+        </a>
+      </div>
+
+      <h5 class="user-name">
+        <a class="user-link" href="#">{{ user.name }}</a>
+      </h5>
+
+      <span class="user-role">{{ user.role }}</span>
+    </div>
+
+    <ng-container *ngIf="user.followed; else follow">
+      <button (click)="unfollowClick(user)" [block]="true" tc-button>Unfollow</button>
+    </ng-container>
+
+    <ng-template #follow>
+      <button (click)="followClick(user)" [outline]="true" [block]="true" tc-button>Follow</button>
+    </ng-template>
+  </div>
+</ng-container>

@@ -1,0 +1,42 @@
+@import '../../../../assets/sass/variables';
+
+:host {
+  height: 120px;
+  display: block;
+  width: 120px;
+  text-align: center;
+  position: relative;
+
+  .progress-circle {
+    fill: transparent;
+    stroke-linecap: round;
+    stroke-width: 1px;
+    transition: stroke-dashoffset 0.7s ease-in-out;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+  }
+  .secondary-circle {
+    stroke: main-palette(500);
+    stroke-dashoffset: 0;
+    stroke-opacity: .2;
+    stroke-width: 1px;
+    fill: transparent;
+  }
+  .text-box {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    left: 0;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    .text {
+      font-size: 1.4em;
+      letter-spacing: 0.4px;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}

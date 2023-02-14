@@ -1,0 +1,14 @@
+.row-flex {
+  display: flex;
+  flex-flow: wrap;
+}
+.match-height tc-card {
+  height: calc(100% - 24px);
+}
+
+h5.edu {
+  color: #086dda;
+}
+h5.exp {
+  color: #53b324;
+}

@@ -1,0 +1,376 @@
+<div class="row">
+  <div class="col col-12 col-xl-6">
+    <div class="row">
+      <div class="col col-12 col-md-6">
+        <tc-card
+          class="animated fadeIn delay-01s"
+          [tcBgColor]="'#fff'"
+          [tcBorderColor]="'#7cdb86'"
+          [outline]="true"
+        >
+          <div class="row pt-2">
+            <div class="col col-7">
+              <h6 class="mt-1 mb-0 nowrap" [tcColor]="'rgba(114,132,154,0.7)'">
+                Sales
+              </h6>
+              <div class="count" [tcFontSize]="20">
+                <strong>$30,845</strong>
+              </div>
+            </div>
+
+            <div class="col col-5 pt-2 text-right">
+              <tc-badge
+                [tcBgColor]="'rgba(124,219,134,0.2)'"
+                [tcColor]="'#7cdb86'"
+                [tcShape]="500"
+                [size]="'sm'"
+              >
+                <tc-icon
+                  [padding]="0"
+                  [iconClass]="'icofont-arrow-up'"
+                  [tcFontSize]="14"
+                ></tc-icon>
+                7,25%
+              </tc-badge>
+            </div>
+          </div>
+          <tc-progress
+            [label]="'Monthly goal'"
+            [percent]="true"
+            [color]="'#7cdb86'"
+            [progress]="86"
+            class="mt-3 mb-0"
+          ></tc-progress>
+        </tc-card>
+      </div>
+
+      <div class="col col-12 col-md-6">
+        <tc-card
+          class="animated fadeIn delay-02s"
+          [tcBgColor]="'#fff'"
+          [tcBorderColor]="'#fc8b37'"
+          [outline]="true"
+        >
+          <div class="row pt-2">
+            <div class="col col-7">
+              <h6 class="mt-1 mb-0 nowrap" [tcColor]="'rgba(114,132,154,0.7)'">
+                Orders
+              </h6>
+              <div class="count" [tcFontSize]="20"><strong>957</strong></div>
+            </div>
+
+            <div class="col col-5 pt-2 text-right">
+              <tc-badge
+                [tcBgColor]="'rgba(237,37,61,0.2)'"
+                [tcColor]="'#ed253d'"
+                [tcShape]="500"
+                [size]="'sm'"
+              >
+                <tc-icon
+                  [padding]="0"
+                  [iconClass]="'icofont-arrow-down'"
+                  [tcFontSize]="14"
+                ></tc-icon>
+                2,25%
+              </tc-badge>
+            </div>
+          </div>
+          <tc-progress
+            [label]="'Monthly goal'"
+            [percent]="true"
+            [color]="'#fc8b37'"
+            [progress]="74"
+            class="mt-3 mb-0"
+          ></tc-progress>
+        </tc-card>
+      </div>
+
+      <div class="col col-12 col-md-6">
+        <tc-card
+          class="animated fadeIn delay-03s"
+          [tcBgColor]="'#fff'"
+          [tcBorderColor]="'#ed253d'"
+          [outline]="true"
+        >
+          <div class="row pt-2">
+            <div class="col col-7">
+              <h6 class="mt-1 mb-0 nowrap" [tcColor]="'rgba(114,132,154,0.7)'">
+                Margin
+              </h6>
+              <div class="count" [tcFontSize]="20"><strong>$6,845</strong></div>
+            </div>
+
+            <div class="col col-5 pt-2 text-right">
+              <tc-badge
+                [tcBgColor]="'rgba(124,219,134,0.2)'"
+                [tcColor]="'#7cdb86'"
+                [tcShape]="500"
+                [size]="'sm'"
+              >
+                <tc-icon
+                  [padding]="0"
+                  [iconClass]="'icofont-arrow-up'"
+                  [tcFontSize]="14"
+                ></tc-icon>
+                10,25%
+              </tc-badge>
+            </div>
+          </div>
+          <tc-progress
+            [label]="'Monthly goal'"
+            [percent]="true"
+            [color]="'#ed253d'"
+            [progress]="92"
+            class="mt-3 mb-0"
+          ></tc-progress>
+        </tc-card>
+      </div>
+
+      <div class="col col-12 col-md-6">
+        <tc-card
+          class="animated fadeIn delay-04s"
+          [tcBgColor]="'#fff'"
+          [tcBorderColor]="'#2fa7ff'"
+          [outline]="true"
+        >
+          <div class="row pt-2">
+            <div class="col col-7">
+              <h6 class="mt-1 mb-0 nowrap" [tcColor]="'rgba(114,132,154,0.7)'">
+                Affiliate
+              </h6>
+              <div class="count" [tcFontSize]="20"><strong>193</strong></div>
+            </div>
+
+            <div class="col col-5 pt-2 text-right">
+              <tc-badge
+                [tcBgColor]="'rgba(252,139,55,0.2)'"
+                [tcColor]="'#fc8b37'"
+                [tcShape]="500"
+                [size]="'sm'"
+              >
+                N/A
+              </tc-badge>
+            </div>
+          </div>
+          <tc-progress
+            [label]="'Monthly goal'"
+            [percent]="true"
+            [color]="'#2fa7ff'"
+            [progress]="86"
+            class="mt-3 mb-0"
+          ></tc-progress>
+        </tc-card>
+      </div>
+    </div>
+  </div>
+
+  <div class="col col-12 col-xl-6">
+    <tc-card [title]="'Sales statistics'">
+      <div
+        echarts
+        [options]="salesOptions"
+        class="chart-container container-h-250"
+      ></div>
+    </tc-card>
+  </div>
+
+  <div class="col col-12 col-xl-8">
+    <tc-card [title]="'Revenue'">
+      <div class="row mb-3">
+        <div class="col mb-2">
+          <h6 class="mt-1 mb-0 nowrap" [tcColor]="'#2fa7ff'">Net Revenue</h6>
+          <div class="count" [tcFontSize]="16">
+            <strong class="mr-2">49,845</strong>
+            <tc-badge
+              [tcBgColor]="'rgba(124,219,134,0.2)'"
+              [tcColor]="'#7cdb86'"
+              [tcShape]="0"
+              [size]="'sm'"
+            >
+              <tc-icon
+                [padding]="0"
+                [iconClass]="'icofont-arrow-up'"
+                [tcFontSize]="14"
+              ></tc-icon>
+              27,25%
+            </tc-badge>
+          </div>
+        </div>
+
+        <div class="col mb-2">
+          <h6 class="mt-1 mb-0 nowrap" [tcColor]="'#fc8b37'">Selling</h6>
+          <div class="count" [tcFontSize]="16">
+            <strong class="mr-2">36,775</strong>
+            <tc-badge
+              [tcBgColor]="'rgba(237,37,61,0.2)'"
+              [tcColor]="'#ed253d'"
+              [tcShape]="0"
+              [size]="'sm'"
+            >
+              <tc-icon
+                [padding]="0"
+                [iconClass]="'icofont-arrow-down'"
+                [tcFontSize]="14"
+              ></tc-icon>
+              7,14%
+            </tc-badge>
+          </div>
+        </div>
+
+        <div class="col mb-2">
+          <h6 class="mt-1 mb-0 nowrap" [tcColor]="'#f741b5'">Cost</h6>
+          <div class="count" [tcFontSize]="16">
+            <strong class="mr-2">24,957</strong>
+            <tc-badge
+              [tcBgColor]="'rgba(247,65,181,0.2)'"
+              [tcColor]="'#f741b5'"
+              [tcShape]="0"
+              [size]="'sm'"
+            >
+              <tc-icon
+                [padding]="0"
+                [iconClass]="'icofont-check-alt'"
+                [tcFontSize]="14"
+              ></tc-icon>
+              3,87%
+            </tc-badge>
+          </div>
+        </div>
+      </div>
+
+      <div
+        echarts
+        [options]="revenueOptions"
+        class="chart-container container-h-250"
+      ></div>
+    </tc-card>
+  </div>
+
+  <div class="col col-12 col-xl-4">
+    <tc-card [title]="'Top products'">
+      <tc-list>
+        <tc-list-item>
+          <img
+            [tcImageSize]="60"
+            tc-list-avatar
+            src="assets/content/product-60-1.jpg"
+          />
+
+          <span tc-list-line>Iphone 10</span>
+
+          <div
+            class="elem-list sm justify-content-between flex-wrap"
+            tc-list-line
+          >
+            <span>Iphone 10</span>
+            <tc-badge [size]="'xs'" [view]="'warning'">Top</tc-badge>
+          </div>
+        </tc-list-item>
+
+        <tc-list-item>
+          <img
+            [tcImageSize]="60"
+            tc-list-avatar
+            src="assets/content/product-60-2.jpg"
+          />
+
+          <span tc-list-line>Samsung Galaxy S10</span>
+
+          <div
+            class="elem-list sm justify-content-between flex-wrap"
+            tc-list-line
+          >
+            <span>Iphone 10</span>
+            <tc-badge [size]="'xs'" [view]="'info'">New</tc-badge>
+          </div>
+        </tc-list-item>
+
+        <tc-list-item>
+          <img
+            [tcImageSize]="60"
+            tc-list-avatar
+            src="assets/content/product-60-3.jpg"
+          />
+
+          <span tc-list-line>iMac Pro</span>
+
+          <div
+            class="elem-list sm justify-content-between flex-wrap"
+            tc-list-line
+          >
+            <span>Iphone 10</span>
+            <tc-badge [size]="'xs'" [view]="'error'">Best</tc-badge>
+          </div>
+        </tc-list-item>
+
+        <tc-list-item>
+          <img
+            [tcImageSize]="60"
+            tc-list-avatar
+            src="assets/content/product-60-4.jpg"
+          />
+
+          <span tc-list-line>Canon EOS M50</span>
+
+          <div
+            class="elem-list sm justify-content-between flex-wrap"
+            tc-list-line
+          >
+            <span>Iphone 10</span>
+            <tc-badge [size]="'xs'" [view]="'accent'">High</tc-badge>
+          </div>
+        </tc-list-item>
+      </tc-list>
+    </tc-card>
+  </div>
+</div>
+
+<tc-card [title]="'Recent orders'" class="mb-0" [padding]="'0'">
+  <nz-table
+    class="mb-0"
+    #basicTable
+    [nzData]="ordersData"
+    [nzShowPagination]="false"
+  >
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Images</th>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>
+          {{ data.order }}
+        </td>
+        <td>
+          <tc-avatar-group>
+            <tc-avatar
+              *ngFor="let avatar of data.imgs"
+              [src]="avatar"
+              [tcBgColor]="'#fff'"
+              [size]="60"
+            ></tc-avatar>
+          </tc-avatar-group>
+        </td>
+        <td>{{ data.title }}</td>
+        <td>{{ data.date }}</td>
+        <td>{{ data.amount }}</td>
+
+        <td>
+          <tc-badge [view]="data.status" [ngSwitch]="data.status" [size]="'sm'">
+            <ng-container *ngSwitchCase="'success'">DONE</ng-container>
+            <ng-container *ngSwitchCase="'info'">PENDING</ng-container>
+            <ng-container *ngSwitchCase="'warning'">SENT</ng-container>
+            <ng-container *ngSwitchCase="'error'">CANCELED</ng-container>
+            <ng-container *ngSwitchDefault>NEW</ng-container>
+          </tc-badge>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</tc-card>

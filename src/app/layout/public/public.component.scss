@@ -1,0 +1,65 @@
+@import '../../../assets/sass/variables';
+
+:host {
+  background-size: cover;
+  display: block;
+  height: 100%;
+  overflow: auto;
+  width: 100%;
+
+  .bg {
+    position: fixed;
+    //background-image: linear-gradient(118deg, #462354, #405fac);
+    background: #213A8F;
+    left: 0;
+    height: 100%;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+  }
+  .content-box {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    justify-content: center;
+    margin: 0 auto;
+    min-height: 100%;
+    max-width: 560px;
+    min-width: 560px;
+
+    @media only screen and (max-width: 767px) {
+      min-width: 310px;
+      width: 90%;
+      margin: 0 auto;
+    }
+    .content-header {
+      padding-top: 0;
+    }
+    .content-body {
+      align-items: center;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px 0 rgba(#000, 0.15);
+      display: flex;
+      margin-top: ($module-rem * 4);
+      padding: ($module-rem * 9) ($module-rem * 10);
+      width: 100%;
+
+      @media only screen and (max-width: 767px) {
+        padding: $module-rem * 3;
+        margin: ($module-rem * 3) auto $module-rem;
+      }
+      ::ng-deep {
+        > * {
+          display: block;
+          width: 100%;
+        }
+
+        router-outlet {
+          display: none;
+        }
+      }
+    }
+  }
+}

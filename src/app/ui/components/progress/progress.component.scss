@@ -1,0 +1,185 @@
+@import '../../../../assets/sass/variables';
+
+$extra-small-height: 2px;
+$small-height: 5px;
+$default-height: 7px;
+$large-height: 8px;
+$self-height: 10px;
+
+$_shape: $shape;
+
+:host {
+  display: block;
+  margin: 0 0 ($module-rem * 2) 0;
+  overflow: visible;
+  position: relative;
+
+  .labels {
+    color: $main-color;
+    margin-bottom: $module-rem * 1.25;
+    display: flex;
+    font-size: 0.9em;
+    justify-content: space-between;
+    letter-spacing: 0.4px;
+
+    p {
+      margin: 0;
+    }
+  }
+  .progress {
+    align-items: center;
+    border-radius: $_shape;
+    display: flex;
+    overflow: hidden;
+    height: $default-height;
+    position: relative;
+    width: 100%;
+    overflow: visible;
+
+    .marker-box {
+      align-items: center;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      border-radius: 50%;
+      height: 8px;
+      width: 8px;
+
+      .marker {
+        background: currentColor;
+        border-radius: 50%;
+        border: 1px solid #fff;
+        display: block;
+        position: relative;
+        width: 8px;
+        height: 8px;
+        z-index: 99;
+      }
+      .marker-bg {
+        border-radius: 50%;
+        border: 8px solid;
+        content: '';
+        left: -4px;
+        opacity: .2;
+        position: absolute;
+        top: -4px;
+      }
+    }
+    .progress-bg {
+      opacity: 0.1;
+      border-radius: inherit;
+      left: 0;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+    }
+    .bar {
+      background: accent-palette(500);
+      border-radius: $_shape;
+      display: block;
+      height: 1px;
+      border-radius: 4px;
+      margin: 0 4px;
+      opacity: 0.8;
+      position: relative;
+      transition: width 0.3s $animation;
+      width: 0%;
+
+      .label {
+        color: #fff;
+        font-size: 0.7em;
+      }
+    }
+  }
+
+  &.extra-small {
+    > .progress {
+      height: $extra-small-height;
+
+      > .marker {
+        height: 6px;
+        width: 6px;
+      }
+      > .bar {
+        margin: 0;
+        height: 2px;
+
+        > .label {
+          display: none;
+        }
+      }
+    }
+  }
+  &.small {
+    > .progress {
+      height: $small-height;
+
+      > .marker {
+        height: 6px;
+        width: 6px;
+      }
+      > .bar {
+        margin: 0 2px;
+        height: 1px;
+
+        > .label {
+          display: none;
+        }
+      }
+    }
+  }
+  &.large {
+    > .progress {
+      height: $large-height;
+      border-radius: 6px;
+
+      > .bar {
+        height: 2px;
+        margin: 0 6px;
+
+        > .label {
+          font-size: 1em;
+        }
+      }
+    }
+  }
+  &.self-style {
+    > .progress {
+      height: $self-height;
+      border-radius: 6px;
+
+      .marker-box {
+        display: none;
+      }
+
+      > .bar {
+        height: $self-height;
+        margin: 0;
+
+        > .label {
+          font-size: 1em;
+        }
+      }
+    }
+  }
+
+  &.course-style {
+    > .progress {
+      height: $small-height;
+      border-radius: 6px;
+
+      .marker-box {
+        display: none;
+      }
+
+      > .bar {
+        height: $small-height;
+        margin: 0;
+
+        > .label {
+          font-size: 1em;
+        }
+      }
+    }
+  }
+}

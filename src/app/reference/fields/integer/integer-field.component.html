@@ -1,0 +1,38 @@
+<tc-form-group *ngIf="_valueField && type === 'edit' && form" [formGroup]="form">
+  <div class="row align-items-center">
+    <div class="col-12 col-md-3" *ngIf="styleType === 'standard'">
+      <tc-form-label class="mb-md-0" *ngIf="!isConfig">{{ _valueField.title }} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <tc-form-label class="mb-md-0" *ngIf="isConfig">Значение по умолчанию <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+    </div>
+    <div class="col-12" [ngClass]="{'col-md-9' : styleType === 'standard'}">
+      <tc-form-label *ngIf="styleType != 'standard'">{{ _valueField.title }} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <tc-input id="default-value-edit-{{_valueField.id}}"
+                [(ngModel)]="value"
+                [placeholder]="_valueField.title"
+                (focusout)="focused()"
+                [formControlName]="_valueField.id"
+                type="number">
+      </tc-input>
+      <p class="error-text error" *ngIf="form && form.get([_valueField.id]).invalid && isFocused">
+        <span *ngIf="_valueField.rangeFrom !== null">min: {{_valueField.rangeFrom}} </span>
+        <span *ngIf="_valueField.rangeTo !== null">max: {{_valueField.rangeTo}} </span>
+      </p>
+    </div>
+  </div>
+</tc-form-group>
+<div *ngIf="_valueField && type != 'edit'" [ngSwitch]="styleType">
+  <span *ngSwitchCase="'single'">
+      {{ value }}
+  </span>
+
+  <tc-form-group *ngSwitchDefault>
+    <div class="row align-items-center">
+      <div class="col-12 col-md-3">
+        <tc-form-label class="mb-md-0 label-show">{{ _valueField.title }}:</tc-form-label>
+      </div>
+      <div class="col-12 col-md-9">
+        {{ value }}
+      </div>
+    </div>
+  </tc-form-group>
+</div>

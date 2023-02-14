@@ -1,0 +1,188 @@
+@import '../../../../../../assets/sass/variables';
+
+:host {
+  .filter-button-ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .filter-button-ul li:first-child {
+    margin-left: 0;
+  }
+
+  .filter-button-ul li {
+    padding: 7px 7px;
+    border: 1px solid;
+    border-color: transparent;
+    border-radius: 25px;
+    margin: 0 7px;
+    font-weight: 400;
+    cursor: pointer;
+    @media only screen and (max-width: 767px) {
+      padding: 7px 15px;
+    }
+  }
+
+  .filter-button-ul li.active {
+    border-color: #213A8F;
+    color: #213A8F;
+  }
+
+  .filter-button-ul li tc-badge {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  .button-type-display .active {
+    color: #213A8F;
+  }
+
+  .button-type-display tc-icon {
+    cursor: pointer;
+  }
+
+  .grid-course {
+    cursor: pointer;
+  }
+
+  .grid-course .card {
+    //border: 1px solid #efefef;
+    border-radius: 15px;
+    transition: box-shadow 0.2s linear;
+  }
+
+  .grid-course .card:hover, .list-course:hover {
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.39);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.39);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.39);
+  }
+
+  .grid-course h5 {
+    margin-top: 0;
+  }
+
+  .options-course {
+    line-height: 28px;
+    color: #bbb;
+  }
+
+  .progress-outer {
+    height: 10px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 5px;
+    background: white;
+    border-radius: 7px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    z-index: 9;
+  }
+
+  .progress-card {
+    height: 15px;
+    width: 0;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: #213A8F;
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    transition: all 0.4s linear;
+  }
+
+  .progress-card .process {
+    display: inline-block;
+    height: 100%;
+    vertical-align: bottom;
+  }
+
+  .process-right-radius {
+    background: #e8e8e8;
+    height: 15px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    border-radius: 15px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .process-right-radius {
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .process-blue-not-full {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+
+  .flex-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .flex-row > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .flex-row.row:after,
+  .flex-row.row:before {
+    display: flex;
+  }
+
+  .list {
+    margin: 0;
+  }
+
+  .list-course {
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 0;
+    transition: box-shadow 0.2s linear;
+    cursor: pointer;
+  }
+
+  .list-image-course {
+    width: 100%;
+    padding-top: 75%;
+    background-size: cover;
+    position: relative;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+  }
+
+  .item-course {
+    position: relative;
+    height: 100%;
+  }
+
+  .company-title {
+    color: #525252;
+  }
+
+  .list-course .col-9 {
+    padding-right: 33px;
+  }
+
+  .description {
+    max-height: 40px;
+    overflow: hidden;
+  }
+
+  .progess-list {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+  }
+
+  .progess-list p {
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+}

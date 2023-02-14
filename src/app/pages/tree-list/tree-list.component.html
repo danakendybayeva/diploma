@@ -1,0 +1,40 @@
+<!--<div class="row">-->
+<!--  <tc-radio [(ngModel)]="ansRadio" [value]="ansRadio">-->
+<!--    <div *ngFor="let item of lists" class="col-12">-->
+<!--      <tc-tree-child-list [item]="item" [value]="ansRadio" (resultData)="check($event)"></tc-tree-child-list>-->
+<!--    </div>-->
+<!--  </tc-radio>-->
+<!--</div>-->
+
+<tc-card class="mb-0" [padding]="'0'">
+  <tc-card class="mb-0 pb-0">
+    <tc-form-group class="mb-0 pb-0">
+      <div class="row">
+        <div class="col-12">
+        </div>
+        <div class="col-md-12 mb-2">
+          <tc-autocomplete [data]="[]" [key]="'fio'" [placeholder]="'Name'" [(ngModel)]="searchStr"></tc-autocomplete>
+        </div>
+      </div>
+    </tc-form-group>
+  </tc-card>
+
+  <nz-table #basicTable [nzData]="lists | todoFilter: searchStr : 'fio'"
+            [nzShowPagination]="true" [nzPageSize]="10">
+    <thead>
+    <tr>
+      <th></th>
+      <th>Title</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of basicTable.data; let ind = index"
+        class="mainTable">
+      <td>
+        <tc-checkbox [value]="data.title"></tc-checkbox>
+      </td>
+      <td>{{ data.title }}</td>
+    </tr>
+    </tbody>
+  </nz-table>
+</tc-card>

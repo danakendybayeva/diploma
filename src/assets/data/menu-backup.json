@@ -1,0 +1,122 @@
+[
+  {
+    "title": "Dashboard",
+    "icon": {
+      "class": "icofont-home"
+    },
+    "routing": "dashboard",
+    "access": ["admin"]
+  },
+  {
+    "title": "MDS Projects",
+    "groupTitle": true
+  },
+  {
+    "title": "Courses",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "sub": [
+      {
+        "title": "Main",
+        "routing": "courses/main"
+      },
+      {
+        "title": "List Course",
+        "routing": "courses/course/list"
+      }
+    ]
+  },
+  {
+    "title": "English",
+    "routing": "english-list",
+    "icon": {
+      "class": "icofont-library"
+    }
+//    "sub": [
+//      {
+//        "title": "English",
+//        "routing": "english"
+//      },
+//      {
+//        "title": "List",
+//        "routing": "english-list"
+//      },
+//      {
+//        "title": "English Add Group",
+//        "routing": "english-add-group"
+//      }
+//    ]
+  },
+  {
+    "title": "Skills",
+    "routing": "self-new",
+    "icon": {
+      "class": "icofont-library"
+    }
+//    "sub": [
+//      {
+//        "title": "List",
+//        "routing": "self-dev-list"
+//      },
+//      {
+//        "title": "Create New",
+//        "routing": "self-new"
+//      }
+//    ]
+  },
+  {
+    "title": "Community",
+    "routing": "self-new",
+    "icon": {
+      "class": "icofont-library"
+    }
+  },
+  {
+    "title": "Students",
+    "groupTitle": true,
+    "access": ["admin"]
+  },
+  {
+    "title": "Lists",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "access": ["admin"],
+    "sub": [
+      {
+        "title": "Lists",
+        "routing": "list",
+        "access": ["admin"]
+      },
+      {
+        "title": "New Profile",
+        "routing": "profile-new"
+      },
+      {
+        "title": "Import",
+        "routing": "import"
+      }
+    ]
+  },
+  {
+    "title": "Apps",
+    "groupTitle": true
+  },
+  {
+    "title": "User pages",
+    "icon": {
+      "class": "icofont-ui-user"
+    },
+    "sub": [
+      {
+        "title": "View profile",
+        "routing": "user-profile"
+      },
+      {
+        "title": "Edit account",
+        "routing": "edit-account"
+      }
+    ]
+  }
+]

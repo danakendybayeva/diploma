@@ -1,0 +1,112 @@
+<div>
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <tc-card>
+                <div class="col-12">
+                    <div class="row lesson-item">
+                        <tc-form-group class="col-12 col-md-6">
+                            <tc-form-label>Title</tc-form-label>
+                            <tc-input [(ngModel)]="lesson.title" [ngModelOptions]="{standalone: true}"></tc-input>
+                        </tc-form-group>
+                        <tc-form-group class="col-12 col-md-6">
+                            <tc-form-label>Link</tc-form-label>
+                            <tc-input [(ngModel)]="lesson.linkVideo" [ngModelOptions]="{standalone: true}"></tc-input>
+                        </tc-form-group>
+                        <tc-form-group class="col-12 col-md-6">
+                            <tc-form-label>Intro Description</tc-form-label>
+                            <tc-textarea [placeholder]="'Description'" [height]="'8rem'"
+                                         [(ngModel)]="lesson.description"
+                                         [ngModelOptions]="{standalone: true}"></tc-textarea>
+                        </tc-form-group>
+                        <tc-form-group class="col-12 col-md-6">
+                            <tc-form-label>Duration</tc-form-label>
+                            <tc-input [(ngModel)]="lesson.duration" [ngModelOptions]="{standalone: true}"
+                                      [suffix]="'minute'" [type]="'number'"></tc-input>
+                        </tc-form-group>
+                        <tc-form-group class="col-12 col-md-6">
+                            <tc-form-label>Order</tc-form-label>
+                            <tc-input [(ngModel)]="lesson.orderNum" [ngModelOptions]="{standalone: true}" [type]="'number'"></tc-input>
+                        </tc-form-group>
+                        <tc-form-group class="col-12 col-md-6">
+                            <tc-form-label>Point (проходной балл)</tc-form-label>
+                            <tc-input [(ngModel)]="lesson.point" [ngModelOptions]="{standalone: true}"
+                                      [suffix]="'%'" [type]="'number'"></tc-input>
+                        </tc-form-group>
+                        <div class="col-12 mb-4 mt-4"><hr class="hr" /></div>
+                        <h6 class="col-12">Test</h6>
+                        <div class="col-12 col-md-6 mb-4" *ngFor="let test of lesson.test; let index = index;">
+                            <div class="row">
+                                <tc-form-group class="col-12">
+                                    <tc-form-label>Question {{ index + 1 }}</tc-form-label>
+                                    <tc-input [(ngModel)]="test.question" [ngModelOptions]="{standalone: true}"></tc-input>
+                                </tc-form-group>
+                                <tc-form-group class="col-12">
+                                    <tc-form-label>Answers</tc-form-label>
+                                    <div class="row" *ngFor="let variant of test.variants; let j = index; trackBy: trackByIdx;">
+                                        <tc-input class="mb-2 col-9" (ngModelChange)="onChangeVariant(test)"
+                                                  [(ngModel)]="test.variants[j]" [prefix]="(j + 1) + '.'" [ngModelOptions]="{standalone: true}"></tc-input>
+                                        <div class="col-3">
+                                            <button tc-button [afterIcon]="'icofont-tick-mark'" (click)="selectAnswer(test, variant)"
+                                                    [view]="test.answer.includes(test.variants[j]) ? 'success' : ''"
+                                                    [square]="true" class="mr-2"></button>
+                                            <button tc-button [afterIcon]="'icofont-close'" (click)="removeVariant(test, variant)" [view]="'error'" [square]="true" class=""></button>
+                                        </div>
+
+                                    </div>
+                                </tc-form-group>
+                                <tc-form-group class="col-12">
+                                    <button tc-button (click)="addVariants(test)"
+                                            class="mr-2" [beforeIcon]="'icofont-plus'" [tcBgColor]="'#3f51b5'">Variant</button>
+                                    <button tc-button (click)="removeQuestion(index)" [view]="'error'"
+                                            class="mr-2" [beforeIcon]="'icofont-close'">Remove Question</button>
+                                </tc-form-group>
+                            </div>
+                        </div>
+
+                        <div class="col-12 mb-4">
+                            <button tc-button (click)="addTest(lesson.test)"
+                                    class="mr-2" [beforeIcon]="'icofont-plus'" [tcBgColor]="'#3f51b5'">Add Question</button>
+                        </div>
+                    </div>
+                </div>
+            </tc-card>
+        </div>
+
+        <div class="col-12 col-md-6">
+<!--            <button tc-button (click)="addModule()"-->
+<!--                    class="mr-2" [beforeIcon]="'icofont-plus'" [tcBgColor]="'#3f51b5'">Add Module</button>-->
+            <button tc-button (click)="openModal(modalBody, 'Modal title', modalFooter, { closeButton: true, overlayClose: true })" class="mr-2" [beforeIcon]="'icofont-plus'" [tcBgColor]="'#3f51b5'">Save</button>
+        </div>
+    </div>
+</div>
+
+
+
+<ng-container>
+    <ng-template #modalHeader>
+        <h2 class="title">Modal title</h2>
+        <div class="actions">
+            <tc-badge [view]="'warning'">New</tc-badge>
+        </div>
+    </ng-template>
+
+    <ng-template #modalBody>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque eum eveniet fugiat fugit illum, natus porro
+            possimus quisquam soluta vitae. Aperiam molestias quae quaerat quibusdam rerum voluptates! Aspernatur, magnam
+            quas?</p>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'error'" (click)="closeModal()">Close</button>
+            <button tc-button [view]="'success'" (click)="submitModal()">Submit</button>
+        </div>
+    </ng-template>
+
+    <ng-template #modalFooterDelete>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'error'" (click)="closeModal()">Close</button>
+            <button tc-button [view]="'success'" (click)="deleteCompany()">Submit</button>
+        </div>
+    </ng-template>
+</ng-container>

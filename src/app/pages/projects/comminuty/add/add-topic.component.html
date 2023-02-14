@@ -1,0 +1,12 @@
+<div>
+    <div class="row">
+        <div class="col-12 col-md-12">
+            <tc-card>
+                <div class="col-12 d-flex mb-2">
+                    <button tc-button [align]="'right'" (click)="addTopic()" [afterIcon]="'icofont-plus'" [view]="'info'" [square]="true" class="mr-2"></button>
+                </div>
+                <topic-list-item  *ngIf="children" [data]="topics"></topic-list-item>
+            </tc-card>
+        </div>
+    </div>
+</div>

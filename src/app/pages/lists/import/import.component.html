@@ -1,0 +1,42 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+        <div class="col-12">
+            <tc-card [title]="'Files list'">
+                <nz-upload nzAction="{{apiUrl}}/api/profiles/list/csv/file"
+                           [nzMultiple]="false"
+                           [nzBeforeUpload]="beforeUpload"
+                           (nzChange)="handleChangeUpload($event)">
+                    <button type="upload" tc-button [beforeIcon]="'icofont-upload'">Click to upload</button>
+                </nz-upload>
+            </tc-card>
+        </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <tc-card [padding]="0" *ngIf="records.length; else noDev">
+            <nz-table #basicTable [nzData]="records"
+                      [nzShowPagination]="true" [nzPageSize]="5">
+                <thead>
+                <tr>
+                    <th *ngFor="let head of headers[0]">{{ head }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of basicTable.data">
+                        <td *ngFor="let item of data"><span *ngIf="item == ''"> - </span>{{ item }}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </tc-card>
+
+        <ng-template #noDev >
+            <div class="row">
+                <div class="col-md-12 center">
+                    <span class="tc-icon-wrap icofont-box"></span>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</div>

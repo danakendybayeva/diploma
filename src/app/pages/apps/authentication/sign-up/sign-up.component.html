@@ -1,0 +1,67 @@
+<form [formGroup]="loginForm" (ngSubmit)="signUp()">
+  <div class="title-block">
+    <h5 class="form-title">Sign Up</h5>
+    <a class="link right" [routerLink]="['/public/sign-in']">Already registered ?</a>
+  </div>
+
+  <tc-form-group>
+    <tc-input [prefixIcon]="'icofont-ui-email'" [placeholder]="'Username'" formControlName="username"></tc-input>
+
+    <ng-container *ngIf="username.invalid && (username.touched || username.dirty)">
+      <span @fadeIn class="error" *ngIf="username.getError('required')">Please enter your username</span>
+      <span @fadeIn class="error" *ngIf="username.getError('username')">Please enter valid username</span>
+    </ng-container>
+  </tc-form-group>
+
+  <tc-form-group>
+    <tc-input [prefixIcon]="'icofont-ui-email'" [placeholder]="'First Name'" formControlName="firstName"></tc-input>
+
+    <ng-container *ngIf="firstName.invalid && (firstName.touched || firstName.dirty)">
+      <span @fadeIn class="error" *ngIf="firstName.getError('required')">Please enter your first name</span>
+      <span @fadeIn class="error" *ngIf="firstName.getError('firstName')">Please enter valid first name</span>
+    </ng-container>
+  </tc-form-group>
+
+  <tc-form-group>
+    <tc-input [prefixIcon]="'icofont-ui-email'" [placeholder]="'Last Name'" formControlName="lastName"></tc-input>
+
+    <ng-container *ngIf="lastName.invalid && (lastName.touched || lastName.dirty)">
+      <span @fadeIn class="error" *ngIf="lastName.getError('required')">Please enter your last name</span>
+      <span @fadeIn class="error" *ngIf="lastName.getError('lastName')">Please enter valid last name</span>
+    </ng-container>
+  </tc-form-group>
+
+  <tc-form-group>
+    <tc-input [prefixIcon]="'icofont-ui-email'" [placeholder]="'Email'" formControlName="email"></tc-input>
+
+    <ng-container *ngIf="email.invalid && (email.touched || email.dirty)">
+      <span @fadeIn class="error" *ngIf="email.getError('required')">Please enter your email</span>
+      <span @fadeIn class="error" *ngIf="email.getError('email')">Please enter valid email</span>
+    </ng-container>
+  </tc-form-group>
+
+  <tc-form-group>
+    <tc-input [prefixIcon]="'icofont-lock'" [type]="'password'" [placeholder]="'Password'" formControlName="password"></tc-input>
+
+    <ng-container *ngIf="password.invalid && (password.touched || password.dirty)">
+      <span @fadeIn class="error" *ngIf="password.getError('required')">Please enter password</span>
+      <span @fadeIn class="error" *ngIf="password.getError('minlength')">Password must be at least 5 characters long</span>
+    </ng-container>
+  </tc-form-group>
+
+  <tc-form-group>
+    <tc-input [prefixIcon]="'icofont-check-circled'" [type]="'password'" [placeholder]="'Confirm password'" formControlName="confirm"></tc-input>
+
+    <ng-container *ngIf="confirm.invalid && (confirm.touched || confirm.dirty)">
+      <span @fadeIn class="error" *ngIf="confirm.getError('notMatch')">Password's do not match</span>
+    </ng-container>
+  </tc-form-group>
+
+  <tc-form-group>
+    <tc-checkbox class="checkbox">I have read <a href="#">terms and conditions</a></tc-checkbox>
+  </tc-form-group>
+
+  <tc-form-group class="mt-1 d-flex justify-content-end align-items-center">
+    <button type="submit" tc-button [view]="'gradient'">Sign Up</button>
+  </tc-form-group>
+</form>

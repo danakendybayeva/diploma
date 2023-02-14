@@ -1,0 +1,80 @@
+<tc-card [title]="'Редактирование поля'">
+    <h6>Тип поля: Целое</h6>
+    <form *ngIf="_value && labelForm" [formGroup]="labelForm" (ngSubmit)="sendFieldForm(labelForm.valid)" novalidate>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Название</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="title" [(ngModel)]="_value.title" [placeholder]="'Название'" formControlName="title"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Подсказка</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="hint" [(ngModel)]="_value.hint" [placeholder]="'Подсказка'" formControlName="hint"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Опции</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9 checkbox-grid">
+                    <tc-checkbox id="is-required" [(ngModel)]="_value.isRequired" [value]="_value.isRequired" (ngModelChange)="formValidateChange() "class="mb-2" formControlName="isRequired">Поле обязательно для заполнения</tc-checkbox>
+                    <tc-checkbox id="is-unique" [(ngModel)]="_value.isUnique" [value]="_value.isUnique" class="mb-2" formControlName="isUnique">Уникальность</tc-checkbox>
+                    <tc-checkbox id="has-range" [(ngModel)]="_value.hasRange" [value]="_value.hasRange" (ngModelChange)="formValidateChange()" class="mb-2" formControlName="hasRange">Использовать диапазон</tc-checkbox>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group *ngIf="_value.hasRange">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Диапазон</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <div class="row">
+                        <tc-input id="range-from"
+                                  [(ngModel)]="_value.rangeFrom"
+                                  [placeholder]="'From'"
+                                  (ngModelChange)="formValidateChange()"
+                                  formControlName="rangeFrom"
+                                  type="number"
+                                  class="col-12 col-md-6">
+                        </tc-input>
+                        <tc-input id="range-to"
+                                  [(ngModel)]="_value.rangeTo"
+                                  [placeholder]="'To'"
+                                  (ngModelChange)="formValidateChange()"
+                                  formControlName="rangeTo"
+                                  type="number"
+                                  class="col-12 col-md-6">
+                        </tc-input>
+                    </div>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-integer-field
+                [_valueField]="_value"
+                [isNew]="true"
+                [isConfig]="true"
+                [type]="'edit'"
+                [form]="labelForm"
+                [(ngModel)]="_value.defaultValue"
+                formControlName="defaultValue"
+        ></tc-integer-field>
+        <reference-action-fields
+            [referenceId]="referenceId"
+            [fieldId]="fieldId"
+            [disable]="labelForm.invalid"
+            [load]="loadingLabelForm"
+            [removeBtn]="removeEnable">
+        </reference-action-fields>
+    </form>
+</tc-card>

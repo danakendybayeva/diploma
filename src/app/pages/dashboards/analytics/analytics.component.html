@@ -1,0 +1,229 @@
+<div class="row">
+  <div class="col col-12 col-md-6 col-xl-3">
+    <tc-card
+      class="animated zoomIn delay-01s"
+      [tcBgColor]="'rgba(119,27,189,0.1)'"
+    >
+      <div class="row align-items-center pt-2">
+        <div class="col col-auto">
+          <tc-icon
+            [tcColor]="'rgba(119,27,189,0.5)'"
+            [tcFontSize]="48"
+            [iconClass]="'icofont-handshake-deal'"
+            [padding]="0"
+          ></tc-icon>
+        </div>
+
+        <div class="col col-7">
+          <h6 class="mt-0 mb-1 nowrap">Appointments</h6>
+          <div class="count" [tcFontSize]="20" [tcColor]="'#771bbd'">329</div>
+        </div>
+      </div>
+    </tc-card>
+  </div>
+
+  <div class="col col-12 col-md-6 col-xl-3">
+    <tc-card
+      class="animated zoomIn delay-02s"
+      [tcBgColor]="'rgba(252,139,55,0.1)'"
+    >
+      <div class="row align-items-center pt-2">
+        <div class="col col-auto">
+          <tc-icon
+            [tcColor]="'rgba(252,139,55,0.5)'"
+            [tcFontSize]="48"
+            [iconClass]="'icofont-credit-card'"
+            [padding]="0"
+          ></tc-icon>
+        </div>
+
+        <div class="col col-7">
+          <h6 class="mt-0 mb-1 nowrap">Sales</h6>
+          <div class="count" [tcFontSize]="20" [tcColor]="'#fc8b37'">36</div>
+        </div>
+      </div>
+    </tc-card>
+  </div>
+
+  <div class="col col-12 col-md-6 col-xl-3">
+    <tc-card
+      class="animated zoomIn delay-03s"
+      [tcBgColor]="'rgba(247,65,181,0.1)'"
+    >
+      <div class="row align-items-center pt-2">
+        <div class="col col-auto">
+          <tc-icon
+            [tcColor]="'rgba(247,65,181,0.5)'"
+            [tcFontSize]="48"
+            [iconClass]="'icofont-users-alt-1'"
+            [padding]="0"
+          ></tc-icon>
+        </div>
+
+        <div class="col col-7">
+          <h6 class="mt-0 mb-1 nowrap">New users</h6>
+          <div class="count" [tcFontSize]="20" [tcColor]="'#f741b5'">154</div>
+        </div>
+      </div>
+    </tc-card>
+  </div>
+
+  <div class="col col-12 col-md-6 col-xl-3">
+    <tc-card
+      class="animated zoomIn delay-04s"
+      [tcBgColor]="'rgba(47,167,255,0.1)'"
+    >
+      <div class="row align-items-center pt-2">
+        <div class="col col-auto">
+          <tc-icon
+            [tcColor]="'rgba(47,167,255,0.5)'"
+            [tcFontSize]="48"
+            [iconClass]="'icofont-money'"
+            [padding]="0"
+          ></tc-icon>
+        </div>
+
+        <div class="col col-7">
+          <h6 class="mt-0 mb-1 nowrap">Income</h6>
+          <div class="count" [tcFontSize]="20" [tcColor]="'#2fa7ff'">$9238</div>
+        </div>
+      </div>
+    </tc-card>
+  </div>
+
+  <div class="col col-12 col-md-6">
+    <tc-card class="chart-card" [padding]="'0 0 0 0'">
+      <h4 class="m-4 pt-4 mt-0">$70038</h4>
+      <p class="m-4 mt-2" [tcColor]="'#9d9d9d'">
+        Income in current month
+        <tc-icon
+          [tcColor]="'#7cdb86'"
+          [iconClass]="'icofont-long-arrow-up'"
+          [padding]="0"
+        ></tc-icon>
+      </p>
+
+      <div
+        echarts
+        [options]="piOptions"
+        class="chart-container negative-indents"
+      ></div>
+    </tc-card>
+  </div>
+
+  <div class="col col-12 col-md-6">
+    <tc-card class="chart-card" [padding]="'0 0 0 0'">
+      <h4 class="ml-4 pt-4">$15038</h4>
+      <p class="ml-4 mt-2" [tcColor]="'#9d9d9d'">
+        Income in current week
+        <tc-icon
+          [tcColor]="'#ed253d'"
+          [iconClass]="'icofont-long-arrow-down'"
+          [padding]="0"
+        ></tc-icon>
+      </p>
+
+      <div
+        echarts
+        [options]="heOptions"
+        class="chart-container negative-indents"
+      ></div>
+    </tc-card>
+  </div>
+</div>
+
+<tc-card [title]="'Clients map'">
+  <div
+    echarts
+    [options]="hsOptions"
+    class="chart-container container-h-400"
+  ></div>
+</tc-card>
+
+<div class="row">
+  <div class="col col-12 col-md-4">
+    <tc-card [title]="'Clients age'">
+      <div
+        echarts
+        [options]="caOptions"
+        class="chart-container container-h-300"
+      ></div>
+    </tc-card>
+  </div>
+
+  <div class="col col-12 col-md-4">
+    <tc-card [title]="'Clients gender'">
+      <div
+        echarts
+        [options]="cgOptions"
+        class="chart-container container-h-300"
+      ></div>
+    </tc-card>
+  </div>
+
+  <div class="col col-12 col-md-4">
+    <tc-card [title]="'Departments'">
+      <div
+        echarts
+        [options]="dOptions"
+        class="chart-container container-h-300"
+      ></div>
+    </tc-card>
+  </div>
+</div>
+
+<tc-card [title]="'Team activity'" class="mb-0" [padding]="'0'">
+  <nz-table
+    class="mb-0"
+    #basicTable
+    [nzData]="table"
+    [nzShowPagination]="false"
+  >
+    <thead nzSingleSort (nzSortChange)="sort($event)">
+      <tr>
+        <th>Team</th>
+        <th nzShowSort nzSortKey="name">Group name</th>
+        <th nzShowSort nzSortKey="date">Created</th>
+        <th>Departments</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of table">
+        <td>
+          <tc-avatar-group>
+            <tc-avatar
+              [src]="avatar"
+              *ngFor="let avatar of data.imgs"
+              [tcBgColor]="'#fff'"
+            ></tc-avatar>
+          </tc-avatar-group>
+        </td>
+        <td>
+          <strong>{{ data.name }}</strong>
+        </td>
+        <td>
+          <span class="nowrap" [tcColor]="'#a5a5a5'">{{ data.date }}</span>
+        </td>
+        <td>
+          <tc-avatar-group>
+            <tc-avatar
+              *ngFor="let initials of data.department; let i = index"
+              [initials]="initials"
+              [tcBgColor]="
+                i === 0 ? '#fc8b37' : i === 1 ? '#2fa7ff' : '#805aff'
+              "
+            ></tc-avatar>
+          </tc-avatar-group>
+        </td>
+        <td>
+          <div class="text-right">
+            <button tc-button [view]="'info'" [tcShape]="5" [size]="'sm'">
+              Edit
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</tc-card>

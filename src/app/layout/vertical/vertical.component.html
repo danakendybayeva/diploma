@@ -1,0 +1,102 @@
+<div class="app-container" [ngClass]="{ 'boxed': appSettings.boxed }" *ngIf="appSettings">
+  <!-- Horizontal navbar -->
+  <navbar 
+    class="horizontal-navbar"
+    [boxed]="appSettings.boxed"
+    [tcBgColor]="appSettings.topbarBg"
+    [tcColor]="appSettings.topbarColor"
+    [minHeight]="'4.28571429rem'"
+  >
+    <button class="navbar-toggle d-lg-none" (click)="toggleSidebar(true)">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+<!--    <search [data]="searchData" [layout]="'vertical'" class="d-none d-md-block"></search>-->
+
+    <actions></actions>
+
+    <navbar-skeleton [type]="'horizontal'" [withLogo]="false" [loaded]="loaded"></navbar-skeleton>
+  </navbar>
+  <!-- end Horizontal navbar -->
+
+  <!-- Vertical navbar -->
+  <navbar
+    class="vertical-navbar"
+    [orientation]="'vertical'"
+    [ngStyle]="getSidebarStyles()"
+    [opened]="appSettings.sidebarOpened"
+  >
+
+    <button
+      class="no-style navbar-close icofont-close-line d-lg-none"
+      [tcColor]="appSettings.topbarColor"
+      (click)="toggleSidebar(false)"
+    ></button>
+
+    <logo
+      [src]="'assets/img/mdsg.png'"
+      [tcBgColor]="appSettings.topbarBg"
+      [height]="40"
+    ></logo>
+
+    <app-menu class="menu" [src]="appMenu"></app-menu>
+
+    <navbar-skeleton [type]="'vertical'" [loaded]="loaded"></navbar-skeleton>
+  </navbar>
+  <!-- end Vertical navbar -->
+
+  <main class="main-content" [ngClass]="{ 'loaded': pageData?.loaded }">
+    <div class="page-loader" *ngIf="!pageData?.loaded"><i class="icofont-spinner-alt-4 rotate"></i></div>
+
+    <div class="main-content-wrap" [ngClass]="{ 'full-filled': pageData?.fullFilled }">
+      <header class="page-header" *ngIf="pageData && !pageData?.fullFilled && pageData.title.length">
+        <div class="left">
+          <ul class="page-breadcrumbs" *ngIf="pageData && pageData.breadcrumbs">
+            <li class="item" *ngFor="let item of pageData.breadcrumbs; let last = last">
+              <a class="link" [ngClass]="{ 'last': last }" routerLink="{{ item.route }}" *ngIf="item.route">
+                {{ item.title }}
+              </a>
+
+              <span class="link last" *ngIf="!item.route">{{ item.title }}</span>
+
+              <span class="separator" *ngIf="!last">|</span>
+            </li>
+          </ul>
+
+          <h1 class="page-title">{{ pageData.title | translate }}</h1>
+
+        </div>
+        <div class="buy-theme">
+<!--          <button tc-button [afterIcon]="'icofont-pencil-alt-1'" [view]="'info'" [square]="true" [outline]="true" (click)="save()"></button>-->
+        </div>
+<!--        <search [data]="searchData" [layout]="'vertical'" class="d-none d-md-block course-search" ></search>-->
+      </header>
+
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <footer [boxed]="appSettings.boxed" [pageData]="pageData" [loaded]="loaded"></footer>
+
+<!--  <button class="no-style settings-btn" (click)="openModal(modalBody, 'Application\'s settings')">-->
+<!--    <span class="pulse"></span>-->
+<!--    <tc-icon-->
+<!--      class="settings-icon"-->
+<!--      [iconClass]="'icofont-bucket2'"-->
+<!--      [tcFontSize]="26"-->
+<!--      [padding]="'2px 0'"-->
+<!--    ></tc-icon>-->
+<!--  </button>-->
+
+  <div class="content-overlay" [ngClass]="{ 'show': appSettings.sidebarOpened }" (click)="toggleSidebar(false)"></div>
+</div>
+
+<!-- Settings modal window -->
+<ng-container>
+  <ng-template #modalBody>
+    <app-settings></app-settings>
+  </ng-template>
+</ng-container>
+<!-- end Settings modal window -->

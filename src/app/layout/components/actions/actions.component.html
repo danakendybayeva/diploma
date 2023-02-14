@@ -1,0 +1,97 @@
+<!--<tc-dropdown class="item">-->
+<!--  <tc-dropdown-button>-->
+<!--    <tc-icon [iconClass]="'icofont icofont-notification'" [tcFontSize]="24"></tc-icon>-->
+<!--    <tc-badge [tcShape]="500" [view]="'gradient'" *ngIf="notifications && notifications.length" [size]="'sm'">-->
+<!--      {{ notifications.length }}-->
+<!--    </tc-badge>-->
+<!--  </tc-dropdown-button>-->
+
+<!--  <tc-dropdown-content [align]="'right'" [animation]="'fadeInUp'" [offset]="[10, 0]">-->
+<!--    <div class="menu-header">-->
+<!--      <h4 class="h5 menu-title mt-0 mb-0">Notifications</h4>-->
+
+<!--      &lt;!&ndash; <a href="#" (click)="$event.preventDefault(); notifications = []" [tcColor]="['#ed5564', '#8E333C']">Clear All</a> &ndash;&gt;-->
+<!--    </div>-->
+
+<!--    <ul class="list">-->
+<!--      <ng-container *ngIf="notifications && notifications.length">-->
+<!--        <li *ngFor="let item of notifications">-->
+<!--          <span class="item-content">-->
+<!--            <span [tcBgColor]="item.iconBg" [tcColor]="'#fff'" class="icon {{ item.icon }}"></span>-->
+
+<!--            <div class="content">-->
+<!--              <a class="desc">{{ item.title }}</a>-->
+
+<!--              <span [tcColor]="'#4a505c'" class="date">{{ item.date }}</span>-->
+<!--            </div>-->
+<!--          </span>-->
+<!--        </li>-->
+<!--      </ng-container>-->
+
+<!--      <li *ngIf="!notifications || (notifications.length === 0)">-->
+<!--        <span class="empty-item">No notifications</span>-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </tc-dropdown-content>-->
+<!--</tc-dropdown>-->
+
+<tc-dropdown class="item">
+  <tc-dropdown-button>
+    <div class="d-flex align-items-center">
+      <img [src]="language.img" [ngStyle]="{height: '20px'}" class="mr-2" />
+      <span class="mr-1">{{ language.title }}</span>
+      <i class="icofont-simple-down"></i>
+    </div>
+  </tc-dropdown-button>
+
+  <tc-dropdown-content [align]="'right'" [animation]="'fadeInUp'" [offset]="[10, 0]" [width]="180">
+    <ul class="list">
+      <li class="px-2 item" *ngFor="let item of languages; let index = index;">
+        <a (click)="setLanguage(item.value)" class="item-link align-items-center item-content">
+          <img [src]="item.img" [ngStyle]="{height: '20px'}" class="mr-2" />
+          <span>{{ item.title }}</span>
+        </a>
+      </li>
+    </ul>
+  </tc-dropdown-content>
+</tc-dropdown>
+
+<tc-dropdown class="item" [close]="closeDropdown">
+  <tc-dropdown-button>
+    <div class="d-flex align-items-center">
+      <tc-avatar [src]="userImage" [size]="32" class="mr-1"></tc-avatar>
+      <i class="icofont-simple-down"></i>
+    </div>
+  </tc-dropdown-button>
+
+  <tc-dropdown-content [align]="'right'" [animation]="'fadeInUp'" [offset]="[10, 0]" [width]="180">
+    <ul class="list">
+      <li class="px-2 item">
+        <a href="#" (click)="goTo($event, 'user-profile')" class="item-link align-items-center item-content">
+          My account
+        </a>
+      </li>
+
+      <li class="px-2 item" *ngIf="isAdmin">
+        <a href="#" (click)="goTo($event, 'profile-new')" class="item-link align-items-center item-content">
+          Add account
+        </a>
+      </li>
+
+      <li class="px-2 item">
+        <a href="#" (click)="goTo($event, 'edit-account')" class="item-link align-items-center item-content">
+          Reset Password
+        </a>
+      </li>
+
+      <li class="divider m-0 p-0"></li>
+
+      <li class="px-2 item">
+        <a href="#" (click)="goTo($event, 'sign-in', '../public/')" class="item-link align-items-center item-content">
+          Log Out
+          <span class="icon icofont-logout log-out-icon p-1 mr-0"></span>
+        </a>
+      </li>
+    </ul>
+  </tc-dropdown-content>
+</tc-dropdown>

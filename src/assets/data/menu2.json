@@ -1,0 +1,201 @@
+[
+  {
+    "title": "Dashboard",
+    "icon": {
+      "class": "icofont-home"
+    },
+    "routing": "dashboard"
+  },
+  {
+    "title": "MDS Projects",
+    "groupTitle": true
+  },
+  {
+    "title": "Skills",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "sub": [
+      {
+        "title": "List",
+        "routing": "self-dev-list"
+      },
+      {
+        "title": "List Table",
+        "routing": "self-dev-sub-list-table"
+      },
+      {
+        "title": "List New/edit",
+        "routing": "self-edit"
+      }
+    ]
+  },
+  {
+    "title": "English",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "sub": [
+      {
+        "title": "English",
+        "routing": "english"
+      },
+      {
+        "title": "List",
+        "routing": "english-list"
+      },
+      {
+        "title": "English Add Group",
+        "routing": "english-add-group"
+      }
+    ]
+  },
+  {
+    "title": "Students",
+    "groupTitle": true
+  },
+  {
+    "title": "Lists",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "sub": [
+      {
+        "title": "Lists",
+        "routing": "list"
+      },
+      {
+        "title": "New Profile",
+        "routing": "profile-new"
+      },
+      {
+        "title": "Import",
+        "routing": "import"
+      }
+    ]
+  },
+  {
+    "title": "Groups",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "sub": [
+      {
+        "title": "List",
+        "routing": "groups-list"
+      }
+    ]
+  },
+  {
+    "title": "Apps",
+    "groupTitle": true
+  },
+  {
+    "title": "Authentication",
+    "icon": {
+      "class": "icofont-ui-user"
+    },
+    "sub": [
+      {
+        "title": "Sign in",
+        "routing": "sign-in",
+        "layout": "public"
+      },
+      {
+        "title": "Sign up",
+        "routing": "sign-up",
+        "layout": "public"
+      },
+      {
+        "title": "Verify account",
+        "routing": "verify-account",
+        "layout": "public"
+      },
+      {
+        "title": "Forgot password",
+        "routing": "forgot-password",
+        "layout": "public"
+      }
+    ]
+  },
+  {
+    "title": "User pages",
+    "icon": {
+      "class": "icofont-ui-user"
+    },
+    "sub": [
+      {
+        "title": "View profile",
+        "routing": "user-profile"
+      },
+      {
+        "title": "Edit account",
+        "routing": "edit-account"
+      },
+      {
+        "title": "Groups",
+        "routing": "groups"
+      },
+      {
+        "title": "Connections",
+        "routing": "connections"
+      }
+    ]
+  },
+  {
+    "title": "Error pages",
+    "icon": {
+      "class": "icofont-ui-user"
+    },
+    "sub": [
+      {
+        "title": "404 Page not found",
+        "layout": "error",
+        "routing": "404"
+      },
+      {
+        "title": "500 Internal server",
+        "layout": "error",
+        "routing": "500"
+      },
+      {
+        "title": "503 Service unavailable",
+        "layout": "error",
+        "routing": "503"
+      },
+      {
+        "title": "505 Forbidden",
+        "layout": "error",
+        "routing": "505"
+      }
+    ]
+  },
+  {
+    "title": "Service pages",
+    "icon": {
+      "class": "icofont-page"
+    },
+    "sub": [
+      {
+        "title": "Invoices",
+        "routing": "invoices"
+      },
+      {
+        "title": "Invoice",
+        "routing": "invoice"
+      },
+      {
+        "title": "Pricing",
+        "routing": "pricing"
+      },
+      {
+        "title": "Events timeline",
+        "routing": "events-timeline"
+      },
+      {
+        "title": "Events calendar",
+        "routing": "events-calendar"
+      }
+    ]
+  }
+]

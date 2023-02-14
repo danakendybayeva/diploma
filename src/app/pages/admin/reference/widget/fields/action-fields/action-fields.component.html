@@ -1,0 +1,37 @@
+<tc-form-group *ngIf="suAdmin">
+    <div class="row align-items-center">
+        <div class="col-12 col-md-3">
+            <tc-form-label class="mb-md-0">Поля ID</tc-form-label>
+        </div>
+        <div class="col-12 col-md-9">
+            <tc-input id="default-value"
+                      [(ngModel)]="suFieldId"
+                      [placeholder]="'Поля ID'">
+            </tc-input>
+        </div>
+    </div>
+</tc-form-group>
+<button tc-button
+        class="mr-2"
+        [view]="'info'"
+        [disabled]="disable"
+        [load]="load">
+    Сохранить
+</button>
+<button tc-button
+        class="mr-2"
+        *ngIf="suAdmin"
+        [type]="'button'"
+        [view]="'warning'"
+        (click)="changeFieldId()">
+    Сохранить Поля ID
+</button>
+<button tc-button
+        *ngIf="removeBtn"
+        [type]="'button'"
+        class="mr-2"
+        [view]="'error'"
+        [load]="load"
+        (click)="removeField()">
+    Удалить
+</button>

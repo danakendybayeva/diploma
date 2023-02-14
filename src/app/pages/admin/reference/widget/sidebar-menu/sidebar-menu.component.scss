@@ -1,0 +1,24 @@
+@import '../../../../../../assets/sass/variables';
+
+.fields-type-add {
+  padding-left: 10px;
+
+  .field-type-add {
+    padding: 5px 0;
+
+    a {
+      color: $main-color;
+    }
+    a:hover {
+      color: $link-color;
+    }
+  }
+}
+.btn-field {
+  a {
+    color: #ffffff;
+  }
+  a:hover {
+    color: $link-color;
+  }
+}

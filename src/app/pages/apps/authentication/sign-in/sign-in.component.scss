@@ -1,0 +1,57 @@
+@import '../../../../../assets/sass/variables';
+
+:host {
+  .title-block {
+    align-items: baseline;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $module-rem * 4;
+    padding-left: $module-rem * 2.5;
+
+    @media only screen and (max-width: 767px) {
+      padding: 0;
+    }
+    .form-title {
+      color: #4a505c;
+      font-size: 1.8em;
+      letter-spacing: 0.1px;
+      margin: 0;
+    }
+    .subtitle {
+      color: #4a505c;
+      font-size: 1em;
+      letter-spacing: 0.4px;
+    }
+  }
+  .error {
+    padding-left: $module-rem * 2.5;
+  }
+  .checkbox {
+    padding-left: $module-rem * 2.5;
+  }
+  .link {
+    color: #4a505c;
+    padding-left: $module-rem * 2.5;
+    transition: opacity 0.2s ease-in-out;
+
+    @media only screen and (max-width: 767px) {
+      font-size: 0.9em;
+      padding: 0;
+    }
+    &.forgot {
+      opacity: 0.4;
+    }
+    &.right {
+      padding: 0;
+      padding-right: $module-rem * 2.5;
+
+      @media only screen and (max-width: 767px) {
+        font-size: 0.9em;
+        padding: 0;
+      }
+    }
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

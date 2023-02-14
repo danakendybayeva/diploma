@@ -1,0 +1,150 @@
+@import '../../../../../assets/sass/variables';
+
+$_base-height: 4 * $module;
+$_side-padding: $module-rem * 1.75;
+$_top-padding: $module-rem * .85;
+
+$_two-line-height: 56px;
+$_three-line-height: 72px;
+
+$_avatar-height: 5 * $module;
+
+:host {
+  display: flex;
+  margin: ($module-rem * .75) 0;
+  min-height: $_base-height;
+  padding: 0;
+
+  &.two-lines {
+    min-height: $_two-line-height;
+  }
+  &.three-lines {
+    min-height: $_three-line-height;
+  }
+  .list-item-content {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    height: inherit;
+    letter-spacing: .4px;
+    padding: 0;
+    position: relative;
+    width: 100%;
+
+    .item-avatar-block {
+      align-items: center;
+      display: none;
+      justify-content: center;
+      height: 100%;
+    }
+    .item-text-block {
+      width: 100%;
+    }
+    .list-item-text {
+      padding: 0;
+      width: 100%;
+
+      ::ng-deep {
+        .item-line {
+          align-items: center;
+          overflow: hidden;
+          display: flex;
+          font-weight: 500;
+          box-sizing: border-box;
+          letter-spacing: .4px;
+
+          @media only screen and (max-width: 767px) {
+            flex-flow: column wrap;
+            justify-content: center;
+            align-items: flex-start;
+          }
+          &:nth-child(2) {
+            font-size: 0.8em;
+            color: rgba(#4a505c, .3);
+            letter-spacing: .2px;
+          }
+          &:nth-child(3) {
+            font-size: 0.8em;
+            color: rgba(#4a505c, .3);
+            letter-spacing: .2px;
+          }
+        }
+      }
+    }
+    ::ng-deep {
+      .list-item-avatar {
+        border-radius: 50%;
+        height: $_avatar-height;
+        margin: 0;
+        min-height: $_avatar-height;
+        min-width: $_avatar-height;
+        overflow: hidden;
+        position: relative;
+        width: $_avatar-height;
+
+        > * {
+          height: 100%;
+        }
+      }
+      .list-item-icon {
+        font-size: 1.1em;
+      }
+      .list-item-avatar,
+      .list-item-icon {
+        margin-right: $_side-padding;
+      }
+      .divider {
+        bottom: 0;
+        left: 0;
+        margin: 0;
+        position: absolute;
+        width: 100%;
+      }
+    }
+  }
+  &.timeline {
+    .item-avatar-block {
+      position: relative;
+      z-index: 2;
+
+      &:before {
+        background: rgba(#4a505c, 0.1);
+        bottom: 50%;
+        content: '';
+        display: block;
+        height: 100%;
+        left: calc(50% - 1.5px - #{$_side-padding} / 2);
+        position: absolute;
+        width: 3px;
+      }
+      ::ng-deep .tc-icon {
+        z-index: 1;
+      }
+    }
+    &.first {
+      .item-avatar-block {
+        &::before {
+          display: none;
+        }
+      }
+    }
+  }
+  &.with-avatar {
+    min-height: $_avatar-height + 20px;
+
+    .item-avatar-block {
+      display: flex !important;
+    }
+  }
+  &.with-icon {
+    min-height: $_two-line-height;
+
+    .item-avatar-block {
+      display: flex !important;
+    }
+  }
+  &.custom-image-size {
+    height: unset !important;
+  }
+}

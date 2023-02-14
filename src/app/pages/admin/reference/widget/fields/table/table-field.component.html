@@ -1,0 +1,113 @@
+<tc-card [title]="'Редактирование поля'">
+    <h6>Тип поля: Таблица</h6>
+    <form *ngIf="_value" [formGroup]="labelForm" (ngSubmit)="sendFieldForm(labelForm.valid)" novalidate>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Название</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="title" [(ngModel)]="_value.title" [placeholder]="'Название'" formControlName="title"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Подсказка</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="hint" [(ngModel)]="_value.hint" [placeholder]="'Подсказка'" formControlName="hint"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Опции</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9 checkbox-grid">
+                    <tc-checkbox id="is-required" [(ngModel)]="_value.isRequired" [value]="_value.isRequired" class="mb-2" formControlName="isRequired">Поле обязательно для заполнения</tc-checkbox>
+                    <tc-checkbox id="is-numbering" [(ngModel)]="_value.isNumbering" [value]="_value.isNumbering" class="mb-2" formControlName="isNumbering">Включить нумерацию</tc-checkbox>
+                    <tc-checkbox id="show-total" [(ngModel)]="_value.showTotal" [value]="_value.showTotal" class="mb-2" formControlName="showTotal">Показать количество строк</tc-checkbox>
+                    <tc-checkbox id="can-add-delete" [(ngModel)]="_value.canAddDelete" [value]="_value.canAddDelete" class="mb-2" formControlName="canAddDelete">Запретить добавление/удаление</tc-checkbox>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Ширина</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="width"
+                              [(ngModel)]="_value.width"
+                              [placeholder]="'Ширина'"
+                              formControlName="width">
+                    </tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Отступы в ячейках</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="cell-padding"
+                              [(ngModel)]="_value.cellPadding"
+                              [placeholder]="'Отступы в ячейках'"
+                              type="number"
+                              formControlName="cellPadding">
+                    </tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Ширина границы</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="border"
+                              [(ngModel)]="_value.border"
+                              [placeholder]="'Ширина границы'"
+                              type="number"
+                              formControlName="border">
+                    </tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Разделитель</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="separator" [(ngModel)]="_value.separator" [placeholder]="'Разделитель'" formControlName="separator"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Значение по умолчанию</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="default-value"
+                          [(ngModel)]="_value.defaultValue"
+                          [placeholder]="'Значение по умолчанию'"
+                          formControlName="defaultValue">
+                    </tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <reference-action-fields
+            [referenceId]="referenceId"
+            [fieldId]="fieldId"
+            [disable]="labelForm.invalid"
+            [load]="loadingLabelForm"
+            [removeBtn]="removeEnable">
+        </reference-action-fields>
+    </form>
+</tc-card>

@@ -1,0 +1,167 @@
+@import 'variables';
+
+@import './fonts';
+
+@import './full-calendar';
+@import './typography';
+@import './ant-table';
+@import './structure';
+@import './helpers';
+
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import '~katex/dist/katex.css';
+
+.ng-select-container {
+  height: 40px !important;
+  background-color: rgba(74, 80, 92, 0.08) !important;
+  background-clip: padding-box;
+  border: 1px solid rgba(74, 80, 92, 0.08) !important;
+  border-radius: 20px !important;
+  padding: 0 1.42857143rem;
+}
+.ng-select-container  .ng-placeholder {
+  padding: 0 !important;
+}
+.ng-select .ng-input {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.ng-select-container input {
+  padding: 0.71428571rem 0em;
+}
+.ng-select .ng-select-container .ng-value-container .ng-placeholder {
+  top: auto !important;
+  padding: auto !important;
+}
+.ng-select-opened .ng-select-container {
+  background: #fff !important;
+  border-color: rgba(74, 80, 92, 0.08) !important;
+  box-shadow: none !important;
+}
+.ng-select .ng-select-container .ng-value-container {
+  padding-top: 0 !important;
+}
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+  margin-bottom: 0 !important;
+  border-radius: 5px !important;
+}
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container {
+  flex-wrap: nowrap !important;
+  padding-left: 0 !important;
+}
+.ng-dropdown-panel.ng-select-bottom {
+  margin-top: 0 !important;
+  border-radius: 10px;
+}
+nz-date-picker.ant-calendar-picker{
+  width: 100%;
+}
+span.ant-calendar-picker   {
+  width: 100%;
+  padding: 0 1.42857143rem;
+  background-color: rgba(74, 80, 92, 0.08);
+  background-clip: padding-box;
+  border: 1px solid rgba(74, 80, 92, 0.08);
+  border-radius: 20px;
+  line-height: 1.42857143;
+}
+.ant-calendar-picker-input.ant-input {
+  font-size: 1rem;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+
+
+.settings-btn {
+  align-items: center;
+  background: #fff;
+  border-radius: 500px;
+  box-shadow: $shadow;
+  bottom: $module-rem * 2;
+  color: #2fa7ff;
+  display: flex;
+  height: $module-rem * 6;
+  justify-content: center;
+  padding: 0 ($module-rem * 1.5);
+  position: fixed;
+  right: $module-rem * 2;
+  text-align: center;
+  transition: color .2s $animation;
+  width: $module-rem * 6;
+  z-index: 9998;
+
+  .pulse {
+    animation: pulse 2s infinite;
+    border-radius: 50%;
+    box-shadow: 0 0 0 rgba(#2fa7ff,.5);
+    height: 2px;
+    left: 50%;
+    margin: -1px 0 0 -1px;
+    position: absolute;
+    top: 50%;
+    width: 2px;
+  }
+  .settings-icon {
+    color: inherit;
+    display: block;
+    position: relative;
+  }
+  &:hover {
+    color: #2991dd;
+  }
+}
+
+
+reference-sidebar-menu {
+  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    padding-left: 20px;
+  }
+  .ant-collapse > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow {
+    left: 0 !important;
+  }
+  .ant-collapse-borderless > .ant-collapse-item {
+    border-bottom: none;
+  }
+}
+
+.btn-text {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
+}
+
+.checkbox-grid {
+  display: inline-grid;
+}
+
+.mini-folder {
+  .ant-table-wrapper .ant-table-tbody > tr td, .ant-table-wrapper .ant-table-tbody > tr th {
+    padding: 5px 10px;
+  }
+  .ant-table-wrapper .ant-table-thead .ant-table-row > th {
+    background-color: rgba(205, 84, 71, 0.1);
+    color: inherit;
+    padding: 0 10px;
+    height: 32px;
+  }
+  .ant-table-wrapper .ant-pagination {
+    margin: 7px 0;
+    padding-left: 10px;
+  }
+}
+
+.modal-window-wrap .modal-window .modal-footer {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.pointer-p {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.pointer-p:hover {
+  color: $link-color;
+}

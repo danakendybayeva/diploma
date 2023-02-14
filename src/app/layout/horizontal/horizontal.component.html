@@ -1,0 +1,112 @@
+<div class="app-container" [ngClass]="{ 'boxed': appSettings.boxed }" *ngIf="appSettings">
+  <!-- Horizontal navbar -->
+  <navbar 
+    [boxed]="appSettings.boxed"
+    [tcBgColor]="appSettings.topbarBg"
+    [tcColor]="appSettings.topbarColor"
+    [minHeight]="'4.28571429rem'"
+    class="top-bar"
+  >
+
+    <button class="navbar-toggle d-lg-none" (click)="toggleSidebar(true)">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <logo [src]="'assets/img/logo.svg'" [width]="147" [height]="33" class="d-none d-lg-block p-0"></logo>
+
+    <search [data]="searchData" [layout]="'horizontal'" class="d-none d-md-block"></search>
+
+    <actions [layout]="'horizontal'"></actions>
+
+    <navbar-skeleton [type]="'horizontal'" [loaded]="loaded"></navbar-skeleton>
+  </navbar>
+  <!-- end Horizontal navbar -->
+
+  <!-- Horizontal navbar 2 -->
+  <navbar 
+    [orientation]="'horizontal-vertical'"
+    [boxed]="appSettings.boxed"
+    [ngStyle]="getNavbarStyles()"
+    [opened]="appSettings.sidebarOpened"
+    [minHeight]="'50px'"
+    [ngClass]="{ 'loading': !loaded }"
+  >
+    <button
+      class="no-style navbar-close icofont-close-line d-lg-none"
+      [tcColor]="appSettings.topbarColor"
+      (click)="toggleSidebar(false)"
+    ></button>
+
+    <logo
+      [src]="'assets/img/logo.svg'"
+      [tcBgColor]="appSettings.topbarBg"
+      [width]="147"
+      [height]="33"
+      class="d-lg-none"
+    ></logo>
+
+    <app-menu [src]="'assets/data/menu-horizontal.json'" [orientation]="'horizontal'"></app-menu>
+
+    <navbar-skeleton [type]="'vertical'" [loaded]="loaded"></navbar-skeleton>
+  </navbar>
+  <!-- end Horizontal navbar 2 -->
+
+  <main class="main-content" [ngClass]="{ 'loaded': pageData?.loaded }">
+    <div class="page-loader" *ngIf="!pageData?.loaded"><i class="icofont-spinner-alt-4 rotate"></i></div>
+
+    <div class="main-content-wrap" [ngClass]="{ 'full-filled': pageData?.fullFilled }">
+      <header class="page-header" *ngIf="pageData && !pageData?.fullFilled && pageData.title.length">
+        <div class="left">
+          <ul class="page-breadcrumbs" *ngIf="pageData && pageData.breadcrumbs">
+            <li class="item" *ngFor="let item of pageData.breadcrumbs; let last = last">
+              <a class="link" [ngClass]="{ 'last': last }" routerLink="{{ item.route }}" *ngIf="item.route">
+                {{ item.title }}
+              </a>
+
+              <span class="link last" *ngIf="!item.route">{{ item.title }}</span>
+
+              <span class="separator" *ngIf="!last">|</span>
+            </li>
+          </ul>
+
+          <h1 class="page-title">{{ pageData.title }}</h1>
+
+        </div>
+        <div class="buy-theme">
+          <a
+            tc-button
+            [view]="'gradient'"
+            href="https://themeforest.net/item/ninet-angular-7-ngrx-admin-template/23878970"
+            target="_blank"
+          >Buy theme</a>
+        </div>
+      </header>
+
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <footer [boxed]="appSettings.boxed" [pageData]="pageData" [loaded]="loaded"></footer>
+
+  <button class="no-style settings-btn" (click)="openModal(modalBody, 'Application\'s settings')">
+    <span class="pulse"></span>
+    <tc-icon
+      class="settings-icon"
+      [iconClass]="'icofont-bucket2'"
+      [tcFontSize]="26"
+      [padding]="'2px 0'"
+    ></tc-icon>
+  </button>
+
+  <div class="content-overlay" [ngClass]="{ 'show': appSettings.sidebarOpened }" (click)="toggleSidebar(false)"></div>
+</div>
+
+<!-- Settings modal window -->
+<ng-container>
+  <ng-template #modalBody>
+    <app-settings></app-settings>
+  </ng-template>
+</ng-container>
+<!-- end Settings modal window -->

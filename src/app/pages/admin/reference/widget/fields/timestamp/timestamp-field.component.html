@@ -1,0 +1,133 @@
+<tc-card [title]="'Редактирование поля'">
+    <h6>Тип поля: Дата/Время</h6>
+    <form *ngIf="_value" [formGroup]="labelForm" (ngSubmit)="sendFieldForm(labelForm.valid)" novalidate>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Название</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="title" [(ngModel)]="_value.title" [placeholder]="'Название'" formControlName="title"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Подсказка</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="hint" [(ngModel)]="_value.hint" [placeholder]="'Подсказка'" formControlName="hint"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Опции</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9 checkbox-grid">
+                    <tc-checkbox id="is-required" [(ngModel)]="_value.isRequired" [value]="_value.isRequired" (ngModelChange)="formValidateChange()" class="mb-2" formControlName="isRequired">Поле обязательно для заполнения</tc-checkbox>
+                    <tc-checkbox id="is-unique" [(ngModel)]="_value.isUnique" [value]="_value.isUnique" class="mb-2" formControlName="isUnique">Уникальность</tc-checkbox>
+                    <tc-checkbox id="current-timestamp" [(ngModel)]="_value.currentTimestamp" [value]="_value.currentTimestamp" (ngModelChange)="formValidateChange()" class="mb-2" formControlName="currentTimestamp">Установить в качестве значения текущую дату</tc-checkbox>
+                    <tc-checkbox id="min-date-check" [(ngModel)]="minDateCheck" [value]="minDateCheck" (ngModelChange)="formValidateChange()" class="mb-2" formControlName="minDateCheck">Значение не меньше чем текущая дата</tc-checkbox>
+                    <tc-checkbox id="max-date-check" [(ngModel)]="maxDateCheck" [value]="maxDateCheck" (ngModelChange)="formValidateChange()" class="mb-2" formControlName="maxDateCheck">Значение не больше чем текущая дата</tc-checkbox>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group *ngIf="minDateCheck">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Значение не меньше чем текущая дата</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <div class="row">
+                        <tc-input id="min-day" class="col-6"
+                            [type]="'number'"
+                            [prefix]="'+'"
+                            [suffix]="'дней'"
+                            [(ngModel)]="_value.minDay"
+                            [placeholder]="'Значение не меньше чем текущая дата'"
+                            formControlName="minDay">
+                        </tc-input>
+                        <tc-input id="min-time" class="col-6"
+                            [(ngModel)]="_value.minTime"
+                            [type]="'time'"
+                            formControlName="minTime">
+                        </tc-input>
+                    </div>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group *ngIf="maxDateCheck">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Значение не больше чем текущая дата</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <div class="row">
+                        <tc-input id="max-day" class="col-6"
+                            [type]="'number'"
+                            [prefix]="'+'"
+                            [suffix]="'дней'"
+                            [(ngModel)]="_value.maxDay"
+                            (ngModelChange)="formValidateChange()"
+                            [placeholder]="'Значение не больше чем текущая дата'"
+                            formControlName="maxDay">
+                        </tc-input>
+                        <tc-input id="max-time" class="col-6"
+                            [(ngModel)]="_value.maxTime"
+                            (ngModelChange)="formValidateChange()"
+                            [type]="'time'"
+                            formControlName="maxTime">
+                        </tc-input>
+                    </div>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Формат отображения</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-select id="view-format"
+                               formControlName="viewFormat"
+                               [placeholder]="'Формат отображения'"
+                               [options]="mask_option"
+                               [multiple]="false"
+                               [selected]="_value.viewFormat"
+                               [(ngModel)]="_value.viewFormat"></tc-select>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-timestamp-field
+                *ngIf="!_value.currentTimestamp"
+                [_valueField]="_value"
+                [isNew]="true"
+                [isConfig]="true"
+                [type]="'edit'"
+                [form]="labelForm"
+                [(ngModel)]="_value.defaultValue"
+                (ngModelChange)="formValidateChange()"
+                formControlName="defaultValue"
+        ></tc-timestamp-field>
+        <tc-timestamp-field
+                *ngIf="_value.currentTimestamp"
+                [_valueField]="_value"
+                [isNew]="true"
+                [isConfig]="true"
+                [type]="'edit'"
+                [form]="labelForm"
+                (change)="formValidateChange()"
+                formControlName="defaultValue"
+        ></tc-timestamp-field>
+        <reference-action-fields
+            [referenceId]="referenceId"
+            [fieldId]="fieldId"
+            [disable]="labelForm.invalid"
+            [load]="loadingLabelForm"
+            [removeBtn]="removeEnable">
+        </reference-action-fields>
+    </form>
+</tc-card>

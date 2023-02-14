@@ -1,0 +1,52 @@
+[ {
+    "bg": "assets/content/bg-card-1.jpg",
+    "name": "Ian Holm",
+    "role": "Software engineer",
+    "img": "assets/content/user-76-1.jpg"
+  },
+  {
+    "bg": "assets/content/bg-card-2.jpg",
+    "name": "Anna Smith",
+    "role": "Manager",
+    "img": "assets/content/user-76-2.jpg"
+  },
+  {
+    "bg": "assets/content/bg-card-3.jpg",
+    "name": "Barbara  Jones",
+    "role": "Designer",
+    "img": "assets/content/user-76-3.jpg"
+  },
+  {
+    "bg": "assets/content/bg-card-4.jpg",
+    "name": "Daisy Anderson",
+    "role": "Software engineer",
+    "img": "assets/content/user-76-4.jpg"
+  },
+  {
+    "bg": "assets/content/bg-card-3.jpg",
+    "name": "James Holt",
+    "role": "JavaScript developer"
+  },
+  {
+    "bg": "assets/content/bg-card-1.jpg",
+    "name": "Harry Mason",
+    "role": "Designer",
+    "img": "assets/content/user-76-6.jpg"
+  },
+  {
+    "bg": "assets/content/user-profile.jpg",
+    "name": "Mel Beck",
+    "role": "Backend developer",
+    "img": "assets/content/user-76-5.jpg"
+  },
+  {
+    "bg": "assets/content/bg-card-2.jpg",
+    "name": "Harley Williamson",
+    "role": "JavaScript developer"
+  },
+  {
+    "bg": "assets/content/bg-card-4.jpg",
+    "name": "Alex Roberts",
+    "role": "JavaScript developer"
+  }
+]

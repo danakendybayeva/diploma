@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Қазақша",
+    "img": "assets/image/lang/kz.svg",
+    "value": "kz"
+  },
+  {
+    "title": "Русский",
+    "img": "assets/image/lang/ru.svg",
+    "value": "ru"
+  },
+  {
+    "title": "English",
+    "img": "assets/image/lang/en.svg",
+    "value": "en"
+  }
+]

@@ -1,0 +1,10 @@
+<div class="row">
+  <tc-radio-option class="mb-2" [value]="item.id" (click)="selectR(item.id)">{{item.title}}</tc-radio-option>
+
+  <div class="col-12" *ngFor="let child of item.chidrenItem">
+    <tc-tree-child-list [item]="child" [value]="value" class="col-12" (resultData)="selectR($event)"></tc-tree-child-list>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,84 @@
+<tc-card>
+    <a *ngIf="referenceId" [routerLink]="['/vertical/admin-panel/reference/edit', referenceId]">
+        <span><i class="sli-info tc-icon-wrap"></i> Свойства</span>
+    </a>
+    <nz-collapse nzAccordion [nzBordered]="false" *ngIf="!isNew">
+        <nz-collapse-panel
+            *ngFor="let panel of panels"
+            [nzHeader]="panel.name"
+            [nzActive]="panel.active"
+            [nzExpandedIcon]="panel.icon"
+            [nzDisabled]="panel.disabled"
+            [ngClass]="'panel-ref'"
+        >
+            <div *ngIf="panel.type == 'field'">
+                <button tc-button [view]="'warning'" [size]="'sm'" [block]="true" class="mb-3"
+                        nz-popover
+                        nzPopoverTitle="Добавить поле"
+                        [nzPopoverContent]="fieldsListTemplate"
+                        nzPopoverPlacement="leftTop"
+                        nzPopoverTrigger="click">
+                    Добавить поля
+                </button>
+                <ng-template #fieldsListTemplate>
+                    <ul class="list-unstyled fields-type-add">
+                        <li class="field-type-add" *ngFor="let field of fields">
+                            <a [routerLink]="['/vertical/admin-panel/reference/create-field', referenceId, field.type]">
+                                <i class="mr-3" [ngClass]="field.icon"></i>
+                                {{ field.title }}
+                            </a>
+                        </li>
+                    </ul>
+                </ng-template>
+                <div class=""
+                     cdkDropList
+                     #fieldsList="cdkDropList"
+                     [cdkDropListData]="fieldsData"
+                     (cdkDropListDropped)="onDrop($event, fieldsData)">
+                    <a *ngFor="let itemField of fieldsData"
+                       [routerLink]="['/vertical/admin-panel/reference/edit-field', referenceId, itemField['type'], itemField['id']]">
+                        <button tc-button class="mb-1 btn-field"
+                                [size]="'sm'"
+                                [tcBgColor]="'#9fbfe0'"
+                                [block]="true"
+                                cdkDrag>
+                            <span class="text-danger" *ngIf="itemField['isRequired']">*</span> {{ itemField.title }}
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+            <div *ngIf="panel.type == 'section'">
+                <button tc-button [view]="'warning'" [size]="'sm'" [block]="true" class="mb-3"
+                        [routerLink]="['/vertical/admin-panel/reference/edit', referenceId, 'section']">
+                    Добавить представление
+                </button>
+
+                <div class=""
+                     cdkDropList
+                     #fieldsList="cdkDropList"
+                     [cdkDropListData]="sectionsData"
+                     (cdkDropListDropped)="onDrop($event, sectionsData, 'section')">
+                    <a *ngFor="let itemField of sectionsData"
+                       [routerLink]="['/vertical/admin-panel/reference/edit', referenceId, 'section', itemField['id']]">
+                        <button tc-button class="mb-1 btn-field"
+                                [size]="'sm'"
+                                [tcBgColor]="'#9fbfe0'"
+                                [block]="true"
+                                cdkDrag>
+                            <span class="text-danger" *ngIf="itemField['isRequired']">*</span> {{ itemField.title }}
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+            <div *ngIf="panel.type == 'permission'">
+            </div>
+        </nz-collapse-panel>
+    </nz-collapse>
+
+    <nz-empty *ngIf="isNew" [nzNotFoundContent]="contentTpl"></nz-empty>
+    <ng-template #contentTpl>
+        <span>Create Reference</span>
+    </ng-template>
+</tc-card>

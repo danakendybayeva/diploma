@@ -1,0 +1,163 @@
+[
+  {
+    "title": "Dashboard",
+    "icon": {
+      "class": "icofont-home"
+    },
+    "routing": "dashboard",
+    "access": ["admin"]
+  },
+  {
+    "title": "MDS Projects",
+    "groupTitle": true
+  },
+  {
+    "title": "Courses",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "sub": [
+      {
+        "title": "Main",
+        "routing": "courses/main"
+      },
+      {
+        "title": "List Course",
+        "routing": "courses/course/list"
+      }
+    ]
+  },
+  {
+    "title": "English",
+    "routing": "english/group-list",
+    "icon": {
+      "class": "icofont-library"
+    }
+  },
+  {
+    "title": "Skills",
+    "routing": "coming-soon-skills",
+    "icon": {
+      "class": "icofont-library"
+    }
+  },
+  {
+    "title": "Community",
+    "routing": "coming-soon-community",
+    "icon": {
+      "class": "icofont-library"
+    }
+  },
+  {
+    "title": "Community Demo",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "sub": [
+      {
+        "title": "Topic",
+        "routing": "community/admin/topic/add"
+      },
+      {
+        "title": "Add Problem",
+        "routing": "community/admin/problem/add"
+      },
+      {
+        "title": "Problem List",
+        "routing": "community/admin/problem/list"
+      }
+    ],
+    "access": ["admin"]
+  },
+  {
+    "title": "English Demo",
+    "routing": "english/group-list",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "sub": [
+      {
+        "title": "Group List",
+        "routing": "english/group-list"
+      },
+      {
+        "title": "Add Group",
+        "routing": "english/english-add-group"
+      }
+    ],
+    "access": ["english_teacher", "admin"]
+  },
+  {
+    "title": "Reads Demo",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "sub": [
+      {
+        "title": "Book List",
+        "routing": "reads/admin/quiz/list/book"
+      }
+    ],
+    "access": ["admin"]
+  },
+  {
+    "title": "Students",
+    "groupTitle": true,
+    "access": ["admin"]
+  },
+  {
+    "title": "Lists",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "access": ["admin"],
+    "sub": [
+      {
+        "title": "Lists",
+        "routing": "list",
+        "access": ["admin"]
+      },
+      {
+        "title": "New Profile",
+        "routing": "profile-new"
+      },
+      {
+        "title": "Import",
+        "routing": "import"
+      }
+    ]
+  },
+  {
+    "title": "Apps",
+    "groupTitle": true
+  },
+  {
+    "title": "User pages",
+    "icon": {
+      "class": "icofont-ui-user"
+    },
+    "sub": [
+      {
+        "title": "View profile",
+        "routing": "user-profile"
+      },
+      {
+        "title": "Edit account",
+        "routing": "edit-account"
+      }
+    ]
+  },
+  {
+    "title": "Admin Panel",
+    "groupTitle": true,
+    "access": ["admin"]
+  },
+  {
+    "title": "Reference",
+    "icon": {
+      "class": "icofont-ui-user"
+    },
+    "routing": "admin-panel/reference/list",
+    "access": ["admin"]
+  }
+]

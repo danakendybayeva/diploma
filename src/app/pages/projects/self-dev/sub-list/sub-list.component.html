@@ -1,0 +1,63 @@
+<div>
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <tc-card [bgImg]="'assets/image/back-self.jpg'">
+        <div class="row back-self-sub-list">
+          <div class="col-12" [ngStyle]="{minHeight: '600px'}">
+            <h2 class="title-list" *ngIf="aList.length > 0">{{ aList[0].title }}</h2>
+            <img [src]="'assets/image/Sports-PNG-Image.png'" [ngStyle]="{marginTop: '25px'}" />
+            <div>
+              <p class="desc">{{sComment}}</p>
+            </div>
+          </div>
+        </div>
+      </tc-card>
+    </div>
+    <div class="col-12 col-md-4">
+<!--      <tc-card [title]="'List'">-->
+        <div class="buttons-list">
+          <button tc-button *ngFor="let item of ((aList | slice: 1) || []); let i = index;"
+                  [afterIcon]="item.done ? 'tc-icon-wrap icofont-tick-mark' : ''"
+                  [block]="true" [align]="'left'" (click)="chooseOnList(item)" [view]="item.selected ? 'success' : 'default'" >
+            {{i+1}}. {{item.title}}
+          </button>
+        </div>
+<!--      </tc-card>-->
+    </div>
+
+    <div class="col-12 col-md-4">
+        <tc-card [title]="'Қалада велошеру жасау'">
+            <p>Tandau kerek deadline</p>
+            <p>Tapsiru kerek deadline</p>
+        </tc-card>
+        <button tc-button
+                (click)="openModal(modalBody, 'Modal title', modalFooter, { closeButton: true, overlayClose: true })"
+                [tcBgColor]="'#3f51b5'">Save</button>
+
+        <a [routerLink]="['/vertical/self-dev-pass', id]" tc-button
+                [tcBgColor]="'#3f51b5'">Pass</a>
+        <a [routerLink]="['/vertical/self-edit', id]" tc-button
+           [tcBgColor]="'#3f51b5'">Edit</a>
+    </div>
+  </div>
+</div>
+
+<ng-container>
+    <ng-template #modalHeader>
+        <h2 class="title">Modal title</h2>
+        <div class="actions">
+            <tc-badge [view]="'warning'">New</tc-badge>
+        </div>
+    </ng-template>
+
+    <ng-template #modalBody>
+
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'error'" (click)="closeModal()">Close</button>
+            <button tc-button [view]="'success'" (click)="submitModal()">Submit</button>
+        </div>
+    </ng-template>
+</ng-container>

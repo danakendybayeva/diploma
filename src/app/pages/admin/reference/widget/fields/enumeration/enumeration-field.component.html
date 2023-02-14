@@ -1,0 +1,101 @@
+<tc-card [title]="'Редактирование поля'">
+    <h6>Тип поля: Перечисление</h6>
+    <form *ngIf="_value" [formGroup]="labelForm" (ngSubmit)="sendFieldForm(labelForm.valid)" novalidate>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Название</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="title" [(ngModel)]="_value.title" [placeholder]="'Название'" formControlName="title"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Подсказка</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="hint" [(ngModel)]="_value.hint" [placeholder]="'Подсказка'" formControlName="hint"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Опции</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9 checkbox-grid">
+                    <tc-checkbox id="is-required" [(ngModel)]="_value.isRequired" [value]="_value.isRequired" class="mb-2" formControlName="isRequired">Поле обязательно для заполнения</tc-checkbox>
+                </div>
+            </div>
+        </tc-form-group>
+
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Режим выбора</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-radio  id="is-single"
+                               [(ngModel)]="isSingle"
+                               [value]="isSingle"
+                               [direction]="'horizontal'"
+                               (ngModelChange)="changeValueSingle($event)"
+                               formControlName="isSingle">
+                        <tc-radio-option class="mb-2 color-main" [value]="'true'">Одиночный</tc-radio-option>
+                        <tc-radio-option class="mb-2 color-main" [value]="'false'">Множественный</tc-radio-option>
+                    </tc-radio>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group *ngIf="!_value.isSingle">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Разделитель</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="separator" [(ngModel)]="_value.separator" [placeholder]="'Разделитель'" formControlName="separator"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Значение</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9 checkbox-grid">
+                    <div>
+                        <button tc-button
+                                class="mb-3"
+                                [block]="false"
+                                [size]="'md'"
+                                [type]="'button'"
+                                [view]="'warning'"
+                                (click)="addValues()">
+                            Добавить значение
+                        </button>
+                    </div>
+                    <div *ngFor="let item of _value.values; let index = index;" class="d-flex">
+                        <tc-checkbox id="values"
+                                     [value]="item.selected"
+                                     [(ngModel)]="item.selected"
+                                     [ngModelOptions]="{standalone: true}"
+                                     (ngModelChange)="changeValueSelected($event, item.id)"
+                                     class="mb-2 mr-3" style="height: 40px;">
+                        </tc-checkbox>
+                        <tc-input id="value-{{index}}" [(ngModel)]="item.value" [placeholder]="'Название'" [ngModelOptions]="{standalone: true}"></tc-input>
+                    </div>
+                </div>
+            </div>
+        </tc-form-group>
+        <reference-action-fields
+            [referenceId]="referenceId"
+            [fieldId]="fieldId"
+            [disable]="labelForm.invalid"
+            [load]="loadingLabelForm"
+            [removeBtn]="removeEnable">
+        </reference-action-fields>
+    </form>
+</tc-card>

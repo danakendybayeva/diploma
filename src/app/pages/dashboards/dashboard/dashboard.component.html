@@ -1,0 +1,226 @@
+<tc-alert
+        *ngIf="false"
+  [view]="'success'"
+  [iconColor]="'rgba(124,219,134, .8)'"
+  [beforeIcon]="'icofont-info-circle'"
+  class="mb-4 animated fadeInDown delay-01s"
+>
+  This is a warning message. Please pay attention to view it.
+</tc-alert>
+
+<div class="row">
+  <div class="col-12 col-xl-6">
+    <tc-card [title]="'Number of students in the Humanities'" class="pt-2 pb-2">
+      <div
+              echarts
+              [options]="dOptions"
+              class="chart-container container-h-300 pt-2 pb-2"
+      ></div>
+    </tc-card>
+  </div>
+
+  <div class="col-12 col-xl-6">
+    <tc-card [title]="'Number of students in the Natural specialities'" class="pt-2 pb-2">
+      <div
+              echarts
+              [options]="dOptions2"
+              class="chart-container container-h-300 pt-2 pb-2"
+      ></div>
+    </tc-card>
+  </div>
+
+  <div class="col-md-8 col-sm-12">
+    <tc-card [title]="'English by Attendance'" [padding]="0">
+      <div
+              echarts
+              [options]="lineOptions"
+              class="chart-container container-h-350"
+      ></div>
+    </tc-card>
+  </div>
+
+  <div class="col-md-4 col-sm-12">
+    <div class="row">
+      <div class="col-12">
+        <tc-card [padding]="0">
+          <div class="d-flex p-4 justify-content-between">
+            <div class="title-box d-flex flex-column">
+              <h5 [tcFontSize]="18" class="title mb-1">Reads pages number</h5>
+              <span class="mb-2 sub-title">MDS Reads</span>
+              <span class="d-flex align-items-baseline" [tcColor]="'#c565e7'">
+                80,340
+                <i class="icofont-rounded-right-up ml-1"></i>
+              </span>
+            </div>
+
+            <span [tcFontSize]="37" class="income">
+              80,340
+            </span>
+          </div>
+
+          <div
+            echarts
+            [options]="piOptions"
+            class="chart-container container-h-100 negative-indents"
+          ></div>
+        </tc-card>
+      </div>
+
+      <div class="col-12">
+        <tc-card [padding]="0">
+          <div class="d-flex p-4 justify-content-between">
+            <div class="title-box d-flex flex-column">
+              <h5 [tcFontSize]="18" class="title mb-1">Reviews number</h5>
+              <span class="mb-2 sub-title">MDS Reads</span>
+              <span class="d-flex align-items-baseline" [tcColor]="'#7cdb86'">
+                903
+                <i class="icofont-rounded-right-up ml-1"></i>
+              </span>
+            </div>
+
+            <span [tcFontSize]="37" class="income">
+              903
+            </span>
+          </div>
+
+          <div
+            echarts
+            [options]="pi2Options"
+            class="chart-container container-h-100 negative-indents"
+          ></div>
+        </tc-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col col-12 col-md-4">
+    <tc-card [title]="'Percentage of students by cities'">
+      <div
+              echarts
+              [options]="caOptions"
+              class="chart-container container-h-300"
+      ></div>
+    </tc-card>
+  </div>
+  <div class="col col-12 col-md-4">
+    <tc-card [title]="'Clients gender'">
+      <div
+              echarts
+              [options]="cgOptions"
+              class="chart-container container-h-300"
+      ></div>
+    </tc-card>
+  </div>
+
+
+
+  <div class="col-md-4 col-12">
+    <tc-card [tcGradient]="['#cd5447', '#b3589c', '#9d5ce5']">
+      <div
+        class="widget-card d-flex flex-column justify-content-center align-items-center"
+        [tcColor]="'#fff'"
+      >
+        <tc-icon
+          class="mb-3 mt-auto"
+          [tcShape]="500"
+          [tcFontSize]="20"
+          [padding]="'25px'"
+          [tcColor]="'#f8e71c'"
+          [iconClass]="'icofont-color-picker'"
+          [tcBgColor]="'rgba(74,74,74, .15)'"
+        ></tc-icon>
+
+        <div class="info text-center mb-auto" [tcColor]="'#fff'">
+          <div [tcFontSize]="'16px'" class="desc mb-2">
+            <span class="desc">
+              Aktau
+            </span>
+          </div>
+
+          <span class="title" [tcFontSize]="'40px'" [tcColor]="'#fff'">
+            5&#176;
+          </span>
+        </div>
+
+        <div class="w-100 align-self-end d-flex d-flex justify-content-between">
+          <div
+            class="d-flex align-items-center justify-content-between"
+            [tcFontSize]="12"
+          >
+            <tc-icon
+              [iconClass]="'icofont-water-drop'"
+              [tcColor]="'#f8e71c'"
+            ></tc-icon>
+            87,5%
+          </div>
+
+          <div
+            class="d-flex align-items-center justify-content-between"
+            [tcFontSize]="12"
+          >
+            98,5%
+          </div>
+
+          <div
+            class="d-flex align-items-center justify-content-between"
+            [tcFontSize]="12"
+          >
+            <tc-icon
+              [iconClass]="'icofont-paper-plane'"
+              [tcColor]="'#f8e71c'"
+            ></tc-icon>
+            64,3%
+          </div>
+        </div>
+      </div>
+    </tc-card>
+  </div>
+</div>
+
+<tc-card [padding]="'0 0 20px'" class="table-card">
+  <div tc-card-header class="card-header mb-4">
+    <div class="title-box">
+      <h5 class="title">Top 50 Reads by Students rating</h5>
+    </div>
+
+    <div class="actions d-flex" *ngIf="false">
+      <tc-icon [iconClass]="'icofont-archive'"></tc-icon>
+      <tc-icon [iconClass]="'icofont-trash'"></tc-icon>
+      <tc-icon [iconClass]="'icofont-navigation-menu'"></tc-icon>
+    </div>
+  </div>
+
+  <nz-table #basicTable [nzData]="studentData" [nzShowPagination]="true" [nzPageSize]="5">
+    <thead>
+      <tr>
+        <th nzShowSort nzSortKey="student">Student</th>
+        <th nzShowSort nzSortKey="readBooks">Read Books</th>
+        <th nzShowSort nzSortKey="gender">Gender</th>
+        <th nzShowSort nzSortKey="group">Group</th>
+        <th nzShowSort nzSortKey="mentor">Mentor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>
+          <div class="person-block d-flex align-items-center">
+            <tc-avatar [src]="'assets/image/user.png'"></tc-avatar>
+            <span>{{ data.student }}</span>
+          </div>
+        </td>
+        <td>{{ data.readBooks }}</td>
+        <td>
+          <tc-badge [view]="data.gender === 'Male' ? 'info' : 'warning'" [size]="'sm'">
+            {{ data.gender }}
+          </tc-badge>
+        </td>
+        <td>{{ data.group }}</td>
+        <td>
+          <div class="person-block d-flex align-items-center">{{ data.mentor }}</div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</tc-card>

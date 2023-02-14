@@ -1,0 +1,366 @@
+@import '../../../../../../assets/sass/variables';
+$_module-rem: $module-rem;
+$_h-padding: $_module-rem * 3;
+$_v-padding: $_module-rem * 2;
+
+:host {
+  .progress-outer {
+    height: 10px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 5px;
+    background: white;
+    border-radius: 7px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    z-index: 9;
+  }
+
+  .progress-card {
+    height: 15px;
+    width: 0;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: #213A8F;
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    transition: all 0.4s linear;
+  }
+
+  .progress-card .process {
+    display: inline-block;
+    height: 100%;
+    vertical-align: bottom;
+  }
+
+  .process-right-radius {
+    background: #e8e8e8;
+    height: 15px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    border-radius: 15px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .process-right-radius {
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .process-blue-not-full {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+
+  .flex-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .flex-row > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .flex-row.row:after,
+  .flex-row.row:before {
+    display: flex;
+  }
+
+
+  .progess-list {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+  }
+
+  .progess-list p {
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .ratio {
+    background-size: cover;
+    position: relative;
+    background-position: center;
+  }
+
+  .ratio-43 {
+    padding-top: 75%;
+    background-size: cover;
+    position: relative;
+    background-position: center;
+  }
+  .ratio-169 {
+    padding-top: 56.25%;
+    background-size: cover;
+    position: relative;
+    background-position: center;
+  }
+  .ratio-responsive {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .ratio-219 {
+    padding-top: 20%;
+    @media only screen and (max-width: 767px) {
+      padding-top: 100%;
+    }
+  }
+
+  .youtube {
+    position: absolute;
+    top: 0;
+  }
+
+  .layer {
+    background-color: rgba(0, 0, 0, 0.47);
+    position: absolute;
+    top: 0;
+    left: 11px;
+    width: calc(100% - 22px);
+    padding: $_h-padding $_v-padding;
+    height: 100%;
+    color: #ffffff;
+  }
+
+  .title-course {
+    color: #ffffff;
+  }
+
+  .join-button {
+    position: absolute;
+    bottom: $_h-padding;
+    text-align: center;
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+
+  .menu {
+    list-style: none;
+    line-height: 72px;
+    border-bottom: 1px solid #d9d9d9;
+  }
+
+  .menu > li:first-child {
+    padding-left: 0;
+  }
+
+  .menu > li {
+    padding: 0 15px;
+    cursor: pointer;
+  }
+
+  .menu > li a {
+    color: #4a505c;
+  }
+
+  .menu-col {
+
+  }
+
+  .main-course {
+    @media only screen and (max-width: 767px) {
+      padding: 0 $_v-padding;
+    }
+  }
+
+  .description {
+    @media only screen and (max-width: 767px) {
+      margin-bottom: 50px;
+    }
+  }
+
+  .main-course-first {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  .progress-outer {
+    height: 7px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 5px;
+    background: white;
+    border-radius: 0;
+    z-index: 9;
+  }
+
+  .progress-card {
+    height: 7px;
+    width: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #213A8F;
+    border-radius: 0;
+    border-top-left-radius: 6px;
+    transition: all 0.4s linear;
+  }
+
+  .progress-card .process {
+    display: inline-block;
+    height: 100%;
+    vertical-align: bottom;
+  }
+
+  .process-right-radius {
+    background: #e8e8e8;
+    height: 7px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 0;
+    border-top-right-radius: 6px;
+  }
+
+  .process-blue-not-full {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+
+  .options-course {
+    line-height: 28px;
+    color: #bbb;
+    @media only screen and (max-width: 543px) {
+      line-height: 24px;
+      font-size: 11px;
+    }
+  }
+
+  .status-course {
+    padding: $_v-padding $_v-padding;
+    width: 100%;
+    border-bottom: 1px solid #e8e8e8;
+    position: absolute;
+    top: 5px;
+    left: 0;
+    @media only screen and (max-width: 767px) {
+      padding: $_v-padding $_h-padding;
+    }
+  }
+
+  .main-course tc-card .content-course {
+    //min-height: $_v-padding * 4;
+    padding-top: $_v-padding * 3;;
+  }
+
+  .course-modules h5 {
+    font-weight: 500;
+  }
+
+  .module-order {
+    color: #1890ff;
+    font-size: 11px;
+    border: 1px solid #1890ff;
+    border-radius: 6px;
+    padding: 2px 5px;
+  }
+
+  .accordion-icon {
+    padding: 15px;
+    color: #bbb;
+    border: 1px solid #bbb;
+    border-radius: 50%;
+
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    right: 0;
+    cursor: pointer;
+  }
+
+  .accordion-icon.active {
+    color: #1890ff;
+    border-color: #1890ff;
+  }
+
+  .acc-icon {
+    position: relative;
+  }
+
+  .panel {
+    padding: 0 18px;
+    background-color: white;
+    overflow: hidden;
+    transition: all .2s ease-out;
+    max-height: 0;
+  }
+
+  .panel.active {
+    display: block;
+    max-height: max-content;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  .lesson-span {
+    color: #bbb;
+    font-size: 11px;
+  }
+
+  .module-lesson {
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    padding: $module-rem $_v-padding;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+  }
+
+  .module-lesson:hover {
+    background: #20388a05;
+    //border: 1px solid #213a8e;
+  }
+
+  .lesson-blocked {
+    background: #fbfbfb !important;
+    cursor: default;
+  }
+
+  .point-course {
+    font-size: 3rem;
+  }
+
+  .point-course-star {
+    padding-top: .8rem;
+    width: 100%;
+  }
+
+  .point-course-progress tc-progress {
+    width: 150px;
+    margin-bottom: 0;
+    height: 10px;
+    margin-top: 6px;
+  }
+
+  .comment-p {
+    color: #aaa;
+    font-weight: 600;
+  }
+
+  .lesson-link {
+    color: $main-color;
+  }
+
+  .module-order-right {
+    text-align: right;
+  }
+}

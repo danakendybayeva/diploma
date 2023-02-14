@@ -1,0 +1,31 @@
+@import '../../../../assets/sass/variables';
+
+:host {
+  display: block;
+  height: $module-rem * 13;
+  min-height: $module-rem * 6;
+  position: relative;
+  padding: $module-rem ($module-rem * 2.5);
+
+  .logo-wrap {
+    align-items: center;
+    color: inherit;
+    display: flex;
+    height: 100%;
+    text-decoration: none;
+
+    .logo-img {
+      height: auto;
+      width: auto;
+      max-height: 100%;
+      max-width: 100%;
+      vertical-align: top;
+    }
+    .logo-text {
+      display: block;
+      font-size: 20px;
+      line-height: 1;
+      margin-left: ($module-rem * 2);
+    }
+  }
+}

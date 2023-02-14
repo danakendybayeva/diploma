@@ -1,0 +1,8 @@
+@import '../../../../assets/sass/variables';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  margin: (-$module-rem * .75) 0;
+  position: relative;
+}

@@ -1,0 +1,282 @@
+[
+  {
+    "title": "Dashboards",
+    "sub" : [
+      {
+        "title": "Default",
+        "routing": "dashboard"
+      },
+      {
+        "title": "Analytics",
+        "routing": "analytics"
+      },
+      {
+        "title": "eCommerce",
+        "routing": "e-commerce"
+      },
+      {
+        "title": "Widgets",
+        "routing": "widgets"
+      }
+    ]
+  },
+  {
+    "title": "Components",
+    "sub" : [
+      {
+        "title": "Alerts",
+        "routing": "alerts"
+      },
+      {
+        "title": "Autocompletes",
+        "routing": "autocompletes"
+      },
+      {
+        "title": "Avatars",
+        "routing": "avatars"
+      },
+      {
+        "title": "Badges",
+        "routing": "badges"
+      },
+      {
+        "title": "Buttons",
+        "routing": "buttons"
+      },
+      {
+        "title": "Cards",
+        "routing": "cards"
+      },
+      {
+        "title": "Checkboxes",
+        "routing": "checkboxes"
+      },
+      {
+        "title": "Circular progresses",
+        "routing": "circular-progresses"
+      },
+      {
+        "title": "Dropdowns",
+        "routing": "dropdowns"
+      },
+      {
+        "title": "Inputs",
+        "routing": "inputs"
+      },
+      {
+        "title": "Lists",
+        "routing": "lists"
+      },
+      {
+        "title": "Modals",
+        "routing": "modals"
+      },
+      {
+        "title": "Progresses",
+        "routing": "progresses"
+      },
+      {
+        "title": "Radio buttons",
+        "routing": "radio-buttons"
+      },
+      {
+        "title": "Ratings",
+        "routing": "ratings"
+      },
+      {
+        "title": "Selects",
+        "routing": "selects"
+      },
+      {
+        "title": "Switchers",
+        "routing": "switchers"
+      },
+      {
+        "title": "Textareas",
+        "routing": "textareas"
+      },
+      {
+        "title": "Typography",
+        "routing": "typography"
+      }
+    ]
+  },
+  {
+    "title": "Icons",
+    "sub": [
+      {
+        "title": "Icons options",
+        "routing": "icons-options"
+      },
+      {
+        "title": "Icofont icons",
+        "routing": "icons-if"
+      },
+      {
+        "title": "Simple line icons",
+        "routing": "icons-sli"
+      }
+    ]
+  },
+  {
+    "title": "Tables",
+    "sub": [
+      {
+        "title": "Simple",
+        "routing": "simple-table"
+      },
+      {
+        "title": "Sorting",
+        "routing": "sorting-table"
+      },
+      {
+        "title": "Search",
+        "routing": "search-table"
+      },
+      {
+        "title": "Filtering",
+        "routing": "filtering-table"
+      },
+      {
+        "title": "Pagination",
+        "routing": "pagination-table"
+      }
+    ]
+  },
+  {
+    "title": "Charts",
+    "sub": [
+      {
+        "title": "Ng2 charts",
+        "routing": "ng2-charts"
+      },
+      {
+        "title": "Ngx charts",
+        "routing": "ngx-charts"
+      },
+      {
+        "title": "Ngx echarts",
+        "routing": "ngx-echarts"
+      }
+    ]
+  },
+  {
+    "title": "Forms",
+    "sub": [
+      {
+        "title": "Date picker",
+        "routing": "date-picker"
+      },
+      {
+        "title": "Elements",
+        "routing": "form-elements"
+      },
+      {
+        "title": "Layout",
+        "routing": "form-layout"
+      },
+      {
+        "title": "Validation",
+        "routing": "form-validation"
+      }
+    ]
+  },
+  {
+    "title": "Maps",
+    "sub": [
+      {
+        "title": "Google map",
+        "routing": "google-map"
+      },
+      {
+        "title": "Leaflet map",
+        "routing": "leaflet-map"
+      },
+      {
+        "title": "World map",
+        "routing": "world-map"
+      }
+    ]
+  },
+  {
+    "title": "Apps",
+    "sub": [
+      {
+        "title": "View profile",
+        "routing": "user-profile"
+      },
+      {
+        "title": "Edit account",
+        "routing": "edit-account"
+      },
+      {
+        "title": "Groups",
+        "routing": "groups"
+      },
+      {
+        "title": "Connections",
+        "routing": "connections"
+      },
+      {
+        "title": "Invoices",
+        "routing": "invoices"
+      },
+      {
+        "title": "Invoice",
+        "routing": "invoice"
+      },
+      {
+        "title": "Pricing",
+        "routing": "pricing"
+      },
+      {
+        "title": "Events timeline",
+        "routing": "events-timeline"
+      },
+      {
+        "title": "Events calendar",
+        "routing": "events-calendar"
+      },
+      {
+        "title": "Sign in",
+        "routing": "sign-in",
+        "layout": "public"
+      },
+      {
+        "title": "Sign up",
+        "routing": "sign-up",
+        "layout": "public"
+      },
+      {
+        "title": "Verify account",
+        "routing": "verify-account",
+        "layout": "public"
+      },
+      {
+        "title": "Forgot password",
+        "routing": "forgot-password",
+        "layout": "public"
+      },
+      {
+        "title": "404 Page not found",
+        "layout": "error",
+        "routing": "404"
+      },
+      {
+        "title": "500 Internal server",
+        "layout": "error",
+        "routing": "500"
+      },
+      {
+        "title": "503 Service unavailable",
+        "layout": "error",
+        "routing": "503"
+      },
+      {
+        "title": "505 Forbidden",
+        "layout": "error",
+        "routing": "505"
+      }
+    ]
+  }
+]

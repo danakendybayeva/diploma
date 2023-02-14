@@ -1,0 +1,94 @@
+@import '../../../../assets/sass/variables';
+
+$_module-rem: $module-rem;
+$_list-bg: #fff;
+$_list-border-color: #fff;
+$_list-color: #000;
+$_shape: 20px;
+$_shape-lg: 30px;
+$_shape-sm: 15px;
+$_animation: $animation;
+$_list-shadow: $shadow;
+
+:host {
+  border-radius: $_shape;
+  display: block;
+  outline: none;
+  width: 100%;
+  transition: none;
+
+  &:hover,
+  &:focus {
+    transition: none;
+  }
+  .tc-input {
+    border-radius: inherit;
+    transition: none;
+  }
+  .autocomplete-list {
+    display: none;
+    position: relative;
+    z-index: 999;
+
+    &.opened {
+      display: block;
+    }
+    .list-ul {
+      background: $_list-bg;
+      border: 1px solid $_list-border-color;
+      box-shadow: $_list-shadow;
+      border-radius: $_shape;
+      color: $_list-color;
+      display: flex;
+      flex-direction: column;
+      list-style-type: none;
+      left: 0;
+      margin: 0;
+      margin-top: $module-rem;
+      max-height: $_module-rem * 20;
+      overflow: auto;
+      padding: $_module-rem 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: 999;
+
+      .list-li {
+        // box-shadow: 0 1px 0 rgba(#000, 0.05);
+        cursor: pointer;
+        padding: ($_module-rem / 2) 0;
+
+        .li-text {
+          border-radius: 13px;
+          margin-left: $_module-rem * 1.5; 
+          display: inline;
+          padding: ($_module-rem / 4) ($_module-rem);
+          margin-right: auto;
+          transition: background 0.2s $_animation;
+        }
+        ::ng-deep .val-mark {
+          .li-text {
+            background: none;
+            color: main-palette(500);
+            pointer-events: none;
+          }
+        }
+        &:hover,
+        &.active {
+          .li-text {
+            background: rgba(#9d5ce5, 0.1);
+          }
+        }
+        &:last-child {
+          box-shadow: none;
+        }
+      }
+    }
+  }
+  &.input-sm {
+    border-radius: $_shape-sm;
+  }
+  &.input-lg {
+    border-radius: $_shape-lg;
+  }
+}

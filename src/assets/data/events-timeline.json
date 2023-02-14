@@ -1,0 +1,74 @@
+[
+  {
+    "sectionLabel": {
+      "text": "Events",
+      "view": "info"
+    },
+    "sectionData": [
+      {
+        "date": "May 15",
+        "title": "Android Dev Summit 2019",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate.",
+        "icon": "icofont-brand-android-robot",
+        "iconBg": "#cd5447",
+        "iconColor": "#fff"
+      },
+      {
+        "date": "May 1",
+        "title": "Chrome Dev Summit 2019",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur nam nisi veniam.",
+        "icon": "icofont-ui-browser",
+        "iconBg": "#ED6C9C",
+        "iconColor": "#fff"
+      },
+      {
+        "date": "April 23",
+        "title": "AMP Conf 2019",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate.",
+        "icon": "icofont-calendar",
+        "iconBg": "#7cdb86",
+        "iconColor": "#fff"
+      },
+      {
+        "date": "April 20",
+        "title": "DevFest OnAir",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur nam nisi veniam.",
+        "icon": "icofont-trello",
+        "iconBg": "#9d5ce5",
+        "iconColor": "#fff"
+      }
+    ]
+  },
+  {
+    "sectionLabel": {
+      "text": "Meetings",
+      "view": "waiting"
+    },
+    "sectionData": [
+      {
+        "date": "May 15",
+        "title": "Developer meeting May 2019",
+        "content": "Lorem ipsum dolor sit.",
+        "icon": "icofont-location-pin",
+        "iconBg": "#f8e71c",
+        "iconColor": "#000"
+      },
+      {
+        "date": "April 14",
+        "title": "Developer meeting April 2019",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur nam nisi veniam.",
+        "icon": "icofont-canoe",
+        "iconBg": "#ed253d",
+        "iconColor": "#fff"
+      },
+      {
+        "date": "March 13",
+        "title": "Developer meeting March 2019",
+        "content": "Lorem ipsum dolor sit.",
+        "icon": "icofont-castle",
+        "iconBg": "#fc8b37",
+        "iconColor": "#fff"
+      }
+    ]
+  }
+]

@@ -1,0 +1,40 @@
+<tc-card [title]="'Свойства справочника'">
+    <form [formGroup]="labelForm" (ngSubmit)="sendFieldForm(labelForm.valid)" novalidate>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Название</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input [(ngModel)]="valueRef.title" formControlName="title" [placeholder]="'Название'"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Подсказка</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input [(ngModel)]="valueRef.hint" formControlName="hint" [placeholder]="'Подсказка'"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Описание</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-textarea [(ngModel)]="valueRef.description" formControlName="description" [placeholder]="'Описание'" [height]="'10rem'" [resize]="true"></tc-textarea>
+                </div>
+            </div>
+        </tc-form-group>
+        <button tc-button
+                [view]="'info'"
+                [disabled]="labelForm.invalid"
+                [load]="loadingLabelForm">
+            Сохранить
+        </button>
+    </form>
+</tc-card>

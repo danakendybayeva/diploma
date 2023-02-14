@@ -1,0 +1,283 @@
+<div  *ngIf="!loading">
+<div class="row" *ngIf="dataReport.id&& dataReport.student && dataReport.englishReport; else noResult;">
+    <div class="col col-12 col-md-4 mb-4 mb-md-0">
+        <tc-card [img]="(dataReport.student.avatar) ? dataReport.student.avatar : 'assets/image/photo34.jpg'" [tcGradient]="['#fff', '#fbfbfb']" class="personal-info-card">
+            <div class="d-flex mb-3 user-actions" [style.float]="'right'">
+            </div>
+
+            <div class="mb-5" [style.marginTop]="'30px'">
+                <h5 class="mb-0 mt-0 mr-1">{{ dataReport.student.fio}}</h5>
+                <span class="mb-0 mt-0 mr-1" [style.color]="'#949494'">Студент</span>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-12 eng-block mb-3">
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-between eng-left">
+                            <div class="in-eng">
+                                <span class="color-grey">English level</span>
+                                <h5 class="mt-2 mb-0 eng-title">{{ dataReport.englishReport.englishGroup.englishLevel }}</h5>
+                            </div>
+                            <div class="in-eng">
+                                <tc-circle-progress strokeColor="#48bf84" [strokeWidth]="3" [value]="67" [size]="'65px'"></tc-circle-progress>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12 d-flex justify-content-between eng-left">
+                            <div class="in-eng">
+                                <h5 class="mt-4 mb-0 eng-title">Посещаемость</h5>
+                            </div>
+                            <div class="in-eng">
+                                <tc-circle-progress strokeColor="red" [strokeWidth]="3" [value]="attendancePercent" [size]="'65px'"></tc-circle-progress>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12 d-flex justify-content-between eng-left">
+                            <div class="in-eng">
+                                <h5 class="mt-4 mb-0 eng-title">Город:</h5>
+                            </div>
+                            <div class="in-eng">
+                                <p class="mt-4 mb-0 eng-title" style="font-size: 1.2rem">{{ dataReport.englishReport.englishGroup.city }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12 d-flex justify-content-between eng-left">
+                            <div class="in-eng">
+                                <h5 class="mt-4 mb-0 eng-title" >Teacher:</h5>
+                            </div>
+                            <div class="in-eng">
+                                <p class="mt-4 mb-0 eng-title" style="font-size: 1.2rem">{{ dataReport.englishReport.englishGroup.teacher.fio }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-3 month-btn">
+                <tc-badge
+                        *ngFor="let report of dataReportsByGroup; let r = index;"
+                        [tcFontSize]="'11px'"
+                        [routerLink]="['/vertical/english/report/view-first', report.id, profileId]"
+                        [size]="'xs'"
+                        [tcBgColor]="report.id === reportId ? '#498fcc' : '#bfbfbf'"
+                        class=""
+                        style="border-radius: 4px; border: none; color: white"
+                >{{ report.period }}</tc-badge>
+            </div>
+
+            <div class="mt-4">
+                <a
+                    *ngIf="isAdmin && studentReportId"
+                    [ngStyle]="{color: '#949494'}"
+                    [routerLink]="['/vertical/english/report/edit', studentReportId]"
+                ><i class="sli-pencil tc-icon-wrap mr-2"></i> Редактировать</a>
+                <a
+                    *ngIf="isAdmin && studentReportId"
+                    [ngStyle]="{color: '#949494'}"
+                    (click)="removeReportStudent()"
+                    class="ml-4"
+                ><i class="sli-trash tc-icon-wrap mr-2"></i>Удалить</a>
+            </div>
+        </tc-card>
+    </div>
+    <div class="col-12 col-md-8">
+
+        <tc-card>
+            <div class="row level">
+                <h5 class="col-12">Посещаемость</h5>
+                <div class="row level сalendars" *ngIf="dataReport.englishReport.datesReportDays">
+                    <div *ngFor="let item of dataReport.englishReport.datesReportDays" class="mb-2 ml-2">
+                        <button tc-button *ngIf="(item.type === 1 && item.status === 1); else secondDay"
+                                [view]="'success'" class="calendar col-xs-4" [routerLink]="['/vertical/english/admin/attendance', item.id]">
+                            <span class="day">{{ item.day | date : 'd' }}</span><br/>
+                            <span class="month">{{ monthNames[(item.day | date : 'M') - 1] }}</span>
+                        </button>
+                        <ng-template #secondDay>
+                            <button tc-button  *ngIf="((item.type === null || item.type === 0) || (item.status === null)) && !isTodayDate(item.day); else thirdDay"
+                                    [routerLink]="['/vertical/english/admin/attendance', item.id]" [tcColor]="'#fff'" [tcBgColor]="'#c0cfd5'" class="calendar col-xs-4">
+                                <span class="day">{{ item.day | date : 'd' }}</span><br/>
+                                <span class="month">{{ monthNames[(item.day | date : 'M') - 1] }}</span>
+                            </button>
+                        </ng-template>
+                        <ng-template #thirdDay>
+                            <button tc-button *ngIf="isTodayDate(item.day); else fourthDay"
+                                    [routerLink]="['/vertical/english/admin/attendance', item.id]" [view]="'warning'" class="calendar col-xs-4">
+                                <span class="day">{{ item.day | date : 'd' }}</span><br/>
+                                <span class="month">{{ monthNames[(item.day | date : 'M') - 1] }}</span>
+                            </button>
+                        </ng-template>
+
+                        <ng-template #fourthDay>
+                            <button tc-button
+                                    *ngIf="(item.type === 3) || (item.status === 0)"
+                                    [view]="'error'" class="calendar col-xs-4"
+                                    [routerLink]="['/vertical/english/admin/attendance', item.id]"
+                            >
+                                <span class="day">{{ item.day | date : 'd' }}</span><br/>
+                                <span class="month">{{ monthNames[(item.day | date : 'M') - 1] }}</span>
+                            </button>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </tc-card>
+
+
+
+        <tc-card class="grade-label">
+            <div class="row">
+                <div class="col-12 col-md-6 col-sm-12 col-xs-12">
+                    <tc-form-group>
+                        <div class="row">
+                            <tc-rating
+                                    [iconsNumber]="5"
+                                    [value]="dataReport.active"
+                                    [view]="'number'"
+                                    [disabled]="true"
+                            ></tc-rating>
+                            <label class="ml-3">Активность</label>
+                        </div>
+                    </tc-form-group>
+                    <tc-form-group>
+                        <div class="row">
+                            <tc-rating
+                                    [iconsNumber]="5"
+                                    [value]="dataReport.homeProject"
+                                    [view]="'number'"
+                                    [disabled]="true"
+                            ></tc-rating>
+                            <label class="ml-3">Д/З и Проект </label>
+                        </div>
+                    </tc-form-group>
+                    <tc-form-group>
+                        <div class="row">
+                            <tc-rating
+                                    [iconsNumber]="5"
+                                    [value]="dataReport.reading"
+                                    [view]="'number'"
+                                    [disabled]="true"
+                            ></tc-rating>
+                            <label class="ml-3">Чтение </label>
+                        </div>
+                    </tc-form-group>
+                    <tc-form-group>
+                        <div class="row">
+                            <tc-rating
+                                    [iconsNumber]="5"
+                                    [value]="dataReport.listening"
+                                    [view]="'number'"
+                                    [disabled]="true"
+                            ></tc-rating>
+                            <label class="ml-3">Аудирование</label>
+                        </div>
+                    </tc-form-group>
+                    <tc-form-group>
+                        <div class="row">
+                            <tc-rating
+                                    [iconsNumber]="5"
+                                    [value]="dataReport.writing"
+                                    [view]="'number'"
+                                    [disabled]="true"
+                            ></tc-rating>
+                            <label class="ml-3">Письмо</label>
+                        </div>
+                    </tc-form-group>
+                </div>
+
+                <div class="col-12 col-md-6 col-sm-12 col-xs-12">
+                    <tc-form-group>
+                        <div class="row">
+                            <tc-rating
+                                    [iconsNumber]="5"
+                                    [value]="dataReport.speaking"
+                                    [view]="'number'"
+                                    [disabled]="true"
+                            ></tc-rating>
+                            <label class="ml-3">Устная речь</label>
+                        </div>
+                    </tc-form-group>
+                    <tc-form-group>
+                        <div class="row">
+                            <tc-rating
+                                    [iconsNumber]="5"
+                                    [value]="dataReport.vocabulary"
+                                    [view]="'number'"
+                                    [disabled]="true"
+                            ></tc-rating>
+                            <label class="ml-3">Словарный запас</label>
+                        </div>
+                    </tc-form-group>
+                    <tc-form-group>
+                        <div class="row">
+                            <tc-rating
+                                    [iconsNumber]="5"
+                                    [value]="dataReport.grammar"
+                                    [view]="'number'"
+                                    [disabled]="true"
+                            ></tc-rating>
+                            <label class="ml-3">Грамматика</label>
+                        </div>
+                    </tc-form-group>
+                    <tc-form-group>
+                        <div class="row">
+                            <tc-rating
+                                    [iconsNumber]="5"
+                                    [value]="dataReport.pronunciation"
+                                    [view]="'number'"
+                                    [disabled]="true"
+                            ></tc-rating>
+                            <label class="ml-3">Произношение</label>
+                        </div>
+                    </tc-form-group>
+
+                </div>
+
+
+            </div>
+
+
+        </tc-card>
+
+        <tc-card [title]="'Vertical bar'">
+            <div class="chart-container container-h-250">
+                <ngx-charts-bar-vertical
+                        [scheme]="ngxChartColors"
+                        [results]="barChartData"
+                        [gradient]="false"
+                        [barPadding]="20"
+                        [xAxis]="true"
+                        [yAxis]="true"
+                        [legend]="false"
+                        [showXAxisLabel]="false"
+                        [showYAxisLabel]="false"
+                        [roundEdges]="false"
+                        [maxYAxisTickLength]="100"
+                        [yAxisLabel]="'%'"
+                ></ngx-charts-bar-vertical>
+            </div>
+        </tc-card>
+
+        <tc-card [title]="''" [tcGradient]="['#fff', '#fbfbfb']">
+                <div [innerHTML]="dataReport.comment"></div>
+                <tc-form-description>Comment of your Teacher</tc-form-description>
+        </tc-card>
+
+    </div>
+</div>
+<ng-template #noResult>
+    <nz-result nzStatus="info" nzTitle="Your operation has been executed">
+        <div nz-result-extra>
+            <button tc-button class=""
+                    [view]="'info'"
+                    [tcShape]="500"
+                    [routerLink]="['/vertical/english/admin/report/create', this.reportId, this.profileId]"
+            >Create Report</button>
+        </div>
+    </nz-result>
+</ng-template>

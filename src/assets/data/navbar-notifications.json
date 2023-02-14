@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Sara Crouch liked your photo",
+    "date": "17 minutes ago",
+    "icon": "icofont-heart",
+    "iconBg": "#fc8b37"
+  },
+  {
+    "title": "New user registered",
+    "date": "23 minutes ago",
+    "icon": "icofont-external-link",
+    "iconBg": "#805aff"
+  },
+  {
+    "title": "Amanda Lie shared your post",
+    "date": "25 minutes ago",
+    "icon": "icofont-notification",
+    "iconBg": "#f741b5"
+  }
+]

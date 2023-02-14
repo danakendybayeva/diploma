@@ -1,0 +1,123 @@
+<div>
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <tc-card [bgImg]="'assets/image/back-self.jpg'">
+<!--      <tc-card  *ngIf="imageList1.length > 0" [bgImg]="'assets/image/back-self.jpg'">-->
+        <div class="row back-self-sub-list">
+          <div class="col-12" [ngStyle]="{minHeight: '600px'}">
+            <h2 class="title-list" *ngIf="aList.length > 0">{{ aList[0].title }}</h2>
+            <img [src]="'assets/image/Sports-PNG-Image.png'" [ngStyle]="{marginTop: '25px'}" />
+<!--            <img *ngIf="imageList2.length > 0" [src]="'assets/image/Sports-PNG-Image.png'" [ngStyle]="{marginTop: '25px'}" />-->
+            <div>
+              <p class="desc">{{sComment}}</p>
+            </div>
+          </div>
+        </div>
+      </tc-card>
+    </div>
+    <div class="col-12 col-md-4">
+        <tc-card [title]="'List'">
+            <tc-form-group *ngFor="let item of aList; let i = index;">
+                <div class="row">
+                    <div [className]="i > 0 ? 'col-10' : 'col-12'">
+                        <tc-input [placeholder]="'Skill*'" [type]="'text'" [(ngModel)]="aList[i].title"></tc-input>
+                    </div>
+                    <div class="col-2" *ngIf="i > 0" >
+                        <button tc-button (click)="removeSkill(i)" [afterIcon]="'icofont-close'" [view]="'error'" [square]="true" class="mr-2"></button>
+                    </div>
+                    <hr *ngIf="i == 0" style="margin-top: 15px;" class="col-12" />
+                </div>
+            </tc-form-group>
+        </tc-card>
+        <button tc-button [afterIcon]="'icofont-plus'" [view]="'info'" [square]="true" (click)="addSkill()"></button>
+        <button tc-button style="margin-left: 10px;" (click)="openModal(modalBody, 'Modal title', modalFooter, { closeButton: true, overlayClose: true })" [tcBgColor]="'#3f51b5'">Save</button>
+        <button tc-button [beforeIcon]="'tc-icon-wrap icofont-bin'"
+                [view]="'error'" [square]="true"
+                [ngStyle]="{float: 'right'}"
+                (click)="openModal(modalBodyToDelete, 'Modal title', modalFooterDelete, { closeButton: true, overlayClose: true })">Delete Group</button>
+    </div>
+
+    <div class="col-12 col-md-4">
+        <tc-card [title]="'About Skills'">
+            <tc-form-group class="col-12" style="padding: 0;">
+                <tc-textarea [(ngModel)]="sComment" [placeholder]="'Comment*'"></tc-textarea>
+            </tc-form-group>
+        </tc-card>
+        <tc-card [title]="'Upload Avatar'">
+            <div class="row">
+                <tc-form-group class="col-6" style="padding: 0; margin: 0;">
+                    <nz-upload
+                            nzAction="{{apiUrl}}/api/profiles/list/csv/file"
+                            nzListType="picture-card"
+                            [(nzFileList)]="photoWallAvatar"
+                            [nzShowButton]="photoWallAvatar.length < 1"
+                            [nzShowUploadList]="showUploadAvatar">
+                        <i class="icofont-plus"></i>
+                        <div class="ant-upload-text">Upload Avatar</div>
+                    </nz-upload>
+                    <nz-modal
+                            [nzVisible]="previewVisibleAvatar"
+                            [nzContent]="modalContentAvatar"
+                            [nzFooter]="null"
+                            (nzOnCancel)="previewVisibleAvatar = false">
+                        <ng-template #modalContentAvatar>
+                            <img [src]="previewImageAvatar" [ngStyle]="{ width: '100%' }" />
+                        </ng-template>
+                    </nz-modal>
+                </tc-form-group>
+                <tc-form-group class="col-6" style="padding: 0; margin: 0;">
+                    <nz-upload
+                            nzAction="https://jsonplaceholder.typicode.com/posts/"
+                            nzListType="picture-card"
+                            [(nzFileList)]="photoWallBackground"
+                            [nzShowButton]="photoWallBackground.length < 1"
+                            [nzShowUploadList]="showUploadBackground">
+                        <i class="icofont-plus"></i>
+                        <div class="ant-upload-text">Upload Background</div>
+                    </nz-upload>
+                    <nz-modal
+                            [nzVisible]="previewVisibleBackground"
+                            [nzContent]="modalContentBackground"
+                            [nzFooter]="null"
+                            (nzOnCancel)="previewVisibleBackground = false">
+                        <ng-template #modalContentBackground>
+                            <img [src]="previewImageBackground" [ngStyle]="{ width: '100%' }" />
+                        </ng-template>
+                    </nz-modal>
+                </tc-form-group>
+            </div>
+        </tc-card>
+    </div>
+  </div>
+</div>
+
+<ng-container>
+    <ng-template #modalHeader>
+        <h2 class="title">Modal title</h2>
+        <div class="actions">
+            <tc-badge [view]="'warning'">New</tc-badge>
+        </div>
+    </ng-template>
+
+    <ng-template #modalBody>
+        <p>Are you sure to save?</p>
+    </ng-template>
+
+    <ng-template #modalBodyToDelete>
+        <p>Are you sure to delete?</p>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'error'" (click)="closeModal()">Close</button>
+            <button tc-button [view]="'success'" (click)="submitModal()">Submit</button>
+        </div>
+    </ng-template>
+
+    <ng-template #modalFooterDelete>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'error'" (click)="closeModal()">Close</button>
+            <button tc-button [view]="'success'" (click)="submitToDeleteModal()">Submit</button>
+        </div>
+    </ng-template>
+</ng-container>

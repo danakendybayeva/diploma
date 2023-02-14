@@ -1,0 +1,113 @@
+<div>
+    <div class="row">
+        <div class="col-12 col-md-9" [ngSwitch]="typeField">
+            <div *ngSwitchCase="'integer'">
+                <integer-field
+                        [referenceId]="referenceId"
+                        [_value]="fieldsTogether[fieldId]"
+                        [fieldId]="fieldId"
+                        (resultEvent)="submitEvent($event)">
+                </integer-field>
+            </div>
+            <div *ngSwitchCase="'float'">
+                <float-field
+                        [referenceId]="referenceId"
+                        [_value]="fieldsTogether[fieldId]"
+                        [fieldId]="fieldId"
+                        (resultEvent)="submitEvent($event)">
+                </float-field>
+            </div>
+            <div *ngSwitchCase="'string'">
+                <string-field
+                        [referenceId]="referenceId"
+                        [_value]="fieldsTogether[fieldId]"
+                        [fieldId]="fieldId"
+                        (resultEvent)="submitEvent($event)">
+                </string-field>
+            </div>
+            <div *ngSwitchCase="'timestamp'">
+                <timestamp-field
+                        [referenceId]="referenceId"
+                        [_value]="fieldsTogether[fieldId]"
+                        [fieldId]="fieldId"
+                        (resultEvent)="submitEvent($event)">
+                </timestamp-field>
+            </div>
+            <div *ngSwitchCase="'date'">
+                <date-field
+                        [referenceId]="referenceId"
+                        [_value]="fieldsTogether[fieldId]"
+                        [fieldId]="fieldId"
+                        (resultEvent)="submitEvent($event)">
+                </date-field>
+            </div>
+            <div *ngSwitchCase="'boolean'">
+                <boolean-field
+                        [referenceId]="referenceId"
+                        [_value]="fieldsTogether[fieldId]"
+                        [fieldId]="fieldId"
+                        (resultEvent)="submitEvent($event)">
+                </boolean-field>
+            </div>
+            <div *ngSwitchCase="'enumeration'">
+                <enumeration-field
+                        [referenceId]="referenceId"
+                        [_value]="fieldsTogether[fieldId]"
+                        [fieldId]="fieldId"
+                        (resultEvent)="submitEvent($event)">
+                </enumeration-field>
+            </div>
+            <div *ngSwitchCase="'reference'">
+                <reference-field
+                        [referenceId]="referenceId"
+                        [_value]="fieldsTogether[fieldId]"
+                        [fieldId]="fieldId"
+                        (resultEvent)="submitEvent($event)">
+                </reference-field>
+            </div>
+            <div *ngSwitchCase="'structure'">
+                <soon-field></soon-field>
+            </div>
+            <div *ngSwitchCase="'text'">
+                <soon-field></soon-field>
+            </div>
+            <div *ngSwitchCase="'file'">
+                <soon-field></soon-field>
+            </div>
+            <div *ngSwitchCase="'table'">
+                <table-field
+                        [referenceId]="referenceId"
+                        [_value]="fieldsTogether[fieldId]"
+                        [fieldId]="fieldId"
+                        (resultEvent)="submitEvent($event)">
+                </table-field>
+            </div>
+            <div *ngSwitchDefault>
+                <reference-property
+                        *ngIf="urlPath == referenceId || urlPath == 'create'"
+                        [valueRef]="valueRef"
+                        [isNew]="isNew"
+                        (resultEvent)="submitEvent($event)">
+                </reference-property>
+
+                <tc-section
+                        *ngIf="urlPath == 'section' || sectionId"
+                        [_value]="sectionId ? getById(sectionsData, sectionId) : section"
+                        [referenceId]="referenceId"
+                        [fields]="fieldsData"
+                        (resultEvent)="submitEvent($event)"
+                    >
+                </tc-section>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <reference-sidebar-menu
+                    [fieldsData]="fieldsData"
+                    [sectionsData]="sectionsData"
+                    [isNew]="isNew"
+                    [referenceId]="referenceId"
+                    [fieldType]="typeField"
+            ></reference-sidebar-menu>
+        </div>
+    </div>
+</div>

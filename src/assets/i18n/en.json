@@ -1,0 +1,15 @@
+{
+  "Student edit title": "Edit User",
+  "Student delete title": "Delete User",
+  "Student save title": "Save User",
+  "Student delete desc": "Are you sure you want to delete user?",
+  "Student save desc": "Are you sure you want to save user?",
+  "Student edit desc": "Are you sure you want to edit user",
+  "Submit": "Submit",
+  "Close": "Close",
+  "Delete": "Delete",
+  "Education": "Education",
+  "Experience": "Experience",
+  "Yes": "Yes",
+  "No": "No"
+}

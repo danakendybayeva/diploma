@@ -1,0 +1,215 @@
+<div class="row" *ngIf="profileDetails">
+  <div class="col col-12 col-md-4 mb-4 mb-md-0">
+    <tc-card [img]="(profileDetails.avatar) ? profileDetails.avatar : 'assets/image/photo34.jpg'" [tcGradient]="['#fff', '#fbfbfb']" class="personal-info-card">
+      <div class="d-flex mb-3 user-actions" [style.float]="'right'">
+        <button [routerLink]="['/vertical/edit-account']" tc-button *ngIf="!id" class="mr-3" [tcBgColor]="'#f49330'" [tcShape]="500">
+          <i class="sli-pencil tc-icon-wrap mr-2"></i>
+        </button>
+        <button tc-button *ngIf="profileDetails.grants == false" [tcBgColor]="'#e91e63'" [tcShape]="500">No Grants</button>
+        <button tc-button *ngIf="profileDetails.grants == true" [view]="'success'" [tcShape]="500">Grants</button>
+      </div>
+
+      <div class="mb-5" [style.marginTop]="'30px'">
+        <h5 class="mb-0 mt-0 mr-1">{{ profileDetails.firstName }} {{ profileDetails.lastName }} {{profileDetails.middleName }}</h5>
+        <span class="mb-0 mt-0 mr-1" [style.color]="'#949494'">Студент</span>
+      </div>
+
+<!--      <p [tcColor]="'#8f8f90'">{{ profileDetails.speciality }}</p>-->
+
+<!--      <p>{{ profileDetails.description }}</p>-->
+
+
+      <div class="mb-5">
+        <p class="mb-3" [style.color]="'#0275d8'"><i class="sli-user tc-icon-wrap mr-2"></i> Обо мне</p>
+        <p class="mb-0 mt-0" *ngIf="profileDetails.speciality">Специалисть <span [style.color]="'#949494'">{{ profileDetails.speciality }}</span></p>
+        <p class="mb-0 mt-0" *ngIf="profileDetails.birthday">Родился <span [style.color]="'#949494'">{{ profileDetails.birthday | date: 'dd.MM.yyyy' }}</span></p>
+        <p class="mb-0 mt-0" *ngIf="profileDetails.address">Живет в <span [style.color]="'#949494'">{{ profileDetails.address }}</span></p>
+        <p class="mb-0 mt-0" *ngIf="profileDetails.address">Пол <span [style.color]="'#949494'">{{ profileDetails.gender == 1 ? 'Мужчина' : 'Женщина' }}</span></p>
+      </div>
+
+      <div class="mb-5">
+        <p class="mb-3" [style.color]="'#0275d8'"><i class="sli-graduation tc-icon-wrap mr-2"></i> Обучения</p>
+        <div class="mb-1 mt-0" *ngFor="let item of profileDetails.education; let i = index">
+          <p class="mb-0 mt-0">{{ item.eduType.title }} - <strong>{{ item.speciality }}</strong></p>
+          <span [ngStyle]="{color: '#949494', fontSize: '12px'}">{{ item.yearStart | date : "yyyy"}} - {{ item.yearEnd | date : "yyyy" }}</span>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <p class="mb-3" [style.color]="'#0275d8'"><i class="sli-notebook tc-icon-wrap mr-2"></i> Контакты</p>
+        <p class="mb-0 mt-0">Телефон:
+          <a *ngFor="let item of phones; let i = index;" [href]="('callto:' + item) | trim | safeUrl">
+            {{ item }}<span *ngIf="phones.length - 1 != i">, </span>
+          </a>
+        </p>
+        <div class="mb-0 mt-0" *ngFor="let item of socials; let i = index;">
+          <p class="mb-0 mt-0">
+            {{ item.title | titlecase }}: <span [ngSwitch]="item.title">
+              <a *ngSwitchCase="'instagram'" [href]="('https://instagram.com/' + (item.link | slice : 1)) | trim | safeUrl" target="_blank">{{ item.link }}</a>
+              <a *ngSwitchCase="'twitter'" [href]="('https://twitter.com/' + (item.link | slice : 1)) | trim | safeUrl" target="_blank">{{ item.link }}</a>
+              <a *ngSwitchDefault>{{ item.link }}</a>
+            </span>
+          </p>
+        </div>
+        <p class="mb-0 mt-0" *ngIf="profileDetails.email">Email: <a [href]="('mailto:' + profileDetails.email) | trim | safeUrl">{{ profileDetails.email }}</a></p>
+      </div>
+      <a *ngIf="isAdmin" (click)="gotoProfile()" [ngStyle]="{color: '#949494'}"><i class="sli-pencil tc-icon-wrap mr-2"></i> Редактировать профиль</a>
+    </tc-card>
+  </div>
+
+  <div class="col col-12 col-md-8">
+    <tc-card [title]="''" [tcGradient]="['#fff', '#fbfbfb']">
+<!--      <h5 class="mt-0 mb-3">Прогресс</h5>-->
+<!--      <canvas class="mb-5"-->
+<!--              baseChart-->
+<!--              [datasets]="lineChartData"-->
+<!--              [labels]="lineChartLabels"-->
+<!--              [options]="lineChartOptions"-->
+<!--              [colors]="chartColors"-->
+<!--              [legend]="lineChartLegend"-->
+<!--              [chartType]="lineChartType"-->
+<!--      ></canvas>-->
+
+      <div class="col-12 mb-4">
+        <div class="row">
+          <h5 class="mt-0 mb-4">MDS English</h5>
+          <div *ngIf="!englishList.length" class="col-12 eng-no-block mb-3">
+            <div class="vertical-center">
+              <tc-icon class=""
+                       [iconClass]="'sli-drawer tc-icon-wrap'"
+                       [tcFontSize]="24"
+                       [tcColor]="'#adadad'"
+              ></tc-icon>
+              <p>No English Course</p>
+            </div>
+          </div>
+          <div class="col-12 eng-block mb-3" *ngFor="let course of englishList let index = index;">
+            <div class="row">
+              <div class="col-8 d-flex justify-content-between eng-left">
+                <div class="in-eng">
+                  <span class="color-grey">English level</span>
+                  <h5 class="mt-0 mb-0 eng-title">Elementary</h5>
+                  <div class="color-grey">
+                    <span>О курсе</span>
+                  </div>
+                </div>
+                <div class="in-eng">
+                  <tc-circle-progress [strokeWidth]="3" [value]="67" [size]="'65px'"></tc-circle-progress>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="in-eng">
+                  <span class="color-grey">Следующий урок</span>
+                  <h5 class="mt-0 mb-0 eng-date">23.09.2020</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 mb-4">
+        <div class="row">
+          <h5 class="mt-0 mb-4">MDS Courses</h5>
+          <div *ngIf="!courseList.length" class="col-12 eng-no-block">
+            <div class="vertical-center">
+              <tc-icon class=""
+                       [iconClass]="'sli-drawer tc-icon-wrap'"
+                       [tcFontSize]="24"
+                       [tcColor]="'#adadad'"
+              ></tc-icon>
+              <p>No Course</p>
+            </div>
+          </div>
+          <div class="col-12 eng-block mb-3" *ngFor="let course of courseList; let index = index;">
+            <div class="row">
+              <div class="col-8 d-flex justify-content-between eng-left">
+                <div class="in-eng">
+                  <span class="color-grey">{{ course.packages.title }}</span>
+                  <h5 class="mt-0 mb-0 eng-title">{{ course.title }}</h5>
+                </div>
+                <div class="in-eng">
+                  <tc-circle-progress
+                          [strokeWidth]="course.progress == 100 ? 4 : 3"
+                          [value]="course.progress"
+                          [size]="'65px'"
+                          [strokeColor]="course.progress == 100 ? '#7cdb86' : ''"
+                          [secondaryColor]="course.progress == 100 ? '#fc8b37' : ''"
+                  ></tc-circle-progress>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="in-eng">
+                  <span class="color-grey" *ngIf="course.progress == 100"></span>
+                  <h5 class="mt-0 mb-0 eng-date" *ngIf="course.progress == 100">Завершен</h5>
+
+                  <span class="color-grey" *ngIf="course.progress < 100">Следующий урок</span>
+                  <h5 class="mt-0 mb-0 eng-date" *ngIf="course.progress < 100">{{ course.studyingLesson }}</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 mb-4" *ngIf="ProjectSkills.length">
+        <div class="row">
+          <h5 class="mt-0 mb-4" [style.width]="'100%'">MDS Skills</h5>
+          <div class="col-12 pl-0 pr-0">
+            <div class="row">
+
+
+              <div *ngFor="let item of ProjectSkills;" class="col-3 mb-3">
+                <div class="col-12 div34 bord34">
+                </div>
+                <div class="row">
+                  <div class="content-div34 col-12">
+                    <span class="color-grey" [style.marginRight]="'25px'">{{ item.parentTitle }}</span>
+                    <h6 class="mb-0 mt-0 eng-title">{{ item.title }}</h6>
+                    <div class="status-skills" [ngClass]="item.done ? 'success-status' : 'not-status'"></div>
+                    <img [src]="'assets/image/demo-skill-bg.png'" class="img-skills"/>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+<!--      <tc-v-timeline [data]="education" [showIcons]="false"></tc-v-timeline>-->
+
+<!--      <tc-v-timeline [data]="experience" [showIcons]="false"></tc-v-timeline>-->
+
+<!--      <div class="skills-list">-->
+<!--        <tc-badge [tcShape]="500" *ngFor="let skill of skills">{{ skill.display }}</tc-badge>-->
+<!--      </div>-->
+
+<!--      <button tc-button *ngFor="let item of listSkills; let i = index" class="mb-2 mr-2" (click)="gotoSkills(item.id)">{{item.title}}</button>-->
+    </tc-card>
+    <tc-card>
+      <div class="row mt-3" style="justify-content: space-evenly">
+        <div>
+          <tc-circle-progress [strokeColor]="'#2fa7ff'" [secondaryColor]="'#805aff'" [value]="40"></tc-circle-progress>
+          <h6 style="display: flex; justify-content: center">GRADE</h6>
+        </div>
+        <div>
+          <tc-circle-progress [strokeColor]="'#2fa7ff'" [secondaryColor]="'#805aff'" [value]="70"></tc-circle-progress>
+          <h6 style="display: flex; justify-content: center">TEST</h6>
+        </div>
+        <div>
+          <tc-circle-progress [strokeColor]="'#2fa7ff'" [secondaryColor]="'#805aff'" [value]="30"></tc-circle-progress>
+          <h6 style="display: flex; justify-content: center">REVIEW</h6>
+        </div>
+        <div>
+          <tc-circle-progress [strokeColor]="'#2fa7ff'" [secondaryColor]="'#805aff'" [value]="90"></tc-circle-progress>
+          <h6 style="display: flex; justify-content: center">OVERALL</h6>
+        </div>
+      </div>
+      <div>
+        <nz-progress [nzPercent]="50" nzStatus="active"></nz-progress>
+        <h6 style="display: flex; justify-content: center">Reading progress: 5/11</h6>
+      </div>
+    </tc-card>
+
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="group-bg" [ngStyle]="getBgImage()"></div>
+
+<div class="card-body">
+  <div class="info-block">
+    <div class="avatar-block">
+      <tc-avatar [bgColor]="group.bgColor" [size]="76" [src]="group.avatar" [initials]="getGroupInitials(group)"></tc-avatar>
+    </div>
+
+    <div class="title-block text-center">
+      <h3 class="group-title" [tcFontSize]="18">
+        <a class="group-link">{{ group.title }}</a>
+      </h3>
+
+<!--      <span class="members" [tcColor]="'rgba(75, 81, 93, 0.5)'">-->
+<!--        {{ group.members }} members-->
+<!--      </span>-->
+    </div>
+    
+    <div class="connections-block">
+<!--      <tc-avatar-group>-->
+<!--        <tc-avatar-->
+<!--          *ngFor="let connection of getGroupConnections()"-->
+<!--          [src]="connection"-->
+<!--          [size]="40"-->
+<!--        ></tc-avatar>-->
+<!--      </tc-avatar-group>-->
+
+<!--      <span class="connections" [tcColor]="'rgba(75, 81, 93, 0.5)'">-->
+<!--        {{ group.connections.length }} connections-->
+<!--      </span>-->
+    </div>
+  </div>
+
+<!--  <button -->
+<!--    tc-button-->
+<!--    [tcShape]="6"-->
+<!--    [block]="true"-->
+<!--    [outline]="!group.joined"-->
+<!--    (click)="joinGroupHandler(group)"-->
+<!--  >-->
+<!--    {{ group.joined ? 'Leave group' : 'Join' }}-->
+<!--  </button>-->
+
+<!--  <button-->
+<!--          tc-button-->
+<!--          [tcShape]="6"-->
+<!--          [block]="true"-->
+<!--          (click)="joinGroupHandler(group)"-->
+<!--  >-->
+<!--    Example-->
+<!--  </button>-->
+</div>

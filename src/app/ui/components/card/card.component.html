@@ -1,0 +1,18 @@
+<div [ngStyle]="{'background-image': 'url(' + img + ')'}" *ngIf="img && ratio" class="card-img div-card" [ngClass]="{'card-full-img' : fullImgText}">
+  <h3 class="card-title" *ngIf="fullImgText">{{ title }}</h3>
+  <div class="d-flex top-text">
+    <tc-icon class="mr-2 pl-0" [iconClass]="topIcon" [tcFontSize]="18"></tc-icon>
+    <span>{{ topTitle }}</span>
+  </div>
+</div>
+<img src="{{ img }}" *ngIf="img && !fullImgText && !ratio" class="card-img">
+
+<div class="card-header" *ngIf="title && !fullImgText" [ngClass]="{'header-course' : type == 'course'}">
+  <h3 class="card-title">{{ title }}</h3>
+</div>
+
+<ng-content select="tc-card-header"></ng-content>
+
+<div class="card-content" [ngStyle]="{ 'padding': padding }">
+  <ng-content></ng-content>
+</div>

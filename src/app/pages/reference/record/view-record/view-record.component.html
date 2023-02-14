@@ -1,0 +1,33 @@
+<div *ngIf="loaded">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <tc-card>
+                <div *ngFor="let field of fieldsData; let index = index;" [ngSwitch]="field.type">
+                    <tc-factory-field
+                            [_valueField]="field"
+                            [value]="field.value"
+                    ></tc-factory-field>
+                </div>
+            </tc-card>
+        </div>
+        <div class="col-12 col-md-4">
+            <tc-card></tc-card>
+        </div>
+        <div class="col-12">
+            <button tc-button
+                    [type]="'button'"
+                    class="mr-2"
+                    [view]="'info'"
+                    [routerLink]="['/vertical/reference/record/edit', referenceId, recordId]">
+                Редактировать
+            </button>
+            <button tc-button
+                    [type]="'button'"
+                    class="mr-2"
+                    [view]="'error'"
+                    (click)="removeRecord(referenceId, recordId)">
+                Удалить
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Community",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "sub": [
+      {
+        "title": "Topic",
+        "routing": "community/admin/topic/add"
+      },
+      {
+        "title": "Add Problem",
+        "routing": "community/admin/problem/add"
+      },
+      {
+        "title": "Problem List",
+        "routing": "community/admin/problem/list"
+      }
+    ]
+  }
+]

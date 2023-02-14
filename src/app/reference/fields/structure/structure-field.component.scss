@@ -1,0 +1,55 @@
+:host {
+  .label-show {
+    font-weight: 700;
+  }
+  .error-text {
+    text-align: right;
+    color: #ed253d;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  error-color {
+    color: #ed253d;
+  }
+
+  .ref-values {
+    background-color: rgba(47,167,255,.1);
+    background-clip: padding-box;
+    color: #2fa7ff;
+    border-radius: 20px;
+    padding: calc(0.7142857143rem - 1px) calc((1.4285714286rem / 2) - 0.2em) calc(0.7142857143rem - 1px) calc(1.4285714286rem - 0.2em);
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+
+    button {
+      background: transparent;
+      border: none;
+    }
+    .ref-text {
+      i {
+        cursor: move;
+      }
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .ref-btn {
+    font-size: 24px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    right: 25px;
+    cursor: pointer;
+  }
+
+  .modal {
+    display: none;
+  }
+
+}

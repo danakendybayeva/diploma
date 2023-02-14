@@ -1,0 +1,71 @@
+<tc-card class="mb-0" [padding]="'0'">
+    <nz-table
+        #basicTable
+        [nzData]="references"
+        [nzShowPagination]="true"
+        [nzPageSize]="20"
+        [nzTotal]="102"
+        [nzLoading]="loading"
+        [nzPageIndex]="pageIndex"
+        (nzPageIndexChange)="onChangePageIndex($event)"
+    >
+        <thead nzSingleSort (nzSortChange)="onChangeSort($event)">
+        <tr>
+            <th nzShowSort nzSortKey="title">Название</th>
+            <th nzShowSort nzSortKey="hint">Подсказка</th>
+            <th nzShowSort nzSortKey="creator">Редактор</th>
+            <th nzShowSort nzSortKey="updatedAt">Изменен</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data"
+            class="mainTable">
+            <td>{{ data.title }}</td>
+            <td>{{ data.hint }}</td>
+            <td>{{ fieldService.getStructureFio(data.creator) }}</td>
+            <td>{{ (data.updatedAt !== null ? data.updatedAt : data.createdAt) | date: 'dd.MM.yyyy HH:mm:ss' }}</td>
+            <td>
+                <a [routerLink]="['/vertical/admin-panel/reference/edit/', data.id]">
+                    <button tc-button
+                            class="mr-2"
+                            [view]="'warning'"
+                            [size]="'sm'"
+                            [tcShape]="7">
+                        Edit
+                    </button>
+                </a>
+                <a [routerLink]="['/vertical/reference/record/list', data.id]">
+                    <button tc-button
+                            class="mr-2"
+                            [view]="'success'"
+                            [size]="'sm'"
+                            [tcShape]="7">
+                        List Record
+                    </button>
+                </a>
+                <a [routerLink]="['/vertical/reference/record/create/', data.id]">
+                    <button tc-button
+                            class="mr-2"
+                            [view]="'success'"
+                            [size]="'sm'"
+                            [tcShape]="7">
+                        Add Record
+                    </button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </nz-table>
+</tc-card>
+
+<button class="no-style settings-btn"
+        (click)="gotoByUrl('/vertical/admin-panel/reference/create')">
+    <span class="pulse"></span>
+    <tc-icon
+            class="settings-icon"
+            [iconClass]="'icofont-plus'"
+            [tcFontSize]="26"
+            [padding]="'2px 0'"
+    ></tc-icon>
+</button>

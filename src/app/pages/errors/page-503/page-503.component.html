@@ -1,0 +1,19 @@
+<div class="error-card">
+  <div class="icon-block">
+    <i class="icofont-bulb-alt"></i>
+  </div>
+
+  <div class="card-content">
+    <div class="text-block mb-5">
+      <h3 class="title">{{ title }}</h3>
+
+      <h6 class="sub-title">{{ subTitle }}</h6>
+
+      <p class="error-message">{{ errorMessage }}</p>
+    </div>
+
+    <a [routerLink]="'/vertical/dashboard'" [view]="'gradient'" tc-button [beforeIcon]="'icofont-ui-home'" [block]="true">
+      Back to home
+    </a>
+  </div>
+</div>

@@ -1,0 +1,75 @@
+@import '../../../../../../assets/sass/variables';
+$_module-rem: $module-rem;
+$_h-padding: $_module-rem * 3;
+$_v-padding: $_module-rem * 2;
+
+.boxed-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.boxed {
+  width: 100%;
+  max-width: $boxed-width;
+  max-width: var(--boxed-width);
+}
+
+#video-lesson {
+  width: 100%;
+  padding-top: 56.25%; /* 1:1 Aspect Ratio */
+  position: relative;
+}
+#video-lesson iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0;
+}
+.color-main {
+  color: $main-color;
+}
+
+.page-breadcrumbs {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  margin: 0 0 $module-rem / 2;
+  padding: 0;
+
+  .item {
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+    white-space: nowrap;
+
+    .link {
+      color: main-palette(500);
+      font-weight: bold;
+      opacity: .6;
+      font-size: .72em;
+      font-weight: bold;
+      letter-spacing: .6px;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: opacity .2s $animation;
+
+      &:hover {
+        opacity: 1;
+      }
+      &.last {
+        opacity: .4;
+        pointer-events: none;
+      }
+    }
+    .separator {
+      color: #b16f6f;
+      margin: 0 ($module-rem / 2);
+      opacity: .4;
+      font-size: 0.8em;
+    }
+  }
+}

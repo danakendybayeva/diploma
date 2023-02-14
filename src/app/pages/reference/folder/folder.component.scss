@@ -1,0 +1,28 @@
+:host {
+  .mainTable {
+    cursor: pointer;
+  }
+  .check-table {
+    margin-top: 1px;
+  }
+  .ml-check {
+    margin-left: 2.5rem;
+  }
+
+}
+
+.search-box {
+  padding: 12px;
+
+  .d-flex {
+    justify-content: space-between;
+  }
+  .d-grid {
+    display: grid;
+    margin-bottom: 8px;
+
+    tc-checkbox {
+      margin-bottom: 7px;
+    }
+  }
+}

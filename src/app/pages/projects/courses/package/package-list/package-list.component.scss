@@ -1,0 +1,33 @@
+@import '../../../../../../assets/sass/variables';
+
+
+.grid-image-package {
+  width: 100%;
+  padding-top: 120%;
+  background-size: cover;
+  position: relative;
+  border-radius: 3px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.package-item {
+  color: $main-color;
+}
+.package-item h6 {
+  font-size: 1.5rem;
+  padding: 0 .7rem;
+}
+.teacher-desc {
+  align-self: center;
+}
+.teacher-desc p {
+  margin-bottom: 3px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #096dd9;
+}
+.package-border {
+  border: 1px solid #dedede;
+  border-radius: 3px;
+  background: #fff;
+}

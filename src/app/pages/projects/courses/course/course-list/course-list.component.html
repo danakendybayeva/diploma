@@ -1,0 +1,104 @@
+<div class="row">
+  <div class="col-12 d-flex justify-content-between mb-5">
+    <div class="left">
+      <ul class="d-flex justify-start filter-button-ul">
+        <li *ngFor="let notif of filterActive" class="active"
+            [ngClass]="{'active' : filterChoosed == notif.id}" (click)="chooseFilter(notif)">
+          {{ notif.name }}
+          <tc-badge *ngIf="notif.count > 0" [tcShape]="500" [view]="'classic'" [size]="'sm'">
+            {{ notif.count }}
+          </tc-badge>
+        </li>
+      </ul>
+    </div>
+    <div class="right button-type-display d-none d-sm-block">
+      <tc-icon class="mr-2" [iconClass]="'sli-grid tc-icon-wrap'" [tcFontSize]="24" [ngClass]="{'active' : typeDisplay == 'grid'}" (click)="setTypeDisplay('grid')"></tc-icon>
+      <tc-icon class="mr-2" [iconClass]="'sli-list tc-icon-wrap'" [tcFontSize]="24" [ngClass]="{'active' : typeDisplay == 'list'}" (click)="setTypeDisplay('list')"></tc-icon>
+    </div>
+  </div>
+
+  <div class="col-12 course">
+    <div class="row flex-row grid" *ngIf="typeDisplay == 'grid'">
+      <div *ngFor="let course of (coursesList | filterTop : search : column | filterTop : search2 : column2 : 'not'); let index = index;" class="col-12 grid-course mb-4"
+           [ngClass]="{'col-md-3' : index != 2, 'col-md-6' : index == 2}">
+        <a [routerLink]="['/vertical/courses/course/', course.id]">
+          <tc-card [img]="course.image"
+                   class="mb-md-0 card" [title]="course.title"
+                  [ratio]="'16:9'" [fullImgText]="twoSizeColumn && index == 2" [topTitle]="(course.progress > 75 && course.progress < 100) ? 'Осталось немного!': ''"
+                   [topIcon]="(course.progress > 75 && course.progress < 100) ? 'sli-bell tc-icon-wrap' : ''" [type]="'course'">
+            <div class="tc-card-padding">
+              <div class="d-flex justify-start">
+                <div class="mr-5 options-course">
+                  <tc-icon class="mr-2" [iconClass]="'sli-clock tc-icon-wrap'" [tcFontSize]="18"></tc-icon>
+                  <span>{{ course.allTime }} часов</span>
+                </div>
+                <div class="mr-3 options-course">
+                  <tc-icon class="mr-2" [iconClass]="'sli-layers tc-icon-wrap'" [tcFontSize]="18"></tc-icon>
+                  <span>{{ course.allLesson }} урок</span>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="course.isJoined">
+              <div class="progress-outer"></div>
+              <div class="process-right-radius"></div>
+              <div class="progress-card" [ngStyle]="{width: course.progress + '%',
+                borderBottomRightRadius: (course.progress == 100) ? '15px' : 0}">
+            </div>
+            </div>
+          </tc-card>
+        </a>
+      </div>
+
+    </div>
+
+    <div class="row list" *ngIf="typeDisplay == 'list'">
+      <div *ngFor="let course of coursesList; let index = index;" class="col-12 list-course mb-4">
+        <div class="row">
+          <div class="col-3 col">
+            <div class="list-image-course" [ngStyle]="{backgroundImage: 'url(' + course.image + ')'}"></div>
+          </div>
+          <div class="col-9 col">
+            <div class="item-course">
+              <h5 class="mb-1 mt-2">{{ course.title }}</h5>
+              <p class="company-title">{{ course.company.title }}</p>
+              <p class="description">{{ course.description }}</p>
+              <div class="d-flex justify-start">
+                <div class="mr-5 options-course">
+                  <tc-icon class="mr-2 pl-0" [iconClass]="'sli-clock tc-icon-wrap'" [tcFontSize]="18"></tc-icon>
+                  <span>{{ course.allTime }} часов</span>
+                </div>
+<!--                <div class="mr-5 options-course">-->
+<!--                  <tc-icon class="mr-2" [iconClass]="'sli-drawer tc-icon-wrap'" [tcFontSize]="18"></tc-icon>-->
+<!--                  <span>{{ course.allLesson }} модулей</span>-->
+<!--                </div>-->
+                <div class="mr-3 options-course">
+                  <tc-icon class="mr-2" [iconClass]="'sli-layers tc-icon-wrap'" [tcFontSize]="18"></tc-icon>
+                  <span>{{ course.allLesson }} урок</span>
+                </div>
+              </div>
+              <div class="progess-list pb-3x" *ngIf="course.isJoined">
+                <p>Пройден на {{course.progress}}%</p>
+                <tc-progress [color]="'#213A8F'" [progress]="course.progress" [style]="'self-style'"></tc-progress>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+</div>
+
+
+<button *ngIf="isAdmin && companyId.length > 0" class="no-style settings-btn"
+        (click)="goToStd($event, ['/vertical/courses/admin/course/add/', companyId])">
+  <span class="pulse"></span>
+  <tc-icon
+          class="settings-icon"
+          [iconClass]="'icofont-plus'"
+          [tcFontSize]="26"
+          [padding]="'2px 0'"
+  ></tc-icon>
+</button>

@@ -1,0 +1,121 @@
+<div *ngIf="groupData">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <tc-card class="mb-0" [padding]="'0'">
+                <tc-card class="mb-0 pb-0" [title]="'Students'">
+                    <tc-form-group class="mb-0 pb-0">
+                        <div class="row">
+                            <div class="col-12">
+                            </div>
+                        </div>
+                    </tc-form-group>
+                </tc-card>
+
+                <nz-table #basicTable [nzData]="groupData.listDays"
+                          [nzShowPagination]="false" [nzPageSize]="36">
+                    <thead>
+                    <tr>
+                        <th>Аты-жөні</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--        <tr *ngFor="let data of tableData | todoFilter: searchStr: 'name' |-->
+                    <!--            todoFilter: searchSpec : 'speciality' | FilterArray: selectedCity | orderBy: sort_value : sort_key;"-->
+                    <!--        class="mainTable" (click)="gotoProfile(data.id)">-->
+                    <tr *ngFor="let data of basicTable.data"
+                        class="mainTable">
+                        <td class="daystable">
+                            {{ data.day | date: 'fullDate' }}
+                            <div>
+                                <button tc-button [afterIcon]="'icofont-pencil-alt-1'" [view]="'info'" class="edit"></button>
+                                <button tc-button [afterIcon]="'tc-icon-wrap icofont-bin'" [view]="'warning'" class="edit"></button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </nz-table>
+            </tc-card>
+        </div>
+        <div class="col-12 col-md-4">
+            <tc-card>
+                <div class="level">
+                    <h5>Group properties</h5>
+                    <div class="row">
+                        <tc-form-group class="col-12">
+                            <tc-form-label>Group Name</tc-form-label>
+                            <tc-input [(ngModel)]="groupData.title" [ngModelOptions]="{standalone: true}"></tc-input>
+                        </tc-form-group>
+                        <tc-form-group class="col-12">
+                            <tc-form-label>City</tc-form-label>
+                            <tc-autocomplete [data]="autocompleteData" [key]="'country'" [placeholder]="'City'"
+                                             [(ngModel)]="groupData.city" [ngModelOptions]="{standalone: true}"></tc-autocomplete>
+                        </tc-form-group>
+                        <tc-form-group class="col-12">
+                            <tc-form-label>English type</tc-form-label>
+                            <tc-select [placeholder]="'Roles'" [options]="studentService.english_type"
+                                       [multiple]="false" [(ngModel)]="groupData.englishType" [ngModelOptions]="{standalone: true}"></tc-select>
+                        </tc-form-group>
+                        <tc-form-group class="col-12">
+                            <tc-form-label>English point</tc-form-label>
+                            <tc-input  *ngIf="groupData.englishType != 1; else englishSD" [placeholder]="'English value'" [(ngModel)]="groupData.englishLevel" [ngModelOptions]="{standalone: true}"></tc-input>
+                            <ng-template #englishSD>
+                                <tc-select
+                                        [placeholder]="'Select type'"
+                                        [options]="studentService.english_st_title"
+                                        [(ngModel)]="groupData.englishLevel"
+                                        [ngModelOptions]="{standalone: true}"
+                                ></tc-select>
+                            </ng-template>
+                        </tc-form-group>
+
+                        <tc-form-group class="col-12">
+                            <tc-form-label>Список студентов</tc-form-label>
+                            <div class="col-12 studSlc">
+                                <button tc-button [beforeIcon]="'icofont-plus'" [view]="'info'" class="mb-2" (click)="openModal(modalBody, '', modalFooter, { closeButton: true, width: '100%' })">Education</button>
+                                <span *ngIf="groupData.listStudents.length">Количество студентов: {{groupData.listStudents.length}}</span>
+                            </div>
+                            <div class="profile-selected col-12 mb-2" *ngFor="let item of groupData.listStudents; let i = index;"
+                                 [className]="item.teamLead ? 'success profile-selected col-12 mb-2' : 'profile-selected col-12 mb-2'">
+                            <span class="profile-name" (click)="selectTeam(item.id)">
+                                {{ item.fio }}
+                            </span>
+                                <button class="no-style close ng-star-inserted" (click)="removeStudent(item.id)"><i class="icofont-close-line"></i></button>
+                            </div>
+                        </tc-form-group>
+                    </div>
+                </div>
+            </tc-card>
+            <button tc-button class="col-12" [view]="'success'" (click)="openModal(modalBodySave, modalHeader, modalFooterSave, { closeButton: true, width: '100%' })">Submit</button>
+        </div>
+    </div>
+</div>
+
+<ng-container>
+    <ng-template #modalHeader class="modal">
+        <h2 class="title">Modal title</h2>
+        <div class="actions">
+            <tc-badge [view]="'warning'">New</tc-badge>
+        </div>
+    </ng-template>
+
+    <ng-template #modalBody>
+        <profiles-mini-list [studentsSelected]="groupData.listStudents"></profiles-mini-list>
+    </ng-template>
+
+    <ng-template #modalBodySave>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+<!--            <button tc-button [view]="'error'" (click)="closeModal()">Close</button>-->
+            <button tc-button [view]="'success'" (click)="submitModal()">Submit</button>
+        </div>
+    </ng-template>
+
+    <ng-template #modalFooterSave>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <!--            <button tc-button [view]="'error'" (click)="closeModal()">Close</button>-->
+            <button tc-button [view]="'success'" (click)="submitModalSave()">Submit</button>
+        </div>
+    </ng-template>
+</ng-container>

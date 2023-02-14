@@ -1,0 +1,137 @@
+$_shape: 20px;
+
+$_button-color: $info-color;
+$_button-bg: rgba($info-color, .1);
+$_button-border-color: rgba($info-color, .1);
+
+$_button-hover-color: #fff;
+$_button-hover-bg: $info-color;
+$_button-hover-border-color: $info-color;
+
+.fc {
+  .fc-button {
+    background: $_button-bg;
+    border: none !important;
+    border-radius: $_shape;
+    box-shadow: $shadow !important;
+    color: $info-color;
+    cursor: pointer;
+    font-family: $main-ff;
+    font-size: 1rem;
+    font-weight: 700;
+    height: auto;
+    line-height: $module-rem * 2 / 1rem;
+    outline: none !important;
+    padding: calc(#{$module-rem} / 2 - 1px) ($module-rem);
+    position: relative;
+    text-align: center;
+    text-transform: capitalize;
+    touch-action: manipulation;
+    transition:
+      background-color .2s $animation,
+      border-color .2s $animation,
+      box-shadow .2s $animation,
+      color .2s $animation,
+      opacity .2s $animation;
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    will-change: background, border, box-shadow, color, opacity;
+    -webkit-appearance: none;
+
+    &-active,
+    &:hover {
+      background-color: $_button-hover-bg !important;
+      box-shadow: $shadow-hover !important;
+      color: $_button-hover-color !important;
+    }
+    &:disabled {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+  }
+  .fc-state-default {
+    background: accent-palette(500);
+    border-color: accent-palette(500);
+    color: accent-contrast(500);
+    text-shadow: none;
+  }
+  .fc-button-group {
+    > button {
+      border-radius: 0;
+    }
+    > :first-child {
+      border-top-left-radius: $_shape;
+      border-bottom-left-radius: $_shape;
+    }
+    > :last-child {
+      border-top-right-radius: $_shape;
+      border-bottom-right-radius: $_shape;
+    }
+  }
+  .fc-toolbar {
+    &.fc-header-toolbar {
+      @media only screen and (max-width: 767px) {
+        flex-wrap: wrap;
+      }
+    }
+    .fc-state-active,
+    .ui-state-active {
+      background: accent-palette(800);
+      border-color: accent-palette(800);
+      color: accent-contrast(800);
+    }
+    .fc-center {
+      h2 {
+        font-size: 1.6rem;
+      }
+    }
+  }
+  .fc-event {
+    box-shadow: $shadow;
+    transition: box-shadow .2s $animation;
+
+    &:hover {
+      box-shadow: $shadow-hover;
+    }
+  }
+  .fc-event,
+  .fc-event:not([href]),
+  .fc-event:not([href]):hover {
+    border-color: accent-palette(500);
+    color: accent-contrast(500);
+  }
+  .fc-event,
+  .fc-event-dot {
+    background-color: accent-palette(500);
+  }
+  &.fc-unthemed {
+    th,
+    td,
+    thead,
+    tbody,
+    .fc-divider,
+    .fc-row,
+    .fc-content,
+    .fc-popover,
+    .fc-list-view,
+    .fc-list-heading td {
+      border-color: #ebebeb;
+    }
+
+    td.fc-today {
+      background-color: #eaf6ff;
+    }
+  }
+  @media only screen and (max-width: 767px) {
+    .fc-left,
+    .fc-right,
+    .fc-center {
+      display: flex;
+      float: none;
+      justify-content: center;
+      margin-bottom: $module-rem;
+      width: 100%;
+    }
+  }
+}

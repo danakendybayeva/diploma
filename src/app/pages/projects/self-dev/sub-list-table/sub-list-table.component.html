@@ -1,0 +1,114 @@
+<tc-card class="mb-0 col-12" [padding]="'0'">
+  <tc-card class="mb-0 pb-0" [title]="'Filter'">
+<!--    <tc-form-group class="mb-0 pb-0">-->
+<!--      <div class="row">-->
+<!--        <div class="col-md-2">-->
+<!--          <tc-autocomplete [data]="displayedData" [key]="'name'" [placeholder]="'Name'" [(ngModel)]="searchStr"></tc-autocomplete>-->
+<!--        </div>-->
+<!--        <div class="col-md-2">-->
+<!--          <tc-autocomplete [data]="displayedData" [key]="'speciality'" [placeholder]="'Speciality'" [(ngModel)]="searchSpec"></tc-autocomplete>-->
+<!--        </div>-->
+<!--        <div class="col-md-3">-->
+<!--          <ng-select [items]="cities2" bindLabel="name" bindValue="name" [multiple]="true" placeholder="Select cities"-->
+<!--                     [(ngModel)]="selectedCity">-->
+<!--          </ng-select>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </tc-form-group>-->
+  </tc-card>
+
+  <nz-table #basicTable [nzData]="tableData"
+            [nzShowPagination]="true" [nzPageSize]="20">
+    <thead nzSingleSort (nzSortChange)="sort($event)">
+    <tr>
+      <th nzShowSort nzSortKey="">Аты-жөні</th>
+      <th nzShowSort nzSortKey="">Тақырыбы</th>
+      <th nzShowSort nzSortKey="">Instagram</th>
+      <th nzShowSort nzSortKey="">Button</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--        <tr *ngFor="let data of tableData | todoFilter: searchStr: 'name' |-->
+    <!--            todoFilter: searchSpec : 'speciality' | FilterArray: selectedCity | orderBy: sort_value : sort_key;"-->
+    <!--        class="mainTable" (click)="gotoProfile(data.id)">-->
+    <tr *ngFor="let data of basicTable.data; let i = index;"
+        class="mainTable" [className]="(data.title === null || data.title.length == 0) ? 'not-selected' : ''">
+      <td>{{ data.fio }}</td>
+      <td>{{ data.title }}</td>
+      <td>
+        <a *ngIf="data.link !== null && data.link.length" tc-button target="_blank"
+           [href]="data.link" [afterIcon]="'icofont-instagram'" [view]="'default'"
+           [square]="true" [outline]="true">
+        </a>
+      </td>
+      <td>
+        <button *ngIf="data.blocked == true; else successBtn" tc-button
+                [afterIcon]="'blocked-icon tc-icon-wrap icofont-lock'"
+                [view]="'error'"
+                [square]="true"
+                [outline]="true"
+                (click)="openModal(modalBody, 'Modal title', modalFooter, { closeButton: true, overlayClose: true }, i)">
+        </button>
+        <ng-template #successBtn>
+          <button *ngIf="data.done; else notCheckedBtn" tc-button
+                  [afterIcon]="'tc-icon-wrap icofont-tick-mark'"
+                  [view]="'success'"
+                  [square]="true" [outline]="true"
+                  (click)="openModal(modalBody, 'Modal title', modalFooter, { closeButton: true, overlayClose: true }, i)">
+          </button>
+        </ng-template>
+        <ng-template #notCheckedBtn >
+          <button *ngIf="(data.done == null && data.title !== null && data.link !== null && data.link != '')" tc-button
+                  [view]="'default'" [square]="true"
+                  [outline]="true"
+                  (click)="openModal(modalBody, 'Modal title', modalFooter, { closeButton: true, overlayClose: true }, i)">
+            Check
+          </button>
+        </ng-template>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</tc-card>
+
+
+<ng-container>
+  <ng-template #modalHeader>
+    <h2 class="title">Modal title</h2>
+    <div class="actions">
+      <tc-badge [view]="'warning'">New</tc-badge>
+    </div>
+  </ng-template>
+
+  <ng-template #modalBody>
+    <tc-form-group class="col-12" style="padding: 0;">
+      <a tc-button [beforeIcon]="'icofont-instagram'" [href]="tableData[iCountSelect].link"
+              [view]="'success'" [square]="true" target="_blank"
+              [outline]="true" [ngStyle]="{'width': '100%', 'textAlign': 'left'}">{{ tableData[iCountSelect].link }}</a>
+    </tc-form-group>
+    <tc-form-group class="col-12" style="padding: 0;">
+      <tc-card [title]="'Comments'" [tcShape]="'10px'">
+        {{ tableData[iCountSelect].comment }}
+      </tc-card>
+    </tc-form-group>
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <div class="actions" [ngStyle]="{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}">
+      <tc-form-group [ngStyle]="{textAlign: 'left'}">
+        <tc-switcher
+                [bgColor]="['transparent', 'transparent', '#ed5564']"
+                [borderColor]="['#ed5564', '#ed5564', '#ed5564']"
+                [color]="['#ed5564', '#ed5564', '#fff']"
+                [labelColor]="['#000', '#000', '#ed5564']"
+                [(ngModel)]="tableData[iCountSelect].blocked" [ngModelOptions]="{standalone: true}"
+        >
+          {{ isInstagram }}
+        </tc-switcher>
+      </tc-form-group>
+      <div class="actions" [ngStyle]="{textAlign: 'right'}">
+        <button tc-button [view]="'error'" (click)="closeModal(tableData[iCountSelect])">Close</button>
+        <button tc-button [view]="'success'" (click)="submitModal(tableData[iCountSelect])">Submit</button>
+      </div>
+    </div>
+  </ng-template>

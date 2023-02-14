@@ -1,0 +1,46 @@
+<h6 *ngIf="referenceTitle.length > 0">{{ referenceTitle }}</h6>
+<tc-input id="template-view" class="mb-2"
+          [(ngModel)]="searchValue"
+          [size]="'sm'"
+          [placeholder]="'Найти'">
+</tc-input>
+<tc-card class="mb-0" [padding]="'0'" class="mini-folder">
+    <nz-table
+        #basicTable
+        [nzData]="data"
+        [nzShowPagination]="totalPages > 1"
+        [nzPageSize]="pageSize"
+        [nzTotal]="totalData"
+        [nzLoading]="loading"
+        [nzPageIndex]="pageIndex"
+        [nzFrontPagination]="false"
+        (nzPageIndexChange)="onChangePageIndex($event)"
+        [nzSize]="'default'"
+    >
+        <thead nzSingleSort (nzSortChange)="onChangeSort($event)">
+        <tr>
+            <th *ngFor="let header of headerRecord.header" nzShowSort nzSortKey="{{header['id']}}">{{ header['title']}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data; let index = index;"
+            class="mainTable">
+            <td *ngFor="let header of headerRecord.header; let index2 = index;">
+                <tc-checkbox
+                        *ngIf="index2 == 0"
+                        id="is-required-{{index + 1}}"
+                        [(ngModel)]="checkData[index]"
+                        [value]="checkData[index]"
+                        (click)="changeCheckbox(index)"
+                        class="check-table"
+                ></tc-checkbox>
+                <span
+                        [ngClass]="{'ml-check': hasCheck && index2 == 0}"
+                        (click)="changeCheckbox(index, true)"
+                        [innerHTML]="data[header['id']] | translate"
+                ></span>
+            </td>
+        </tr>
+        </tbody>
+    </nz-table>
+</tc-card>

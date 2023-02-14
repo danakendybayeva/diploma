@@ -1,0 +1,30 @@
+@import '../../../assets/sass/variables';
+
+:host {
+  .app-container {
+    padding-left: $vertical-navbar-width;
+    @media only screen and (max-width: 991px) {
+      padding-left: 0;
+    }
+
+    ::ng-deep {
+      .navbar.horizontal {
+        navbar-skeleton {
+          .sk-logo {
+            display: none !important;
+          }
+        }
+      }
+    }
+    .horizontal-navbar {
+      box-shadow: 0 0 10px 0 rgba(#000, 0.15);
+    }
+
+    .course-search {
+      width: 100%;
+    }
+  }
+}
+.button-save {
+  cursor: pointer;
+}

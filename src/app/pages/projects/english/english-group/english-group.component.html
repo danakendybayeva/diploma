@@ -1,0 +1,125 @@
+<div *ngIf="groupData">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <tc-card class="mb-0" [padding]="'0'">
+                <tc-card class="mb-0 pb-0" [title]="'Students'">
+                    <tc-form-group class="mb-0 pb-0">
+                        <div class="row">
+                            <div class="col-12">
+                            </div>
+                        </div>
+                    </tc-form-group>
+                </tc-card>
+
+                <nz-table #basicTable [nzData]="groupData.listDays"
+                          [nzShowPagination]="false" [nzPageSize]="36">
+                    <thead>
+                    <tr>
+                        <th>Аты-жөні</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let data of basicTable.data"
+                        class="mainTable">
+                        <td class="daystable">
+                            {{ data.day | date: 'fullDate' }}
+                            <div>
+                                <button tc-button [routerLink]="['/vertical/english/admin/attendance', data.id]" [afterIcon]="'icofont-pencil-alt-1'" [view]="'info'" class="edit"></button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </nz-table>
+            </tc-card>
+        </div>
+        <div class="col-12 col-md-4">
+            <tc-card [title]="'Group properties'">
+                <div class="level">
+                    <div class="row mt-2 mb-4 align-items-center">
+                        <div class="col-12 col-md-3">
+                            <tc-form-label class="mb-md-0 label-show">Group Name:</tc-form-label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <strong>{{ groupData.title }}</strong>
+                        </div>
+                    </div>
+                    <div class="row mb-4 align-items-center">
+                        <div class="col-12 col-md-3">
+                            <tc-form-label class="mb-md-0 label-show">City:</tc-form-label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <strong>{{ groupData.city }}</strong>
+                        </div>
+                    </div>
+                    <div class="row mb-4 align-items-center">
+                        <div class="col-12 col-md-3">
+                            <tc-form-label class="mb-md-0 label-show">English type:</tc-form-label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <tc-select [placeholder]="'Roles'" [options]="studentService.english_type"
+                                       [multiple]="false" [(ngModel)]="groupData.englishType" [ngModelOptions]="{standalone: true}" [disabled]="true"></tc-select>
+                        </div>
+                    </div>
+                    <div class="row mb-4 align-items-center">
+                        <div class="col-12 col-md-3">
+                            <tc-form-label class="mb-md-0 label-show">English point:</tc-form-label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <strong>{{ groupData.englishLevel }}</strong>
+                        </div>
+                    </div>
+                    <div class="row mb-4 align-items-center">
+                        <div class="col-12 col-md-3">
+                            <tc-form-label class="mb-md-0 label-show">Teacher:</tc-form-label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <strong *ngIf="groupData.teacher">{{ groupData.teacher.fio }}</strong>
+                        </div>
+                    </div>
+                    <div class="row mb-4 mt-2 align-items-center">
+                        <tc-form-group class="col-12">
+                            <tc-form-label>Список студентов</tc-form-label>
+                            <div class="col-12 studSlc">
+                                <span *ngIf="groupData.listStudents.length">Количество студентов: {{groupData.listStudents.length}}</span>
+                            </div>
+                            <div class="profile-selected col-12 mb-2" *ngFor="let item of groupData.listStudents; let i = index;"
+                                 [className]="item.teamLead ? 'success profile-selected col-12 mb-2' : 'profile-selected col-12 mb-2'">
+                                <span class="profile-name"
+                                      [routerLink]="groupData.reportIds.length > 0 ? ['/vertical/english/report/view-first', groupData.reportIds[0], item.id] : []">
+                                    {{ item.fio }}
+                                </span>
+                                <div *ngFor="let item of groupData.reportIds; let j = index;">
+                                    <tc-badge [view]="'warning'" [size]="'xs'" class="ml-1">{{ j + 1 }}</tc-badge>
+                                </div>
+                            </div>
+                        </tc-form-group>
+                    </div>
+
+                    <div class="row mt-2 link">
+                        <div class="col-12 mb-2">
+                            <a *ngIf="isAdmin" [routerLink]="['/vertical/english/group/edit', id]" [ngStyle]="{color: '#949494'}"><i class="sli-pencil tc-icon-wrap mr-2"></i> Редактировать группу</a>
+                        </div>
+                        <div class="col-12">
+                            <a *ngIf="isAdmin" [routerLink]="['/vertical/english/report/add', id]" [ngStyle]="{color: '#949494'}"><i class="sli-pie-chart tc-icon-wrap mr-2"></i> Создать отчёт</a>
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            <p>Редактировать отчет</p>
+                            <div class="month-btn">
+                                <tc-badge
+                                        *ngFor="let report of dataReportsByGroup; let r = index;"
+                                        [tcFontSize]="'11px'"
+                                        [routerLink]="['/vertical/english/admin/report/edit', id, report.id]"
+                                        [size]="'xs'"
+                                        [tcBgColor]="'#498fcc'"
+                                        class=""
+                                        style="border-radius: 4px; border: none; color: white"
+                                >{{ report.period }}</tc-badge>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tc-card>
+        </div>
+    </div>
+</div>

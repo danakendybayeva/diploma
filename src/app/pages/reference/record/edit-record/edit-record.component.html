@@ -1,0 +1,105 @@
+<form *ngIf="loaded" [formGroup]="labelForm" (ngSubmit)="submitEvent(labelForm.valid)">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <tc-card>
+                <div *ngFor="let field of fieldsData; let index = index;" [ngSwitch]="field.type">
+                    <tc-integer-field *ngSwitchCase="'integer'"
+                            [_valueField]="field"
+                            [(ngModel)]="field.value"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [isNew]="isNew"
+                            [formControlName]="field.id"
+                    ></tc-integer-field>
+
+                    <tc-float-field *ngSwitchCase="'float'"
+                            [_valueField]="field"
+                            [(ngModel)]="field.value"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [isNew]="isNew"
+                            [formControlName]="field.id"
+                    ></tc-float-field>
+
+                    <tc-string-field *ngSwitchCase="'string'"
+                            [_valueField]="field"
+                            [(ngModel)]="field.value"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [isNew]="isNew"
+                            [formControlName]="field.id"
+                    ></tc-string-field>
+
+                    <tc-date-field *ngSwitchCase="'date'"
+                            [_valueField]="field"
+                            [(ngModel)]="field.value"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [isNew]="isNew"
+                            [formControlName]="field.id"
+                    ></tc-date-field>
+                    <tc-timestamp-field *ngSwitchCase="'timestamp'"
+                            [_valueField]="field"
+                            [(ngModel)]="field.value"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [isNew]="isNew"
+                            [formControlName]="field.id"
+                    ></tc-timestamp-field>
+
+                    <tc-boolean-field *ngSwitchCase="'boolean'"
+                            [_valueField]="field"
+                            [(ngModel)]="field.value"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [isNew]="isNew"
+                            [formControlName]="field.id"
+                    ></tc-boolean-field>
+
+                    <tc-enumeration-field *ngSwitchCase="'enumeration'"
+                            [_valueField]="field"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [isNew]="isNew"
+                    ></tc-enumeration-field>
+
+                    <tc-reference-field *ngSwitchCase="'reference'"
+                            [_valueField]="field"
+                            [(ngModel)]="field.value"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [isNew]="isNew"
+                            [formControlName]="field.id"
+                    ></tc-reference-field>
+                </div>
+            </tc-card>
+        </div>
+        <div class="col-12 col-md-4">
+            <tc-card></tc-card>
+        </div>
+        <div class="col-12">
+            <button tc-button
+                    *ngIf="typePage == 'edit'"
+                    class="mr-2"
+                    [view]="'info'">
+                Сохранить
+            </button>
+            <button tc-button
+                    *ngIf="typePage == 'view'"
+                    [type]="'button'"
+                    class="mr-2"
+                    [view]="'info'"
+                    [routerLink]="['/vertical/reference/record/edit', referenceId, recordId]">
+                Редактировать
+            </button>
+            <button tc-button
+                    *ngIf="typePage == 'view'"
+                    [type]="'button'"
+                    class="mr-2"
+                    [view]="'error'"
+                    (click)="removeRecord(referenceId, recordId)">
+                Удалить
+            </button>
+        </div>
+    </div>
+</form>

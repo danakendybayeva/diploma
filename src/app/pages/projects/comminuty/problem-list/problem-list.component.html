@@ -1,0 +1,87 @@
+<tc-card class="mb-0" [padding]="'0'">
+    <tc-card class="mb-0 pb-0" [title]="'Filter'">
+        <tc-form-group class="mb-0 pb-0">
+            <div class="row">
+                <div class="col-md-2 mb-2">
+                    <nz-tree-select
+                            class="mb-4"
+                            style="width: 100%"
+                            [nzNodes]="topicList"
+                            [nzShowSearch]="true"
+                            nzPlaceHolder="Topic"
+                            nzCheckable
+                            [(ngModel)]="topicIds"
+                            (ngModelChange)="onChangeTree($event)"
+                    >
+                    </nz-tree-select>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <nz-tree-select
+                            style="width: 100%"
+                            [nzNodes]="topicList"
+                            [nzShowSearch]="true"
+                            nzPlaceHolder="Related Topics"
+                            nzCheckable
+                            [(ngModel)]="relatedTopics"
+                            (ngModelChange)="onChangeTree($event)"
+                    >
+                    </nz-tree-select>
+                </div>
+            </div>
+        </tc-form-group>
+    </tc-card>
+    <nz-table
+        #basicTable
+        [nzData]="questions"
+        [nzShowPagination]="true"
+        [nzPageSize]="pageSize"
+        [nzTotal]="totalData"
+        [nzLoading]="loading"
+        [nzPageIndex]="pageIndex"
+        [nzFrontPagination]="false"
+        (nzPageIndexChange)="onChangePageIndex($event)"
+    >
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Description</th>
+            <th>Topic</th>
+            <th>Creator</th>
+            <th>Date</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data; let index = index;"
+            class="mainTable">
+            <td>{{ (pageSize * (pageIndex - 1)) + index + 1}}</td>
+            <td><ng-katex-html [html]="data.description ? data.description : ' '"></ng-katex-html></td>
+            <td>{{ data.topic.title }}</td>
+            <td>{{ fieldService.getStructureFio(data.creator) }}</td>
+            <td>{{ (data.updatedAt !== null ? data.updatedAt : data.createdAt) | date: 'dd.MM.yyyy HH:mm:ss' }}</td>
+            <td>
+                <a [routerLink]="['/vertical/community/admin/problem/edit/', data.id]">
+                    <button tc-button
+                            class="mr-2"
+                            [view]="'warning'"
+                            [size]="'sm'"
+                            [tcShape]="7">
+                        Edit
+                    </button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </nz-table>
+</tc-card>
+
+<button class="no-style settings-btn"
+        (click)="gotoByUrl('/vertical/admin-panel/reference/create')">
+    <span class="pulse"></span>
+    <tc-icon
+            class="settings-icon"
+            [iconClass]="'icofont-plus'"
+            [tcFontSize]="26"
+            [padding]="'2px 0'"
+    ></tc-icon>
+</button>

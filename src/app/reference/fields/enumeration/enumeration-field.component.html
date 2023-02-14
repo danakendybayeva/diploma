@@ -1,0 +1,35 @@
+<tc-form-group *ngIf="_valueField && type === 'edit' && form" [formGroup]="form">
+  <div class="row align-items-center">
+    <div class="col-12 col-md-3" *ngIf="styleType === 'standard'">
+      <tc-form-label class="mb-md-0">{{ _valueField.title }} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+    </div>
+    <div class="col-12" [ngClass]="{'col-md-9' : styleType === 'standard'}">
+      <tc-form-label *ngIf="styleType != 'standard'">{{ _valueField.title }} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <tc-select *ngIf="enumOption.length > 0"
+                 [placeholder]="'Поля'"
+                 [options]="enumOption"
+                 [multiple]="!_valueField.isSingle"
+                 [allowClear]="true"
+                 [(ngModel)]="selected"
+                 [selected]="selected"
+                 [filter]="enumOption.length > 7"
+                 (ngModelChange)="changeValueEnum($event)"
+                 [formControlName]="_valueField.id">
+      </tc-select>
+      <tc-select *ngIf="enumOption.length == 0" [placeholder]="'Поля'"></tc-select>
+    </div>
+  </div>
+</tc-form-group>
+<div *ngIf="_valueField && type != 'edit'" [ngSwitch]="styleType">
+  <span *ngSwitchCase="'single'" [innerHTML]="innerValue"></span>
+
+  <tc-form-group *ngSwitchDefault>
+    <div class="row align-items-center">
+      <div class="col-12 col-md-3">
+        <tc-form-label class="mb-md-0 label-show">{{ _valueField.title }}:</tc-form-label>
+      </div>
+      <div class="col-12 col-md-9" [innerHTML]="innerValue"></div>
+    </div>
+  </tc-form-group>
+</div>
+

@@ -1,0 +1,171 @@
+<div>
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <tc-card>
+                <form [formGroup]="basicForm" novalidate>
+                    <div class="row">
+                        <tc-form-group class="col-12 col-md-6">
+                            <tc-form-label>Title</tc-form-label>
+                            <tc-input [(ngModel)]="course.title" [ngModelOptions]="{standalone: true}"></tc-input>
+                        </tc-form-group>
+                        <tc-form-group class="col-12 col-md-6">
+                            <tc-form-label>Language</tc-form-label>
+                            <tc-select [placeholder]="'Language'" [options]="language" [(ngModel)]="course.language"
+                                       [ngModelOptions]="{standalone: true}"></tc-select>
+                        </tc-form-group>
+                        <tc-form-group class="col-12 col-md-6">
+                            <tc-form-label>Activate</tc-form-label>
+                            <tc-select [placeholder]="'Activate'" [options]="active" [(ngModel)]="selectActive"
+                                       [ngModelOptions]="{standalone: true}" (change)="selectActiveMethod()"></tc-select>
+                        </tc-form-group>
+                        <tc-form-group class="col-12 col-md-6">
+                            <tc-form-label>Active date</tc-form-label>
+                            <tc-input type="date" [(ngModel)]="course.activeDatetime" [ngModelOptions]="{standalone: true}"></tc-input>
+                        </tc-form-group>
+                        <tc-form-group class="col-12 col-md-6">
+                            <tc-form-label>Package</tc-form-label>
+                            <tc-select [placeholder]="'Package'" [options]="packages" [(ngModel)]="course.packageId"
+                                       [ngModelOptions]="{standalone: true}"></tc-select>
+                        </tc-form-group>
+                        <tc-form-group class="col-12 col-md-6">
+                            <tc-form-label>Intro Video</tc-form-label>
+                            <tc-input [(ngModel)]="course.introVideo" [ngModelOptions]="{standalone: true}"></tc-input>
+                        </tc-form-group>
+                        <tc-form-group class="col-12 col-md-6">
+                            <tc-form-label>Intro Description</tc-form-label>
+                            <tc-textarea [placeholder]="'Description'" [height]="'8rem'"
+                                         [(ngModel)]="course.description"
+                                         [ngModelOptions]="{standalone: true}"></tc-textarea>
+                        </tc-form-group>
+
+                        <tc-form-group class="col-12 col-md-6">
+                            <tc-form-label>Description</tc-form-label>
+                            <tc-textarea [placeholder]="'Intro Description'" [height]="'8rem'"
+                                         [(ngModel)]="course.introDescription"
+                                         [ngModelOptions]="{standalone: true}"></tc-textarea>
+                        </tc-form-group>
+                    </div>
+
+                </form>
+            </tc-card>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <tc-card [title]="'Upload Avatar'">
+                <div class="row">
+                    <tc-form-group class="col-6" style="padding: 0; margin: 0;">
+                        <nz-upload
+                                nzAction="{{apiUrl}}/api/profiles/list/csv/file"
+                                nzListType="picture-card"
+                                [(nzFileList)]="photoWallBackground"
+                                [nzShowButton]="photoWallBackground.length < 1"
+                                [nzShowUploadList]="showUploadBackground">
+                            <i class="icofont-plus"></i>
+                            <div class="ant-upload-text">Upload Background</div>
+                        </nz-upload>
+                        <nz-modal
+                                [nzVisible]="previewVisibleBackground"
+                                [nzContent]="modalContentBackground"
+                                [nzFooter]="null"
+                                (nzOnCancel)="previewVisibleBackground = false">
+                            <ng-template #modalContentBackground>
+                                <img [src]="previewImageBackground" [ngStyle]="{ width: '100%' }" />
+                            </ng-template>
+                        </nz-modal>
+                    </tc-form-group>
+                    <tc-form-group class="col-12">
+                        <tc-form-label>Tags</tc-form-label>
+                        <tag-input [(ngModel)]="tags" placeholder="TAGS+" theme='bootstrap'>
+                            <tag-input-dropdown [autocompleteItems]="[]">
+                            </tag-input-dropdown>
+                        </tag-input>
+                    </tc-form-group>
+                </div>
+            </tc-card>
+            <tc-card [title]="'Teachers'">
+                <div class="row">
+                    <div class="teacher mb-4 col-12" *ngFor="let teacher of teachers; let index = index;">
+                        <div class="row">
+                            <hr *ngIf="index > 0" class="col-12 hr mb-4" />
+                            <tc-form-group class="col-12">
+                                <tc-form-label>Select Teacher</tc-form-label>
+                                <tc-select id="selectTr[{{index}}]"
+                                           [placeholder]="'Teacher'"
+                                           [options]="teachersSlt"
+                                           [(ngModel)]="teacherOpt[index]"
+                                           [ngModelOptions]="{standalone: true}"
+                                           (ngModelChange)="changeSelect(index)"
+                                           [allowClear]="true"></tc-select>
+                            </tc-form-group>
+                        </div>
+                        <div class="row">
+                            <tc-form-group class="col-12">
+                                <tc-form-label>Name</tc-form-label>
+                                <tc-input [(ngModel)]="teacher.fio" [ngModelOptions]="{standalone: true}"></tc-input>
+                            </tc-form-group>
+                            <tc-form-group class="col-12">
+                                <tc-form-label>Speciality</tc-form-label>
+                                <tc-input [(ngModel)]="teacher.speciality" [ngModelOptions]="{standalone: true}"></tc-input>
+                            </tc-form-group>
+                            <tc-form-group class="col-12" style="padding: 0; margin: 0;">
+                                <nz-upload
+                                        class="avatar-uploader"
+                                        nzAction="{{apiUrl}}/api/profiles/list/csv/file"
+                                        nzName="avatar"
+                                        nzListType="picture-card"
+                                        [nzMultiple]="false"
+                                        [nzShowUploadList]="true"
+                                        [nzBeforeUpload]="beforeUpload"
+                                        [nzShowButton]="teacher.image == ''"
+                                        (nzChange)="handleChange($event, index)"
+                                >
+                                    <i class="icofont-plus"></i>
+                                    <div class="ant-upload-text">Upload Background</div>
+
+                                </nz-upload>
+                            </tc-form-group>
+                        </div>
+                        <button tc-button (click)="removeTeacher(index)" class="mr-2" [beforeIcon]="'icofont-close'" [view]="'error'">Remove</button>
+                    </div>
+                    <button tc-button (click)="addTeacher()" class="mr-2" [beforeIcon]="'icofont-plus'" [tcBgColor]="'#3f51b5'">Add</button>
+                    <button tc-button (click)="saveTeachers()" class="mr-2" [beforeIcon]="'icofont-plus'" [tcBgColor]="'#3f51b5'">Save</button>
+                </div>
+            </tc-card>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <button tc-button (click)="openModal(modalBody, 'Modal title', modalFooter, { closeButton: true, overlayClose: true })" class="mr-2" [beforeIcon]="'icofont-plus'" [tcBgColor]="'#3f51b5'">Save</button>
+        </div>
+    </div>
+</div>
+
+
+
+<ng-container>
+    <ng-template #modalHeader>
+        <h2 class="title">Modal title</h2>
+        <div class="actions">
+            <tc-badge [view]="'warning'">New</tc-badge>
+        </div>
+    </ng-template>
+
+    <ng-template #modalBody>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque eum eveniet fugiat fugit illum, natus porro
+            possimus quisquam soluta vitae. Aperiam molestias quae quaerat quibusdam rerum voluptates! Aspernatur, magnam
+            quas?</p>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'error'" (click)="closeModal()">Close</button>
+            <button tc-button [view]="'success'" (click)="submitModal()">Submit</button>
+        </div>
+    </ng-template>
+
+    <ng-template #modalFooterDelete>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'error'" (click)="closeModal()">Close</button>
+            <button tc-button [view]="'success'" (click)="deleteCompany()">Submit</button>
+        </div>
+    </ng-template>
+</ng-container>

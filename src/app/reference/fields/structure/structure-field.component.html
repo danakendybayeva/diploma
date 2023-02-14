@@ -1,0 +1,18 @@
+<tc-form-group *ngIf="_valueField && type === 'edit' && form" [formGroup]="form">
+  <tc-reference-field
+          [_valueField]="_valueField"
+          [type]="'edit'"
+          [(ngModel)]="value"
+          [form]="form"
+          [formControlName]="_valueField.id"
+          [styleType]="styleType"
+          [isStructure]="true"
+  ></tc-reference-field>
+</tc-form-group>
+
+<tc-reference-field *ngIf="_valueField && type != 'edit'"
+        [_valueField]="_valueField"
+        [isConfig]="true"
+        [value]="value"
+        [styleType]="styleType"
+></tc-reference-field>

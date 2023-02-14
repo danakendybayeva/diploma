@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-12 packages-grid">
+    <div class="row">
+      <div class="col-md-3 mb-5" *ngFor="let package of packagesList; let index = index;">
+        <a [routerLink]="['/vertical/courses/course/list', companyId, package.id]" class="package-item">
+          <div class="package-border">
+            <div class="grid-image-package"  [ngStyle]="{backgroundImage: 'url(' + package.image + ')'}"></div>
+            <h6 class="">{{package.title}}</h6>
+          </div>
+        </a>
+      </div>
+    </div>
+    <hr class="hr" />
+  </div>
+
+  <div class="col-12 teachers mt-4">
+    <div class="row">
+      <div class="col-12 col-md-3 d-flex teacher-item mb-5"  *ngFor="let teacher of teachers; let index = index;">
+        <tc-avatar [size]="80" [src]="teacher.image"></tc-avatar>
+        <div class="teacher-desc">
+          <p>{{ teacher.fio }}</p>
+          <span>{{ teacher.speciality }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="no-style settings-btn"
+        *ngIf="isAdmin"
+        (click)="goToStd($event, ['/vertical/courses/admin/package/add/', companyId])">
+  <span class="pulse"></span>
+  <tc-icon
+    class="settings-icon"
+    [iconClass]="'icofont-plus'"
+    [tcFontSize]="26"
+    [padding]="'2px 0'"
+  ></tc-icon>
+</button>

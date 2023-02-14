@@ -1,0 +1,59 @@
+@import '../../../../assets/sass/variables';
+
+:host {
+  .chart-card {
+    position: relative;
+
+    .chart-text-block {
+      align-items: center;
+      flex-direction: column;
+      display: flex;
+      justify-content: center;
+      height: 200px;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+  }
+  .markers {
+    .marker-block {
+      &:not(:last-child) {
+        margin-bottom: $module-rem / 2;
+      }
+    }
+    .marker {
+      border-radius: 50%;
+      display: block;
+      height: 12px;
+      width: 12px;
+      margin-right: $module-rem;
+    }
+  }
+  .card-header  {
+    display: flex;
+    justify-content: space-between;
+    padding: ($module-rem * 3) ($module-rem * 2) 0;
+
+    .actions {
+      display: flex;
+      margin: -$module-rem;
+  
+      >* {
+        cursor: pointer;
+        margin: $module-rem;
+        opacity: .4;
+        transition: opacity .2s $animation;
+  
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+  .table-card {
+    margin-bottom: $module-rem * 3;
+  }
+  .progresses {
+    flex: 1;
+  }
+}

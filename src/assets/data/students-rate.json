@@ -1,0 +1,345 @@
+[
+  {
+    "mentor": "Аяулым Керейбаева",
+    "student": "Смагулова Альбина",
+    "readBooks": 12,
+    "group": "Атырау 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Амангосов Акниет",
+    "student": "Мукашев Диас",
+    "readBooks": 12,
+    "group": "Орал 1(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Гаухар Канатова",
+    "student": "Алвина Ирискулова",
+    "readBooks": 11,
+    "group": "Ақтау 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Айшат Мәдениет",
+    "student": "Игілік Ипатова",
+    "readBooks": 11,
+    "group": "Ақтөбе 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Бауыржан Қарабеков",
+    "student": "Байтасов Султан",
+    "readBooks": 11,
+    "group": "Орал 2(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Бауыржан Қарабеков",
+    "student": "Амангосов Акниет",
+    "readBooks": 11,
+    "group": "Орал 2(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Гаухар Канатова",
+    "student": "Камила Кутышева",
+    "readBooks": 10,
+    "group": "Ақтау 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Гаухар Канатова",
+    "student": "Ұлболсын Бексұлтанова",
+    "readBooks": 10,
+    "group": "Ақтау 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Камила Кутышева",
+    "student": "Аружан Хамитқызы",
+    "readBooks": 10,
+    "group": "Орал 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Камила Кутышева",
+    "student": "Дариға Жұмабекқызы",
+    "readBooks": 10,
+    "group": "Орал 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Айшат Мәдениет",
+    "student": "Абдрахманова Анель",
+    "readBooks": 10,
+    "group": "Ақтөбе 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Байтасов Султан",
+    "student": "Баймухан Сексенов",
+    "readBooks": 9,
+    "group": "Орал 4(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Гаухар Канатова",
+    "student": "Арайлым Құрметбек",
+    "readBooks": 9,
+    "group": "Ақтау 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Гаухар Канатова",
+    "student": "Назерке Өтегенова",
+    "readBooks": 9,
+    "group": "Ақтау 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Жақсылық Темірбаев",
+    "student": "Нариман Құрманғали",
+    "readBooks": 9,
+    "group": "Ақтөбе 2(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Айшат Мәдениет",
+    "student": "Камалова Роза",
+    "readBooks": 9,
+    "group": "Ақтөбе 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Айшат Мәдениет",
+    "student": "Кунаева Назия",
+    "readBooks": 9,
+    "group": "Ақтөбе 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Айшат Мәдениет",
+    "student": "Өтепбергенова Анжелика",
+    "readBooks": 9,
+    "group": "Ақтөбе 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Ибраимхан Шаймардан",
+    "student": "Сайлау Абдрахман",
+    "readBooks": 8,
+    "group": "Ақтау 3(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Гаухар Канатова",
+    "student": "Фариза Мусахан",
+    "readBooks": 8,
+    "group": "Ақтау 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Камила Кутышева",
+    "student": "Дильназ Алдаберген",
+    "readBooks": 8,
+    "group": "Орал 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Айшат Мәдениет",
+    "student": "Шапағат Амирханқызы",
+    "readBooks": 8,
+    "group": "Ақтөбе 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Амангосов Акниет",
+    "student": "Жайлаубай Жанболат",
+    "readBooks": 7,
+    "group": "Орал 1(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Жақсылық Темірбаев",
+    "student": "Ерназ Жанбаев",
+    "readBooks": 7,
+    "group": "Ақтөбе 2(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Айшат Мәдениет",
+    "student": "Кыдырбаева Лаура",
+    "readBooks": 7,
+    "group": "Ақтөбе 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Азамат Дулатбеков",
+    "student": "Әбілмансұр Боранбай",
+    "readBooks": 7,
+    "group": "Ақтөбе 1(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Азамат Дулатбеков",
+    "student": "Нұрсұлтан Көбесов",
+    "readBooks": 7,
+    "group": "Ақтөбе 1(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Самат Еркебек",
+    "student": "Рахметов Ырысдәулет",
+    "readBooks": 6,
+    "group": "Атырау 3(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Амангелді Сағид",
+    "student": "Мейірхан Шамбай",
+    "readBooks": 6,
+    "group": "Атырау 2(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Мырзабек Танжарбаев",
+    "student": "Еламан Сәрсен",
+    "readBooks": 6,
+    "group": "Ақтөбе 4(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Жанайдар Данияров",
+    "student": "Елнұр Берікалдиев",
+    "readBooks": 6,
+    "group": "Ақтөбе 3(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Жанайдар Данияров",
+    "student": "Егемберді Нурдаулет",
+    "readBooks": 6,
+    "group": "Ақтөбе 3(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Амангосов Акниет",
+    "student": "Абдулов Ануар",
+    "readBooks": 6,
+    "group": "Орал 1(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Дариға Жұмабекқызы",
+    "student": "Бибихайша Абазханова",
+    "readBooks": 6,
+    "group": "Орал 3(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Жансая Жақып",
+    "student": "Ұлпан Үсейнова",
+    "readBooks": 6,
+    "group": "Атырау 2(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Азамат Дулатбеков",
+    "student": "Тимурбек Умаргалиев",
+    "readBooks": 6,
+    "group": "Ақтөбе 1(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Байтасов Султан",
+    "student": "Мейір Нұрлан",
+    "readBooks": 5,
+    "group": "Орал 4(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Байтасов Султан",
+    "student": "Ринад Итемген",
+    "readBooks": 5,
+    "group": "Орал 4(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Мырзабек Танжарбаев",
+    "student": "Жансерік Қожамкүл",
+    "readBooks": 5,
+    "group": "Ақтөбе 4(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Жанайдар Данияров",
+    "student": "Саят Нұрселдінұлы",
+    "readBooks": 5,
+    "group": "Ақтөбе 3(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Аяулым Керейбаева",
+    "student": "Назарова Гүлжауһар",
+    "readBooks": 5,
+    "group": "Атырау 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Елдос Құрман",
+    "student": "Арманұлы Мирас",
+    "readBooks": 5,
+    "group": "Ақтау 2(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Гаухар Канатова",
+    "student": "Марал Сұлтанбек",
+    "readBooks": 5,
+    "group": "Ақтау 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Камила Кутышева",
+    "student": "Асылай Қайратова",
+    "readBooks": 5,
+    "group": "Орал 1(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Бақтыбай Гүлсезім",
+    "student": "Жаркынай Отешова",
+    "readBooks": 5,
+    "group": "Ақтөбе 2(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Жансая Жақып",
+    "student": "Ақбаян Қалым",
+    "readBooks": 5,
+    "group": "Атырау 2(қыз)",
+    "gender": "Female"
+  },
+  {
+    "mentor": "Сайлау Абдрахман",
+    "student": "Кенесары Тілеубаев",
+    "readBooks": 5,
+    "group": "Ақтау 4(ер)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Айшат Мәдениет",
+    "student": "Асылай Елемес",
+    "readBooks": 5,
+    "group": "Ақтөбе 1(қыз)",
+    "gender": "Male"
+  },
+  {
+    "mentor": "Шыңғысхан Жексенбайұлы",
+    "student": "Қажымухан Арзенов",
+    "readBooks": 5,
+    "group": "Ақтау 5(ер)",
+    "gender": "Male"
+  }
+]

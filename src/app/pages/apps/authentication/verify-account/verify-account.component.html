@@ -1,0 +1,16 @@
+<form>
+  <div class="title-block d-flex-column mb-4">
+    <h5 class="form-title">Verify your email address</h5>
+
+    <span class="desc">
+      Please check your email and click the verify button or link to verify your account
+    </span>
+  </div>
+
+  <tc-form-group>
+    <div class="elem-list justify-content-between">
+      <button (click)="resend()" [view]="'error'" tc-button>Resend verification</button>
+      <button (click)="contactSupport()" tc-button>Contact support</button>
+    </div>
+  </tc-form-group>
+</form>

@@ -1,0 +1,69 @@
+<div class="row justify-content-center" *ngIf="profileDetails">
+  <div class="col col-12 col-xl-8">
+    <tc-card [title]="'User photo'">
+      <tc-form-group class="mb-0">
+        <input type="file" accept="image/*" (change)="onFileChanged($event)" #fileInput hidden>
+
+        <div class="d-sm-flex align-items-center">
+          <tc-avatar [src]="currentAvatar" [size]="100" class="mb-2 mb-sm-0"></tc-avatar>
+          <button
+            tc-button
+            [type]="'button'"
+            [afterIcon]="'sli-user tc-icon-wrap'"
+            [view]="'info'"
+            [outline]="true"
+            (click)="fileInput.click()"
+          >
+            Change photo
+          </button>
+
+          <button
+                  tc-button
+                  *ngIf="canSave"
+                  [type]="'button'"
+                  [afterIcon]="'sli-cloud-upload tc-icon-wrap'"
+                  [view]="'warning'"
+                  [outline]="true"
+                  (click)="saveAvatar()"
+                  class="ml-4"
+          >
+            Save
+          </button>
+        </div>
+      </tc-form-group>
+    </tc-card>
+
+    <tc-card [title]="'Change password'" class="mb-0">
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          <tc-form-group>
+            <tc-form-label>Current password</tc-form-label>
+            <tc-input [placeholder]="'Current password'" [type]="'password'" [(ngModel)]="passwordChange.password"
+                      [ngModelOptions]="{standalone: true}"></tc-input>
+          </tc-form-group>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          <tc-form-group>
+            <tc-form-label>New password</tc-form-label>
+            <tc-input [placeholder]="'New password'" [type]="'password'" [(ngModel)]="passwordChange.newPassword"
+                      [ngModelOptions]="{standalone: true}"></tc-input>
+          </tc-form-group>
+        </div>
+
+        <div class="col-12 col-sm-6">
+          <tc-form-group>
+            <tc-form-label>Confirm new password</tc-form-label>
+            <tc-input [placeholder]="'Confirm new password'" [type]="'password'" [(ngModel)]="passwordChange.confirmPassword"
+                      [ngModelOptions]="{standalone: true}"></tc-input>
+          </tc-form-group>
+        </div>
+      </div>
+
+      <button tc-button [view]="'default'" [outline]="true" [type]="'button'" (click)="changePassword()">
+        Change password
+      </button>
+    </tc-card>
+  </div>
+</div>

@@ -1,0 +1,142 @@
+@import './mixins';
+
+//Main palette
+$palette: (
+  50: #e6aaa3,
+  100: #e19891,
+  200: #dc877e,
+  300: #d7766c,
+  400: #d26559,
+  500: #cd5447,
+  600: #b94c40,
+  700: #a44339,
+  800: #903b32,
+  900: #7b322b,
+  A100: #52ffff,
+  A200: #1fffff,
+  A400: #00ebeb,
+  A700: #00d2d2,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+@function main-palette($key: $palette) {
+  @return map-get($palette, $key);
+}
+@function main-contrast($key: $palette) {
+  @return map-get(map-get($palette, contrast), $key);
+}
+
+//Accent palette
+$accent-palette: (
+  50: #fcf289,
+  100: #fbef71,
+  200: #faec59,
+  300: #f9e941,
+  400: #f9e72a,
+  500: #f8e71c,
+  600: #dfcd10,
+  700: #c6b60e,
+  800: #aea00d,
+  900: #95890b,
+  A100: #ffffff,
+  A200: #f4f6ff,
+  A400: #c1caff,
+  A700: #a7b4ff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #4a505c,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+@function accent-palette($key: $accent-palette) {
+  @return map-get($accent-palette, $key);
+}
+@function accent-contrast($key: $accent-palette) {
+  @return map-get(map-get($accent-palette, contrast), $key);
+}
+
+$link-color: #2fa7ff;
+$main-bg: #fff;
+$main-gradient: linear-gradient(250deg, #cd5447, #b3589c 65%, #9d5ce5);
+$main-color: #4a505c;
+$boxed-width: 1140px;
+
+$main-color-bg: #213A8F;
+
+:root {
+  --main-color: #4a505c;
+  --main-bg: #f4f5f8;
+  --boxed-width: 1140px;
+}
+
+$success-color: #7cdb86;
+$success-contrast: #fff;
+$info-color: #2fa7ff;
+$info-contrast: #fff;
+$warning-color: #fc8b37;
+$warning-contrast: #fff;
+$error-color: #ed253d;
+$error-contrast: #fff;
+
+//Main
+$main-fs: 14px;
+$main-ff: 'Open Sans', sans-serif;
+$main-fw: 500;
+$module: 10px;
+$main-lh: ($module * 2 / $main-fs);
+$module-rem: ($module / $main-fs) * 1rem;
+$shape: 6px;
+$shadow: 6px 6px 20px 0 rgba(0, 0, 0, 0.08);
+$shadow-hover: 3px 3px 10px 0 rgba(0, 0, 0, 0.15);
+$animation: ease-in-out;
+
+//Second
+$second-ff: 'Montserrat', sans-serif;
+
+//Headers
+$headers-ff: $second-ff;
+$headers-fw: 700;
+
+//Navbar
+$navbar-bg: #eeeeef;
+$navbar-color: rgba(main-palette(500), 0.5);
+$vertical-navbar-width: $module-rem * 26;
+
+//Footer
+$footer-height: $module-rem * 4;
+
+//Preloader
+$loader-overlay-bg: main-palette(500);
+$loader-colors: (
+  1: main-palette(900),
+  2: accent-palette(500),
+  3: main-palette(900),
+  4: main-palette(900),
+  5: main-palette(900),
+);

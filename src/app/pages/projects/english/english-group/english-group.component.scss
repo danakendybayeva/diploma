@@ -1,0 +1,184 @@
+.title-list, .desc {
+  color: #ffffff;
+  text-shadow: 0px 3px 8px #000000;
+}
+.desc {
+  font-size: 1.4rem;
+}
+.day {
+  width: 100%;
+  font-size: 2rem;
+}
+.calendar {
+  padding: 0;
+  margin-left: 5px;
+  margin-right: 5px;
+  width: 75px;
+  height: 75px;
+  margin-bottom: 10px;
+}
+.сalendars {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.level h5 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+.progress {
+  display: -webkit-box;
+  display: flex;
+  height: 1rem;
+  overflow: hidden;
+  font-size: .75rem;
+  background-color: #e9ecef;
+  border-radius: .25rem;
+}
+.bg-success {
+  background-color: #0cc27e!important;
+}
+.progress-bar {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  background-color: #009da0;
+  -webkit-transition: width .6s;
+  transition: width .6s ease;
+}
+.progress-bar-striped {
+  background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+  background-size: 1rem 1rem;
+}
+.progress-bar-animated {
+  -webkit-animation: 1s linear infinite progress-bar-stripes;
+  animation: 1s linear infinite progress-bar-stripes;
+}
+.level .progress {
+  margin-bottom: 35px;
+}
+.backimg {
+  padding-top: 56.25%;
+  border-radius: 5px;
+}
+.title {
+  font-size: 1.4rem;
+  margin: 5px 0;
+}
+.list-magazine {
+  margin-bottom: 11px;
+  margin-top: 11px;
+  cursor: pointer;
+}
+.edit {
+  background-color: transparent !important;
+  color: #2fa7ff !important;
+  padding: 0;
+}
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+.modal-window {
+  width: 800px !important;
+}
+.profile-selected {
+  border-radius: 20px;
+  color: #4a505c;
+  display: block;
+  font-size: 1rem;
+  line-height: 1.42857143;
+  outline: none;
+  width: 100%;
+
+  -webkit-box-align: center;
+  align-items: center;
+  background-color: rgba(74, 80, 92, 0.08);
+  background-clip: padding-box;
+  border: 1px solid rgba(74, 80, 92, 0.08);
+  cursor: text;
+  display: -webkit-box;
+  display: flex;
+  outline: none;
+  padding: 0 0.8rem 0 1.42857143rem;
+  position: relative;
+  -webkit-transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out, box-shadow 0.2s ease-in-out, color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out, box-shadow 0.2s ease-in-out, color 0.2s ease-in-out;
+  will-change: background-color, border, box-shadow, color;
+  width: 100%;
+  cursor: pointer;
+}
+.profile-name {
+  background: none;
+  border: 0;
+  border-radius: inherit;
+  box-shadow: none;
+  color: inherit;
+  cursor: inherit;
+  display: block;
+  font: inherit;
+  font-weight: 400;
+  margin: -1px 0;
+  outline: none;
+  padding: calc(0.71428571rem - 1px) 0;
+  width: 100%;
+}
+.close {
+  align-self: flex-start;
+  color: inherit;
+  cursor: pointer;
+  font-size: 1em;
+  line-height: 1;
+  opacity: 0.8;
+  padding: calc(0.71428571rem + 0.25em - 1px) 0;
+}
+.no-style {
+  background: none;
+  border: 0;
+  outline: none;
+}
+.studSlc {
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 0.8rem;
+}
+.studSlc span {
+  line-height: 40px;
+}
+.success {
+  background-color: #7cdb86;
+  background-clip: padding-box;
+  color: #fff;
+
+}
+.daystable {
+  display: flex;
+  justify-content: space-between;
+}
+.link {
+  a:hover {
+    color: #2fa7ff !important;
+  }
+}
+.month-btn {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: -10px;
+  margin-right: -10px;
+  tc-badge {
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  tc-badge:hover {
+    background-color: #40a9ff !important;
+  }
+}

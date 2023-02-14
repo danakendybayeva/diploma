@@ -1,0 +1,47 @@
+@import '../../../../../assets/sass/variables';
+
+:host {
+  .menu {
+    border-bottom: 2px solid rgba($main-color ,.08);
+    display: flex;
+    list-style-type: none;
+    margin: ($module-rem) 0  ($module-rem * 4);
+    padding: 0;
+    width: 100%;
+
+    .menu-item  {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: ($module-rem / 2) 0;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+
+      .link {
+        padding-right: $module-rem;
+        color: $main-color;
+        transition: color .2s $animation;
+      }
+      .tc-badge {
+        background: rgba($main-color, .15);
+        color: $main-color;
+        transition: color .2s $animation, background .2s $animation;
+      }
+      &:hover,
+      &.active {
+        border-color: $info-color;
+
+        .link {
+          color: $info-color;
+        }
+        .tc-badge {
+          background: $info-color;
+          color: $info-contrast;
+        }
+      }
+      &+ .menu-item {
+        margin-left: $module-rem;
+      }
+    }
+  }
+}

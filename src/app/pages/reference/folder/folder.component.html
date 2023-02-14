@@ -1,0 +1,140 @@
+<tc-card class="mb-0" [padding]="'0'">
+    <nz-table
+        #basicTable
+        [nzData]="dataRecord"
+        [nzShowPagination]="totalPages > 1"
+        [nzPageSize]="pageSize"
+        [nzTotal]="totalData"
+        [nzLoading]="loading"
+        [nzPageIndex]="pageIndex"
+        [nzFrontPagination]="false"
+        [nzShowTotal]="totalTpl"
+        (nzPageIndexChange)="onChangePageIndex($event)"
+    >
+        <thead nzSingleSort (nzSortChange)="onChangeSort($event)">
+        <tr>
+            <th>#</th>
+            <th
+                    *ngFor="let header of headerRecord; let index = index;"
+                    nzShowSort
+                    nzSortKey="{{header['id']}}"
+                    nzCustomFilter
+            >
+                {{ header['title']}}
+                <i
+                        nz-th-extra
+                        class="ant-table-filter-icon"
+                        nz-icon
+                        nz-dropdown
+                        #dropdown="nzDropdown"
+                        nzType="search"
+                        [nzDropdownMenu]="menu"
+                        [class.ant-table-filter-open]="dropdown.nzVisible"
+                        nzTrigger="click"
+                        nzPlacement="bottomRight"
+                        [nzClickHide]="false"
+                        nzTableFilter
+                ></i>
+                <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <div class="search-box">
+                        <div [ngSwitch]="header.type">
+                            <tc-form-group *ngSwitchCase="'date'">
+                                <span>С</span>
+                                <tc-input type="date" [placeholder]="'с'" class="mb-2" [size]="'sm'"></tc-input>
+                                <span>по</span>
+                                <tc-input type="date" [placeholder]="'по'" [size]="'sm'"></tc-input>
+                            </tc-form-group>
+
+                            <tc-form-group *ngSwitchCase="'timestamp'">
+                                <span>С</span>
+                                <tc-input type="datetime-local" [placeholder]="'с'" class="mb-2" [size]="'sm'"></tc-input>
+                                <span>по</span>
+                                <tc-input type="datetime-local" [placeholder]="'по'" [size]="'sm'"></tc-input>
+                            </tc-form-group>
+
+                            <tc-form-group class="d-grid" *ngSwitchCase="'integer'">
+                                <tc-input type="number" [placeholder]="''" class="mb-2" [size]="'sm'"></tc-input>
+                            </tc-form-group>
+
+                            <tc-form-group class="d-grid" *ngSwitchCase="'float'">
+                                <tc-input type="number" [placeholder]="''" class="mb-2" [size]="'sm'"></tc-input>
+                            </tc-form-group>
+
+                            <tc-form-group class="d-grid" *ngSwitchCase="'boolean'">
+                                <tc-checkbox>{{ "Yes" | translate }}</tc-checkbox>
+                                <tc-checkbox>{{ "No" | translate }}</tc-checkbox>
+                            </tc-form-group>
+
+                            <tc-form-group class="d-grid" *ngSwitchCase="'enumeration'">
+                                <tc-checkbox *ngFor="let item of header.values">{{ item.value }}</tc-checkbox>
+                            </tc-form-group>
+
+                            <tc-autocomplete-mds
+                                    *ngSwitchDefault
+                                    class="mb-2"
+                                    [data]="header['autoValues']"
+                                    [key]="'value'"
+                                    [loading]="loadingAuto"
+                                    [size]="'sm'"
+                                    [(ngModel)]="header['filterValue']"
+                                    [value]="header['filterValue']"
+                                    [ngModelOptions]="{standalone: true}"
+                                    (keyup)="changeDefaultAuto(index)"
+                                    (optionSelected)="changeDefaultAutoSelected($event)"
+                                    [placeholder]="header['title']"></tc-autocomplete-mds>
+
+                        </div>
+
+                        <div class="d-flex">
+                            <button tc-button [size]="'sm'" (click)="updateFilter(header['id'], header['filterValue'])">
+                                OK
+                            </button>
+                            <button tc-button [size]="'sm'">Reset</button>
+                        </div>
+                    </div>
+                </nz-dropdown-menu>
+            </th>
+            <th
+                    nz-resizable
+                    nzShowSort
+                    nzSortKey="creator"
+            >
+                Редактор
+            </th>
+            <th
+                    nzShowSort
+                    nzSortKey="updatedAt"
+            >
+                Изменен
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data; let index = index;"
+            class="mainTable">
+            <td><tc-checkbox [(ngModel)]="checkData[index]" [value]="checkData[index]" class="check-table"></tc-checkbox></td>
+            <td *ngFor="let header of headerRecord; let index2 = index;" [routerLink]="['/vertical/reference/record/view', referenceId, data['id']]">
+                <tc-factory-field
+                        [_valueField]="header"
+                        [value]="data[header['id']]"
+                        [styleType]="'single'"
+                ></tc-factory-field>
+            </td>
+            <td>{{ data['creator'] }}</td>
+            <td>{{ (data['updated_at'] !== null ? data['updated_at'] : data['created_at']) | date: 'dd.MM.yyyy HH:mm:ss' }}</td>
+        </tr>
+        </tbody>
+    </nz-table>
+    <ng-template #totalTpl let-range="range" let-totalData>{{ 'Total: ' + (isLast ? (totalData - 1) : totalData)}}</ng-template>
+</tc-card>
+
+<button class="no-style settings-btn"
+        [routerLink]="['/vertical/reference/record/create', referenceId]">
+    <span class="pulse"></span>
+    <tc-icon
+            class="settings-icon"
+            [iconClass]="'icofont-plus'"
+            [tcFontSize]="26"
+            [padding]="'2px 0'"
+    ></tc-icon>
+</button>

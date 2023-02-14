@@ -1,0 +1,49 @@
+<div [ngSwitch]="_valueField.type">
+  <tc-integer-field *ngSwitchCase="'integer'"
+                    [_valueField]="_valueField"
+                    [value]="value"
+                    [styleType]="styleType"
+  ></tc-integer-field>
+
+  <tc-float-field *ngSwitchCase="'float'"
+                  [_valueField]="_valueField"
+                  [(ngModel)]="value"
+                  [styleType]="styleType"
+  ></tc-float-field>
+
+  <tc-string-field *ngSwitchCase="'string'"
+                   [_valueField]="_valueField"
+                   [value]="value"
+                   [styleType]="styleType"
+  ></tc-string-field>
+
+  <tc-date-field *ngSwitchCase="'date'"
+                 [_valueField]="_valueField"
+                 [value]="value"
+                 [styleType]="styleType"
+  ></tc-date-field>
+
+  <tc-timestamp-field *ngSwitchCase="'timestamp'"
+                      [_valueField]="_valueField"
+                      [value]="value"
+                      [styleType]="styleType"
+  ></tc-timestamp-field>
+
+  <tc-boolean-field *ngSwitchCase="'boolean'"
+                    [_valueField]="_valueField"
+                    [value]="value"
+                    [styleType]="styleType"
+  ></tc-boolean-field>
+
+  <tc-enumeration-field *ngSwitchCase="'enumeration'"
+                        [_valueField]="_valueField"
+                        [value]="value"
+                        [styleType]="styleType"
+  ></tc-enumeration-field>
+
+  <tc-reference-field *ngSwitchCase="'reference'"
+                      [_valueField]="_valueField"
+                      [value]="value"
+                      [styleType]="styleType"
+  ></tc-reference-field>
+</div>

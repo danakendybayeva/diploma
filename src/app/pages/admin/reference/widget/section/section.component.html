@@ -1,0 +1,204 @@
+<tc-card [title]="'Редактирование представление'">
+    <form *ngIf="_value" [formGroup]="labelForm" (ngSubmit)="sendFieldForm(labelForm.valid)" novalidate>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Название</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="title" [(ngModel)]="_value.title" [placeholder]="'Название'" formControlName="title"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Подсказка</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="hint" [(ngModel)]="_value.hint" [placeholder]="'Подсказка'" formControlName="hint"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-structure-field
+                [_valueField]="accessStructure"
+                [isNew]="true"
+                [isConfig]="true"
+                [form]="labelForm"
+                [type]="'edit'"
+                [(ngModel)]="_value.access"
+                formControlName="access"
+        ></tc-structure-field>
+        <tc-form-group class="mt-minus">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                </div>
+                <div class="col-12 col-md-9">
+                    <i>Если пусто, то представление доступно всем пользователям</i>
+                </div>
+            </div>
+        </tc-form-group>
+
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Опции</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9 checkbox-grid">
+                    <tc-checkbox id="enableCustomFields"
+                            class="mb-2"
+                            [(ngModel)]="_value.enableCustomFields"
+                            [value]="_value.enableCustomFields"
+                            formControlName="enableCustomFields"
+                    >Enable Custom Fields</tc-checkbox>
+                </div>
+            </div>
+        </tc-form-group>
+
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-4">
+                    <tc-form-label>Поля представления</tc-form-label>
+                    <tc-tree-drop
+                            [options]="fields"
+                            [(ngModel)]="_value.fields"
+                            (ngModelChange)="fieldSelect($event)"
+                            [formControlName]="'fields'"
+                    ></tc-tree-drop>
+                </div>
+                <div class="col-12 col-md-4">
+                    <tc-form-label>Группировка</tc-form-label>
+                    <tc-tree-drop
+                            [options]="fields"
+                            [(ngModel)]="_value.groupField"
+                            [formControlName]="'defaultGroup'"
+                    ></tc-tree-drop>
+                </div>
+                <div class="col-12 col-md-4">
+                    <tc-form-label>Сортировка</tc-form-label>
+                    <tc-tree-drop
+                            [options]="sortField"
+                            [isSorted]="true"
+                            [changeOptions]="true"
+                            [(ngModel)]="_value.sortField"
+                            [formControlName]="'defaultSort'"
+                    ></tc-tree-drop>
+                </div>
+            </div>
+        </tc-form-group>
+
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <tc-form-label>Фильтрация</tc-form-label>
+
+                    <ul class="filter-list list-unstyled mt-4" *ngFor="let filter of _value.filterField; let i = index;">
+                        <li>
+                            <div class="col-12">
+                                <div class="row header pb-2">
+                                    <div class="col col-4">Поле</div>
+                                    <div class="col col-3">Условие</div>
+                                    <div class="col col-4">Значение</div>
+                                    <div class="col col-1"></div>
+                                </div>
+                                <div class="row pb-2 pt-2" *ngFor="let filterInner of filter; let j = index;">
+                                    <div class="col-4 align-self-center">{{ filterInner.title }}</div>
+                                    <div class="col-3 align-self-center">
+                                        <tc-select
+                                                [placeholder]="'Условие'"
+                                                [options]="getConditionByType(filterInner.fieldId) == 'number' ? conditionsNumber : conditionsString"
+                                                [multiple]="false"
+                                                [size]="'sm'"
+                                                [selected]="filterInner.condition"
+                                                [(ngModel)]="filterInner.condition"
+                                                [ngModelOptions]="{standalone: true}"
+                                        >
+                                        </tc-select>
+                                    </div>
+                                    <div class="col-4 align-self-center">
+                                        <tc-input
+                                                [placeholder]="'Значение'"
+                                                [size]="'sm'"
+                                                [(ngModel)]="filterInner.value"
+                                                [ngModelOptions]="{standalone: true}"
+                                                [type]="getTypeInput(filterInner.fieldId)"
+                                        ></tc-input>
+                                    </div>
+                                    <div class="col-1 align-self-center">
+                                        <button class="mr-2"
+                                                tc-button
+                                                [afterIcon]="'icofont-close'"
+                                                [view]="'error'"
+                                                [square]="true"
+                                                [size]="'sm'"
+                                                (click)="filterRemove(i, j)"
+                                        ></button>
+                                    </div>
+                                </div>
+                                <div class="action-row mt-2 d-flex">
+                                    <tc-dropdown>
+                                        <tc-dropdown-button>
+                                            <button
+                                                    [afterIcon]="'icofont icofont-simple-down'"
+                                                    [outline]="true"
+                                                    [view]="'default'"
+                                                    [size]="'sm'"
+                                                    tc-button
+                                                    type="button"
+                                            >
+                                                Добавить поле
+                                            </button>
+                                        </tc-dropdown-button>
+
+                                        <tc-dropdown-content [overlay]="false" [animation]="'fadeInUp'">
+                                            <ul class="list-unstyled filter-button">
+                                                <li *ngFor="let item of referenceOption; let index = index;">
+                                                    <p class="pointer-p"
+                                                       (click)="filterSelectedField(item, i, filter)"
+                                                    >
+                                                        {{ item.label }}
+                                                    </p>
+                                                </li>
+                                            </ul>
+                                        </tc-dropdown-content>
+                                    </tc-dropdown>
+
+                                    <button
+                                            tc-button
+                                            class="ml-2"
+                                            (click)="filterRemove(i)"
+                                            [beforeIcon]="'icofont-trash'"
+                                            [view]="'error'"
+                                            [size]="'sm'"
+                                    >
+                                        Удалить фильтр
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <button tc-button
+                            type="button"
+                            [size]="'sm'"
+                            [outline]="true"
+                            (click)="filterAdd()"
+                    >
+                        Добавить Фильтр
+                    </button>
+                </div>
+            </div>
+        </tc-form-group>
+
+        <button tc-button
+                [routerLink]="['/vertical/reference/record/section', this._value.referenceId, this._value.id]"
+                type="button"
+                class="mr-2">Go To</button>
+        <reference-action-fields
+            [referenceId]="referenceId"
+            [disable]="labelForm.invalid"
+            [load]="loadingLabelForm"
+            [removeBtn]="removeEnable">
+        </reference-action-fields>
+    </form>
+</tc-card>

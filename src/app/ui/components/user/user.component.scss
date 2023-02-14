@@ -1,0 +1,51 @@
+@import '../../../../assets/sass/variables';
+
+:host {
+  display: block;
+  background: #fff;
+  box-shadow: $shadow;
+  border-radius: $shape;
+  margin-bottom: $module-rem * 2;
+
+  .user-bg {
+    height: 180px;
+    border-radius: $shape $shape 0 0;
+    background-size: cover;
+    background-position: 0 50%;
+  }
+
+  .card-body {
+    padding: 0 $module-rem * 2 $module-rem * 2;
+
+    .user-info {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-top: -38px;
+      margin-bottom: $module-rem * 2;
+
+      .user-img {
+        box-shadow: $shadow;
+        border-radius: 50%;
+
+        .tc-avatar {
+          margin: 0;
+        }
+      }
+      .user-name {
+        margin-bottom: 0;
+      }
+      .user-role {
+        opacity: .5;
+      }
+      .user-link {
+        color: $main-color;
+
+        &:hover {
+          color: $link-color;
+        }
+      }
+    }
+  }
+}

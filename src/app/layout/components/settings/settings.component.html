@@ -1,0 +1,75 @@
+<form [formGroup]="form" novalidate>
+  <tc-form-group>
+    <tc-form-label>Topbar background</tc-form-label>
+
+    <tc-color-picker
+      [palette]="true"
+      [overlay]="true"
+      (colorSelected)="changeDoubleColor($event, 'topbarBg', 'topbarColor')"
+      [savedColor]="form.value.topbarBg"
+      formControlName="topbarBg"
+      [width]="240"
+    ></tc-color-picker>
+  </tc-form-group>
+
+  <tc-form-group>
+    <tc-form-label>{{ getNavbarName(form.value.layout !== 'horizontal') }} background</tc-form-label>
+
+    <tc-color-picker
+      [palette]="true"
+      [width]="240"
+      [overlay]="true"
+      [gradient]="true"
+      [secondColor]="form.value.sidebarBg2"
+      [savedColor]="form.value.sidebarBg"
+      (colorSelected)="changeColor($event, 'sidebarBg')"
+      (secondColorSelected)="changeColor($event, 'sidebarBg2')"
+      formControlName="sidebarBg"
+    ></tc-color-picker>
+  </tc-form-group>
+
+  <tc-form-group>
+    <tc-form-label>{{ getNavbarName(form.value.layout !== 'horizontal') }} color</tc-form-label>
+
+    <tc-color-picker
+      [palette]="true"
+      [width]="240"
+      [overlay]="true"
+      [savedColor]="form.value.sidebarColor"
+      (colorSelected)="changeColor($event, 'sidebarColor')"
+      formControlName="sidebarColor"
+    ></tc-color-picker>
+  </tc-form-group>
+
+  <tc-form-group>
+    <tc-form-label>{{ getNavbarName(form.value.layout !== 'horizontal') }} accent color</tc-form-label>
+
+    <tc-color-picker
+      [palette]="true"
+      [width]="240"
+      [overlay]="true"
+      [savedColor]="form.value.sidebarAccentColor"
+      (colorSelected)="changeDoubleColor($event, 'sidebarAccentColor', 'sidebarAccentContrastColor')"
+      formControlName="sidebarAccentColor"
+    ></tc-color-picker>
+  </tc-form-group>
+
+  <tc-form-group>
+    <tc-form-label>Layout</tc-form-label>
+
+    <tc-select [placeholder]="'Select layout'" [options]="layouts" formControlName="layout"></tc-select>
+  </tc-form-group>
+
+  <tc-form-group>
+    <tc-form-label>Boxed/fullwidth mode</tc-form-label>
+
+    <tc-switcher [value]="settings.boxed" formControlName="boxed"></tc-switcher>
+  </tc-form-group>
+
+  <div class="actions d-flex justify-content-between flex-column flex-sm-row">
+    <button tc-button [view]="'error'" (click)="resetSettings()">Reset to default</button>
+    <a tc-button [view]="'accent'" [href]="downloadJsonHref" download="settings.json" class="mt-2 mt-sm-0">
+      Download settings
+    </a>
+  </div>
+</form>
