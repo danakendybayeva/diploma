@@ -1,0 +1,76 @@
+<form *ngIf="loaded && !isEmpty" [formGroup]="labelForm" (ngSubmit)="submitEvent(labelForm.valid)">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <nz-tabset (nzSelectedIndexChange)="nzTabIndexChange($event)">
+                <nz-tab nzTitle="{{'Module'|translate}}"></nz-tab>
+            </nz-tabset>
+
+            <tc-card [ngClass]="{'d-none': (tabShow != 0)}">
+                <tc-string-field
+                        [_valueField]="fieldsData['display_name']"
+                        [(ngModel)]="fieldsData['display_name'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'display_name'"
+                ></tc-string-field>
+                <tc-text-field
+                        *ngIf="loaded && tabShow === 0"
+                        [_valueField]="fieldsData['description']"
+                        [(ngModel)]="fieldsData['description'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'description'"
+                        [minHeightText]="400"
+                ></tc-text-field>
+
+            </tc-card>
+
+        </div>
+        <div class="col-12 col-md-4">
+            <tc-card [title]="'Publish'|translate" class="mt-61">
+                <tc-enumeration-field
+                        [_valueField]="fieldsData['status']"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [styleType]="'single'"
+                        [isNew]="isNew"
+                ></tc-enumeration-field>
+
+                <tc-timestamp-field
+                        [_valueField]="fieldsData['publish_date']"
+                        [(ngModel)]="fieldsData['publish_date'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'publish_date'"
+                ></tc-timestamp-field>
+                <div style="text-align: right;">
+                    <button tc-button
+                            [size]="'sm'"
+                            [view]="'info'">
+                        {{'Save'|translate}}
+                    </button>
+                </div>
+            </tc-card>
+
+            <div [ngClass]="{'d-none': (tabShow != 0)}">
+                <tc-card [title]="'Details'|translate">
+                    <tc-integer-field
+                        [_valueField]="fieldsData['order_num']"
+                        [(ngModel)]="fieldsData['order_num'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'order_num'"
+                    ></tc-integer-field>
+                </tc-card>
+            </div>
+        </div>
+    </div>
+</form>

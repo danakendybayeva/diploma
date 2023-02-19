@@ -1,7 +1,7 @@
-<form *ngIf="loaded" [formGroup]="labelForm" (ngSubmit)="submitEvent(labelForm.valid)">
+<form *ngIf="loaded && !isEmpty" [formGroup]="labelForm" (ngSubmit)="submitEvent(labelForm.valid)">
     <div class="row">
         <div class="col-12 col-md-8">
-            <tc-card>
+            <tc-card *ngIf="loaded">
                 <div *ngFor="let field of fieldsData; let index = index;" [ngSwitch]="field.type">
                     <tc-integer-field *ngSwitchCase="'integer'"
                             [_valueField]="field"
@@ -29,6 +29,24 @@
                             [isNew]="isNew"
                             [formControlName]="field.id"
                     ></tc-string-field>
+
+                    <tc-text-field *ngSwitchCase="'text'"
+                                     [_valueField]="field"
+                                     [(ngModel)]="field.value"
+                                     [type]="typePage"
+                                     [form]="labelForm"
+                                     [isNew]="isNew"
+                                     [formControlName]="field.id"
+                    ></tc-text-field>
+
+                    <tc-password-field *ngSwitchCase="'password'"
+                             [_valueField]="field"
+                             [(ngModel)]="field.value"
+                             [type]="typePage"
+                             [form]="labelForm"
+                             [isNew]="isNew"
+                             [formControlName]="field.id"
+                    ></tc-password-field>
 
                     <tc-date-field *ngSwitchCase="'date'"
                             [_valueField]="field"
@@ -71,35 +89,54 @@
                             [isNew]="isNew"
                             [formControlName]="field.id"
                     ></tc-reference-field>
+
+                    <tc-structure-field *ngSwitchCase="'structure'"
+                            [_valueField]="field"
+                            [(ngModel)]="field.value"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [isNew]="isNew"
+                            [formControlName]="field.id"
+                    ></tc-structure-field>
+
+                    <tc-image-field *ngSwitchCase="'image'"
+                            [_valueField]="field"
+                            [(ngModel)]="field.value"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [referenceId]="referenceId"
+                            [isNew]="isNew"
+                            [formControlName]="field.id"
+                            [postAction]="postImage"
+                            [getUrl]="getImageUrl"
+                    ></tc-image-field>
+
+                    <tc-file-field *ngSwitchCase="'file'"
+                                    [_valueField]="field"
+                                    [(ngModel)]="field.value"
+                                    [type]="typePage"
+                                    [form]="labelForm"
+                                    [referenceId]="referenceId"
+                                    [isNew]="isNew"
+                                    [formControlName]="field.id"
+                    ></tc-file-field>
                 </div>
             </tc-card>
         </div>
         <div class="col-12 col-md-4">
-            <tc-card></tc-card>
-        </div>
-        <div class="col-12">
-            <button tc-button
-                    *ngIf="typePage == 'edit'"
-                    class="mr-2"
-                    [view]="'info'">
-                Сохранить
-            </button>
-            <button tc-button
-                    *ngIf="typePage == 'view'"
-                    [type]="'button'"
-                    class="mr-2"
-                    [view]="'info'"
-                    [routerLink]="['/vertical/reference/record/edit', referenceId, recordId]">
-                Редактировать
-            </button>
-            <button tc-button
-                    *ngIf="typePage == 'view'"
-                    [type]="'button'"
-                    class="mr-2"
-                    [view]="'error'"
-                    (click)="removeRecord(referenceId, recordId)">
-                Удалить
-            </button>
+            <tc-card [title]="'Publish'|translate">
+                <div style="text-align: right;">
+                    <button tc-button
+                            *ngIf="typePage == 'edit'"
+                            class="mr-2"
+                            [size]="'sm'"
+                            [view]="'info'">
+                        {{'Save'|translate}}
+                    </button>
+                </div>
+            </tc-card>
         </div>
     </div>
 </form>
+
+<not-found-page *ngIf="isEmpty"></not-found-page>

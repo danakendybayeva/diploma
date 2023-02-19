@@ -1,0 +1,98 @@
+<div class="d-flex mb-2" style="justify-content: end">
+    <tc-filter-students
+            [hasSemester]="true"
+            [hasMentor]="true"
+            [hasCourse]="true"
+            [hasUniversity]="true"
+            [hasCity]="true"
+            [(ngModel)]="filter"
+            (change)="filterApply($event)"
+            (apply)="filterApply(filter)"
+    ></tc-filter-students>
+</div>
+
+<nz-table
+          #fixedTable nzBordered
+          *ngIf="!isLoading"
+          [nzData]="filter['mentors'] && filter['mentors'].length ? listOfStudentFiltered : listOfData "
+          [nzScroll]="{ x: '1600px' }"
+          [nzLoading]="isLoading"
+          [nzPageSize]="1000000000"
+>
+    <thead>
+        <tr>
+            <th scope="col" nzLeft [nzWidth]="'50px'" rowSpan="2" class="myCustomColumn">#</th>
+            <th scope="col" nzLeft rowSpan="2" class="myCustomColumn">{{'Full Name'|translate}}</th>
+            <th *ngIf="filter['mentors'] && filter['mentors'].length" nzAlign="center" rowSpan="2">{{'Status'|translate}}</th>
+            <th *ngIf="filter['mentors'] && filter['mentors'].length" nzAlign="center" rowSpan="2">{{'City'|translate}}</th>
+            <th *ngIf="filter['mentors'] && filter['mentors'].length" nzAlign="center" rowSpan="2">{{'Course'|translate}}</th>
+            <th colSpan="2" class="myCustomColumn" *ngFor="let month of semester[filter['semester'] ? filter['semester'] : 1]">{{month.label | translate}}</th>
+            <th rowSpan="2" class="myCustomColumn">{{'Final'|translate}}</th>
+            <th rowSpan="2" class="myCustomColumn">{{'Semester'|translate}} {{filter['semester'] ? filter['semester'] : 1}}</th>
+        </tr>
+        <tr>
+            <ng-container *ngFor="let month of semester[filter['semester'] ? filter['semester'] : 1]">
+                <th scope="col" class="myCustomColumn">Mock</th>
+                <th scope="col" class="myCustomColumn">{{'Attendance'|translate}}</th>
+            </ng-container>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let data of fixedTable.data; let indexRow = index;">
+            <td nzLeft><div>{{indexRow + 1}}</div></td>
+            <td nzLeft>{{ data['fio'] }}</td>
+            <td *ngIf="filter['mentors'] && filter['mentors'].length">{{ data['status'] | translate }}</td>
+            <td *ngIf="filter['mentors'] && filter['mentors'].length">{{ data['cityName'] }}</td>
+            <td *ngIf="filter['mentors'] && filter['mentors'].length">{{ data['course'] }}</td>
+            <ng-container *ngFor="let index of [0,1,2,3]  " >
+                <td [ngClass]="compare(filter['semester'], data['reports'], index)" class="myCustomColumn">
+                    <div class="d-flex vertical-center">
+                        <div *ngIf="(filter['semester'] == 1 || !filter['semester']) && data['reports'][index+9] && data['reports'][index+9].hasOwnProperty('mocks') && data['reports'][index+9]['mocks'].length">
+                            {{!data['reports'][index+9]['mocksAvg'] ? 'N/A' :(data['reports'][index+9]['mocksAvg'] | number : '1.2-2')}}
+                        </div>
+                        <div *ngIf="filter['semester'] == 2 && data['reports'][index+2] && data['reports'][index+2] && data['reports'][index+2].hasOwnProperty('mocks') && data['reports'][index+2]['mocks'].length ">
+                            {{!data['reports'][index+2]['mocksAvg'] ? 'N/A' : (data['reports'][index+2]['mocksAvg'] | number : '1.2-2')}}
+                        </div>
+                        <img *ngIf="getCompare(filter['semester'], data['reports'], index) !== '' &&
+                                    getCompare(filter['semester'], data['reports'], index) !== 'equal'"
+                             [src]="'./assets/image/icons/arrow-' + (getCompare(filter['semester'], data['reports'], index)) + '.svg'"
+                             alt="">
+                    </div>
+                </td>
+
+                <td [ngClass]="compare(filter['semester'], data['reports'], index, 'attendanceAvg')" class="myCustomColumn">
+                    <div class="d-flex vertical-center">
+                        <div *ngIf="(filter['semester'] == 1 || !filter['semester']) && data['reports'][index+9] && data['reports'][index+9].hasOwnProperty('attendanceAvg')">
+                        {{data['reports'][index+9]['attendanceAvg'] | number : '1.2-2'}}
+                        </div>
+                        <div *ngIf="filter['semester'] == 2 && data['reports'][index+2] && data['reports'][index+2].hasOwnProperty('attendanceAvg')">
+                            {{data['reports'][index+2]['attendanceAvg'] | number : '1.2-2'}}
+                        </div>
+                        <img *ngIf="getCompare(filter['semester'], data['reports'], index, 'attendanceAvg') !== '' &&
+                                    getCompare(filter['semester'], data['reports'], index, 'attendanceAvg') !== 'equal'"
+                             [src]="'./assets/image/icons/arrow-' + (getCompare(filter['semester'], data['reports'], index, 'attendanceAvg')) + '.svg'"
+                             alt="">
+                    </div>
+                </td>
+
+            </ng-container>
+            <td class="myCustomColumn">
+                <b>
+                    {{  ((filter['semester'] == 1 || !filter['semester']) ?
+                            (data['final']['semester1'] ? (data['final']['semester1']| number : '1.2-2') : 'N/A')
+                            : (data['final']['semester2'] ? (data['final']['semester2']| number : '1.2-2') : 'N/A'))  }}
+                </b>
+            </td>
+            <td class="myCustomColumn">
+                <b>
+                    {{  ((filter['semester'] == 1 || !filter['semester']) ?
+                            data['avg']['semester1'] :
+                            data['avg']['semester2']) | number : '1.2-2' }}
+                </b>
+            </td>
+        </tr>
+
+    </tbody>
+</nz-table>
+

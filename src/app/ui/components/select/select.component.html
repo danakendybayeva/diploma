@@ -13,7 +13,7 @@
 
     <div class="value" *ngIf="selectedOptions && selectedOptions.length">
       <span *ngIf="!multiple; else multipleValue">
-        {{ selectedOptions[0].label }}
+        {{ selectedOptions[0].label | translate }}
       </span>
 
       <ng-template #multipleValue>
@@ -22,7 +22,7 @@
           *ngFor="let option of selectedOptions"
           (click)="removeSelectedOption($event, option)"
         >
-          <div class="option-text">{{ option.label }}</div>
+          <div class="option-text">{{ option.label | translate }}</div>
           <i class="close-icon icofont-close-line-circled"></i>
         </div>
       </ng-template>
@@ -63,7 +63,7 @@
           (mouseenter)="optionMouseenter($event)"
           (mouseleave)="optionMouseleave($event, isSelected(option.value))"
         >
-          <ng-template #defaultOption>{{ option.label }}</ng-template>
+          <ng-template #defaultOption>{{ option.label | translate }}</ng-template>
 
           <ng-container
             [ngTemplateOutlet]="optionTpl ? optionTpl : defaultOption"

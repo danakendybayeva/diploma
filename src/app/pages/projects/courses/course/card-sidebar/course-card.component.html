@@ -1,0 +1,74 @@
+<tc-card
+        [img]="(course['feature_image'].length ? (srcImage(course['feature_image'][0]['id']) | secureFile | async) : 'assets/image/course-default.jpg')"
+        class="mb-md-0 card-course"
+        [ratio]="'16:9'"
+>
+    <div>
+        <div class="mb-4">
+            <div class="d-flex avatar">
+                <tc-avatar-group>
+                    <tc-avatar [tcBgColor]="'#8af75b'" [initials]="'BS'" [size]="30"></tc-avatar>
+                    <tc-avatar [tcBgColor]="'#5b97f7'" [initials]="'AI'" [size]="30"></tc-avatar>
+                    <tc-avatar [src]="'assets/content/user-40-3.jpg'" [size]="30"></tc-avatar>
+                </tc-avatar-group>
+                <span class="ml-3">+20 {{'enrolled'|translate}}</span>
+            </div>
+
+        </div>
+        <div *ngIf="statusCourse === 1">
+            <button
+                    tc-button
+                    class="mb-4"
+                    [view]="'info'"
+                    style="width: 100%;"
+                    (click)="joiningCourse(statusCourse)"
+                    [load]="statusLoading"
+                    [disabled]="!accessCourse"
+            >{{'Start Course' |translate}}</button>
+        </div>
+
+        <div *ngIf="statusCourse === 2">
+            <button
+                    tc-button
+                    [tcColor]="'#728188'"
+                    [tcBgColor]="'#e2e7ed'"
+                    class="mb-2"
+                    style="width: 100%;"
+            >{{'In Progress'|translate}}</button>
+            <button
+                    tc-button
+                    class="mb-4"
+                    [view]="'info'"
+                    style="width: 100%;"
+                    [load]="statusLoading"
+            >{{'Continue'|translate}}</button>
+        </div>
+
+        <div *ngIf="statusCourse === 3">
+            <button
+                    tc-button
+                    class="mb-4"
+                    [view]="'success'"
+                    style="width: 100%;"
+            >{{'Complete'|translate}}</button>
+        </div>
+
+        <div class="course-detail">
+            <h5>{{'Course Includes'|translate}}</h5>
+            <ul class="list-unstyled">
+                <li class="d-flex">
+                    <i class="sli-drawer mr-3"></i>
+                    <span>{{ course['module_count'] ? course['module_count']  : 0 }} {{(course['module_count'] > 1 ? 'Modules' : 'Module')|translate}}</span>
+                </li>
+                <li class="d-flex">
+                    <i class="sli-list mr-3"></i>
+                    <span>{{ course['lesson_count'] ? course['lesson_count']  : 0 }} {{(course['lesson_count'] > 1 ? 'Lessons' : 'Lesson')|translate}}</span>
+                </li>
+                <li class="d-flex">
+                    <i class="sli-question mr-3"></i>
+                    <span>{{ course['quiz_count'] ? course['quiz_count']  : 0 }} {{(course['quiz_count'] > 1 ? 'Quizzes' : 'Quiz')|translate}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</tc-card>

@@ -1,0 +1,56 @@
+<tc-form-group *ngIf="_valueField && type === 'edit' && form" [formGroup]="form" [ngClass]="{'mb-0' : styleType === 'no-label'}">
+  <div class="row align-items-center">
+    <div class="col-12 col-md-3" *ngIf="styleType === 'standard'">
+      <tc-form-label class="mb-md-0" *ngIf="!isConfig">{{ _valueField.title |translate}} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <tc-form-label class="mb-md-0" *ngIf="isConfig">{{'Default Value'|translate}}</tc-form-label>
+    </div>
+    <div class="col-12" [ngClass]="{'col-md-9' : styleType === 'standard'}">
+      <tc-form-label *ngIf="styleType != 'standard' && !isConfig && styleType != 'no-label'">{{ _valueField.title|translate }} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <tc-form-label *ngIf="styleType != 'standard' && isConfig">{{'Default Value' |translate}}</tc-form-label>
+      <nz-upload
+              class="file-uploader"
+              [nzAction]="apiUrl + '/api/media/file/request-file/file'"
+              [nzCustomRequest]="customReq"
+              [(nzFileList)]="fileList"
+              [nzShowButton]="(!_valueField.isSingle && (fileList.length < _valueField.maxCount || _valueField.maxCount <= 0))
+                              || (_valueField.isSingle && fileList.length === 0)"
+              [nzShowUploadList]="showUploadList"
+              [nzLimit]="_valueField.maxCount <= 0 ? 0 : _valueField.maxCount"
+              [nzMultiple]="!_valueField.isSingle"
+              [nzDownload]="downloadReq"
+              [nzPreview]="downloadReq"
+              [nzBeforeUpload]="beforeUpload"
+              (nzChange)="handleChange($event)"
+      >
+        <button tc-button [beforeIcon]="'icofont-upload-alt'" [type]="'button'">{{'Upload'|translate}}</button>
+      </nz-upload>
+    </div>
+  </div>
+</tc-form-group>
+
+<div *ngIf="_valueField && type != 'edit'" [ngSwitch]="styleType">
+  <div *ngSwitchCase="'single'">
+  </div>
+
+
+  <tc-form-group *ngSwitchDefault>
+    <div class="row align-items-center">
+      <div class="col-12 col-md-3">
+        <tc-form-label class="mb-md-0 label-show">{{ _valueField.title |translate}}:</tc-form-label>
+      </div>
+      <div class="col-12 col-md-9">
+        <ul class="filelist">
+          <li class="d-flex mr-4 mb-2" *ngFor="let file of value">
+            <span class="mr-1">
+              <i [ngClass]="getTypeByName(file.value)"></i>
+            </span>
+            <span [innerHTML]="file.value"></span>
+            <a (click)="downloadEvent(apiUrl + '/api/media/file/download/' + file.id, file.value)" class="ml-2 download">
+              <i class="icofont-download"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </tc-form-group>
+</div>

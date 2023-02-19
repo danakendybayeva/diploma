@@ -1,0 +1,117 @@
+<div class="d-flex mb-2" style="justify-content: end">
+    <tc-filter-students
+            [hasSemester]="true"
+            [hasMentor]="true"
+            [hasCourse]="true"
+            [hasUniversity]="true"
+            [hasCity]="true"
+            [(ngModel)]="filter"
+            (change)="filterApply($event)"
+            (apply)="filterApply(filter)"
+    ></tc-filter-students>
+</div>
+<!--          [nzScroll]="{ x: '1150px' }"-->
+<nz-table  #fixedTable nzBordered
+           *ngIf="!isLoading && !onlySemester"
+           [nzData]="filter['mentors'] && filter['mentors'].length ? listOfStudentFiltered : listOfData "
+           [nzLoading]="isLoading"
+           [nzPageSize]="1000000000"
+>
+    <thead>
+        <tr>
+            <th nzLeft [nzWidth]="'50px'" style="text-align: center" class="myCustomColumn">#</th>
+            <th nzLeft class="myCustomColumn">{{'Full Name'|translate}}</th>
+            <th *ngIf="filter['mentors'] && filter['mentors'].length" nzAlign="center">{{'Status'|translate}}</th>
+            <th *ngIf="filter['mentors'] && filter['mentors'].length" nzAlign="center">{{'City'|translate}}</th>
+            <th *ngIf="filter['mentors'] && filter['mentors'].length" nzAlign="center">{{'Course'|translate}}</th>
+            <th *ngFor="let month of semester[filter['semester'] ? filter['semester'] : 1]" class="myCustomColumn">{{month.label | translate}}</th>
+            <th *ngIf="haveFinal" class="myCustomColumn"><b>{{'Final'|translate}}</b></th>
+            <th class="myCustomColumn"><b>{{'Semester'|translate}} {{filter['semester'] ? filter['semester']  : 1 }}</b></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of fixedTable.data; let indexRow = index;">
+            <td><div>{{indexRow + 1}}</div></td>
+            <td nzLeft>{{ data['fio'] }}</td>
+            <td *ngIf="filter['mentors'] && filter['mentors'].length" nzAlign="center">{{ data['status'] | translate }}</td>
+            <td *ngIf="filter['mentors'] && filter['mentors'].length" nzAlign="center">{{ data['cityName'] }}</td>
+            <td *ngIf="filter['mentors'] && filter['mentors'].length" nzAlign="center">{{ data['course'] }}</td>
+            <ng-container *ngFor="let index of [0,1,2,3]">
+                <td [ngClass]="compare(filter['semester'], data['reports'], index)">
+                    <div class="d-flex vertical-center">
+                        <div *ngIf="(filter['semester'] == 1 || !filter['semester']) && data['reports'][index+9] && data['reports'][index+9].hasOwnProperty('gradesAvg')">
+                            {{!data['reports'][index+9]['gradesAvg'] ? 'N/A' : (data['reports'][index+9]['gradesAvg'] | number : '1.2-2')}}
+                        </div>
+                        <div *ngIf="filter['semester'] == 2 && data['reports'][index+2] && data['reports'][index+2].hasOwnProperty('gradesAvg')">
+                            {{!data['reports'][index+2]['gradesAvg'] ? 'N/A' : (data['reports'][index+2]['gradesAvg'] | number : '1.2-2')}}
+                        </div>
+                        <img *ngIf="getCompare(filter['semester'], data['reports'], index) != '' ||
+                            getCompare(filter['semester'], data['reports'], index) != 'equal'" [src]="'./assets/image/icons/arrow-' +
+                            (getCompare(filter['semester'], data['reports'], index)) + '.svg'" alt="">
+                    </div>
+                </td>
+            </ng-container>
+            <td *ngIf="haveFinal" class="myCustomColumn">
+                <div >
+                    <b>{{  ((filter['semester'] == 1 || !filter['semester']) ?
+                        (data['final']['semester1'] === 0 ? 'N/A' : (data['final']['semester1']| number : '1.2-2'))
+                        : (data['final']['semester2'] === 0 ? 'N/A' : (data['final']['semester2']| number : '1.2-2')  ))}}</b>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <b>{{  ((filter['semester'] == 1 || !filter['semester']) ?
+                        data['avg']['semester1'] :
+                        data['avg']['semester2']) | number : '1.2-2' }}</b>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+
+
+
+<!--[nzScroll]="{ x: '1150px' }"-->
+<nz-table #fixedTable nzBordered
+          *ngIf="!isLoading && onlySemester"
+          [nzData]="filter['mentors'] && filter['mentors'].length ? listOfStudentFiltered : listOfData "
+          [nzLoading]="isLoading"
+          [nzPageSize]="1000000000"
+>
+    <thead>
+    <tr>
+        <th nzLeft [nzWidth]="'50px'" style="text-align: center">#</th>
+        <th nzLeft>{{'Full Name'|translate}}</th>
+        <th *ngIf="filter['mentors'] && filter['mentors'].length">{{'Status'|translate}}</th>
+        <th *ngIf="filter['mentors'] && filter['mentors'].length">{{'City'|translate}}</th>
+        <th *ngIf="filter['mentors'] && filter['mentors'].length">{{'Course'|translate}}</th>
+        <th><b>{{'FirstSemester'|translate}}</b></th>
+        <th><b>{{'SecondSemester'|translate}}</b></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of fixedTable.data; let indexRow = index;">
+        <td nzLeft>
+            <div>{{indexRow + 1}}</div>
+        </td>
+        <td nzLeft>{{ data['fio'] }}</td>
+        <td *ngIf="filter['mentors'] && filter['mentors'].length">{{ data['status'] | translate }}</td>
+        <td *ngIf="filter['mentors'] && filter['mentors'].length">{{ data['cityName'] }}</td>
+        <td *ngIf="filter['mentors'] && filter['mentors'].length">{{ data['course'] }}</td>
+        <td [ngClass]="compareSem(data['avg']['semester1'])">
+            <div>
+                <b *ngIf="this.direction !== 'eduway'">{{ data['avg']['semester1'] | number : '1.2-2' }}</b>
+                <b *ngIf="this.direction === 'eduway'">
+                    {{(data['avg']['semester1'] !== null) ? (data['avg']['semester1'] ? 'Зачет' : 'Не Зачет') : '' }}</b>
+            </div>
+        </td>
+        <td [ngClass]="compareSem(data['avg']['semester2'])">
+            <div>
+                <b *ngIf="this.direction !== 'eduway'">{{ data['avg']['semester2'] | number : '1.2-2' }}</b>
+                <b *ngIf="this.direction === 'eduway'">
+                    {{(data['avg']['semester2'] !== null) ? (data['avg']['semester2'] ? 'Зачет' : 'Не Зачет') : '' }}</b>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</nz-table>

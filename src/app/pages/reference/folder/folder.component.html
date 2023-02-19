@@ -1,77 +1,150 @@
-<tc-card class="mb-0" [padding]="'0'">
-    <nz-table
-        #basicTable
-        [nzData]="dataRecord"
-        [nzShowPagination]="totalPages > 1"
-        [nzPageSize]="pageSize"
-        [nzTotal]="totalData"
-        [nzLoading]="loading"
-        [nzPageIndex]="pageIndex"
-        [nzFrontPagination]="false"
-        [nzShowTotal]="totalTpl"
-        (nzPageIndexChange)="onChangePageIndex($event)"
-    >
-        <thead nzSingleSort (nzSortChange)="onChangeSort($event)">
-        <tr>
-            <th>#</th>
-            <th
-                    *ngFor="let header of headerRecord; let index = index;"
-                    nzShowSort
-                    nzSortKey="{{header['id']}}"
-                    nzCustomFilter
-            >
-                {{ header['title']}}
-                <i
-                        nz-th-extra
-                        class="ant-table-filter-icon"
-                        nz-icon
-                        nz-dropdown
-                        #dropdown="nzDropdown"
-                        nzType="search"
-                        [nzDropdownMenu]="menu"
-                        [class.ant-table-filter-open]="dropdown.nzVisible"
-                        nzTrigger="click"
-                        nzPlacement="bottomRight"
-                        [nzClickHide]="false"
-                        nzTableFilter
-                ></i>
-                <nz-dropdown-menu #menu="nzDropdownMenu">
-                    <div class="search-box">
-                        <div [ngSwitch]="header.type">
-                            <tc-form-group *ngSwitchCase="'date'">
-                                <span>С</span>
-                                <tc-input type="date" [placeholder]="'с'" class="mb-2" [size]="'sm'"></tc-input>
-                                <span>по</span>
-                                <tc-input type="date" [placeholder]="'по'" [size]="'sm'"></tc-input>
-                            </tc-form-group>
+<div class="delete d-flex">
+    <button tc-button class="mb-2"
+            *ngIf="canAdd"
+            [beforeIcon]="'icofont-plus'"
+            [view]="'info'"
+            [size]="'sm'"
+            [routerLink]="prepareNavigateLinkCreate()">
+        {{ 'addRecord' | translate}}
+    </button>
+    <button tc-button class="mb-2"
+            *ngIf="isKBFTur"
+            (click)="openModal(deleteModalBody, deleteModalHeader, deleteModalFooter);"
+            [view]="'error'"
+            [size]="'sm'"
+            [load]="loading || loadingDownload"
+    >{{'Delete' | translate}}</button>
+    <button tc-button class="mb-2"
+            *ngIf="studentList || isKBFTur"
+            (click)="download()"
+            [beforeIcon]="'icofont-download'"
+            [view]="'info'"
+            [size]="'sm'"
+            [load]="loading || loadingDownload"
+    >{{'Download List' | translate}}</button>
+    <button tc-button class="mb-2"
+            *ngIf="isKBFTur"
+            (click)="openModal(inviteModalBody, inviteModalHeader, inviteModalFooter)"
+            [view]="'success'"
+            [size]="'sm'"
+            [load]="loading || loadingDownload"
+    >{{'Invite' | translate}}</button>
+    <button tc-button class="mb-2"
+            *ngIf="isKBFTur"
+            (click)="openModal(refuseModalBody, refuseModalHeader, refuseModalFooter);"
+            [view]="'error'"
+            [size]="'sm'"
+            [load]="loading || loadingDownload"
+    >{{'Refuse' | translate}}</button>
+    <button *ngFor="let button of addButtons; " tc-button class="mb-2"
+            [beforeIcon]="button['icon'] ? button['icon'] : 'icofont-plus'"
+            [view]="'info'"
+            [size]="'sm'"
+            (click)="goTo($event, button['link'])">
+        {{ button['title'] | translate}}
+    </button>
+</div>
 
-                            <tc-form-group *ngSwitchCase="'timestamp'">
-                                <span>С</span>
-                                <tc-input type="datetime-local" [placeholder]="'с'" class="mb-2" [size]="'sm'"></tc-input>
-                                <span>по</span>
-                                <tc-input type="datetime-local" [placeholder]="'по'" [size]="'sm'"></tc-input>
-                            </tc-form-group>
+<tc-card [padding]="'0'" style="display: inline-block" *ngIf="enableSearch || enableFilter">
+    <div class="filter-table d-flex">
+        <tc-input *ngIf="enableSearch"
+                style="border-radius: 16px; min-width: 320px"
+                (keyup.enter)="searchParam()"
+                [(ngModel)]="searchValue"
+                [placeholder]="'Search'|translate"
+                [prefixIcon]="'icofont-search'"
+        ></tc-input>
+        <div class="line-vertical" *ngIf="enableSearch && enableFilter"></div>
+        <a nz-dropdown nzTrigger="click" class="d-flex"
+           style="align-items: center;"
+           [nzDropdownMenu]="filter"
+           *ngIf="enableFilter">
+            {{'Filter'|translate}}
+            <i nz-icon nzType="down"></i>
+        </a>
+        <div class="line-vertical" *ngIf="enableFilter"></div>
+        <a class="d-flex"
+           style="align-items: center; color: #FF2343; white-space: nowrap;"
+           (click)="resetFilter()"
+           *ngIf="enableFilter">
+            <i class="icofont-ui-reply"></i>
+            {{'Reset'|translate}}
+        </a>
+    </div>
+</tc-card>
 
-                            <tc-form-group class="d-grid" *ngSwitchCase="'integer'">
-                                <tc-input type="number" [placeholder]="''" class="mb-2" [size]="'sm'"></tc-input>
-                            </tc-form-group>
+<nz-dropdown-menu #filter  >
+    <tc-card class="filter-dropdown" style="margin: 15px">
+        <div style="font-weight: 700; color: #202224;font-size: 15px;line-height: 24px;">{{'Filter'|translate}}</div>
+        <div class="line-horizontal"></div>
+        <div class="filter-box container-fluid pt-4 pb-2">
+            <div class="row">
+                <div
+                        class="col-12 col-md-4 col-lg-3"
+                        *ngFor="let header of headerRecord; let index = index; trackBy: identify"
+                >
+                    <div [ngSwitch]="header.type">
+                        <tc-form-group *ngSwitchCase="'date'">
+                            <tc-form-label>{{header['title'] | translate}}</tc-form-label>
+                            <tc-input type="date" [(ngModel)]="header['from']" [prefix]="'c'" [placeholder]="'с'" class="mb-2" [size]="'sm'"></tc-input>
+                            <tc-input type="date" [(ngModel)]="header['to']" [prefix]="'по'" [placeholder]="'по'" [size]="'sm'"></tc-input>
+                        </tc-form-group>
 
-                            <tc-form-group class="d-grid" *ngSwitchCase="'float'">
-                                <tc-input type="number" [placeholder]="''" class="mb-2" [size]="'sm'"></tc-input>
-                            </tc-form-group>
-
-                            <tc-form-group class="d-grid" *ngSwitchCase="'boolean'">
-                                <tc-checkbox>{{ "Yes" | translate }}</tc-checkbox>
-                                <tc-checkbox>{{ "No" | translate }}</tc-checkbox>
-                            </tc-form-group>
-
-                            <tc-form-group class="d-grid" *ngSwitchCase="'enumeration'">
-                                <tc-checkbox *ngFor="let item of header.values">{{ item.value }}</tc-checkbox>
-                            </tc-form-group>
-
-                            <tc-autocomplete-mds
-                                    *ngSwitchDefault
+                        <tc-form-group *ngSwitchCase="'timestamp'">
+                            <tc-form-label>{{header['title'] | translate}}</tc-form-label>
+                            <nz-date-picker
+                                    nzShowTime
                                     class="mb-2"
+                                    [nzFormat]="'dd.MM.yyyy HH:mm'"
+                                    [nzPlaceHolder]="'с'"
+                                    [(ngModel)]="header['from']"
+                                    [nzSize]="'small'"
+                            ></nz-date-picker>
+                            <nz-date-picker
+                                    nzShowTime
+                                    [nzFormat]="'dd.MM.yyyy HH:mm'"
+                                    [nzPlaceHolder]="'по'"
+                                    [(ngModel)]="header['to']"
+                                    [nzSize]="'small'"
+                            ></nz-date-picker>
+                        </tc-form-group>
+
+                        <tc-form-group class="d-grid" *ngSwitchCase="'integer'">
+                            <tc-form-label>{{header['title'] | translate}}</tc-form-label>
+                            <div class="d-flex">
+                                <tc-input type="number" [(ngModel)]="header['from']" [prefix]="'c'" [placeholder]="'с'" style="padding:0; min-width: 100px !important;" class="mb-2 col-12 col-md-6"></tc-input>
+                                <tc-input type="number" [(ngModel)]="header['to']" [prefix]="'по'" [placeholder]="'по'" style="padding:0; min-width: 100px !important;" class="mb-2 col-12 col-md-6"></tc-input>
+                            </div>
+                        </tc-form-group>
+
+                        <tc-form-group class="d-grid" *ngSwitchCase="'float'">
+                            <tc-form-label>{{header['title'] | translate}}</tc-form-label>
+                            <tc-input [(ngModel)]="header['filterValue']" type="number" [placeholder]="''" class="mb-2" [size]="'sm'"></tc-input>
+                        </tc-form-group>
+
+                        <tc-form-group class="d-grid" *ngSwitchCase="'boolean'">
+                            <tc-form-label>{{header['title'] | translate}}</tc-form-label>
+                            <tc-checkbox id="{{header['id'] + '_true'}}" class="mr-3" [(ngModel)]="header['filterValue'][0]">{{ "Yes" | translate }}</tc-checkbox>
+                            <tc-checkbox id="{{header['id'] + '_false'}}" [(ngModel)]="header['filterValue'][1]" [value]="header['filterValue'][1]">{{ "No" | translate }}</tc-checkbox>
+                        </tc-form-group>
+
+                        <tc-form-group class="d-grid" *ngSwitchCase="'enumeration'">
+                            <tc-form-label>{{header['title'] | translate}}</tc-form-label>
+                            <tc-select
+                                    [size]="'sm'"
+                                    [placeholder]="header['title']"
+                                    [options]="header['options']"
+                                    [multiple]="true"
+                                    [allowClear]="true"
+                                    [(ngModel)]="header['filterValue']"
+                                    [selected]="header['filterValue']"
+                                    [filter]="header['options'].length > 7"
+                            ></tc-select>
+                        </tc-form-group>
+
+                        <tc-form-group class="d-grid" *ngSwitchDefault>
+                            <tc-form-label>{{header['title'] | translate}}</tc-form-label>
+                            <tc-autocomplete-mds
                                     [data]="header['autoValues']"
                                     [key]="'value'"
                                     [loading]="loadingAuto"
@@ -82,59 +155,367 @@
                                     (keyup)="changeDefaultAuto(index)"
                                     (optionSelected)="changeDefaultAutoSelected($event)"
                                     [placeholder]="header['title']"></tc-autocomplete-mds>
-
-                        </div>
-
-                        <div class="d-flex">
-                            <button tc-button [size]="'sm'" (click)="updateFilter(header['id'], header['filterValue'])">
-                                OK
-                            </button>
-                            <button tc-button [size]="'sm'">Reset</button>
-                        </div>
+                        </tc-form-group>
                     </div>
-                </nz-dropdown-menu>
+                </div>
+            </div>
+        </div>
+        <div class="line-horizontal"></div>
+
+        <div style="display: flex; flex-wrap: wrap; justify-content: right">
+            <tc-select class="col-12 col-md-2" placeholder="PageSize" [options]="pageSizeOption" [(ngModel)]="pageSize"></tc-select>
+            <button tc-button
+                    [size]="'sm'"
+                    [view]="'info'"
+                    (click)="updateFilter()"
+            >{{'Confirm'|translate}}</button>
+        </div>
+    </tc-card>
+</nz-dropdown-menu>
+
+<!--<tc-card  [padding]="'0'"  >-->
+<!--    [nzShowTotal]="totalTpl"-->
+
+<div [ngStyle]="{'margin-bottom': '10px'}">
+    <p>
+        Барлығын таңдау
+        <tc-checkbox
+            class="check-table"
+            [ngStyle]="{'opacity': 1}"
+            [value]="isAllChecked"
+            (click)="checkAllRecord()"
+        ></tc-checkbox>
+        <br>
+        Ескерту! Тек осы беттегілер ғана таңдалады
+    </p>
+</div>
+
+<nz-table  class="mb-0" *ngIf="!isEmpty"
+    #basicTable
+    [nzData]="dataRecord.length ? dataRecord : []"
+    [nzShowPagination]="true"
+    [nzPageSize]="pageSize"
+    [nzPaginationPosition]="'bottom'"
+    [nzTotal]="totalData"
+    [nzLoading]="loading"
+    [nzPageIndex]="pageIndex"
+    [nzFrontPagination]="false"
+    (nzPageIndexChange)="onChangePageIndex($event)"
+>
+    <thead (nzSortChange)="onChangeSort($event)">
+        <tr style="border-top-left-radius: 16px; border-top-right-radius:  16px; border: #000c17">
+            <th width="70px" class="table-header">№</th>
+            <th *ngIf="studentList" width="100px" nzColumnKey="{{'mentor'}}" nzShowSort class="table-header">{{'Mentor' | translate}}</th>
+            <th
+                    *ngFor="let header of headerRecord; let index = index; trackBy: identify"
+                    class="table-header"
+                    nzColumnKey="{{header['id']}}"
+                    [nzSortOrder]="sortData[header['id']] ? sortData[header['id']]['value'] : ''"
+            >
+                {{ header['title']|translate}}
             </th>
             <th
-                    nz-resizable
+                    *ngIf="enableCustomFields"
+                    class="table-header"
                     nzShowSort
-                    nzSortKey="creator"
+                    nzColumnKey="creator"
             >
-                Редактор
+                {{'Editor'|translate}}
             </th>
             <th
+                    *ngIf="enableCustomFields"
+                    class="table-header"
                     nzShowSort
-                    nzSortKey="updatedAt"
+                    nzColumnKey="updatedAt"
             >
-                Изменен
+                {{'Modified'|translate}}
             </th>
+            <th class="table-header"></th>
         </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let data of basicTable.data; let index = index;"
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of (basicTable.data.length ? basicTable.data : []) ; let index = index; trackBy: identify"
             class="mainTable">
-            <td><tc-checkbox [(ngModel)]="checkData[index]" [value]="checkData[index]" class="check-table"></tc-checkbox></td>
-            <td *ngFor="let header of headerRecord; let index2 = index;" [routerLink]="['/vertical/reference/record/view', referenceId, data['id']]">
+            <td class="ranking">
+                <tc-checkbox
+                        class="check-table"
+                        [ngStyle]="{'opacity': (checkData[index]? 1 : .0)}"
+                        [(ngModel)]="checkData[index]"
+                        [value]="checkData[index]"
+                ></tc-checkbox>
+                <div class="index-table" [ngStyle]="{'opacity': (checkData[index]? 0 : 1)}">
+                    {{ (pageSize * (pageIndex - 1)) + index + 1 }}
+                </div>
+            </td>
+            <td *ngIf="studentList" (click)="index !== editIndex ? goTo($event, prepareNavigateLink(data['id'])) : null">
+                <div>
+                    {{ data['mentor'] }}
+                </div>
+            </td>
+            <td *ngFor="let header of headerRecord; let index2 = index;"  (click)="index !== editIndex ? goTo($event, prepareNavigateLink(data['id'])) : null">
                 <tc-factory-field
+                        *ngIf="index !== editIndex && header['id'] !=='gender_enum'"
                         [_valueField]="header"
                         [value]="data[header['id']]"
                         [styleType]="'single'"
+                        [color]=""
                 ></tc-factory-field>
-            </td>
-            <td>{{ data['creator'] }}</td>
-            <td>{{ (data['updated_at'] !== null ? data['updated_at'] : data['created_at']) | date: 'dd.MM.yyyy HH:mm:ss' }}</td>
-        </tr>
-        </tbody>
-    </nz-table>
-    <ng-template #totalTpl let-range="range" let-totalData>{{ 'Total: ' + (isLast ? (totalData - 1) : totalData)}}</ng-template>
-</tc-card>
+<!--                <tc-factory-field-->
+<!--                        *ngIf="index !== editIndex && header['id'] ==='gender_enum'"-->
+<!--                        [_valueField]="header"-->
+<!--                        [value]="data[header['id']]"-->
+<!--                        [styleType]="'single'"-->
+<!--                ></tc-factory-field>-->
+                <div *ngIf="index !== editIndex && header['id'] ==='gender_enum'"  [ngStyle]="{ 'background-color': setColor(data[header['id']]) , 'border-radius': genderBorderRadius, 'padding':genderPadding, 'color': fontColor }">
+                    {{data[header['id']]}}
+                </div>
+<!--                <div *ngIf="index !== editIndex && header['id'] ==='gender_enum' && data[header['id']]=='Мужской'"  style="background-color: #55AAFF;padding: 7px;-->
+<!--                border-radius: 25px;" >-->
+<!--                    {{data[header['id']]}}-->
+<!--                </div>-->
 
-<button class="no-style settings-btn"
-        [routerLink]="['/vertical/reference/record/create', referenceId]">
-    <span class="pulse"></span>
-    <tc-icon
-            class="settings-icon"
-            [iconClass]="'icofont-plus'"
-            [tcFontSize]="26"
-            [padding]="'2px 0'"
-    ></tc-icon>
-</button>
+                <form [formGroup]="labelForm" *ngIf="index === editIndex" (ngSubmit)="submitEvent(labelForm.valid)"
+                      class="d-flex" style="align-items: center;">
+                    <div [ngSwitch]="header.type">
+                        <tc-integer-field *ngSwitchCase="'integer'"
+                                          [_valueField]="header"
+                                          [(ngModel)]="header.value"
+                                          [styleType]="'no-label'"
+                                          [type]="'edit'"
+                                          [form]="labelForm"
+                                          [isNew]="true"
+                                          [formControlName]="header.id"
+                        ></tc-integer-field>
+
+                        <tc-float-field *ngSwitchCase="'float'"
+                                        [_valueField]="header"
+                                        [(ngModel)]="header.value"
+                                        [styleType]="'no-label'"
+                                        [type]="'edit'"
+                                        [form]="labelForm"
+                                        [isNew]="true"
+                                        [formControlName]="header.id"
+                        ></tc-float-field>
+
+                        <tc-string-field *ngSwitchCase="'string'"
+                                         [_valueField]="header"
+                                         [(ngModel)]="header.value"
+                                         [styleType]="'no-label'"
+                                         [type]="'edit'"
+                                         [form]="labelForm"
+                                         [isNew]="true"
+                                         [formControlName]="header.id"
+                        ></tc-string-field>
+
+                        <tc-date-field *ngSwitchCase="'date'"
+                                       [_valueField]="header"
+                                       [(ngModel)]="header.value"
+                                       [styleType]="'no-label'"
+                                       [type]="'edit'"
+                                       [form]="labelForm"
+                                       [isNew]="true"
+                                       [formControlName]="header.id"
+                        ></tc-date-field>
+                        <tc-timestamp-field *ngSwitchCase="'timestamp'"
+                                            [_valueField]="header"
+                                            [(ngModel)]="header.value"
+                                            [styleType]="'no-label'"
+                                            [type]="'edit'"
+                                            [form]="labelForm"
+                                            [isNew]="true"
+                                            [formControlName]="header.id"
+                        ></tc-timestamp-field>
+
+                        <tc-boolean-field *ngSwitchCase="'boolean'"
+                                          [_valueField]="header"
+                                          [(ngModel)]="header.value"
+                                          [styleType]="'no-label'"
+                                          [type]="'edit'"
+                                          [form]="labelForm"
+                                          [isNew]="true"
+                                          [formControlName]="header.id"
+                        ></tc-boolean-field>
+
+                        <tc-enumeration-field *ngSwitchCase="'enumeration'"
+                                              [_valueField]="header"
+                                              [styleType]="'no-label'"
+                                              [type]="'edit'"
+                                              [form]="labelForm"
+                                              [isNew]="true"
+                        ></tc-enumeration-field>
+
+                        <tc-reference-field *ngSwitchCase="'reference'"
+                                            [_valueField]="header"
+                                            [(ngModel)]="header.value"
+                                            [styleType]="'no-label'"
+                                            [type]="'edit'"
+                                            [form]="labelForm"
+                                            [isNew]="true"
+                                            [formControlName]="header.id"
+                        ></tc-reference-field>
+
+                        <tc-structure-field *ngSwitchCase="'structure'"
+                                            [_valueField]="header"
+                                            [(ngModel)]="header.value"
+                                            [styleType]="'no-label'"
+                                            [type]="'edit'"
+                                            [form]="labelForm"
+                                            [isNew]="true"
+                                            [formControlName]="header.id"
+                        ></tc-structure-field>
+                    </div>
+                    <div *ngIf="index2 == headerRecord.length - 1">
+                        <button tc-button class="ml-2"
+                                [afterIcon]="'icofont-save'"
+                                [view]="'success'"
+                                [size]="'sm'"
+                                [square]="true"
+                        ></button>
+                    </div>
+                </form>
+            </td>
+            <td *ngIf="enableCustomFields">{{ data['creator'] }}</td>
+            <td *ngIf="enableCustomFields">{{ (data['updated_at'] !== null ? data['updated_at'] : data['created_at']) | date: 'dd.MM.yyyy HH:mm:ss' }}</td>
+            <td *ngIf="studentList"><a [routerLink]="['/vertical/edit-account', data['id']]"><span style="color: #3D3DD8; justify-self: right" class="sli-note tc-icon-wrap"></span></a></td>
+        </tr>
+    </tbody>
+</nz-table>
+<!--<ng-template #totalTpl let-totalData>{{'Total'|translate}}{{ ': ' + totalData}}</ng-template>-->
+<!--</tc-card>-->
+
+<nz-empty *ngIf="isEmpty"
+          [nzNotFoundImage]="
+        'https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original'
+      "
+          [nzNotFoundContent]="contentTpl"
+          [nzNotFoundFooter]="footerTpl"
+>
+    <ng-template #contentTpl>
+        <span> Customize <a href="#API">{{'Description' | translate}}</a> </span>
+    </ng-template>
+    <ng-template #footerTpl>
+    </ng-template>
+</nz-empty>
+
+<!--(contextmenu)="index !== editIndex ? contextMenu($event, menu, index) : null"-->
+<nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+        <li nz-menu-item *ngFor="let item of clickMenu; let indexMenu = indexMenu"
+            [routerLink]="item['route']">{{item['display_name'] | translate}}</li>
+    </ul>
+</nz-dropdown-menu>
+
+<!--MODAL POPUP -->
+<ng-container>
+    <ng-template #inviteModalHeader>
+        <h4>{{'Invitation message' | translate }}</h4>
+    </ng-template>
+    <ng-template #inviteModalBody>
+        <nz-table #basicTable
+            [nzData]="studentsSelection"
+        >
+            <thead>
+                <tr>
+                    <td>{{'Firstname' | translate}}</td>
+                    <td>{{'SecondName' | translate}}</td>
+                    <td>{{'Lastname' | translate}}</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of (basicTable.data.length ? basicTable.data : [])">
+                    <td>{{ data["firstname"] }}</td>
+                    <td>{{ data["secondname"] }}</td>
+                    <td>{{ data["lastname"] }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+        <tc-select *ngIf="inviteMessage.length > 0"
+                   [placeholder]="'Default message'|translate"
+                   [options]="inviteMessage"
+                   [allowClear]="true"
+                   [(ngModel)]="selectedMessage"
+                   (ngModelChange)="changeValueEnum()"
+        >
+        </tc-select>
+        <p style="margin: 10px 0 10px 0">{{ 'Email Message' | translate}}</p>
+        <textarea rows="4" nz-input [(ngModel)]="emailMessage"></textarea>
+    </ng-template>
+    <ng-template #inviteModalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'default'" (click)="closeModal()">{{'Cancel'|translate}}</button>
+            <button tc-button [view]="'success'" (click)="sendInvatationMessage()">{{'Invite'|translate}}</button>
+        </div>
+    </ng-template>
+
+
+    <ng-template #refuseModalHeader>
+        <h4>{{'Refuse message' | translate }}</h4>
+    </ng-template>
+    <ng-template #refuseModalBody>
+        <nz-table #basicTable
+                  [nzData]="studentsSelection"
+        >
+            <thead>
+            <tr>
+                <td>{{'Firstname' | translate}}</td>
+                <td>{{'SecondName' | translate}}</td>
+                <td>{{'Lastname' | translate}}</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let data of (basicTable.data.length ? basicTable.data : [])">
+                <td>{{ data["firstname"] }}</td>
+                <td>{{ data["secondname"] }}</td>
+                <td>{{ data["lastname"] }}</td>
+            </tr>
+            </tbody>
+        </nz-table>
+        <tc-select *ngIf="refuseMessage.length > 0"
+                   [placeholder]="'Default message'|translate"
+                   [options]="refuseMessage"
+                   [allowClear]="true"
+                   [(ngModel)]="selectedMessage"
+                   (ngModelChange)="changeValueEnum()"
+        >
+        </tc-select>
+        <p style="margin: 10px 0 10px 0">{{ 'Email Message' | translate}}</p>
+        <textarea rows="4" nz-input [(ngModel)]="emailMessage"></textarea>
+    </ng-template>
+    <ng-template #refuseModalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'default'" (click)="closeModal()">{{'Cancel'|translate}}</button>
+            <button tc-button [view]="'error'" (click)="sendRefuseMessage()">{{'Refuse'|translate}}</button>
+        </div>
+    </ng-template>
+
+    <ng-template #deleteModalHeader>
+        <h4>{{'Delete' | translate }}</h4>
+    </ng-template>
+    <ng-template #deleteModalBody>
+        <nz-table #basicTable
+                  [nzData]="studentsSelection"
+        >
+            <thead>
+            <tr>
+                <td>{{'Firstname' | translate}}</td>
+                <td>{{'SecondName' | translate}}</td>
+                <td>{{'Lastname' | translate}}</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let data of (basicTable.data.length ? basicTable.data : [])">
+                <td>{{ data["firstname"] }}</td>
+                <td>{{ data["secondname"] }}</td>
+                <td>{{ data["lastname"] }}</td>
+            </tr>
+            </tbody>
+        </nz-table>
+    </ng-template>
+    <ng-template #deleteModalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'default'" (click)="closeModal()">{{'Cancel'|translate}}</button>
+            <button tc-button [view]="'error'" (click)="delete()">{{'Delete'|translate}}</button>
+        </div>
+    </ng-template>
+</ng-container>
+

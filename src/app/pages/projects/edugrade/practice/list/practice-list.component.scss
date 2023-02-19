@@ -1,0 +1,55 @@
+:host {
+  .edu-right {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .edu-grade {
+    min-width: 480px;
+
+  }
+}
+
+.block-edu {
+  padding-bottom: 61px;
+}
+.edu-grade i {
+  cursor: pointer;
+  line-height: 60px;
+  font-size: 16px;
+  color: #ed253d;
+}
+.footer-practice {
+  border-top: 1px solid #e1e1e1;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  bottom: 0;
+  background-color: #fff;
+  div {
+    margin: 10px 24px;
+    text-align: right;
+  }
+}
+
+button {
+  height: fit-content;
+}
+
+::ng-deep {
+  .cdk-overlay-container{
+    z-index: 10000;
+  }
+
+  .mainTable tc-circle-progress {
+    margin: 0 2px;
+    .text-box .text {
+      font-size: 10px !important;
+      font-weight: bold;
+    }
+  }
+
+  tc-modal.opened {
+    z-index: 10001;
+  }
+}

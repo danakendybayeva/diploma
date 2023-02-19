@@ -1,0 +1,70 @@
+<nz-breadcrumb class="breadcrumb">
+    <nz-breadcrumb-item>
+        <a [routerLink]="['/vertical/courses/course/list']">{{'List Course' | translate}}</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+        {{'Add Package' | translate}}
+    </nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<form *ngIf="loaded && !isEmpty" [formGroup]="labelForm" (ngSubmit)="submitEvent(labelForm.valid)">
+    <div class="row">
+        <div class="col-12 col-md-12 col-sm-12">
+            <tc-card *ngIf="loaded">
+                <tc-string-field
+                    [_valueField]="fieldsData['display_name']"
+                    [(ngModel)]="fieldsData['display_name'].value"
+                    [type]="typePage"
+                    [form]="labelForm"
+                    [isNew]="isNew"
+                    [formControlName]="'display_name'"
+                ></tc-string-field>
+                <tc-string-field
+                        [_valueField]="fieldsData['display_name_kz']"
+                        [(ngModel)]="fieldsData['display_name_kz'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [formControlName]="'display_name_kz'"
+                ></tc-string-field>
+                <tc-text-field
+                    [_valueField]="fieldsData['description']"
+                    [(ngModel)]="fieldsData['description'].value"
+                    [type]="typePage"
+                    [form]="labelForm"
+                    [isNew]="isNew"
+                    [formControlName]="'description'"
+                ></tc-text-field>
+                <tc-text-field
+                    [_valueField]="fieldsData['description_kz']"
+                    [(ngModel)]="fieldsData['description_kz'].value"
+                    [type]="typePage"
+                    [form]="labelForm"
+                    [isNew]="isNew"
+                    [formControlName]="'description_kz'"
+                ></tc-text-field>
+                <tc-image-field
+                    [_valueField]="fieldsData['bg_image']"
+                    [(ngModel)]="fieldsData['bg_image'].value"
+                    [type]="typePage"
+                    [form]="labelForm"
+                    [isNew]="isNew"
+                    [referenceId]="referenceId"
+                    [formControlName]="'bg_image'"
+                    [postAction]="postImage"
+                    [getUrl]="getImageUrl"
+                ></tc-image-field>
+            </tc-card>
+        </div>
+        <div class="col-12 col-md-6">
+
+        </div>
+        <div class="col-12">
+            <button tc-button
+                    class="mr-2"
+                    [view]="'info'">
+                {{'Save'|translate}}
+            </button>
+        </div>
+    </div>
+</form>

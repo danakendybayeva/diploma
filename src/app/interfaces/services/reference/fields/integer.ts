@@ -6,4 +6,8 @@ export interface IntegerField extends IField {
     rangeFrom?: number;
     rangeTo?: number;
     defaultValue?: number;
+    prefix?: string;
+    suffix?: string;
+    prefixIcon?: string;
+    suffixIcon?: string;
 }

@@ -1,0 +1,40 @@
+{
+  "lang": {
+    "locale": "ru-RU",
+    "placeholder": "Выберите дату ",
+    "rangePlaceholder": ["Дата начала", "Дата окончания"],
+    "today": "Сегодня ",
+    "now": "Сейчас ",
+    "backToToday": "Назад к сегодняшнему дню ",
+    "ok": "Ok",
+    "clear": "Очистить",
+    "month": "Месяц",
+    "year": "Год",
+    "timeSelect": "Выберите время",
+    "dateSelect": "Выберите дату",
+    "monthSelect": "Выберите месяц",
+    "yearSelect": "Выберите год",
+    "decadeSelect": "Выберите десятилетие",
+    "yearFormat": "YYYY",
+    "dateFormat": "M/D/YYYY",
+    "dayFormat": "D",
+    "dateTimeFormat": "M/D/YYYY HH:mm:ss",
+    "monthFormat": "MMMM",
+    "monthBeforeYear": true,
+    "previousMonth": "Предыдущий месяц (PageUp)",
+    "nextMonth": "В следующем месяце (PageDown)",
+    "previousYear": "Прошлый год (Ctrl + слева)",
+    "nextYear": "В следующем году (Ctrl + право)",
+    "previousDecade": "Последнее десятилетие",
+    "nextDecade": "Следующее десятилетие ",
+    "previousCentury": "Прошлый век",
+    "nextCentury": "Следующий век"
+  },
+  "timePickerLocale": {
+    "placeholder": "Выберите время"
+  },
+  "dateFormat": "YYYY-MM-DD",
+  "dateTimeFormat": "YYYY-MM-DD HH:mm:ss",
+  "weekFormat": "YYYY-wo",
+  "monthFormat": "YYYY-MM"
+}

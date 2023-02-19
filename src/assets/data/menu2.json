@@ -65,7 +65,7 @@
         "routing": "list"
       },
       {
-        "title": "New Profile",
+        "title": "New User",
         "routing": "profile-new"
       },
       {

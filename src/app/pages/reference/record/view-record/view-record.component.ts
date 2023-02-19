@@ -1,4 +1,4 @@
-import {AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewChecked, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ValidationErrors} from '@angular/forms';
 
 import { Store } from '@ngrx/store';
@@ -14,6 +14,11 @@ import {environment} from '../../../../../environments/environment';
 import {map} from 'rxjs/operators';
 import {IReference} from '../../../../interfaces/services/reference/reference';
 import {FieldService} from '../../../../interfaces/services/reference/field.service';
+import {DomSanitizer} from '@angular/platform-browser';
+import {UserService} from '../../../../user/_services/user.service';
+import {Content} from '../../../../ui/interfaces/modal';
+import {TCModalService} from '../../../../ui/services/modal/modal.service';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'view-record',
@@ -39,14 +44,26 @@ export class ViewRecordComponent extends BasePageComponent implements OnInit, On
   _routeListener = null;
   urlPath = [];
   loaded = false;
+  isEmpty = false;
+  canEdit = false;
+  canDelete = false;
+  redirectRemove = '';
 
-  constructor(store: Store<IAppState>, httpSv: HttpService,
-              private formBuilder: FormBuilder,
-              private http: HttpClient, private router: Router,
-              private route: ActivatedRoute,
-              private fieldService: FieldService,
-              private readonly changeDetectorRef: ChangeDetectorRef,
-              private toastr: ToastrService) {
+  postImage = environment.apiUrl + '/api/media/file/request-file/image';
+  getImageUrl = environment.apiUrl + '/api/media/file/';
+
+  constructor(
+      store: Store<IAppState>, httpSv: HttpService,
+      protected formBuilder: FormBuilder,
+      protected http: HttpClient,
+      protected router: Router,
+      protected route: ActivatedRoute,
+      protected fieldService: FieldService,
+      protected readonly changeDetectorRef: ChangeDetectorRef,
+      protected toastr: ToastrService,
+      protected modal: TCModalService,
+      protected datepipe: DatePipe
+  ) {
     super(store, httpSv);
     this.pageData = {
       title: 'Запись',
@@ -83,50 +100,76 @@ export class ViewRecordComponent extends BasePageComponent implements OnInit, On
       this.fieldsData = await this.fieldService.getReferenceFields(this.referenceId);
       if (this.route.snapshot.params['recordId']) {
         this.recordId = this.route.snapshot.params['recordId'];
+        this.canEdit = await this.fieldService.mayAccessRecord('edit', this.referenceId, this.recordId);
+        this.canDelete = await this.fieldService.mayAccessRecord('delete', this.referenceId, this.recordId);
         this.getRecordData('get');
       }
       super.ngOnInit();
     }
   }
 
-  // prepareValues() {
-  //   const values = {};
-  //   this.fieldsData.forEach(item => {
-  //     values[item.id] = item.value;
-  //   });
-  //   this.fieldsValue = values;
-  // }
-
-
   getRecordData(type: string = 'get') {
-    return this.http.get<IReference>(`${environment.apiUrl}/api/reference/record/${type}/${this.referenceId}/${this.recordId}`)
+    return this.http.get<any>(`${environment.apiUrl}/api/reference/record/${type}/${this.referenceId}/${this.recordId}`)
         .pipe(map(data => {
           return data;
         }))
         .subscribe(data => {
-          this.fieldsData.forEach(item => {
-            item.value = data[item.id];
-          });
-          this.loaded = true;
+          if (Object.keys(data).length) {
+            this.fieldsData.forEach(item => {
+              item.value = data[item.id];
+            });
+            this.fieldsValue = data;
+            this.loaded = true;
+          } else {
+            this.isEmpty = true;
+          }
         });
   }
 
   removeRecord(referenceId: string, recordId: string) {
     return this.http.post<Status>(`${environment.apiUrl}/api/reference/record/remove/${this.referenceId}/${this.recordId}`,
-        this.fieldsValue)
+        {})
         .subscribe({
           next: data => {
             if (data.status === 1) {
               this.toastr.success(data.message, 'Success', { closeButton: true });
-              this.router.navigate(['/vertical/reference/record/list', this.referenceId]).then(r => {});
+              if (this.redirectRemove) {
+                this.router.navigate([this.redirectRemove]).then();
+              } else {
+                this.router.navigate(['/vertical/reference/record/section', this.referenceId, this.referenceId]).then();
+              }
             } else {
               this.toastr.error(data.message, 'Error', { closeButton: true });
             }
+            this.modal.close();
           },
           error: error => {
             this.toastr.error('Not saved!', 'Error', { closeButton: true });
+            this.modal.close();
           }
         });
+  }
+
+  getEditUrl() {
+    return ['/vertical/reference/record/edit', this.referenceId, this.recordId];
+  }
+
+  openModal<T>(
+      body: Content<T>,
+      header: Content<T> = null,
+      footer: Content<T> = null,
+      options: any = null
+  ) {
+    this.modal.open({
+      body: body,
+      header: header,
+      footer: footer,
+      options: options
+    });
+  }
+
+  closeModal() {
+    this.modal.close();
   }
 
 }

@@ -16,7 +16,7 @@
         [view]="'info'"
         [disabled]="disable"
         [load]="load">
-    Сохранить
+    {{'Save'|translate}}
 </button>
 <button tc-button
         class="mr-2"
@@ -33,5 +33,6 @@
         [view]="'error'"
         [load]="load"
         (click)="removeField()">
-    Удалить
+    {{'Delete'|translate}}
+
 </button>

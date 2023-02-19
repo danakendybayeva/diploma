@@ -22,7 +22,8 @@ export class TCCircleProgressComponent implements OnInit, OnChanges {
   }
 
   @Input() rotate: number;
-  @Input() value: number;
+  @Input() value: number | boolean;
+  @Input() type = 'progress';
   @Input() strokeColor: string | string[];
 
   @Input() strokeWidth: number;
@@ -54,6 +55,9 @@ export class TCCircleProgressComponent implements OnInit, OnChanges {
   }
 
   calculateOffset(val: number): number {
+    if (this.type === 'icon') {
+      return 0;
+    }
     return this.circumference - (val / 100) * this.circumference;
   }
 

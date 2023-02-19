@@ -1,0 +1,31 @@
+.list {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.name {
+    max-width: 590px;
+}
+
+.width {
+    width: 70px;
+}
+
+.width1 {
+    width: 170px;
+}
+
+.width2 {
+    width: 30px;
+}
+
+.mainTable {
+    cursor: pointer;
+}
+
+::ng-deep {
+    .ant-select-tree {
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+}

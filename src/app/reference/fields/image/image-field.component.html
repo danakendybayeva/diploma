@@ -1,0 +1,75 @@
+<tc-form-group *ngIf="_valueField && type === 'edit' && form" [formGroup]="form" [ngClass]="{'mb-0' : styleType === 'no-label'}">
+  <div class="row align-items-center">
+    <div class="col-12 col-md-3" *ngIf="styleType === 'standard'">
+      <tc-form-label class="mb-md-0" *ngIf="!isConfig">{{ _valueField.title |translate}} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <tc-form-label class="mb-md-0" *ngIf="isConfig">{{'Default Value'|translate}}</tc-form-label>
+    </div>
+    <div class="col-12" [ngClass]="{'col-md-9' : styleType === 'standard'}">
+      <tc-form-label *ngIf="styleType != 'standard' && !isConfig && styleType != 'no-label'">{{ _valueField.title |translate}} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <tc-form-label *ngIf="styleType != 'standard' && isConfig">{{'Default Value'|translate}}</tc-form-label>
+      <div class="clearfix">
+        <nz-upload
+                class="avatar-uploader"
+                nzListType="picture-card"
+                [nzAction]="postAction"
+                [nzCustomRequest]="customReq"
+                [(nzFileList)]="fileList"
+                [nzShowButton]="(!_valueField.isSingle && (fileList.length < _valueField.maxCount || _valueField.maxCount <= 0))
+                                || (_valueField.isSingle && fileList.length === 0)"
+                [nzShowUploadList]="showUploadList"
+                [nzLimit]="_valueField.maxCount <= 0 ? 0 : _valueField.maxCount"
+                [nzMultiple]="!_valueField.isSingle"
+                [nzBeforeUpload]="beforeUpload"
+                [nzAccept]="'image/*'"
+                [nzPreview]="handlePreview"
+                (nzChange)="handleChange($event)"
+        >
+          <i class="icofont-plus" style="font-size: 28px;"></i>
+          <div class="ant-upload-text">Upload</div>
+        </nz-upload>
+        <nz-modal
+                [nzVisible]="previewVisible"
+                [nzContent]="modalContent"
+                [nzFooter]="null"
+                (nzOnCancel)="previewVisible = false"
+        >
+          <ng-template #modalContent>
+            <image-cropper
+                    [imageURL]="previewImage"
+                    [imageChangedEvent]="imageChangedEvent"
+                    [maintainAspectRatio]="true"
+                    [aspectRatio]="4 / 4"
+                    format="png"
+                    (imageCropped)="imageCropped($event)"
+                    (imageLoaded)="imageLoaded()"
+                    (cropperReady)="cropperReady($event)"
+                    (loadImageFailed)="loadImageFailed()"
+            ></image-cropper>
+            <button tc-button [size]="'sm'" [view]="'success'" [type]="'button'" (click)="changeImageCropped(previewImage)">Изменить</button>
+          </ng-template>
+        </nz-modal>
+      </div>
+    </div>
+  </div>
+</tc-form-group>
+
+<div *ngIf="_valueField && type != 'edit'" [ngSwitch]="styleType">
+  <div *ngSwitchCase="'single'">
+    <tc-avatar *ngIf="_valueField.isAvatar && value.length" [src]="getUrl + value[0].id +'?type=thumb_&size=m' | secureFile | async" [size]="100" class="mb-2 mb-sm-0"></tc-avatar>
+  </div>
+
+
+  <tc-form-group *ngSwitchDefault>
+    <div class="row align-items-center">
+      <div class="col-12 col-md-3">
+        <tc-form-label class="mb-md-0 label-show">{{ _valueField.title|translate }}:</tc-form-label>
+      </div>
+      <div class="col-12 col-md-9">
+        <div *ngIf="!_valueField.isAvatar && value.length">
+          <img *ngFor="let item of value" [src]="getUrl + value[0].id | secureFile | async" />
+        </div>
+        <tc-avatar *ngIf="_valueField.isAvatar && value.length" [src]="getUrl + value[0].id +'?type=thumb_&size=m' | secureFile | async" [size]="100" class="mb-2 mb-sm-0"></tc-avatar>
+      </div>
+    </div>
+  </tc-form-group>
+</div>

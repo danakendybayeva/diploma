@@ -1,0 +1,91 @@
+<div *ngIf="loaded && !isEmpty">
+    <div class="container">
+        <div class="d-flex header-top">
+            <nz-breadcrumb [nzSeparator]="'>'">
+                <nz-breadcrumb-item>
+                    {{'Home'|translate}}
+                </nz-breadcrumb-item>
+                <nz-breadcrumb-item>
+                    <a>{{'Application List'|translate}}</a>
+                </nz-breadcrumb-item>
+                <nz-breadcrumb-item>
+                    {{'An Application'|translate}}
+                </nz-breadcrumb-item>
+            </nz-breadcrumb>
+            <div>
+                <div>
+                    <a [routerLink]="['/vertical/courses/admin/course/module/edit/', module['id']]" [ngStyle]="{color: '#949494'}" class="d-flex">
+                        <i class="sli-pencil tc-icon-wrap mr-2"></i> {{'Edit'|translate}}
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr class="mt-3 mb-4" />
+        <div class="d-flex header-text">
+            <div class="text">
+                <p>{{'Module'|translate}} {{module['order_num'] + 1}} <span>/ {{module['module_count']}}</span></p>
+            </div>
+            <div class="d-flex right-side">
+                <tc-badge
+                        class="mr-4"
+                        [tcBgColor]="'rgba(24, 144, 255, 0.7)'"
+                        [tcColor]="'#ffffff'"
+                        [tcShape]="500"
+                        [size]="'sm'"
+                >
+                    {{'In Progress'|translate}}
+                </tc-badge>
+
+                <button tc-button class="mr-1"
+                        [afterIcon]="'sli-arrow-left'"
+                        [square]="true"
+                        [size]="'sm'"
+                        [tcColor]="['#728188', '#ffffff']"
+                        [tcBgColor]="['#e2e7ed', '#0091fb']"
+                        [routerLink]="module['navigate']['prev'] ? ['/vertical/courses/course', module['navigate']['prev']['type'], 'view', module['navigate']['prev']['id']] : []"
+                        [disabled]="module['navigate']['prev'] ? false : true"
+                ></button>
+                <button tc-button
+                        [afterIcon]="'sli-arrow-right'"
+                        [square]="true"
+                        [size]="'sm'"
+                        [tcColor]="['#728188', '#ffffff']"
+                        [tcBgColor]="['#e2e7ed', '#0091fb']"
+                        [routerLink]="module['navigate']['next'] ? ['/vertical/courses/course/', module['navigate']['next']['type'], 'view', module['navigate']['next']['id']] : []"
+                        [disabled]="module['navigate']['next'] ? false : true"
+                ></button>
+            </div>
+        </div>
+
+        <div class="content">
+            <h1>{{ module['display_name'] }}</h1>
+
+            <div class="module-description" [innerHTML]="module['description'] | safeHtml"></div>
+
+            <div class="more-module mb-4">
+                <div class="text-header">
+                    <div class="text-h">
+                        <p>{{'Module Content'|translate}}</p>
+                    </div>
+                    <div class="pointer-progress">
+                        <span class="mr-3"><strong>{{markedPercent}}% {{'Complete'|translate}}</strong></span>
+                        <span>{{markedCount}}/{{module['lesson_count']}} {{'Steps'|translate}}</span>
+                    </div>
+                </div>
+
+                <div class="list-lesson" *ngFor="let lesson of module['lessons']; let indexLesson = index;" [routerLink]="['/vertical/courses/course/lesson/view', lesson['id']]">
+                    <div class="info-full">
+                        <i class="sli-list mr-3"></i>
+                        <span [ngClass]="{'lesson-decoration' : lesson['marked']}">{{ lesson['display_name'] }}</span>
+                    </div>
+                    <div class="detail-lesson">
+                        <i *ngIf="lesson['marked']" class="icofont-check-circled" style="color: #2fa7ff;"></i>
+                        <nz-progress *ngIf="!lesson['marked']" [nzPercent]="0" nzType="circle" [nzWidth]="20" [nzShowInfo]="false"></nz-progress>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<not-found-page *ngIf="isEmpty"></not-found-page>

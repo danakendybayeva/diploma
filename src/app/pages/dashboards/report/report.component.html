@@ -1,0 +1,49 @@
+<button tc-button class="mb-2 delete"
+        [beforeIcon]="'icofont-download'"
+        [view]="'info'"
+        [size]="'sm'"
+        (click)="downloadExcell()">
+    {{ 'Download Excel' | translate}}
+</button>
+<div #top class="top"></div>
+<button tc-button class="mb-2 scroll"
+        [beforeIcon]="scrollIcon"
+        [view]="'info'"
+        [size]="'sm'"
+        [square]="true"
+        (click)="scrollToBottom(scrolled ? top : bottom)">
+</button>
+<nz-tabset [(nzSelectedIndex)]="currentIndex">
+    <nz-tab [nzTitle]="'English'|translate">
+        <tc-lingua-report-table (sendData)="getExcellData($event)"></tc-lingua-report-table>
+    </nz-tab>
+    <nz-tab [nzTitle]="'Books'|translate">
+        <tc-reading-report-table (sendData)="getExcellData($event)"></tc-reading-report-table>
+    </nz-tab>
+    <nz-tab [nzTitle]="'M Passport'|translate">
+        <tc-passport-report-table (sendData)="getExcellData($event)"></tc-passport-report-table>
+    </nz-tab>
+    <nz-tab [nzTitle]="'Menu Courses' | translate">
+        <tc-edugrade-report-table (sendData)="getExcellData($event)" [direction]="'course'"></tc-edugrade-report-table>
+    </nz-tab>
+    <nz-tab [nzTitle]="'Seminar'|translate">
+        <tc-edugrade-report-table (sendData)="getExcellData($event)" [direction]="'seminar'"></tc-edugrade-report-table>
+    </nz-tab>
+    <nz-tab [nzTitle]="'Eduway'|translate">
+        <tc-edugrade-report-table (sendData)="getExcellData($event)" [direction]="'eduway'"></tc-edugrade-report-table>
+    </nz-tab>
+    <nz-tab [nzTitle]="'Edutest'|translate">
+        <tc-edugrade-report-table (sendData)="getExcellData($event)" [direction]="'edutest'"></tc-edugrade-report-table>
+    </nz-tab>
+    <nz-tab [nzTitle]="'Experience'|translate">
+        <tc-edugrade-report-table (sendData)="getExcellData($event)" [direction]="'practice'"></tc-edugrade-report-table>
+    </nz-tab>
+    <nz-tab [nzTitle]="'GPA'|translate">
+        <tc-edugrade-report-table (sendData)="getExcellData($event)" [direction]="'gpa'"></tc-edugrade-report-table>
+    </nz-tab>
+    <nz-tab [nzTitle]="'Report'|translate">
+        <tc-all-report-table (sendData)="getExcellData($event)"></tc-all-report-table>
+    </nz-tab>
+</nz-tabset>
+
+<div #bottom></div>

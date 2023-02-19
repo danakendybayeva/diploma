@@ -1,0 +1,236 @@
+<form *ngIf="loaded && !isEmpty" [formGroup]="labelForm" (ngSubmit)="submitEvent(labelForm.valid)">
+    <div class="row">
+        <div class="col-12 col-md-8 col-sm-12">
+            <tc-card>
+                <div class="row">
+                    <tc-image-field class="col-12"
+                        [_valueField]="fieldsData['avatar_ref']"
+                        [(ngModel)]="fieldsData['avatar_ref'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [referenceId]="referenceId"
+                        [styleType]="'single'"
+                        [formControlName]="'avatar_ref'"
+                    ></tc-image-field>
+                    <tc-string-field class="col-12 col-md-6"
+                        [_valueField]="fieldsData['first_name']"
+                        [(ngModel)]="fieldsData['first_name'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'first_name'"
+                    ></tc-string-field>
+                    <tc-string-field class="col-12 col-md-6"
+                        [_valueField]="fieldsData['last_name']"
+                        [(ngModel)]="fieldsData['last_name'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'last_name'"
+                    ></tc-string-field>
+                    <tc-string-field class="col-12 col-md-6"
+                        [_valueField]="fieldsData['middle_name']"
+                        [(ngModel)]="fieldsData['middle_name'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'middle_name'"
+                    ></tc-string-field>
+                    <tc-enumeration-field class="col-12 col-md-6"
+                        [_valueField]="fieldsData['gender_enum']"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [styleType]="'single'"
+                        [isNew]="isNew"
+                    ></tc-enumeration-field>
+                    <tc-reference-field class="col-12 col-md-6"
+                        [_valueField]="fieldsData['city']"
+                        [(ngModel)]="fieldsData['city'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'city'"
+                    ></tc-reference-field>
+                    <tc-string-field class="col-12 col-md-6"
+                        [_valueField]="fieldsData['address']"
+                        [(ngModel)]="fieldsData['address'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'address'"
+                    ></tc-string-field>
+                    <tc-date-field class="col-12 col-md-6"
+                        [_valueField]="fieldsData['birthday']"
+                        [(ngModel)]="fieldsData['birthday'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'birthday'"
+                    ></tc-date-field>
+                    <tc-string-field class="col-12 col-md-6"
+                        [_valueField]="fieldsData['phone']"
+                        [(ngModel)]="fieldsData['phone'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'phone'"
+                    ></tc-string-field>
+                    <tc-string-field class="col-12 col-md-6"
+                        [_valueField]="fieldsData['username']"
+                        [(ngModel)]="fieldsData['username'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [prefixIcon]="'icofont-ui-user'"
+                        [formControlName]="'username'"
+                    ></tc-string-field>
+                    <tc-string-field class="col-12 col-md-6"
+                        [_valueField]="fieldsData['email']"
+                        [(ngModel)]="fieldsData['email'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'email'"
+                    ></tc-string-field>
+                    <tc-password-field class="col-12"
+                        [_valueField]="fieldsData['password']"
+                        [(ngModel)]="fieldsData['password'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'one-line'"
+                        [formControlName]="'password'"
+                    ></tc-password-field>
+                    <tc-reference-field class="col-12 col-md-6"
+                        [_valueField]="fieldsData['roles']"
+                        [(ngModel)]="fieldsData['roles'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'roles'"
+                    ></tc-reference-field>
+                    <tc-boolean-field class="col-12 col-md-6"
+                        [_valueField]="fieldsData['enabled']"
+                        [(ngModel)]="fieldsData['enabled'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'enabled'"
+                    ></tc-boolean-field>
+                </div>
+            </tc-card>
+        </div>
+        <div class="col-12 col-md-4">
+            <tc-card [title]="'Publish'|translate">
+                <div style="text-align: right;">
+                    <button tc-button
+                            class="mr-2"
+                            [size]="'sm'"
+                            [view]="'info'">
+                        {{'Save'|translate}}
+                    </button>
+                </div>
+            </tc-card>
+
+            <tc-card>
+                <div class="row">
+                    <tc-reference-field class="col-12"
+                        [_valueField]="fieldsData['university']"
+                        [(ngModel)]="fieldsData['university'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'university'"
+                    ></tc-reference-field>
+                    <tc-reference-field class="col-12"
+                        [_valueField]="fieldsData['speciality']"
+                        [(ngModel)]="fieldsData['speciality'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'speciality'"
+                    ></tc-reference-field>
+                    <tc-integer-field class="col-12"
+                        [_valueField]="fieldsData['course']"
+                        [(ngModel)]="fieldsData['course'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [styleType]="'single'"
+                        [isNew]="isNew"
+                        [formControlName]="'course'"
+                    ></tc-integer-field>
+                    <tc-enumeration-field class="col-12"
+                        [_valueField]="fieldsData['edu_degree']|translate"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [styleType]="'single'"
+                        [isNew]="isNew"
+                    ></tc-enumeration-field>
+                </div>
+            </tc-card>
+            <tc-card>
+                <div class="row">
+                    <tc-reference-field class="col-12"
+                        [_valueField]="fieldsData['english_level']|translate"
+                        [(ngModel)]="fieldsData['english_level'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'english_level'"
+                    ></tc-reference-field>
+
+                    <tc-file-field class="col-12"
+                        [_valueField]="fieldsData['attachment']|translate"
+                        [(ngModel)]="fieldsData['attachment'].value"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'attachment'"
+                    ></tc-file-field>
+
+                    <tc-file-field class="col-12"
+                                   [_valueField]="fieldsData['sertificates'] |translate"
+                                   [(ngModel)]="fieldsData['sertificates'].value"
+                                   [type]="'edit'"
+                                   [form]="labelForm"
+                                   [isNew]="isNew"
+                                   [styleType]="'single'"
+                                   [formControlName]="'sertificates'"
+                    ></tc-file-field>
+                </div>
+            </tc-card>
+        </div>
+    </div>
+</form>
+
+
+<nz-empty *ngIf="isEmpty"
+          [nzNotFoundImage]="
+        'https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original'
+      "
+          [nzNotFoundContent]="contentTpl"
+          [nzNotFoundFooter]="footerTpl"
+>
+    <ng-template #contentTpl>
+        <span> Customize <a href="#API">Description</a> </span>
+    </ng-template>
+    <ng-template #footerTpl>
+        <button tc-button [view]="'info'">Create Now</button>
+    </ng-template>
+</nz-empty>

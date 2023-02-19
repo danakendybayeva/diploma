@@ -1,200 +1,141 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BasePageComponent } from '../../../base-page';
-import { Store } from '@ngrx/store';
-import { IAppState } from '../../../../interfaces/app-state';
-import { HttpService } from '../../../../services/http/http.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IOption } from '../../../../ui/interfaces/option';
+import {AfterViewChecked, Component, OnDestroy, OnInit} from '@angular/core';
+import {FormGroup, Validators} from '@angular/forms';
 import {environment} from '../../../../../environments/environment';
-import {Student} from '../../../../interfaces/services/student.service';
 import {map} from 'rxjs/operators';
-import {HttpClient} from '@angular/common/http';
+import {TCExternalEditRecordComponent} from '../../../reference/external/record/edit-record';
+import {IReference} from '../../../../interfaces/services/reference/reference';
 import {Status} from '../../../../interfaces/services/util.service';
-import {ToastrService} from 'ngx-toastr';
+import {roleReference} from '../../../../interfaces/services/user.service';
 
 @Component({
   selector: 'page-edit-account',
   templateUrl: './edit-account.component.html',
   styleUrls: ['./edit-account.component.scss']
 })
-export class PageEditAccountComponent extends BasePageComponent implements OnInit, OnDestroy {
-  userInfo: any;
-  userForm: FormGroup;
-  gender: IOption[];
-  status: IOption[];
-  currentAvatar: string | ArrayBuffer;
-  defaultAvatar: string;
-  changes: boolean;
+export class PageEditAccountComponent extends TCExternalEditRecordComponent implements OnInit, OnDestroy, AfterViewChecked {
+    tabindex;
+    loaded = false;
+    labelForm1: FormGroup;
+    labelForm2: FormGroup;
+    labelForm3: FormGroup;
+    labelForm4: FormGroup;
+    url = '';
+    currentPassword = '';
+    postAction = environment.apiUrl + '/api/v2/profiles/user/edit/avatar';
+    canEdit = false;
 
-  profileDetails: Student;
-  canSave = false;
-
-  passwordChange = {password: '', newPassword: '', confirmPassword: ''};
-
-  constructor(
-    store: Store<IAppState>,
-    httpSv: HttpService,
-    private formBuilder: FormBuilder,
-    private http: HttpClient,
-    private toastr: ToastrService
-  ) {
-    super(store, httpSv);
-
-    this.pageData = {
-      title: 'Edit account',
-      breadcrumbs: [
-        {
-          title: 'Apps',
-          route: 'dashboard'
-        },
-        {
-          title: 'Service pages',
-          route: 'dashboard'
-        },
-        {
-          title: 'Edit account'
-        }
-      ]
-    };
-    this.gender = [
-      {
-        label: 'Male',
-        value: 'male'
-      },
-      {
-        label: 'Female',
-        value: 'female'
-      }
-    ];
-    this.status = [
-      {
-        label: 'Approved',
-        value: 'approved'
-      },
-      {
-        label: 'Pending',
-        value: 'pending'
-      }
-    ];
-    this.defaultAvatar = 'assets/content/anonymous-400.jpg';
-    this.currentAvatar = this.defaultAvatar;
-    this.changes = false;
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
-    this.setLoaded();
-    this.getListProfiles();
-  }
-
-  ngOnDestroy() {
-    super.ngOnDestroy();
-  }
-
-  // save form data
-  saveData(form: FormGroup) {
-    if (form.valid) {
-      this.userInfo = form.value;
-      this.changes = false;
+    ngOnInit() {
+        this.pageData = {
+            title: 'Edit profile',
+            loaded: true
+        };
+        super.ngOnInit();
     }
-  }
 
-  getListProfiles() {
-    return this.http.get<Student>(`${environment.apiUrl}/api/myprofile`)
-        .pipe(map(data => {
-          return data;
-        }))
-        .subscribe(data => {
-          this.profileDetails = data;
-          this.profileDetails.middleName = this.nullToDefaul(this.profileDetails.middleName, 'string');
-          this.currentAvatar = this.profileDetails.avatar;
-        });
-  }
-
-  // upload new file
-  onFileChanged(inputValue: any) {
-    const file: File = inputValue.target.files[0];
-    const reader: FileReader = new FileReader();
-
-    reader.onloadend = () => {
-      this.currentAvatar = reader.result;
-      this.changes = true;
-    };
-
-    reader.readAsDataURL(file);
-    console.log(this.fileToReady(file));
-
-    this.uploadAvatar(this.fileToReady(file), 'profiles');
-  }
-
-  nullToDefaul(data: any, type: string): any {
-    if (data == null) {
-      switch (type) {
-        case 'string':
-          return '';
-        case 'array':
-          return [];
-        case 'number':
-          return 0;
-        default:
-      }
+    ngOnDestroy() {
+        super.ngOnDestroy();
     }
-    return null;
-  }
 
-  changePassword() {
-    return this.http.post<Status>(`${environment.apiUrl}/api/auth/password/change`, this.passwordChange)
-      .subscribe({
-        next: data => {
-          if (data.status === 1) {
-            // this.saveTeacher();
-            this.toastr.success(data.message, 'Success', { closeButton: true });
-          } else {
-            this.toastr.error(data.message, 'Error', { closeButton: true });
-          }
-        },
-        error: error => {
-          this.toastr.error(error, 'Error', { closeButton: true });
+    ngAfterViewChecked() {
+        super.ngAfterViewChecked();
+    }
+
+    async initRoute() {
+        this.referenceId = '00000000-0000-0000-0000-000000000017';
+        super.initRoute().then();
+        this.isNew = false;
+        this.urlPath = this.route.snapshot.url;
+        this.fieldsData = await this.fieldService.getReferenceFields(this.referenceId, 'object');
+        this.fieldsData[roleReference['id']] = roleReference;
+        if (this.route.snapshot.queryParams['tabindex']) {
+            this.tabindex = this.route.snapshot.queryParams['tabindex'];
         }
-      });
-  }
+        if (this.route.snapshot.params['id']) {
+            this.canEdit = await this.fieldService.mayAccessRecord('edit', this.referenceId, this.recordId);
+            this.isNew = false;
+            this.recordId = this.route.snapshot.params['id'];
+        } else {
+            this.canEdit = await this.fieldService.mayAccessRecord('edit', this.referenceId);
+            this.pageData = {
+                title: 'Create Profile',
+                loaded: true
+            };
+            Object.entries(this.fieldsData).forEach(
+                ([key, value]) => {
+                    this.fieldsData[key].value = this.fieldsData[key].defaultValue;
+                }
+            );
+            this.recordId = '';
+            this.loaded = true;
+        }
+        this.getRecordData('get-edit');
+    }
 
-  uploadAvatar(fileImage: any, type: string) {
-    return this.http.post<Status>(`${environment.apiUrl}/api/file/upload/${type}`, fileImage)
-        .toPromise().then( data => {
-          if (data.status === 1) {
-            this.currentAvatar = data.value.toString();
-            this.canSave = true;
-          } else if (data.status === -1) {
-            this.toastr.error(data.message, 'Error', { closeButton: true });
-          } else {
-            this.toastr.error(data.message, 'Error', { closeButton: true });
-          }
+    createForm() {
+        super.createForm();
+        this.labelForm1 = new FormGroup({});
+        this.labelForm2 = new FormGroup({});
+        this.labelForm3 = new FormGroup({});
+        this.labelForm4 = new FormGroup({});
+        if (this.route.snapshot.params['id']) {
+            this.recordId = this.route.snapshot.params['id'];
+        }
+        if (!this.recordId.length) {
+            this.labelForm3.addControl('current', this.formBuilder.control(this.currentPassword, [Validators.required]));
+        }
+    }
 
-        });
-  }
+    getRecordData(type: string = 'get-edit') {
+        let url = `${environment.apiUrl}/api/v2/profiles/user/type/edit`;
+        if (this.recordId) {
+            url = `${environment.apiUrl}/api/v2/profiles/user/${this.recordId}/edit?fields=`;
+        }
+        return this.http.get<IReference>(url)
+            .pipe(map(data => {
+              return data;
+            }))
+            .subscribe(
+                data => {
+                  if (Object.keys(data).length) {
+                    Object.entries(this.fieldsData).forEach(
+                        ([key, value]) => {
+                          this.fieldsData[key].value = data[key];
+                        }
+                    );
+                    if (this.fieldsData['password']) {
+                        this.fieldsData['password'].value = '';
+                    }
+                    this.loaded = true;
+                  } else {
+                    this.isEmpty = true;
+                  }
+                },
+                error => {
+                  this.isEmpty = true;
+                });
+    }
 
-  saveAvatar() {
-    return this.http.post<Status>(`${environment.apiUrl}/api/profile/change-avatar`, {id: this.profileDetails.id, avatar: this.currentAvatar})
-        .toPromise().then( data => {
-          if (data.status === 1) {
-            this.toastr.success(data.message, 'Error', { closeButton: true });
-            this.canSave = false;
-          } else if (data.status === -1) {
-            this.toastr.error(data.message, 'Error', { closeButton: true });
-          } else {
-            this.toastr.error(data.message, 'Error', { closeButton: true });
-          }
-
-        });
-  }
-
-  private fileToReady(originFileObj: any): FormData {
-    const reader: FileReader = new FileReader();
-    const formData = new FormData();
-    const file: File = originFileObj;
-    reader.readAsDataURL(file);
-    formData.append('file', file);
-    return formData;
-  }
+    changePassword(type: string = 'get-edit') {
+        this.prepareValues();
+        let url = `${environment.apiUrl}/api/v2/profiles/my/user/edit`;
+        if (this.recordId) {
+            url = `${environment.apiUrl}/api/v2/profiles/user/edit/${this.recordId}`;
+        }
+        return this.http.post<Status>(url, {
+            username: this.fieldsValue['username'],
+            email: this.fieldsValue['email'],
+            password: this.currentPassword,
+            confirmPassword: this.fieldsValue['password'],
+            newPassword: this.fieldsValue['password']
+        })
+            .toPromise()
+            .then(response => {
+                if (response.status === 1) {
+                    this.toastr.success(response.message, 'Success', { closeButton: true });
+                } else {
+                    this.toastr.error(response.message, 'Error', { closeButton: true });
+                }
+            })
+            .catch();
+    }
 }

@@ -7,9 +7,9 @@ $_fs: 1rem;
 $_ff: $main-ff;
 $_fw: bold;
 $_lh: $_module-rem * 2 / $_fs;
-$_tt: none;
-$_padding: $_module-rem ($_module-rem * 2);
-$_shape: 20px;
+$_tt: uppercase;
+$_padding: 8px 16px;
+$_shape: 8px;
 $_transition: $animation;
 $_shadow: none;
 $_shadow-hover: none;
@@ -43,9 +43,9 @@ $_types: (
     hover-color: $success-contrast
   ),
   info: (
-    bg: $info-color,
+    bg: $info-color-pr,
     color: $info-contrast,
-    hover-bg: darken($info-color, 10%),
+    hover-bg: darken($info-color-pr, 10%),
     hover-color: $info-contrast
   ),
   warning: (
@@ -84,9 +84,9 @@ $_types: (
   box-shadow: $_shadow;
   cursor: pointer;
   display: inline-flex;
-  font-family: $_ff;
+  font-family: $second-ff;
   font-size: $_fs;
-  font-weight: $_fw;
+  font-weight: 600;
   justify-content: center;
   line-height: $_lh;
   outline: none;
@@ -188,7 +188,7 @@ $_types: (
     text-align: right;
   }
   &.btn-lg {
-    border-radius: 40px;
+    border-radius: 8px;
     font-size: $_lg-fs;
     line-height: $_lg-lh;
     padding: $_lg-padding;

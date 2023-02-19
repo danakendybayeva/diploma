@@ -1,0 +1,66 @@
+@import '../../../../assets/sass/variables';
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .error-card {
+    background: #fff;
+    border-radius: $shape;
+    box-shadow: $shadow;
+    max-width: 560px;
+    min-width: 450px;
+    overflow: hidden;
+
+    @media only screen and (max-width: 767px) {
+      margin: 0 $module-rem * 2;
+      min-width: unset;
+      width: 100%;
+    }
+
+    .card-content {
+      padding: ($module-rem * 3) ($module-rem * 8);
+      @media only screen and (max-width: 767px) {
+       padding: $module-rem * 2;
+      }
+    }
+    .icon-block {
+      align-items: center;
+      background: $error-color;
+      color: $error-contrast;
+      display: flex;
+      justify-content: center;
+      padding: $module-rem * 3 0;
+      font-size: 4em;
+    }
+    .text-block {
+      margin-bottom: $module-rem * 2;
+      text-align: center;
+
+      @media only screen and (max-width: 767px) {
+        .title {
+          font-size: 1.5em !important;
+        }
+        .sub-title {
+          font-size: 1.2em !important;
+        }
+        .error-message {
+          font-size: .9em !important;
+        }
+      }
+      .title {
+        font-size: 2em;
+        margin:0 0 ($module-rem * 2);
+      }
+      .sub-title {
+        font-size: 1.5em;
+        font-weight: 500;
+        margin: 0 0 ($module-rem * 2);
+      }
+      .error-message {
+        opacity: .6;
+      }
+    }
+  }
+}

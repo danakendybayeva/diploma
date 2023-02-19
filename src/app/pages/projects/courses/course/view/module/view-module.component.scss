@@ -1,0 +1,158 @@
+@import 'src/assets/sass/variables';
+
+$_module-rem: $module-rem;
+$_h-padding: $_module-rem * 3;
+$_v-padding: $_module-rem * 2;
+
+:host {
+  .header-top {
+    nz-breadcrumb {
+      width: 100%;
+    }
+    div {
+      right: 0;
+    }
+  }
+  .header-text {
+    margin-bottom: 50px;
+
+    .text {
+      width: 100%;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+
+      span {
+        color: #7f858a;
+      }
+    }
+    .right-side {
+      tc-badge {
+        white-space:nowrap;
+      }
+    }
+  }
+
+  .content {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+
+    h1 {
+      font-size: 32px;
+    }
+  }
+
+  .more-module {
+    margin-top: 40px;
+    color: #7f858a;
+
+    .list-lesson {
+      cursor: pointer;
+      display: flex;
+      width: 100%;
+      padding: 10px;
+
+      .info-full {
+        width: 100%;
+        display: flex;
+
+        i {
+          font-size: 18px;
+        }
+      }
+    }
+
+    .list-lesson:nth-child(even) {
+      background: rgba(146, 164, 183, .1);
+    }
+
+    .list-lesson:nth-child(even):hover {
+      background: rgba(146, 164, 183, .14);
+    }
+
+    .text-header {
+      display: flex;
+      margin-bottom: 10px;
+
+
+      .text-h  {
+        width: 100%;
+        line-height: 30px;
+        text-transform: uppercase;
+
+        h5 {
+          margin: 0;
+        }
+      }
+
+      .pointer {
+        line-height: 30px;
+        color: #7f858a;
+
+        span {
+          white-space:nowrap;
+          cursor: pointer;
+        }
+      }
+
+      .pointer-progress {
+        line-height: 30px;
+
+        span {
+          white-space:nowrap;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  .list-lesson:hover {
+    color: #2fa7ff;
+  }
+
+  .progress {
+    p {
+      margin-bottom: 0;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 12px;
+    }
+    span {
+      font-weight: 600;
+      font-size: 12px;
+      color: #7f858a;
+    }
+  }
+
+  #video-lesson {
+    width: 100%;
+    padding-top: 56.25%; /* 1:1 Aspect Ratio */
+    position: relative;
+    margin-top: 30px;
+  }
+  #video-lesson iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: 0;
+  }
+
+  .detail-lesson {
+    i {
+      font-size: 22px;
+    }
+  }
+
+  .lesson-decoration {
+    text-decoration: line-through;
+  }
+}
+
+::ng-deep {
+  .ant-progress-circle-trail {
+    stroke: #dbdbdb;
+  }
+}

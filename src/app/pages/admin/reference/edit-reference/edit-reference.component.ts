@@ -53,7 +53,8 @@ export class EditReferenceComponent extends BasePageComponent implements OnInit,
     enableCustomFields: false,
     filterField: [],
     referenceId: '',
-    showOrder: 99999
+    showOrder: 99999,
+    fastEdit: false
   };
 
   urlPath = '';
@@ -67,7 +68,7 @@ export class EditReferenceComponent extends BasePageComponent implements OnInit,
               private toastr: ToastrService) {
     super(store, httpSv);
     this.pageData = {
-      title: 'New Reference',
+      title: 'Reference',
       loaded: true
     };
   }
@@ -108,7 +109,7 @@ export class EditReferenceComponent extends BasePageComponent implements OnInit,
       this.fieldsTogether = this.fieldService.getAllFieldsByObject(this.valueRef.userFields, this.valueRef.sysFields);
       this.section.referenceId = this.referenceId;
       this.pageData = {
-        title: 'Свойства справочника',
+        title: this.valueRef.title + ' - Свойства справочника',
         loaded: true
       };
 
@@ -118,6 +119,11 @@ export class EditReferenceComponent extends BasePageComponent implements OnInit,
       }
 
       super.ngOnInit();
+    } else {
+      this.pageData = {
+        title: 'Новый справочник',
+        loaded: true
+      };
     }
 
   }

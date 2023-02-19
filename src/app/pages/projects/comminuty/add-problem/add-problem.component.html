@@ -3,6 +3,7 @@
         <div class="col-8">
             <div>
                 <tc-card>
+                    <!--Description-->
                     <nz-tabset (nzSelectedIndexChange)="nzTabIndexChange($event)">
                         <nz-tab nzTitle="KZ">
                             <tc-form-group class="test">
@@ -10,55 +11,16 @@
                                     <div class="col-12">
                                         <tc-form-group class="mb-0">
                                             <div *ngIf="showTxt">
-                                                <editor *ngIf= "langType == 'kz'"
+                                                <editor *ngIf="langType == 'kz'"
                                                         [init]="tinyMceSettings"
                                                         [(ngModel)]="exercise.description"
                                                         [ngModelOptions]="{standalone: true}"
                                                 ></editor>
                                             </div>
-
-
-                                            <div class="mt-4" *ngIf="exercise.type == 1 || exercise.type == 2">
-                                                <tc-form-group class="variants-input" *ngFor="let variant of exercise.variantTest; let iCount= index; trackBy: trackByFn;">
-                                                    <tc-checkbox class="checkbox mr-3" [(ngModel)]="variant.isAnswer" [ngModelOptions]="{standalone: true}" (ngModelChange)="variantCheckbox($event, iCount)"></tc-checkbox>
-                                                    <tc-input placeholder="Type variant of answer" [(ngModel)]="variant.text" [ngModelOptions]="{standalone: true}"></tc-input>
-                                                    <button tc-button (click)="removeVariant(iCount, exercise.type)" [afterIcon]="'icofont-close'" [view]="'error'" [square]="true" class="ml-2"></button>
-                                                </tc-form-group>
-                                                <tc-form-group><button tc-button (click)="addVariant(exercise.type)"> + Add New Variant</button></tc-form-group>
-                                            </div>
-                                            <tc-form-group *ngIf="exercise.type == 3" class="mt-4">
-                                                <div class="d-flex mb-4" *ngFor="let variant of exercise.variantFIB; let iCount= index; trackBy: trackByFn;">
-                                                    <tc-input placeholder="Right Answer"
-                                                              [(ngModel)]="variant.text" [ngModelOptions]="{standalone: true}">
-                                                    </tc-input>
-                                                    <button tc-button (click)="removeVariant(iCount, exercise.type)" [afterIcon]="'icofont-close'" [view]="'error'" [square]="true" class="ml-2"></button>
-                                                </div>
-                                                <tc-form-group><button tc-button (click)="addVariant(exercise.type)"> + Add New Variant</button></tc-form-group>
-                                            </tc-form-group>
-                                            <div class="mt-4" *ngIf="exercise.type == 4">
-                                                <tc-form-group class="variants-input" *ngFor="let variant of exercise.variantMatch; let iCount= index; trackBy: trackByFn;">
-                                                    <tc-input placeholder="Type variant of answer" [(ngModel)]="variant.text" [ngModelOptions]="{standalone: true}"></tc-input>
-                                                    <tc-input placeholder="Type variant of answer" [(ngModel)]="variant.textRel" [ngModelOptions]="{standalone: true}" class="ml-2"></tc-input>
-                                                    <button tc-button (click)="removeVariant(iCount, exercise.type)" [afterIcon]="'icofont-close'" [view]="'error'" [square]="true" class="ml-2"></button>
-                                                </tc-form-group>
-                                                <tc-form-group><button tc-button (click)="addVariant(exercise.type)"> + Add New Variant</button></tc-form-group>
-                                            </div>
-                                            <div class="mt-4" *ngIf="exercise.type == 5" [cdkDropListData]="exercise.variantOrder" cdkDropList (cdkDropListDropped)="onDrop($event)">
-                                                <tc-form-group class="variants-input" *ngFor="let variant of exercise.variantOrder; let iCount= index; trackBy: trackByFn;" cdkDrag>
-                                                    <i class="icofont-drag tc-icon-wrap mr-2"></i>
-                                                    <tc-input placeholder="Type variant of answer" [(ngModel)]="variant.text" [ngModelOptions]="{standalone: true}"></tc-input>
-                                                    <button tc-button (click)="removeVariant(iCount, exercise.type)" [afterIcon]="'icofont-close'" [view]="'error'" [square]="true" class="ml-2"></button>
-                                                </tc-form-group>
-                                                <tc-form-group><button tc-button (click)="addVariant(exercise.type)"> + Add New Variant</button></tc-form-group>
-                                            </div>
-
-
                                         </tc-form-group>
                                     </div>
                                 </div>
-
                             </tc-form-group>
-
                         </nz-tab>
 
                         <nz-tab nzTitle="EN">
@@ -67,211 +29,304 @@
                                     <div class="col-12">
                                         <tc-form-group class="mb-0">
                                             <div class="">
-                                                <editor *ngIf= "langType == 'en'"
+                                                <editor *ngIf="langType == 'en'"
                                                         [init]="tinyMceSettings"
                                                         [(ngModel)]="exercise.descriptionEn"
                                                         [ngModelOptions]="{standalone: true}"></editor>
                                             </div>
-
-
-                                            <div class="mt-4" *ngIf="exercise.type == 1 || exercise.type == 2">
-                                                <tc-form-group class="variants-input" *ngFor="let variant of exercise.variantTest; let iCount= index; trackBy: trackByFn;">
-                                                    <tc-checkbox class="checkbox mr-3" [(ngModel)]="variant.isAnswer"></tc-checkbox>
-                                                    <tc-input placeholder="Type variant of answer" [(ngModel)]="variant.textEn" [ngModelOptions]="{standalone: true}"></tc-input>
-                                                    <button tc-button (click)="removeVariant(iCount, exercise.type)" [afterIcon]="'icofont-close'" [view]="'error'" [square]="true" class="ml-2"></button>
-                                                </tc-form-group>
-                                                <tc-form-group><button tc-button (click)="addVariant(exercise.type)"> + Add New Variant</button></tc-form-group>
-                                            </div>
-                                            <tc-form-group *ngIf="exercise.type == 3" class="mt-4">
-                                                <div class="d-flex mb-4" *ngFor="let variant of exercise.variantFIB; let iCount= index; trackBy: trackByFn;">
-                                                    <tc-input placeholder="Right Answer"
-                                                              [(ngModel)]="variant.textEn" [ngModelOptions]="{standalone: true}">
-                                                    </tc-input>
-                                                    <button tc-button (click)="removeVariant(iCount, exercise.type)" [afterIcon]="'icofont-close'" [view]="'error'" [square]="true" class="ml-2"></button>
-                                                </div>
-                                                <tc-form-group><button tc-button (click)="addVariant(exercise.type)"> + Add New Variant</button></tc-form-group>
-                                            </tc-form-group>
-                                            <div class="mt-4" *ngIf="exercise.type == 4">
-                                                <tc-form-group class="variants-input" *ngFor="let variant of exercise.variantMatch; let iCount= index; trackBy: trackByFn;">
-                                                    <tc-input placeholder="Type variant of answer" [(ngModel)]="variant.textEn" [ngModelOptions]="{standalone: true}"></tc-input>
-                                                    <tc-input placeholder="Type variant of answer" [(ngModel)]="variant.textEnRel" [ngModelOptions]="{standalone: true}" class="ml-2"></tc-input>
-                                                    <button tc-button (click)="removeVariant(iCount, exercise.type)" [afterIcon]="'icofont-close'" [view]="'error'" [square]="true" class="ml-2"></button>
-                                                </tc-form-group>
-                                                <tc-form-group><button tc-button (click)="addVariant(exercise.type)"> + Add New Variant</button></tc-form-group>
-                                            </div>
-                                            <div class="mt-4" *ngIf="exercise.type == 5" [cdkDropListData]="exercise.variantOrder" cdkDropList (cdkDropListDropped)="onDrop($event)">
-                                                <tc-form-group class="variants-input" *ngFor="let variant of exercise.variantOrder; let iCount= index; trackBy: trackByFn;" cdkDrag>
-                                                    <i class="icofont-drag tc-icon-wrap mr-2"></i>
-                                                    <tc-input placeholder="Type variant of answer" [(ngModel)]="variant.textEn" [ngModelOptions]="{standalone: true}"></tc-input>
-                                                    <button tc-button (click)="removeVariant(iCount, exercise.type)" [afterIcon]="'icofont-close'" [view]="'error'" [square]="true" class="ml-2"></button>
-                                                </tc-form-group>
-                                                <tc-form-group><button tc-button (click)="addVariant(exercise.type)"> + Add New Variant</button></tc-form-group>
-                                            </div>
-
-
                                         </tc-form-group>
                                     </div>
                                 </div>
-
                             </tc-form-group>
                         </nz-tab>
+
                         <nz-tab nzTitle="RU">
                             <tc-form-group class="test">
                                 <div class="row">
                                     <div class="col-12">
                                         <tc-form-group class="mb-0">
                                             <div class="">
-                                                <editor *ngIf= "langType == 'ru'"
+                                                <editor *ngIf="langType == 'ru'"
                                                         [init]="tinyMceSettings"
                                                         [(ngModel)]="exercise.descriptionRu"
                                                         [ngModelOptions]="{standalone: true}"></editor>
                                             </div>
-                                            <div class="mt-4" *ngIf="exercise.type == 1 || exercise.type == 2">
-                                                <tc-form-group class="variants-input" *ngFor="let variant of exercise.variantTest; let iCount= index; trackBy: trackByFn;">
-                                                    <tc-checkbox class="checkbox mr-3" [(ngModel)]="variant.isAnswer"></tc-checkbox>
-                                                    <tc-input placeholder="Type variant of answer" [(ngModel)]="variant.textRu" [ngModelOptions]="{standalone: true}"></tc-input>
-                                                    <button tc-button (click)="removeVariant(iCount, exercise.type)" [afterIcon]="'icofont-close'" [view]="'error'" [square]="true" class="ml-2"></button>
-                                                </tc-form-group>
-                                                <tc-form-group><button tc-button (click)="addVariant(exercise.type)"> + Add New Variant</button></tc-form-group>
-                                            </div>
-                                            <tc-form-group *ngIf="exercise.type == 3" class="mt-4">
-                                                <div class="d-flex mb-4" *ngFor="let variant of exercise.variantFIB; let iCount= index; trackBy: trackByFn;">
-                                                    <tc-input placeholder="Right Answer"
-                                                              [(ngModel)]="variant.textRu" [ngModelOptions]="{standalone: true}">
-                                                    </tc-input>
-                                                    <button tc-button (click)="removeVariant(iCount, exercise.type)" [afterIcon]="'icofont-close'" [view]="'error'" [square]="true" class="ml-2"></button>
-                                                </div>
-                                                <tc-form-group><button tc-button (click)="addVariant(exercise.type)"> + Add New Variant</button></tc-form-group>
-                                            </tc-form-group>
-                                            <div class="mt-4" *ngIf="exercise.type == 4">
-                                                <tc-form-group class="variants-input" *ngFor="let variant of exercise.variantMatch; let iCount= index; trackBy: trackByFn;">
-                                                    <tc-input placeholder="Type variant of answer" [(ngModel)]="variant.textRu" [ngModelOptions]="{standalone: true}"></tc-input>
-                                                    <tc-input placeholder="Type variant of answer" [(ngModel)]="variant.textRuRel" [ngModelOptions]="{standalone: true}" class="ml-2"></tc-input>
-                                                    <button tc-button (click)="removeVariant(iCount, exercise.type)" [afterIcon]="'icofont-close'" [view]="'error'" [square]="true" class="ml-2"></button>
-                                                </tc-form-group>
-                                                <tc-form-group><button tc-button (click)="addVariant(exercise.type)"> + Add New Variant</button></tc-form-group>
-                                            </div>
-                                            <div class="mt-4" *ngIf="exercise.type == 5" [cdkDropListData]="exercise.variantOrder" cdkDropList (cdkDropListDropped)="onDrop($event)">
-                                                <tc-form-group class="variants-input" *ngFor="let variant of exercise.variantOrder; let iCount= index; trackBy: trackByFn;" cdkDrag>
-                                                    <i class="icofont-drag tc-icon-wrap mr-2"></i>
-                                                    <tc-input placeholder="Type variant of answer" [(ngModel)]="variant.textRu" [ngModelOptions]="{standalone: true}"></tc-input>
-                                                    <button tc-button (click)="removeVariant(iCount, exercise.type)" [afterIcon]="'icofont-close'" [view]="'error'" [square]="true" class="ml-2"></button>
-                                                </tc-form-group>
-                                                <tc-form-group><button tc-button (click)="addVariant(exercise.type)"> + Add New Variant</button></tc-form-group>
-                                            </div>
                                         </tc-form-group>
-
                                     </div>
                                 </div>
-
                             </tc-form-group>
                         </nz-tab>
                     </nz-tabset>
-
-                    <div class="col-12 mb-4" *ngIf="exercise.type == 7">
+                    <!--Variables Assign Solve-->
+                    <div class="col-12 mb-4">
                         <div class="row">
-                            <div *ngFor="let variable of exercise.variableGN; let j = index; trackBy: trackByFn;"
-                                 class="col-12 col-md-3 mb-3 pt-4" [ngClass]="{'result-gn' : j == 0}">
+                            <!--Variables-->
+                            <div *ngFor="let variable of exercise.variables | slice:1; let j = index; trackBy: trackByFn;"
+                                 class="col-12 col-md-3 mb-3 pt-4">
                                 <tc-form-group>
-                                    <tc-input *ngIf="j > 0" [placeholder]="'Name'" [(ngModel)]="variable.name"></tc-input>
-                                    <tc-input *ngIf="j == 0" [placeholder]="'Result'" [disabled]="true"></tc-input>
+                                    <tc-input [placeholder]="'Name'"
+                                              [(ngModel)]="variable.name"></tc-input>
                                 </tc-form-group>
 
                                 <tc-form-group>
-                                    <tc-select [placeholder]="'Select placeholder'" [options]="typeVariable" [(ngModel)]="variable.type"></tc-select>
+                                    <tc-select [placeholder]="'Select placeholder'"
+                                               [options]="variable.isAssign ? typeAssign : typeVariable "
+                                               [(ngModel)]="variable.type"></tc-select>
                                 </tc-form-group>
                                 <tc-form-group>
-                                    <tc-input [placeholder]="'Delimiter'" [disabled]="variable.type != 'float'"  [(ngModel)]="variable.delimiter"></tc-input>
+                                    <tc-input [placeholder]="'Delimiter'" [disabled]="variable.type != 'float'"
+                                              [(ngModel)]="variable.delimiter"></tc-input>
                                 </tc-form-group>
                                 <tc-form-group>
-                                    <tc-input [placeholder]="'Condition'" [(ngModel)]="variable.condition" *ngIf="!variable.isAssign"></tc-input>
+                                    <tc-input [placeholder]="'Condition'" [(ngModel)]="variable.condition"
+                                              *ngIf="!variable.isAssign"></tc-input>
                                 </tc-form-group>
                                 <tc-form-group>
-                                    <tc-input [placeholder]="'Assign'" [(ngModel)]="variable.assignText" *ngIf="variable.isAssign"></tc-input>
+                                    <tc-input [placeholder]="'Assign'" [(ngModel)]="variable.assignText"
+                                              *ngIf="variable.isAssign"></tc-input>
                                 </tc-form-group>
-                                <tc-form-group *ngIf="variable.range.length > 0 && !variable.isAssign">
+                                <tc-form-group *ngIf="!variable.isAssign">
                                     <tc-form-label>Range</tc-form-label>
                                     <div class="row">
-                                        <tc-input [placeholder]="'From'" class="col-6" [(ngModel)]="variable.range[0]"></tc-input>
-                                        <tc-input [placeholder]="'To'" class="col-6" [(ngModel)]="variable.range[1]"></tc-input>
+                                        <tc-input [placeholder]="'From'" class="col-6"
+                                                  [(ngModel)]="variable.range[0]"></tc-input>
+                                        <tc-input [placeholder]="'To'" class="col-6"
+                                                  [(ngModel)]="variable.range[1]"></tc-input>
                                     </div>
-                                </tc-form-group>
-                                <tc-form-group *ngIf="j == 0 && variable.variantsSolve && variable.variantsSolve.length > 0">
-                                    <tc-form-label>Wrong variants</tc-form-label>
-                                    <div class="row">
-                                        <div *ngFor="let solveI of variable.variantsSolve; let u = index; trackBy: trackByFn;"  class="col-12 mb-2">
-                                            <tc-input [placeholder]="'Wrong variant'" [(ngModel)]="variable.variantsSolve[u]"></tc-input>
-                                        </div>
-                                    </div>
-                                </tc-form-group>
-                                <button tc-button *ngIf="j == 0"  (click)="addVariantSolves()" class="mb-2"> + Add Variants Generate</button>
-                                <button tc-button *ngIf="j > 0" (click)="removeVariant(j, exercise.type)" [afterIcon]="'icofont-close'" [view]="'error'" [square]="true" class="mb-2"></button>
-                                <hr/>
-                            </div>
-                            <div class="col-12">
-                                <button tc-button (click)="addVariant(exercise.type)" class="mr-2"> + Variable</button>
-                                <button tc-button (click)="addVariant(exercise.type, true)"> + Assign</button>
-                            </div>
-                            <div class="col-12 mt-4">
-                                <tc-form-group>
-                                    <tc-input [placeholder]="'Condition'" [(ngModel)]="generateTest.condition"></tc-input>
-                                </tc-form-group>
-                                <tc-form-group>
-                                    <tc-input [placeholder]="'Solve'" [(ngModel)]="generateTest.solve"></tc-input>
-                                </tc-form-group>
-                                <tc-form-group>
-                                    <tc-input [placeholder]="'Answer Type'" [(ngModel)]="generateTest.answerType"></tc-input>
                                 </tc-form-group>
 
+                                <button tc-button (click)="removeVariable(j+1, exercise.type)"
+                                        [afterIcon]="'icofont-close'" [view]="'error'" [square]="true"
+                                        class="mb-2"></button>
+                                <hr/>
+                            </div>
+                            <!--Add Variables-->
+                            <div class="col-12">
+                                <button tc-button (click)="addVariable(exercise.type)" class="mr-2"> + Variable</button>
+                                <button tc-button (click)="addVariable(exercise.type, true)"> + Assign</button>
+                            </div>
+                            <!--Result variable-->
+                            <div class="col-12 mt-4 result-gn">
+                                <div class="d-flex">
+                                    <div class="d-flex result">
+                                        <tc-form-group>
+                                            <tc-input [placeholder]="'Result'" [disabled]="true"></tc-input>
+                                        </tc-form-group>
+                                        <tc-form-group style="margin-left: 10px;margin-right: 10px; width: 90%">
+                                            <tc-select [placeholder]="'Select placeholder'"
+                                                       [(ngModel)]="exercise.variables[0].type"
+                                                       [options]="typeResult"></tc-select>
+                                        </tc-form-group>
+                                        <tc-form-group>
+                                            <tc-input [placeholder]="'Delimiter'"
+                                                      [(ngModel)]="exercise.variables[0].delimiter"></tc-input>
+                                        </tc-form-group>
+                                    </div>
+                                </div>
+                                <tc-form-group>
+                                    <tc-input [placeholder]="'Condition'"
+                                              [(ngModel)]="exercise.variables[0].condition"></tc-input>
+                                </tc-form-group>
+                                <tc-form-group>
+                                    <tc-input [placeholder]="'Solve'"
+                                              [(ngModel)]="exercise.variables[0].assignText"></tc-input>
+                                </tc-form-group>
                             </div>
                         </div>
                     </div>
+                    <!--Answers-->
+                    <!--Test and Multiple-->
+                    <div class="mt-4" *ngIf="exercise.type == 1 || exercise.type == 2">
+                        <tc-form-group class="variants-input"
+                                       *ngFor="let variant of exercise.variants; let iCount= index; trackBy: trackByFn;">
+                            <tc-checkbox class="checkbox mr-3"
+                                         [(ngModel)]="variant.isAnswer"></tc-checkbox>
+                            <tc-input *ngIf="langType == 'kz'" placeholder="Type variant of answer"
+                                      [(ngModel)]="variant.text"
+                                      [ngModelOptions]="{standalone: true}"></tc-input>
+                            <tc-input *ngIf="langType == 'en'" placeholder="Type variant of answer"
+                                      [(ngModel)]="variant.textEn"
+                                      [ngModelOptions]="{standalone: true}"></tc-input>
+                            <tc-input *ngIf="langType == 'ru'" placeholder="Type variant of answer"
+                                      [(ngModel)]="variant.textRu"
+                                      [ngModelOptions]="{standalone: true}"></tc-input>
+                            <button tc-button (click)="removeVariant(iCount, exercise.type)"
+                                    [afterIcon]="'icofont-close'" [view]="'error'"
+                                    [square]="true" class="ml-2"></button>
+                        </tc-form-group>
+                        <tc-form-group>
+                            <button tc-button (click)="addVariant(exercise.type)"> + Add New
+                                Variant
+                            </button>
+                        </tc-form-group>
+                    </div>
+                    <!--Fill-->
+                    <tc-form-group *ngIf="exercise.type == 3" class="mt-4">
+                        <div class="d-flex mb-4"
+                             *ngFor="let variant of exercise.variants; let iCount= index; trackBy: trackByFn;">
+                            <tc-input placeholder="Right Answer"
+                                      [(ngModel)]="(langType == 'en') ? variant.textEn : (langType == 'ru') ? variant.textRu : variant.text"
+                                      [ngModelOptions]="{standalone: true}">
+                            </tc-input>
+                            <button tc-button (click)="removeVariant(iCount, exercise.type)"
+                                    [afterIcon]="'icofont-close'" [view]="'error'"
+                                    [square]="true" class="ml-2"></button>
+                        </div>
+                        <tc-form-group>
+                            <button tc-button (click)="addVariant(exercise.type)"> + Add New
+                                Variant
+                            </button>
+                        </tc-form-group>
+                    </tc-form-group>
+                    <!--Match-->
+                    <div class="mt-4" *ngIf="exercise.type == 4">
+                        <tc-form-group class="variants-input"
+                                       *ngFor="let variant of exercise.variants; let iCount= index; trackBy: trackByFn;">
+                            <tc-input placeholder="Type variant of answer"
+                                      [(ngModel)]="(langType == 'en') ? variant.textEn : (langType == 'ru') ? variant.textRu : variant.text"
+                                      [ngModelOptions]="{standalone: true}"></tc-input>
+                            <tc-input placeholder="Type variant of answer"
+                                      [(ngModel)]="(langType == 'en') ? variant.textEnRel : (langType == 'ru') ? variant.textRuRel : variant.textRel"
+                                      [ngModelOptions]="{standalone: true}"
+                                      class="ml-2"></tc-input>
+                            <button tc-button (click)="removeVariant(iCount, exercise.type)"
+                                    [afterIcon]="'icofont-close'" [view]="'error'"
+                                    [square]="true" class="ml-2"></button>
+                        </tc-form-group>
+                        <tc-form-group>
+                            <button tc-button (click)="addVariant(exercise.type)"> + Add New
+                                Variant
+                            </button>
+                        </tc-form-group>
+                    </div>
+                    <!--Order-->
+                    <div class="mt-4" *ngIf="exercise.type == 5"
+                         [cdkDropListData]="exercise.variants" cdkDropList
+                         (cdkDropListDropped)="onDrop($event)">
+                        <tc-form-group class="variants-input"
+                                       *ngFor="let variant of exercise.variants; let iCount= index; trackBy: trackByFn;"
+                                       cdkDrag>
+                            <i class="icofont-drag tc-icon-wrap mr-2"></i>
+                            <tc-input placeholder="Type variant of answer"
+                                      [(ngModel)]="(langType == 'en') ? variant.textEn : (langType == 'ru') ? variant.textRu : variant.text"
+                                      [ngModelOptions]="{standalone: true}"></tc-input>
+                            <button tc-button (click)="removeVariant(iCount, exercise.type)"
+                                    [afterIcon]="'icofont-close'" [view]="'error'"
+                                    [square]="true" class="ml-2"></button>
+                        </tc-form-group>
+                        <tc-form-group>
+                            <button tc-button (click)="addVariant(exercise.type)"> + Add New
+                                Variant
+                            </button>
+                        </tc-form-group>
+                    </div>
 
                     <button tc-button (click)="duplicateText()" [view]="'warning'">Duplicate Text</button>
-                    <button tc-button *ngIf="exercise.type === 7" (click)="prepareGenerate()" [view]="'info'" class="ml-2">Generate</button>
-
+                    <button tc-button (click)="prepareGenerate()" [view]="'info'" class="ml-2">Generate</button>
                 </tc-card>
-
             </div>
-
+            <!--Generated Question taked from Back-->
             <tc-card>
-                <ng-katex-html *ngIf="langType == 'kz'" [html]="exercise.description ? exercise.description : ' '"></ng-katex-html>
-                <ng-katex-html *ngIf="langType == 'en'" [html]="exercise.descriptionEn ? exercise.descriptionEn : ' '"></ng-katex-html>
-                <ng-katex-html *ngIf="langType == 'ru'" [html]="exercise.descriptionRu ? exercise.descriptionRu : ' '"></ng-katex-html>
+                <ng-katex-html *ngIf="langType == 'kz'"
+                               [html]="exercise.description ? exercise.description : ' '"></ng-katex-html>
+                <ng-katex-html *ngIf="langType == 'en'"
+                               [html]="exercise.descriptionEn ? exercise.descriptionEn : ' '"></ng-katex-html>
+                <ng-katex-html *ngIf="langType == 'ru'"
+                               [html]="exercise.descriptionRu ? exercise.descriptionRu : ' '"></ng-katex-html>
 
                 <div class="mt-4" *ngIf="generatedTest.answerVariants.length">
-                    <ng-katex-html *ngIf="langType == 'kz'" [html]="generatedTest.description ? generatedTest.description : ' '"></ng-katex-html>
-                    <ng-katex-html *ngIf="langType == 'en'" [html]="generatedTest.descriptionEn ? generatedTest.descriptionEn : ' '"></ng-katex-html>
-                    <ng-katex-html *ngIf="langType == 'ru'" [html]="generatedTest.descriptionRu ? generatedTest.descriptionRu : ' '"></ng-katex-html>
-                    <div class="variants-show mt-2">
-                        <tc-checkbox
-                                class="mb-2"
-                                *ngFor="let variantShow of generatedTest.answerVariants"
-                                [disabled]="false">
-                            {{ variantShow }}
+                    <ng-katex-html *ngIf="langType == 'kz'"
+                                   [html]="generatedTest.description ? generatedTest.description : ' '"></ng-katex-html>
+                    <ng-katex-html *ngIf="langType == 'en'"
+                                   [html]="generatedTest.descriptionEn ? generatedTest.descriptionEn : ' '"></ng-katex-html>
+                    <ng-katex-html *ngIf="langType == 'ru'"
+                                   [html]="generatedTest.descriptionRu ? generatedTest.descriptionRu : ' '"></ng-katex-html>
+                    <!--Test-->
+                    <div class="variants-show mt-2" *ngIf="generatedTest.answerType == 1">
+                        <nz-radio-group class="mb-2">
+                            <!--[(ngModel)]="variantShow.isAnswer"-->
+                            <label nz-radio  nzValue="{{variantShow.id}}" *ngFor="let variantShow of generatedTest.answerVariants">
+                                <ng-katex *ngIf="langType == 'kz'" [equation]="variantShow.text"></ng-katex>
+                                <ng-katex *ngIf="langType == 'ru'" [equation]="variantShow.textRu"></ng-katex>
+                                <ng-katex *ngIf="langType == 'en'" [equation]="variantShow.textEn"></ng-katex>
+                            </label>
+                        </nz-radio-group>
+
+                    </div>
+                    <!--Multiple-->
+                    <div class="variants-show mt-2" *ngIf="generatedTest.answerType == 2">
+                        <tc-checkbox class="mb-2"
+                                     *ngFor="let variantShow of generatedTest.answerVariants">
+                            <ng-katex [equation]="variantShow.text"></ng-katex>
                         </tc-checkbox>
+                    </div>
+                    <!--Fill-->
+                    <div class="variants-show mt-2" *ngIf="generatedTest.answerType == 3">
+                        <tc-input placeholder="Type variant of answer">
+                            <!--[(ngModel)]="generatedTest.answerVariants[0]"-->
+                            <!--[ngModelOptions]="{standalone: true}"-->
+                        </tc-input>
+                    </div>
+                    <!--Match-->
+                    <div class="variants-show d-flex mt-2" *ngIf="generatedTest.answerType == 4">
+                        <div>
+                            <tc-card *ngFor="let variantShow of generatedTest.answerVariants">
+                                <ng-katex [equation]="variantShow.text"></ng-katex>
+                            </tc-card>
+                        </div>
+                        <div [cdkDropListData]="generatedTest.answerRelVariants" cdkDropList
+                             (cdkDropListDropped)="onDrop($event)">
+                            <tc-card *ngFor="let variantRelShow of generatedTest.answerRelVariants">
+                                <ng-katex [equation]="variantRelShow.text"></ng-katex>
+                            </tc-card>
+                        </div>
+                    </div>
+                    <!--Order-->
+                    <div class="variants-show mt-2" *ngIf="generatedTest.answerType == 5"
+                         [cdkDropListData]="generatedTest.answerVariants" cdkDropList
+                         (cdkDropListDropped)="onDrop($event)">
+                        <tc-card *ngFor="let variantShow of generatedTest.answerVariants">
+                            <i class="icofont-drag tc-icon-wrap mr-2"></i>
+                            <ng-katex [equation]="variantShow.text"></ng-katex>
+                        </tc-card>
                     </div>
                 </div>
             </tc-card>
-
         </div>
+
+        <!--Right side change topic Question type save delete copy question-->
         <div class="col-12 col-md-4">
-
+            <!--Question Types-->
             <tc-card>
-
                 <div class="row" style="justify-content: center">
-                    <button tc-button size="sm" style="border-bottom-right-radius: 0; border-top-right-radius: 0" [view]="(exercise.type == 1) ? 'success' : 'default'" (click)="selectTypeExercise(1)">Test</button>
-                    <button tc-button size="sm" style="border-radius: 0" [view]="(exercise.type == 2) ? 'success' : 'default'" (click)="selectTypeExercise(2)">Multiple choice</button>
-                    <button tc-button size="sm" style="border-radius: 0" [view]="(exercise.type == 3) ? 'success' : 'default'" (click)="selectTypeExercise(3)">Fill</button>
-                    <button tc-button size="sm" style="border-radius: 0" [view]="(exercise.type == 4) ? 'success' : 'default'" (click)="selectTypeExercise(4)">Match</button>
-                    <button tc-button size="sm" style="border-radius: 0" [view]="(exercise.type == 5) ? 'success' : 'default'" (click)="selectTypeExercise(5)">Order</button>
-                    <button tc-button size="sm" style="border-bottom-left-radius: 0; border-top-left-radius: 0" [view]="(exercise.type == 7) ? 'success' : 'default'" (click)="selectTypeExercise(7)">Generate</button>
+                    <button tc-button size="sm" style="border-bottom-right-radius: 0; border-top-right-radius: 0"
+                            [view]="(exercise.type == 1) ? 'success' : 'default'" (click)="selectTypeExercise(1, modalBody, modalChangeType, { closeButton: true, overlayClose: true })">Test
+                    </button>
+                    <button tc-button size="sm" style="border-radius: 0"
+                            [view]="(exercise.type == 2) ? 'success' : 'default'" (click)="selectTypeExercise(2, modalBody, modalChangeType, { closeButton: true, overlayClose: true })">
+                        Multiple choice
+                    </button>
+                    <button tc-button size="sm" style="border-radius: 0"
+                            [view]="(exercise.type == 3) ? 'success' : 'default'" (click)="selectTypeExercise(3, modalBody, modalChangeType, { closeButton: true, overlayClose: true })">Fill
+                    </button>
+                    <button tc-button size="sm" style="border-radius: 0"
+                            [view]="(exercise.type == 4) ? 'success' : 'default'" (click)="selectTypeExercise(4, modalBody, modalChangeType, { closeButton: true, overlayClose: true })">Match
+                    </button>
+                    <button tc-button size="sm" style="border-bottom-left-radius: 0; border-top-left-radius: 0"
+                            [view]="(exercise.type == 5) ? 'success' : 'default'" (click)="selectTypeExercise(5, modalBody, modalChangeType, { closeButton: true, overlayClose: true })">Order
+                    </button>
+                    <!--<button tc-button size="sm" style="border-bottom-left-radius: 0; border-top-left-radius: 0"-->
+                    <!--        [view]="(exercise.type == 7) ? 'success' : 'default'" (click)="selectTypeExercise(7)">-->
+                    <!--    Generate-->
+                    <!--</button>-->
                 </div>
             </tc-card>
+            <!--Tree of Topic-->
             <tc-card>
                 <div>
-    <!--                            <button class="mb-4" tc-button [ngStyle]="{ 'width': '100%' }" (click)="openModal(modalBody, 'Topic list', modalFooter, { closeButton: true, overlayClose: true })">Topic</button>-->
-    <!--                            <button class="mb-4" tc-button [ngStyle]="{ 'width': '100%' }" (click)="openModal(modalBody, 'Topic list', modalFooter, { closeButton: true, overlayClose: true })">Related Topics</button>-->
+                    <!--<button class="mb-4" tc-button [ngStyle]="{ 'width': '100%' }" (click)="openModal(modalBody, 'Topic list', modalFooter, { closeButton: true, overlayClose: true })">Topic</button>-->
+                    <!--<button class="mb-4" tc-button [ngStyle]="{ 'width': '100%' }" (click)="openModal(modalBody, 'Topic list', modalFooter, { closeButton: true, overlayClose: true })">Related Topics</button>-->
+                    <!--<nz-tree [nzData]="nodes" nzAsyncData (nzClick)="nzEvent($event)" (nzExpandChange)="nzEvent($event)"></nz-tree>-->
 
                     <nz-tree-select
                             class="mb-4"
@@ -280,10 +335,9 @@
                             [nzShowSearch]="true"
                             nzPlaceHolder="Topic"
                             [(ngModel)]="exercise.topicId"
-                            (ngModelChange)="onChangeTree($event)"
+                            (nzTreeClick)="nzEvent($event, modalTopic, modalTopicFooter, { closeButton: true, overlayClose: true })"
                     >
                     </nz-tree-select>
-
                     <nz-tree-select
                             style="width: 100%"
                             [nzNodes]="topicList"
@@ -291,30 +345,112 @@
                             nzPlaceHolder="Related Topics"
                             nzCheckable
                             [(ngModel)]="exercise.relativeTopics"
-                            (ngModelChange)="onChangeTree($event)"
-                    >
+                    ><!--(ngModelChange)="onChangeTree($event)"-->
                     </nz-tree-select>
                 </div>
             </tc-card>
-
+            <!--Buttons-->
             <tc-card>
                 <div>
-                    <button *ngIf="exercise.id != null" class="mb-3" tc-button [ngStyle]="{ 'width': '100%' }" [view]="'accent'" (click)="copyProblem()">Copy Question</button>
-                    <button tc-button [ngStyle]="{ 'width': '100%' }" [view]="'success'" (click)="saveExercise()">Save</button>
+                    <button *ngIf="exercise.id != null" tc-button class="mb-3" [ngStyle]="{ 'width': '100%' }"
+                            [view]="'error'"
+                            (click)="openModal(modalBody, 'Modal title', modalFooter, { closeButton: true, overlayClose: true })">
+                        Delete
+                    </button>
+                    <button *ngIf="exercise.id != null" class="mb-3" tc-button [ngStyle]="{ 'width': '100%' }"
+                            [view]="'accent'" (click)="copyProblem()">Copy Question
+                    </button>
+                    <button tc-button [ngStyle]="{ 'width': '100%' }" [view]="'success'" (click)="saveExercise()">Save
+                    </button>
                 </div>
             </tc-card>
+            <!--Note-->
+            <tc-card>
+                <div class="d-flex div-note">
+                    <i class="icofont-exclamation-circle icofont-2x" style="margin: 5px"></i>
+                    <h3 style="margin-top: 0; height: 31px">Note</h3>
+                </div>
+                <hr style="margin: 10px 0"/>
+                <carousel [autoplay]="true" cellWidth="100%" [arrowsTheme]="'dark'"
+                          [autoplayInterval]="10000" [transitionDuration]="1000" >
+                    <div class="carousel-cell cell">
+                        <div>
+                            <h6>
+                                Generate function Comming soon!!
+                                (Жай ғана сақтау маңызды себебі data керек)
+                                (generate функциясын тексеріп сізбен хабарласамыз)
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="carousel-cell cell" *ngFor="let note of notes">
+                        <div>
+                            <ng-katex-html [html]="note"></ng-katex-html>
+                        </div>
+                    </div>
+                </carousel>
+            </tc-card>
         </div>
-
-
-        <tc-card class="open col-12">
-            <div class="col-12">
-                <tc-form-group>
-                    <tc-textarea [placeholder]="'Description'" [height]="'16rem'"></tc-textarea>
-                </tc-form-group>
-                <tc-form-group>
-                    <tc-input placeholder="Right Answer"></tc-input>
-                </tc-form-group>
-            </div>
-        </tc-card>
     </div>
 </div>
+
+<ng-container>
+    <ng-template #modalBody>
+        <p>{{'Are you sure ?'|translate}}</p>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'error'" (click)="closeModal()">{{'Close'|translate}}</button>
+            <button tc-button [view]="'success'" (click)="removeProblem()">{{'Submit'|translate}}</button>
+        </div>
+    </ng-template>
+
+    <ng-template #modalTopic>
+        <tc-input [(ngModel)]="newTopicFromTree.title" [ngModelOptions]="{standalone: true}"></tc-input>
+    </ng-template>
+
+    <ng-template #modalTopicFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'error'" (click)="closeModal()">{{'Close'|translate}}</button>
+            <button tc-button [view]="'success'" (click)="newTopic(newTopicFromTree)">{{'Submit'|translate}}</button>
+        </div>
+    </ng-template>
+
+    <ng-template #modalChangeType>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'error'" (click)="closeModal()">{{'Close'|translate}}</button>
+            <button tc-button [view]="'success'" (click)="saveExercise()">{{'Submit'|translate}}</button>
+        </div>
+    </ng-template>
+</ng-container>
+
+<!--Something needed-->
+<!--        <tc-card class="open col-12">-->
+<!--            <div class="col-12">-->
+<!--                <tc-form-group>-->
+<!--                    <tc-textarea [placeholder]="'Description'" [height]="'16rem'"></tc-textarea>-->
+<!--                </tc-form-group>-->
+<!--                <tc-form-group>-->
+<!--                    <tc-input placeholder="Right Answer"></tc-input>-->
+<!--                </tc-form-group>-->
+<!--            </div>-->
+<!--        </tc-card>-->
+<!--wrong variants of generated questions-->
+<!-- <tc-form-group-->
+<!--         *ngIf="j == 0 && variable.variantsSolve && variable.variantsSolve.length > 0">-->
+<!--     <tc-form-label>Wrong variants</tc-form-label>-->
+<!--     <div class="row">-->
+<!--         <div *ngFor="let solveI of variable.variantsSolve; let u = index; trackBy: trackByFn;"-->
+<!--              class="col-12 mb-2">-->
+<!--             <tc-input [placeholder]="'Wrong variant'"-->
+<!--                       [(ngModel)]="variable.variantsSolve[u]"></tc-input>-->
+<!--             <button tc-button (click)="removeVariantSolves(solveI)"-->
+<!--                     [afterIcon]="'icofont-close'" [view]="'error'"-->
+<!--                     [square]="true" class="ml-2"></button>-->
+<!--         </div>-->
+<!--     </div>-->
+<!-- </tc-form-group>-->
+<!-- <button tc-button *ngIf="j == 0" (click)="addVariantSolves()" class="mb-2"> + Add-->
+<!--     Variants-->
+<!-- </button>-->
+

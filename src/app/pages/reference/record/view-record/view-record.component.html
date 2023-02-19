@@ -1,4 +1,4 @@
-<div *ngIf="loaded">
+<div *ngIf="loaded && !isEmpty">
     <div class="row">
         <div class="col-12 col-md-8">
             <tc-card>
@@ -6,28 +6,88 @@
                     <tc-factory-field
                             [_valueField]="field"
                             [value]="field.value"
+                            [postImage]="postImage"
+                            [getImageUrl]="getImageUrl"
                     ></tc-factory-field>
                 </div>
             </tc-card>
         </div>
         <div class="col-12 col-md-4">
-            <tc-card></tc-card>
-        </div>
-        <div class="col-12">
-            <button tc-button
-                    [type]="'button'"
-                    class="mr-2"
-                    [view]="'info'"
-                    [routerLink]="['/vertical/reference/record/edit', referenceId, recordId]">
-                Редактировать
-            </button>
-            <button tc-button
-                    [type]="'button'"
-                    class="mr-2"
-                    [view]="'error'"
-                    (click)="removeRecord(referenceId, recordId)">
-                Удалить
-            </button>
+            <tc-card>
+                <tc-form-group *ngIf="fieldsValue['creator'] && fieldsValue['creator'].length && fieldsValue['creator'] && fieldsValue['creator'][0]['value']">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md-3">
+                            <tc-form-label class="mb-md-0 label-show">{{'Author'|translate}}:</tc-form-label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <p>{{fieldsValue['creator'][0]['value']}}</p>
+                        </div>
+                    </div>
+                </tc-form-group>
+                <tc-form-group *ngIf="fieldsValue['created_at']">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md-3">
+                            <tc-form-label class="mb-md-0 label-show">{{'Creator'|translate}}:</tc-form-label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <p>{{fieldsValue['created_at'] | date: 'dd.MM.yyyy HH:mm:ss'}}</p>
+                        </div>
+                    </div>
+                </tc-form-group>
+                <tc-form-group *ngIf="fieldsValue['editor'] && fieldsValue['editor'].length && fieldsValue['editor'] && fieldsValue['editor'][0]['value']">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md-3">
+                            <tc-form-label class="mb-md-0 label-show">{{'Editor'|translate}}:</tc-form-label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <p>{{fieldsValue['editor'][0]['value']}}</p>
+                        </div>
+                    </div>
+                </tc-form-group>
+                <tc-form-group *ngIf="fieldsValue['edited_at']">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md-3">
+                            <tc-form-label class="mb-md-0 label-show">{{'Edited'}}:</tc-form-label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <p>{{fieldsValue['edited_at'] | date: 'dd.MM.yyyy HH:mm:ss'}}</p>
+                        </div>
+                    </div>
+                </tc-form-group>
+
+                <button tc-button
+                        *ngIf="canEdit"
+                        [type]="'button'"
+                        class="mr-2 mb-2"
+                        [view]="'info'"
+                        [routerLink]="getEditUrl()">
+                    {{'Edit'|translate}}
+                </button>
+                <button tc-button
+                        *ngIf="canDelete"
+                        [type]="'button'"
+                        class="mr-2 mb-2"
+                        [view]="'error'"
+                        (click)="openModal(modalBody, 'Modal title', modalFooter, { closeButton: true, overlayClose: true })"
+                >
+                    {{'Delete'|translate}}
+                </button>
+            </tc-card>
         </div>
     </div>
 </div>
+
+<not-found-page *ngIf="isEmpty"></not-found-page>
+
+<ng-container>
+    <ng-template #modalBody>
+        <p>{{'Are you sure you want to delete user?' | translate}}</p>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'default'" (click)="closeModal()">{{'Cancel'|translate}}</button>
+            <button tc-button [view]="'error'" (click)="removeRecord(referenceId, recordId)">{{'Delete'|translate}}</button>
+        </div>
+    </ng-template>
+</ng-container>

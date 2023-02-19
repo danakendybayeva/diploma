@@ -1,7 +1,7 @@
 <form [formGroup]="loginForm" (ngSubmit)="signUp()">
   <div class="title-block">
     <h5 class="form-title">Sign Up</h5>
-    <a class="link right" [routerLink]="['/public/sign-in']">Already registered ?</a>
+    <a class="link right" [routerLink]="['/public/sign-in']">{{"Already registered" | translate}}?</a>
   </div>
 
   <tc-form-group>

@@ -26,18 +26,18 @@ export class AuthGuard implements CanActivate {
         // this.router.navigate(['/public/sign-in'], { queryParams: { returnUrl: state.url } });
         const currentUser = this.authenticationService.currentUserAuth;
         if (!currentUser) {
-            this.router.navigate(['/public/sign-in'], { queryParams: { returnUrl: state.url } });
+            this.router.navigate(['/public/sign-in'], { queryParams: { returnUrl: state.url } }).then(r => {});
         }
         const res = await this.checkAccount(route.data.roles);
         if (res.status === 0) {
             // this.authenticationService.logout();
-            this.router.navigate(['/error/404']);
+            this.router.navigate(['/error/404']).then();
         }
-        return (res.status === 1) ? true : false;
+        return (res.status === 1);
     }
 
     checkAccount(role: String[]): Promise<Status> {
-        return this.http.post<Status>(`${environment.apiUrl}/api/account/islogging`, role)
+        return this.http.post<Status>(`${environment.apiUrl}/api/auth/account/islogging`, role)
             .toPromise()
             .then(response => response as Status)
             .catch();

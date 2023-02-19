@@ -1,7 +1,7 @@
 <tc-card class="mb-0" [padding]="'0'">
     <tc-card class="mb-0 pb-0" [title]="'Filter'">
         <tc-form-group class="mb-0 pb-0">
-            <div class="row">
+            <div class="row d-flex">
                 <div class="col-md-2 mb-2">
                     <nz-tree-select
                             class="mb-4"
@@ -16,16 +16,29 @@
                     </nz-tree-select>
                 </div>
                 <div class="col-md-2 mb-2">
-                    <nz-tree-select
-                            style="width: 100%"
-                            [nzNodes]="topicList"
-                            [nzShowSearch]="true"
-                            nzPlaceHolder="Related Topics"
-                            nzCheckable
-                            [(ngModel)]="relatedTopics"
-                            (ngModelChange)="onChangeTree($event)"
-                    >
-                    </nz-tree-select>
+                    <tc-select [placeholder]="'Select type'" [options]="programList1" [(ngModel)]="program"
+                               [ngModelOptions]="{standalone: true}"></tc-select>
+<!--                    <nz-tree-select-->
+<!--                            style="width: 100%"-->
+<!--                            [nzNodes]="programList"-->
+<!--                            [nzShowSearch]="true"-->
+<!--                            nzPlaceHolder="Program"-->
+<!--                            [(ngModel)]="program"-->
+<!--                            (ngModelChange)="onChangeTree($event)"-->
+<!--                    >-->
+<!--                    </nz-tree-select>-->
+                </div>
+                <div class="col-md-2 mb-2">
+                    <button tc-button class="mb-2 mr-2"
+                            [size]="'sm'"
+                            [view]="'info'"
+                            (click)="updateFilter()"
+                    >Confirm</button>
+                    <button tc-button class="mb-2"
+                            [size]="'sm'"
+                            [view]="'default'"
+                            (click)="resetFilter()"
+                    >Reset</button>
                 </div>
             </div>
         </tc-form-group>
@@ -41,13 +54,15 @@
         [nzFrontPagination]="false"
         (nzPageIndexChange)="onChangePageIndex($event)"
     >
-        <thead>
+        <thead nzSingleSort (nzSortChange)="onChangeSort($event)">
         <tr>
             <th>#</th>
             <th>Description</th>
             <th>Topic</th>
-            <th>Creator</th>
-            <th>Date</th>
+            <th nzShowSort nzColumnKey="topic">Topic Version</th>
+            <th nzShowSort nzColumnKey="creator" >Creator</th>
+            <th nzShowSort nzColumnKey="date" >Date</th>
+<!--            [nzSortOrder]="sortData['created_at'] ? sortData['created_at']['value'] : ''"-->
             <th></th>
         </tr>
         </thead>
@@ -57,6 +72,7 @@
             <td>{{ (pageSize * (pageIndex - 1)) + index + 1}}</td>
             <td><ng-katex-html [html]="data.description ? data.description : ' '"></ng-katex-html></td>
             <td>{{ data.topic.title }}</td>
+            <td>{{ data.topic.topicVersion ? data.topic.topicVersion.join('.') : '' }}</td>
             <td>{{ fieldService.getStructureFio(data.creator) }}</td>
             <td>{{ (data.updatedAt !== null ? data.updatedAt : data.createdAt) | date: 'dd.MM.yyyy HH:mm:ss' }}</td>
             <td>
@@ -76,7 +92,8 @@
 </tc-card>
 
 <button class="no-style settings-btn"
-        (click)="gotoByUrl('/vertical/admin-panel/reference/create')">
+        (click)="gotoByUrl('/vertical/community/admin/problem/add')">
+<!--    /vertical/admin-panel/reference/create-->
     <span class="pulse"></span>
     <tc-icon
             class="settings-icon"

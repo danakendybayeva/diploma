@@ -1,444 +1,396 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, Inject, LOCALE_ID} from '@angular/core';
 
-import { Store } from '@ngrx/store';
-import { EChartOption } from 'echarts';
-import { BasePageComponent } from '../../base-page';
-import { IAppState } from '../../../interfaces/app-state';
-import { HttpService } from '../../../services/http/http.service';
+import {Store} from '@ngrx/store';
+import {BasePageComponent} from '../../base-page';
+import {IAppState} from '../../../interfaces/app-state';
+import {HttpService} from '../../../services/http/http.service';
+import {EChartOption} from 'echarts';
+import {UserService} from '../../../user/_services/user.service';
+import {Router} from '@angular/router';
+
+import {ApexPlotOptions, ChartComponent} from 'ng-apexcharts';
+import {DashboardService} from '../services/dashboard.service';
+import {ChartLineOptions, ChartOptionColumns, ChartOptions} from '../../../interfaces/dashboard/dashboard';
+import {environment} from '../../../../environments/environment';
+import {Status} from '../../../interfaces/services/util.service';
+import {HttpClient} from '@angular/common/http';
+
 
 @Component({
-  selector: 'page-analytics',
-  templateUrl: './analytics.component.html',
-  styleUrls: ['./analytics.component.scss']
+    selector: 'page-analytics',
+    templateUrl: './analytics.component.html',
+    styleUrls: ['./analytics.component.scss'],
 })
-export class PageAnalyticsComponent extends BasePageComponent
-  implements OnInit, OnDestroy {
-  hsOptions: EChartOption;
-  caOptions: EChartOption;
-  cgOptions: EChartOption;
-  dOptions: EChartOption;
-  piOptions: EChartOption;
-  heOptions: EChartOption;
-  table: any[];
-  pieStyle: any;
 
-  constructor(store: Store<IAppState>, httpSv: HttpService) {
-    super(store, httpSv);
 
-    this.pageData = {
-      title: 'Analytics',
-      breadcrumbs: [
+export class PageAnalyticsComponent extends BasePageComponent implements OnInit, OnDestroy {
+    @ViewChild('chart') chart: ChartComponent;
+    public avgRating: Partial<ChartLineOptions>;
+    types = [
         {
-          title: 'Dashboard',
-          route: 'dashboard'
+            key: 'reading',
+            title: 'Books',
+            info: 'BooksGradingInfo',
+            infoVisible: false,
         },
         {
-          title: 'Analytics'
-        }
-      ]
-    };
-    this.table = [];
-    this.pieStyle = {
-      normal: {
-        label: {
-          color: '#000',
-          position: 'inner'
-        },
-        labelLine: {
-          show: false
-        }
-      }
-    };
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
-
-    this.getData('assets/data/team-activity.json', 'table', 'setLoaded');
-
-    this.setHSOptions();
-    this.setPAOptions();
-    this.setCgOptions();
-    this.setDOptions();
-    this.setPIOptions();
-    this.setHEOptions();
-  }
-
-  ngOnDestroy() {
-    super.ngOnDestroy();
-  }
-
-  setHSOptions() {
-    this.hsOptions = {
-      color: ['#ed253d', '#2fa7ff'],
-      tooltip: {
-        trigger: 'none',
-        axisPointer: {
-          type: 'cross'
-        }
-      },
-      legend: {
-        data: ['Clients 2018', 'Clients 2019']
-      },
-      grid: {
-        left: 30,
-        right: 30,
-        top: 50,
-        bottom: 50
-      },
-      xAxis: [
-        {
-          type: 'category',
-          boundaryGap: false,
-          axisTick: {
-            alignWithLabel: true
-          },
-          axisLine: {
-            onZero: false,
-            lineStyle: {
-              color: '#2fa7ff'
-            }
-          },
-          axisPointer: {
-            label: {
-              formatter: function(params) {
-                return (
-                  'Clients ' +
-                  params.value +
-                  (params.seriesData.length
-                    ? '：' + params.seriesData[0].data
-                    : '')
-                );
-              }
-            }
-          },
-          data: [
-            '2019-1',
-            '2019-2',
-            '2019-3',
-            '2019-4',
-            '2019-5',
-            '2019-6',
-            '2019-7',
-            '2019-8',
-            '2019-9',
-            '2019-10',
-            '2019-11',
-            '2019-12'
-          ]
+            key: 'lingua',
+            title: 'Lingua',
+            info: 'LinguaGradingInfo',
+            infoVisible: false,
         },
         {
-          type: 'category',
-          boundaryGap: false,
-          axisTick: {
-            alignWithLabel: true
-          },
-          axisLine: {
-            onZero: false,
-            lineStyle: {
-              color: '#ed253d'
-            }
-          },
-          axisPointer: {
-            label: {
-              formatter: function(params) {
-                return (
-                  'Clients ' +
-                  params.value +
-                  (params.seriesData.length
-                    ? '：' + params.seriesData[0].data
-                    : '')
-                );
-              }
-            }
-          },
-          data: [
-            '2018-1',
-            '2018-2',
-            '2018-3',
-            '2018-4',
-            '2018-5',
-            '2018-6',
-            '2018-7',
-            '2018-8',
-            '2018-9',
-            '2018-10',
-            '2018-11',
-            '2018-12'
-          ]
-        }
-      ],
-      yAxis: [
+            key: 'practice',
+            title: 'Practice',
+            info: 'PracticeGradingInfo',
+            infoVisible: false,
+        },
+        // {
+        //     key: 'eduway',
+        //     title: 'Eduway',
+        //     info: 'EduwayGradingInfo',
+        //     infoVisible: false,
+        // },
         {
-          type: 'value',
-          axisLabel: {
-            formatter: ''
-          }
-        }
-      ],
-      series: [
-        {
-          name: 'Clients 2018',
-          type: 'line',
-          xAxisIndex: 1,
-          smooth: true,
-          areaStyle: {
-            color: 'rgba(237,37,61,0.2)'
-          },
-          data: [159, 163, 174, 182, 174, 176, 175, 182, 119, 118, 112, 96]
+            key: 'edutest',
+            title: 'Edutest',
+            info: 'EdutestGradingInfo',
+            infoVisible: false,
         },
         {
-          name: 'Clients 2019',
-          type: 'line',
-          smooth: true,
-          areaStyle: {
-            color: 'rgba(47,167,255,0.2)'
-          },
-          data: [83, 94, 100, 114, 124, 178, 194, 211, 234, 257, 263, 270]
-        }
-      ]
-    };
-  }
-
-  setPAOptions() {
-    this.caOptions = {
-      grid: {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0
-      },
-      tooltip: {
-        trigger: 'item',
-        formatter: '{b}<br>{c} ({d}%)'
-      },
-      series: [
+            key: 'seminar',
+            title: 'Seminar',
+            info: 'SeminarGradingInfo',
+            infoVisible: false,
+        },
         {
-          name: 'pie',
-          type: 'pie',
-          selectedMode: 'single',
-          selectedOffset: 30,
-          clockwise: true,
-          radius: ['50%', '90%'],
-          data: [
-            {
-              value: 347,
-              name: '3-10',
-              itemStyle: {
-                normal: { color: '#fdd9f0', borderColor: '#f741b5' }
-              }
-            },
-            {
-              value: 310,
-              name: '10-20',
-              itemStyle: {
-                normal: { color: '#d5edff', borderColor: '#2fa7ff' }
-              }
-            },
-            {
-              value: 234,
-              name: '20-30',
-              itemStyle: {
-                normal: { color: '#fee8d7', borderColor: '#fc8b37' }
-              }
-            },
-            {
-              value: 195,
-              name: '30-40',
-              itemStyle: {
-                normal: { color: '#ffd8dc', borderColor: '#ed253d' }
-              }
-            },
-            {
-              value: 670,
-              name: '40+',
-              itemStyle: {
-                normal: { color: '#e6deff', borderColor: '#805aff' }
-              }
-            }
-          ],
-          itemStyle: this.pieStyle
-        }
-      ]
-    };
-  }
+            key: 'course',
+            title: 'Course',
+            info: 'CourseGradingInfo',
+            infoVisible: false,
+        },
+    ];
+    avg = {};
 
-  setCgOptions() {
-    this.cgOptions = {
-      grid: {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0
-      },
-      tooltip: {
-        trigger: 'item',
-        formatter: '{b}<br>{c} ({d}%)'
-      },
-      series: [
-        {
-          name: 'pie',
-          type: 'pie',
-          selectedMode: 'single',
-          selectedOffset: 30,
-          clockwise: true,
-          radius: [0, '90%'],
-          data: [
-            {
-              value: 154,
-              name: 'Female',
-              itemStyle: {
-                normal: {
-                  color: '#fdd9f0',
-                  borderColor: '#f741b5'
+    isAdmin = false;
+    loading = false;
+    semester: any[] = [
+        {value: 1, label: 'FirstSemester'},
+        {value: 2, label: 'SecondSemester'}
+    ];
+    months: any[] = [
+        {value: 9, label: 'September'},
+        {value: 10, label: 'October'},
+        {value: 11, label: 'November'},
+        {value: 12, label: 'December'},
+        {value: 1, label: 'January'},
+        {value: 2, label: 'February'},
+        {value: 3, label: 'March'},
+        {value: 4, label: 'April'},
+        {value: 5, label: 'May'},
+    ];
+    specCourseOption = [
+        {value: 1, label: '1'},
+        {value: 2, label: '2'},
+        {value: 3, label: '3'},
+        {value: 4, label: '4'},
+    ];
+    university = [];
+    speciality = [];
+    city = [];
+    mentors = [];
+    gender: any[] = [
+        {value: 1, label: 'Boys'},
+        {value: 2, label: 'Girls'},
+    ];
+
+    avgType = [];
+
+    constructor(
+        store: Store<IAppState>,
+        httpSv: HttpService,
+        private userService: UserService,
+        private dashboardService: DashboardService,
+        private router: Router,
+        private http: HttpClient,
+    ) {
+        super(store, httpSv);
+        this.pageData = {
+            title: 'Analytics',
+            loaded: true
+        };
+
+        this.avgRating = {
+            chart: {
+                height: 350,
+                type: 'line',
+                zoom: {
+                    enabled: false
                 }
-              }
             },
-            {
-              value: 173,
-              name: 'Male',
-              itemStyle: {
-                normal: {
-                  color: '#d5edff',
-                  borderColor: '#2fa7ff'
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            title: {
+                align: 'left'
+            },
+            grid: {
+                row: {
+                    colors: ['#f3f3f3', 'transparent'],
+                    opacity: 0.5
                 }
-              }
+            },
+        };
+
+        const now = new Date();
+    }
+
+    async ngOnInit() {
+        super.ngOnInit();
+        // TODO истеу керек
+        // if (!await this.userService.isAdmin()) {
+        //   this.router.navigate(['/vertical/user-profile']).then(r => {
+        //   });
+        // }
+        this.loading = true;
+        await Object.values(this.types).forEach((value) => {
+            this.avg[value.key] = {
+                title: value.title  ,
+                series: [
+                    {
+                        name: 'Students',
+                        data: [],
+                        color: '#3D3DD8'
+                    }
+                ],
+                xaxis: {categories: []},
+                filter: {
+                    semester: null,
+                    mentors: [],
+                    gender: null,
+                    city: [],
+                    loading: false
+                },
+                att: {
+                    9: {label: 'September', count: 0, avg: 0, isSelected: true},
+                    10: {label: 'October', count: 0, avg: 0, isSelected: true},
+                    11: {label: 'November', count: 0, avg: 0, isSelected: true},
+                    12: {label: 'December', count: 0, avg: 0, isSelected: true},
+                    1: {label: 'January', count: 0, avg: 0, isSelected: true},
+                    111: {label: 'Semester 1', count: 0, avg: 0, isSelected: false},
+                    2: {label: 'February', count: 0, avg: 0, isSelected: true},
+                    3: {label: 'March', count: 0, avg: 0, isSelected: true},
+                    4: {label: 'April', count: 0, avg: 0, isSelected: true},
+                    5: {label: 'May', count: 0, avg: 0, isSelected: true},
+                    6: {label: 'June', count: 0, avg: 0, isSelected: true},
+                    112: {label: 'Semester 2', count: 0, avg: 0, isSelected: false},
+                },
+            };
+        });
+
+        await this.getSpeciality().then(r => {
+            this.speciality = this.getPrepareOption(r['speciality']);
+            this.university = this.getPrepareOption(r['university']);
+            this.city = this.getPrepareOption(r['city']);
+            this.mentors = this.getPrepareOption(r['mentors']);
+        });
+        // TODO remove eduway from avgType and remove if in 181l
+        this.avgType = await this.getAvgRatingAll().then();
+        Object.entries(this.avg).forEach(
+            ([key, value]) => {
+                // @ts-ignore
+                Object.entries(value.att).forEach(
+                    ([keyAtt, valueAtt]) => {
+                        // @ts-ignore
+                        valueAtt.avg = 0;
+                        // @ts-ignore
+                        valueAtt.count = 0;
+                    }
+                );
             }
-          ],
-          itemStyle: this.pieStyle
+        );
+        if (Object.keys(this.avgType).length) {
+            Object.entries(this.avgType).forEach(
+                ([key, value]) => {
+                    if (key !== 'eduway') {
+                        Object.entries(value).forEach(
+                            ([k, v]) => {
+                                this.avg[key].att[k].avg = this.round(v['avg']);
+                                this.avg[key].att[k].count = this.round(v['count']);
+                            }
+                        );
+                        this.attSemMonthChange(key);
+                        this.attSetData(key);
+                    }
+                }
+            );
         }
-      ]
-    };
-  }
+        // Object.entries(this.avg).forEach(
+        //     ([key, value]) => {
+        //         this.applyAvgRating(key).then();
+        //     }
+        // );
+        this.loading = false;
+    }
 
-  setDOptions() {
-    this.dOptions = {
-      grid: {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0
-      },
-      tooltip: {
-        trigger: 'item',
-        formatter: '{b}<br>{c} ({d}%)'
-      },
-      series: [
-        {
-          name: 'pie',
-          type: 'pie',
-          radius: [20, '90%'],
-          roseType: 'radius',
-          label: {
-            normal: {
-              show: true
+    async getSpeciality(): Promise<any> {
+        return this.http.get<any>(`${environment.apiUrl}/api/profile/fields/list`)
+            .toPromise()
+            .then(response => response)
+            .catch();
+    }
+    getPrepareOption(value: any[]): any[] {
+        const rr = [];
+        value.forEach(item => {
+            rr.push({value: item.id, label: item.value});
+        });
+        return rr;
+    }
+
+    async getAvgRatingAll(): Promise<any> {
+        return this.http.get<any>(`${environment.apiUrl}/api/analytics/data/all?`)
+            .toPromise()
+            .then(response => response)
+            .catch();
+    }
+
+    // One by one
+    prepareFilter(type: string): string {
+        const result = [];
+        if (this.avg[type].filter.semester) {
+            result.push('st=' + this.avg[type].filter.semester);
+        }
+        if (this.avg[type].filter.mentors && this.avg[type].filter.mentors.length) {
+            result.push('mt=' + this.avg[type].filter.mentors.join(','));
+        }
+        if (this.avg[type].filter.gender) {
+            result.push('gn=' + this.avg[type].filter.gender);
+        }
+        if (this.avg[type].filter.city && this.avg[type].filter.city.length) {
+            result.push('ct=' + this.avg[type].filter.city.join(','));
+        }
+        return result.join('&');
+    }
+
+    async getAvgRating(type: string = ''): Promise<any> {
+        return this.http.get<any>(`${environment.apiUrl}/api/analytics/month/${type}?${this.prepareFilter(type)}`)
+            .toPromise()
+            .then(response => response)
+            .catch();
+    }
+
+    async applyAvgRating(type: string = '') {
+        this.avg[type].filter.loading = true;
+        this.avgType = await this.getAvgRating(type);
+        Object.entries(this.avg[type].att).forEach(
+            ([key, value]) => {
+                this.avg[type].att[key].avg = 0;
+                this.avg[type].att[key].count = 0;
             }
-          },
-          data: [
-            {
-              value: 115,
-              name: 'Production',
-              itemStyle: {
-                normal: { color: '#fdd9f0', borderColor: '#f741b5' }
-              }
-            },
-            {
-              value: 173,
-              name: 'Development',
-              itemStyle: {
-                normal: { color: '#fee8d7', borderColor: '#fc8b37' }
-              }
-            },
-            {
-              value: 154,
-              name: 'Purchasing',
-              itemStyle: {
-                normal: { color: '#e6deff', borderColor: '#805aff' }
-              }
-            },
-            {
-              value: 180,
-              name: 'Marketing',
-              itemStyle: {
-                normal: { color: '#d5edff', borderColor: '#2fa7ff' }
-              }
-            },
-            {
-              value: 219,
-              name: 'Finance',
-              itemStyle: {
-                normal: { color: '#c1efc6', borderColor: '#7cdb86' }
-              }
+        );
+        if (Object.keys(this.avgType).length && type.length) {
+            Object.entries(this.avgType).forEach(
+                ([key, value]) => {
+                    this.avg[type].att[key].avg = this.round(value.avg);
+                    this.avg[type].att[key].count = this.round(value.count);
+                }
+            );
+
+            this.attSemMonthChange(type);
+            this.attSetData(type);
+        }
+        this.avg[type].filter.loading = false;
+    }
+
+
+    abs(value: any): number { return Math.abs(Number(value)); }
+    round(value: any): number { return Math.round(Number(value)); }
+
+    attSemMonthChange(type: string) {
+
+        Object.entries(this.avg[type].att).forEach(
+            ([key, value]) => {
+                this.avg[type].att[key].isSelected = false;
             }
-          ],
-          itemStyle: this.pieStyle
-        }
-      ]
-    };
-  }
+        );
 
-  setPIOptions() {
-    this.piOptions = {
-      color: ['#805aff'],
-      grid: {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0
-      },
-      calculable: true,
-      xAxis: {
-        boundaryGap: false,
-        type: 'category'
-      },
-      yAxis: {
-        show: false
-      },
-      series: [
-        {
-          name: 'Patients 2019',
-          type: 'line',
-          smooth: true,
-          symbolSize: 6,
-          data: [95, 124, 132, 143, 138, 178, 194, 211, 234, 257, 241, 226],
-          areaStyle: {}
+        if (this.avg[type].filter.semester) {
+            if (this.avg[type].filter.semester === 1) {
+                Object.entries(this.avg[type].att).forEach(
+                    ([key, value]) => {
+                        // if ([9, 10, 11, 12, 111].includes(Number(key))) {
+                        if ([9, 10, 11, 12].includes(Number(key))) {
+                            this.avg[type].att[key].isSelected = true;
+                        }
+                    }
+                );
+            }
+            if (this.avg[type].filter.semester === 2) {
+                Object.entries(this.avg[type].att).forEach(
+                    ([key, value]) => {
+                        // if ([2, 3, 4, 5, 112].includes(Number(key))) {
+                        if ([2, 3, 4, 5].includes(Number(key))) {
+                            this.avg[type].att[key].isSelected = true;
+                        }
+                    }
+                );
+            }
+        } else {
+            Object.entries(this.avg[type].att).forEach(
+                ([key, value]) => {
+                    this.avg[type].att[key].isSelected = !(key === '111' || key === '112');
+                }
+            );
         }
-      ]
-    };
-  }
+    }
+    attSetData(type: string) {
+        const data = [];
+        const count = [];
+        const categories = [];
 
-  setHEOptions() {
-    this.heOptions = {
-      color: ['#cd5447'],
-      grid: {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0
-      },
-      xAxis: {
-        boundaryGap: false,
-        type: 'category'
-      },
-      yAxis: {
-        show: false
-      },
-      series: [
-        {
-          name: 'Patients 2019',
-          type: 'line',
-          smooth: true,
-          symbolSize: 6,
-          data: [94, 111, 90, 85, 70, 83, 94, 109, 89, 74, 83, 78],
-          areaStyle: {}
-        }
-      ]
-    };
-  }
+        Object.entries(this.avg[type].att).forEach(([key, value]) => {
+            // Uncomment if Semester 1 needed
+            // if ([9, 10, 11, 12, 111].includes(Number(key)) && this.avg[type].att[key].isSelected) {
+            if ([9, 10, 11, 12].includes(Number(key)) && this.avg[type].att[key].isSelected) {
+                data.push(this.avg[type].att[key].avg);
+                count.push(this.avg[type].att[key].count);
+                categories.push(this.avg[type].att[key].label);
+            }
+        });
 
-  sort({ key, value }) {
-    const direction = value === 'ascend' ? 1 : -1;
-    const sortFn = (prev, cur) => (prev[key] > cur[key] ? 1 : -1) * direction;
-    this.table = this.table.sort(sortFn);
-  }
+        Object.entries(this.avg[type].att).forEach(([key, value]) => {
+            // If Semester 2 needed
+            // if ([2, 3, 4, 5, 112].includes(Number(key)) && this.avg[type].att[key].isSelected) {
+            if ([2, 3, 4, 5].includes(Number(key)) && this.avg[type].att[key].isSelected) {
+                data.push(this.avg[type].att[key].avg);
+                count.push(this.avg[type].att[key].count);
+                categories.push(this.avg[type].att[key].label);
+            }
+        });
+
+        data.unshift(0);
+        count.unshift(0);
+        categories.unshift('');
+        data.push(data[data.length - 1]);
+        count.push(count[count.length - 1]);
+        categories.push('');
+
+        this.avg[type].series = [
+            {
+                name: 'Average Point',
+                data: data,
+                color: '#3D3DD8',
+            }, {
+                name: 'Students',
+                data: count,
+                color: '#00000000'
+            }
+        ];
+        this.avg[type].xaxis = {
+            categories: categories
+        };
+    }
 }

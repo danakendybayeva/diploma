@@ -11,6 +11,50 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import '~katex/dist/katex.css';
 
+
+$_bg: (
+        default: rgba(#1A3860, 0.08),
+        hover: rgba(#1A3860, 0.08),
+        focus: #fff,
+        disabled: rgba(#ccc, .1));
+
+$_border: (
+        default: rgba(#1A3860, 0.08),
+        hover: rgba(#1A3860, 0.08),
+        focus: rgba(#1A3860, 0.08),
+        disabled: rgba(#ccc, .5));
+
+$_color: (
+        default: #1A3860,
+        hover: #1A3860,
+        focus: #1A3860,
+        disabled: #bdbdbd);
+
+$_module-rem: $module-rem;
+$_placeholder-color: #1A3860;
+$_border-style: solid;
+$_border-width: 1px;
+$_fs: 1rem;
+$_lh: $_module-rem * 2 / $_fs;
+$_padding-h: 10px;
+$_padding-v: $_module-rem;
+$_shape: 4px;
+$_animation: $animation;
+$_shadow-hover: none;
+
+// size sm
+$_fs-sm: ($_fs * .9);
+$_lh-sm: $_module-rem * 2 / $_fs-sm;
+$_shape-sm: ($_shape * .8);
+$_padding-v-sm: ($_module-rem / 2);
+
+// size lg
+$_fs-lg: ($_fs * 1.3);
+$_lh-lg: $_module-rem * 2 / $_fs-lg;
+$_shape-lg: ($_shape * 1.5);
+$_padding-v-lg: $_module-rem * 1.5;
+
+
 .ng-select-container {
   height: 40px !important;
   background-color: rgba(74, 80, 92, 0.08) !important;
@@ -113,6 +157,16 @@ span.ant-calendar-picker   {
   }
 }
 
+.first {
+  right: $module-rem * 2 * 1;
+}
+.second {
+  right: $module-rem * 2 * 4.5;
+}
+.third {
+  right: $module-rem * 2 * 8;
+}
+
 
 reference-sidebar-menu {
   .ant-collapse > .ant-collapse-item > .ant-collapse-header {
@@ -164,4 +218,203 @@ reference-sidebar-menu {
 }
 .pointer-p:hover {
   color: $link-color;
+}
+
+.structure-node {
+  i {
+    font-size: 14px !important;
+    line-height: 28px;
+  }
+  i.edit {
+    font-size: 12px !important;
+    color: #d0cfcf;
+    cursor: pointer;
+  }
+  i.edit:hover {
+    color: $link-color;
+  }
+  i.drag {
+    cursor: move;
+  }
+
+  .ant-tree li span.ant-tree-switcher {
+    line-height: 28px;
+    height: 28px;
+  }
+
+  .item-span {
+    display: inline-block;
+    margin-bottom: 15px;
+  }
+  .ant-tree li ul {
+    padding-left: 30px;
+  }
+}
+.structure-popover.fields-type-add {
+  margin: -12px -16px;
+
+  .field-type-add {
+    padding: 9px 12px;
+    cursor: pointer;
+  }
+  .field-type-add:hover {
+    background: #e4eff9
+  }
+  .bottom-border {
+    border-bottom: 1px solid #dddddd;
+  }
+}
+
+
+.ant-picker {
+  border-radius: $_shape;
+  color: map-get($_color, default);
+  border: $_border-width $_border-style map-get($_border, default);
+  display: block;
+  font-size: $_fs;
+  line-height: $_lh;
+  outline: none;
+  width: 100%;
+  padding: 0;
+
+
+  .ant-picker-input {
+    align-items: center;
+    background-color: map-get($_bg, default);
+    background-clip: padding-box;
+    border: 0 $_border-style map-get($_border, default);
+    border-radius: $_shape;
+    cursor: text;
+    display: flex;
+    outline: none;
+    padding: 0 $_padding-h;
+    position: relative;
+    transition:
+            background-color .2s $_animation,
+            border .2s $_animation,
+            box-shadow .2s $_animation,
+            color .2s $_animation;
+    will-change: background-color, border, box-shadow, color;
+    width: 100%;
+
+    input {
+      background: none;
+      border: 0;
+      border-radius: inherit;
+      box-shadow: none;
+      color: inherit;
+      cursor: inherit;
+      display: block;
+      font: inherit;
+      font-weight: 400;
+      margin: -$_border-width 0;
+      outline: none;
+      padding: $_padding-v .2em;
+      width: 100%;
+
+      @include placeholder {
+        color: $_placeholder-color;
+        font-weight: normal;
+        opacity: .4;
+      }
+    }
+    .ant-picker-clear {
+      right: $_padding-h;
+      background-color: map-get($_bg, default);
+    }
+  }
+}
+.ant-picker-focused {
+  box-shadow: none;
+  color: map-get($_color, focus);
+  border-color: map-get($_border, focus);
+  border-width: 1px;
+
+  .ant-picker-input {
+    background-color: map-get($_bg, focus);
+    border-color: map-get($_border, focus);
+    box-shadow: $_shadow-hover;
+  }
+}
+.ant-picker:hover {
+  border-color: map-get($_border, hover);
+  border-right-width: $_border-width !important;
+  border-width: 1px;
+
+  .ant-picker-input {
+    background-color: map-get($_bg, hover);
+    border-color: map-get($_border, hover);
+    box-shadow: $_shadow-hover;
+  }
+}
+.ant-picker-date-panel .ant-picker-content th {
+  text-align: center;
+}
+
+.ant-picker-small {
+  font-size: $_fs-sm;
+  line-height: $_lh-sm;
+
+
+  .ant-picker-input {
+    border-radius: $_shape-sm;
+    padding: 0 $_padding-h;
+
+    input {
+      padding: $_padding-v-sm .2em;
+
+      @include placeholder {
+        color: $_placeholder-color;
+        font-weight: normal;
+        opacity: .4;
+      }
+    }
+    .ant-picker-clear {
+      right: $_padding-h;
+    }
+  }
+}
+
+tc-input, tc-select, nz-date-picker {
+  min-width: 150px;
+}
+
+
+.ant-table-container {
+
+  .ant-table-content {
+
+    .ant-table-thead {
+
+      .ant-table-row {
+        color: map-get($_color, default);
+
+        > th {
+          background-color: #f7f7f8;
+        }
+
+        .ant-table-column-sorters {
+          padding-top: .7rem;
+          padding-bottom: .7rem;
+        }
+      }
+    }
+
+    .ant-table-tbody {
+      > tr {
+        td,
+        th {
+          padding-top: .7rem;
+          padding-bottom: .7rem;
+        }
+
+        &:hover:not(.ant-table-expanded-row) {
+          > td {
+            background-color: rgba(33, 58, 143, 0.04);
+          }
+        }
+      }
+    }
+
+  }
 }

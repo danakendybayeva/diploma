@@ -53,7 +53,7 @@ export class PropertyComponent implements OnInit {
     this.loadingLabelForm = true;
     if (valid) {
       this.loadingLabelForm = false;
-      console.log(this.valueRef);
+      // console.log(this.valueRef);
       result = await this.fieldService.request(this.urlRequest, this.valueRef);
       result.value = '/vertical/admin-panel/reference/edit/' + result.value;
       this.resultEvent.emit(result);

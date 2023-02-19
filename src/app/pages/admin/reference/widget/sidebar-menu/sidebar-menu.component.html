@@ -1,11 +1,11 @@
 <tc-card>
     <a *ngIf="referenceId" [routerLink]="['/vertical/admin-panel/reference/edit', referenceId]">
-        <span><i class="sli-info tc-icon-wrap"></i> Свойства</span>
+        <span><i class="sli-info tc-icon-wrap"></i> {{'Properties' | translate}}</span>
     </a>
     <nz-collapse nzAccordion [nzBordered]="false" *ngIf="!isNew">
         <nz-collapse-panel
             *ngFor="let panel of panels"
-            [nzHeader]="panel.name"
+            [nzHeader]="panel.name | translate"
             [nzActive]="panel.active"
             [nzExpandedIcon]="panel.icon"
             [nzDisabled]="panel.disabled"
@@ -18,7 +18,7 @@
                         [nzPopoverContent]="fieldsListTemplate"
                         nzPopoverPlacement="leftTop"
                         nzPopoverTrigger="click">
-                    Добавить поля
+                    {{'Add' | translate}} {{'Fields' | translate}}
                 </button>
                 <ng-template #fieldsListTemplate>
                     <ul class="list-unstyled fields-type-add">
@@ -42,7 +42,7 @@
                                 [tcBgColor]="'#9fbfe0'"
                                 [block]="true"
                                 cdkDrag>
-                            <span class="text-danger" *ngIf="itemField['isRequired']">*</span> {{ itemField.title }}
+                            <span class="text-danger" *ngIf="itemField['isRequired']">*</span> {{ itemField.title|translate }}
                         </button>
                     </a>
                 </div>
@@ -51,7 +51,7 @@
             <div *ngIf="panel.type == 'section'">
                 <button tc-button [view]="'warning'" [size]="'sm'" [block]="true" class="mb-3"
                         [routerLink]="['/vertical/admin-panel/reference/edit', referenceId, 'section']">
-                    Добавить представление
+                    {{'Add' | translate}} {{'Section' | translate}}
                 </button>
 
                 <div class=""
@@ -66,13 +66,17 @@
                                 [tcBgColor]="'#9fbfe0'"
                                 [block]="true"
                                 cdkDrag>
-                            <span class="text-danger" *ngIf="itemField['isRequired']">*</span> {{ itemField.title }}
+                            <span class="text-danger" *ngIf="itemField['isRequired']">*</span> {{ itemField.title |translate}}
                         </button>
                     </a>
                 </div>
             </div>
 
-            <div *ngIf="panel.type == 'permission'">
+            <div *ngIf="panel.type == 'access'">
+                <button tc-button [view]="'warning'" [size]="'sm'" [block]="true" class="mb-3"
+                        [routerLink]="['/vertical/admin-panel/reference/edit', referenceId, 'access']">
+                    {{'Add' | translate}} {{'Access' | translate}}
+                </button>
             </div>
         </nz-collapse-panel>
     </nz-collapse>

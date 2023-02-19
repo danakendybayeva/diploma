@@ -1,59 +1,200 @@
 @import '../../../../assets/sass/variables';
+*{
+  font-family: 'Montserrat', sans-serif;
+}
 
-:host {
-  .chart-card {
-    position: relative;
+$_module-rem: $module-rem;
+$_h-padding: $_module-rem * 3;
+$_v-padding: $_module-rem * 2;
+.card-header {
+  margin: 0;
+  padding: ($_v-padding) ($_h-padding) 0;
+  .card-title {
+    color:  #10142D;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    margin: 0;
+  }
+}
 
-    .chart-text-block {
-      align-items: center;
-      flex-direction: column;
-      display: flex;
-      justify-content: center;
-      height: 200px;
-      position: absolute;
-      top: 0;
-      width: 100%;
-    }
-  }
-  .markers {
-    .marker-block {
-      &:not(:last-child) {
-        margin-bottom: $module-rem / 2;
-      }
-    }
-    .marker {
-      border-radius: 50%;
-      display: block;
-      height: 12px;
-      width: 12px;
-      margin-right: $module-rem;
-    }
-  }
-  .card-header  {
-    display: flex;
-    justify-content: space-between;
-    padding: ($module-rem * 3) ($module-rem * 2) 0;
 
-    .actions {
-      display: flex;
-      margin: -$module-rem;
-  
-      >* {
-        cursor: pointer;
-        margin: $module-rem;
-        opacity: .4;
-        transition: opacity .2s $animation;
-  
-        &:hover {
-          opacity: 1;
-        }
-      }
+button {
+  height: fit-content;
+}
+
+.paragraph {
+  font-weight: 400;
+  line-height: 24px;
+  color: #8E919B;
+}
+
+.rectangle-blue {
+  height: 15px;
+  background: #3D3DD8;
+  border-bottom-left-radius: 100px;
+  border-top-left-radius: 100px;
+}
+
+.rectangle-pink {
+  height: 15px;
+  background: #E066FF;
+  border-bottom-right-radius: 100px;
+  border-top-right-radius: 100px;
+}
+
+.rectangle-grey {
+  height: 15px;
+  background: #999ea0;
+  border-bottom-right-radius: 100px;
+  border-top-right-radius: 100px;
+}
+
+.filter-block {
+  flex-wrap: wrap;
+  * {
+    margin-bottom: 10px;
+  }
+}
+
+
+.icons {
+  font-weight: 600;
+
+  img {
+    height: 17px;
+    margin-bottom: 5px;
+  }
+}
+.up {
+  color: #00ff80;
+}
+.down {
+  color: #FF2343;
+}
+
+h6 {
+  font-size: 18px;
+  color: #10142D;
+}
+
+h2 {
+  color: #10142D;
+}
+
+@media only screen and (min-width: 768px) {
+  .pie-charts {
+    margin-left: -50px !important;
+    //margin-right: -50px !important;
+  }
+  .pie-chart-text {
+
+    .row {
+      margin-left: -70px;
     }
   }
-  .table-card {
-    margin-bottom: $module-rem * 3;
+}
+
+
+.pie-mark {
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  div {
+    width: 30px;
+    height: 4px;
+    border-radius: 100px;
+    margin-right: 15px;
   }
-  .progresses {
-    flex: 1;
+}
+.pie-text {
+  margin-bottom: 8px;
+  display: grid;
+
+  p {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 18px;
+    color: #10142D;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+
+  span {
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 24px;
+    color: #10142D;
+  }
+}
+
+.count-header {
+  color: #10142D;
+  margin: 0 10px 0 0;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.vertical-middle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.statistic-fluid {
+  background: #ffffff;
+  margin: 15px -20px;
+  padding: 20px 25px;
+
+  h2 {
+    font-size: 36px;
+  }
+
+  .description-sf {
+    font-size: 11px;
+    color: #8E919B;
+    font-weight: 400;
+  }
+}
+
+.radial-bar-content {
+  max-height: 250px !important;
+  padding-left: ($_v-padding);
+}
+
+.radial-bar-filter {
+  width: 100%;
+}
+
+.table-raking {
+  th {
+    font-size: 12px;
+    color: #8E919B;
+    font-weight: 600;
+    background: none !important;
+    border: none !important;
+  }
+  .th-raking {
+    padding-left: 5px;
+    padding-right: 5px;
+
+  }
+  td.ranking {
+    color: #3B4CB8;
+    font-weight: 600;
+    font-size: 20px;
+    padding: 5px;
+    text-align: center;
+  }
+  td.points {
+    color: #3B4CB8;
+    font-weight: 700;
+    font-size: 18px;
+  }
+
 }

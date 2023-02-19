@@ -23,6 +23,8 @@ import { RegisterFormComponent } from './components/register-form';
 import { NavbarSkeletonComponent } from './components/navbar-skeleton';
 import { SettingsComponent } from './components/settings';
 import {TranslateModule} from '@ngx-translate/core';
+import {ReferenceModule} from '../reference/reference.module';
+import {InlineSVGModule} from "ng-inline-svg";
 
 @NgModule({
     imports: [
@@ -32,7 +34,9 @@ import {TranslateModule} from '@ngx-translate/core';
         ReactiveFormsModule,
         MalihuScrollbarModule.forRoot(),
         UIModule,
-        TranslateModule
+        TranslateModule,
+        ReferenceModule,
+        InlineSVGModule,
     ],
   declarations: [
     BaseLayoutComponent,

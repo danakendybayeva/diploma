@@ -1,0 +1,15 @@
+<div *ngIf="_valueField" class="mb-4">
+    <p [innerHTML]="_valueField['title'] | safeHtml"></p>
+
+    <tc-radio
+              *ngIf="_valueField['answers'] && _valueField['answers'].length"
+              [(ngModel)]="value"
+    >
+        <tc-radio-option
+                *ngFor="let answer of _valueField['answers']"
+                [value]="answer['id']"
+        >
+            {{answer['title']}}
+        </tc-radio-option>
+    </tc-radio>
+</div>

@@ -1,0 +1,19 @@
+:host {
+  tc-checkbox {
+    background: #ffffff;
+    border: 1px solid #e7e9ec;
+    border-radius: 4px;
+    padding: 10px 20px;
+    margin-bottom: 8px;
+    width: 100%;
+  }
+}
+
+::ng-deep {
+  .tc-radio-horizontal > tc-radio-option {
+    margin-bottom: 0 !important;
+  }
+  .tc-checkbox-wrap {
+    width: 100%;
+  }
+}

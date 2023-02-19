@@ -1,5 +1,189 @@
 @import '../../../../assets/sass/variables';
+*{
+  font-family: 'Montserrat', sans-serif;
+}
 
-:host {
+button {
+  height: fit-content;
+}
+
+.paragraph {
+  font-weight: 400;
+  line-height: 24px;
+  color: #8E919B;
+}
+
+.information {
+  margin-top: 4px;
+  margin-left: 8px;
+  margin-right: 8px;
+  color: #999ea0;
+}
+
+
+
+.rectangle-blue {
+  height: 15px;
+  background: #3D3DD8;
+  border-bottom-left-radius: 100px;
+  border-top-left-radius: 100px;
+}
+
+.rectangle-pink {
+  height: 15px;
+  background: #E066FF;
+  border-bottom-right-radius: 100px;
+  border-top-right-radius: 100px;
+}
+
+.filter-block {
+  flex-wrap: wrap;
+  * {
+    margin-bottom: 10px;
+  }
+}
+
+.info-dropdown {
+  box-shadow: 0px 100px 169px rgba(16, 20, 45, 0.2), 0px 24.7482px 37.7484px rgba(16, 20, 45, 0.144631), 0px 4.39874px 11.2387px rgba(16, 20, 45, 0.042824);
+  border-radius: 16px;
+}
+
+.icons {
+  font-weight: 600;
+
+  img {
+    height: 17px;
+    margin-bottom: 5px;
+  }
+}
+.up {
+  color: #00ff80;
+}
+.down {
+  color: #FF2343;
+}
+
+h6 {
+  font-size: 18px;
+  color: #10142D;
+}
+
+h2 {
+  color: #10142D;
+}
+
+@media only screen and (min-width: 768px) {
+  .pie-charts {
+    margin-left: -50px !important;
+    //margin-right: -50px !important;
+  }
+  .pie-chart-text {
+
+    .row {
+      margin-left: -70px;
+    }
+  }
+}
+
+
+.pie-mark {
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  div {
+    width: 30px;
+    height: 4px;
+    border-radius: 100px;
+    margin-right: 15px;
+  }
+}
+.pie-text {
+  margin-bottom: 8px;
+  display: grid;
+
+  p {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 18px;
+    color: #10142D;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  span {
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 24px;
+    color: #10142D;
+  }
+}
+
+.count-header {
+  color: #10142D;
+  margin: 0 10px 0 0;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.vertical-middle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.statistic-fluid {
+  background: #ffffff;
+  margin: 15px -20px;
+  padding: 20px 25px;
+
+  h2 {
+    font-size: 36px;
+  }
+
+  .description-sf {
+    font-size: 11px;
+    color: #8E919B;
+    font-weight: 400;
+  }
+}
+
+.radial-bar-content {
+  max-height: 250px !important;
+}
+
+.radial-bar-filter {
+  width: 100%;
+}
+
+.table-raking {
+  th {
+    font-size: 12px;
+    color: #8E919B;
+    font-weight: 600;
+    background: none !important;
+    border: none !important;
+  }
+  .th-raking {
+    padding-left: 5px;
+    padding-right: 5px;
+
+  }
+  td.ranking {
+    color: #3B4CB8;
+    font-weight: 600;
+    font-size: 20px;
+    padding: 5px;
+    text-align: center;
+  }
+  td.points {
+    color: #3B4CB8;
+    font-weight: 700;
+    font-size: 18px;
+  }
 
 }

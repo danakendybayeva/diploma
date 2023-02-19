@@ -54,4 +54,50 @@
       opacity: 1;
     }
   }
+
+  .social-form {
+    margin-left: -10px;
+    margin-right: -10px;
+    img {
+      width: auto;
+      height: 32px;
+      margin: auto 10px;
+      cursor: pointer;
+    }
+  }
+}
+
+::ng-deep {
+  .content-box .content-body > * {
+    position: relative;
+  }
+  .ant-divider-inner-text {
+    font-size: 12px;
+  }
+  nz-spin.form-loading {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    z-index: 9;
+    background: #ffffffb3;
+
+    .ng-star-inserted {
+      height: 100%;
+      width: 100%;
+      position: relative;
+
+      .ant-spin-spinning {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        i {
+          font-size: 5rem;
+        }
+      }
+    }
+  }
 }

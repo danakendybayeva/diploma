@@ -1,0 +1,67 @@
+<div class="d-flex mb-2" style="justify-content: end">
+    <tc-filter-students
+            [hasMentor]="true"
+            [hasCourse]="true"
+            [hasUniversity]="true"
+            [hasCity]="true"
+            [(ngModel)]="filter"
+            (change)="filterApply($event)"
+            (apply)="filterApply(filter)"
+    ></tc-filter-students>
+</div>
+
+<!---->
+<nz-table #fixedTable nzBordered
+          *ngIf="!isLoading"
+          [nzData]="filter['mentors'] && filter['mentors'].length ? listOfStudentFiltered : listOfData "
+          [nzScroll]="{ x: '2500px' }"
+          [nzLoading]="isLoading"
+          [nzPageSize]="1000000000"
+>
+    <thead>
+    <tr>
+        <th nzLeft [nzWidth]="'50px'" rowSpan="2" style="text-align: center;">#</th>
+        <th nzLeft rowSpan="2">FIO</th>
+        <th *ngIf="filter['mentors'] && filter['mentors'].length" nzAlign="center" rowSpan="2">Status</th>
+        <th *ngIf="filter['mentors'] && filter['mentors'].length" nzAlign="center" rowSpan="2">City</th>
+        <th *ngIf="filter['mentors'] && filter['mentors'].length" nzAlign="center" rowSpan="2">Course</th>
+        <th colSpan="2" *ngFor="let type of types">{{type.label}}</th>
+    </tr>
+    <tr>
+        <ng-container *ngFor="let type of types">
+            <th>{{ 'FirstSemester' |translate}}</th>
+            <th>{{ 'SecondSemester' |translate}}</th>
+        </ng-container>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of fixedTable.data; let indexRow = index;">
+        <td nzLeft> <div>{{indexRow + 1}}</div></td>
+        <td nzLeft>{{ data['fio'] }}</td>
+        <td *ngIf="filter['mentors'] && filter['mentors'].length">{{ data['status'] | translate }}</td>
+        <td *ngIf="filter['mentors'] && filter['mentors'].length">{{ data['cityName'] }}</td>
+        <td *ngIf="filter['mentors'] && filter['mentors'].length">{{ data['course'] }}</td>
+        <ng-container *ngFor="let type of types">
+            <td [ngClass]="compare(data, type.value, 'semester1')">
+                <div class="d-flex vertical-center">
+                    <div *ngIf="data.hasOwnProperty(type.value) && data[type.value].hasOwnProperty('semester1') && data[type.value]['semester1'] !== null">
+                        <b *ngIf="type.value !== 'eduway'">{{ data[type.value]['semester1'] | number : '1.2-2' }}</b>
+                        <b *ngIf="type.value === 'eduway'">
+                            {{(data[type.value]['semester1'] !== null) ? (data[type.value]['semester1'] ? 'Зачет' : 'Не Зачет') : '' }}</b>
+                    </div>
+                </div>
+            </td>
+            <td [ngClass]="compare(data,type.value,'semester2')">
+                <div class="d-flex vertical-center">
+                    <div *ngIf="data.hasOwnProperty(type.value) && data[type.value].hasOwnProperty('semester2') && data[type.value]['semester2'] !== null">
+                        <b *ngIf="type.value !== 'eduway'">{{ data[type.value]['semester2'] | number : '1.2-2' }}</b>
+                        <b *ngIf="type.value === 'eduway'">
+                            {{(data[type.value]['semester2'] !== null) ? (data[type.value]['semester2'] ? 'Зачет' : 'Не Зачет') : '' }}</b>
+                    </div>
+                </div>
+            </td>
+        </ng-container>
+    </tr>
+    </tbody>
+</nz-table>
+

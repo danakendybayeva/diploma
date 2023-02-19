@@ -1,32 +1,32 @@
-<tc-card [title]="'Свойства справочника'">
+<tc-card [title]="'Reference properties' | translate">
     <form [formGroup]="labelForm" (ngSubmit)="sendFieldForm(labelForm.valid)" novalidate>
         <tc-form-group>
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">
-                    <tc-form-label class="mb-md-0">Название</tc-form-label>
+                    <tc-form-label class="mb-md-0">{{'Title' | translate}}</tc-form-label>
                 </div>
                 <div class="col-12 col-md-9">
-                    <tc-input [(ngModel)]="valueRef.title" formControlName="title" [placeholder]="'Название'"></tc-input>
+                    <tc-input [(ngModel)]="valueRef.title" formControlName="title" [placeholder]="'Title'|translate"></tc-input>
                 </div>
             </div>
         </tc-form-group>
         <tc-form-group>
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">
-                    <tc-form-label class="mb-md-0">Подсказка</tc-form-label>
+                    <tc-form-label class="mb-md-0">{{'Hint' | translate}}</tc-form-label>
                 </div>
                 <div class="col-12 col-md-9">
-                    <tc-input [(ngModel)]="valueRef.hint" formControlName="hint" [placeholder]="'Подсказка'"></tc-input>
+                    <tc-input [(ngModel)]="valueRef.hint" formControlName="hint" [placeholder]="'Hint'|translate"></tc-input>
                 </div>
             </div>
         </tc-form-group>
         <tc-form-group>
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">
-                    <tc-form-label class="mb-md-0">Описание</tc-form-label>
+                    <tc-form-label class="mb-md-0">{{'Description' | translate}}</tc-form-label>
                 </div>
                 <div class="col-12 col-md-9">
-                    <tc-textarea [(ngModel)]="valueRef.description" formControlName="description" [placeholder]="'Описание'" [height]="'10rem'" [resize]="true"></tc-textarea>
+                    <tc-textarea [(ngModel)]="valueRef.description" formControlName="description" [placeholder]="'Description' | translate" [height]="'10rem'" [resize]="true"></tc-textarea>
                 </div>
             </div>
         </tc-form-group>
@@ -34,7 +34,7 @@
                 [view]="'info'"
                 [disabled]="labelForm.invalid"
                 [load]="loadingLabelForm">
-            Сохранить
+            {{'Save' | translate}}
         </button>
     </form>
 </tc-card>

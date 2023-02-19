@@ -13,7 +13,7 @@ import {CustomValidators} from '../../../reference/validators/CustomValidators';
 export class FieldService {
     selected = 0;
 
-    constructor(private http: HttpClient, private formBuilder: FormBuilder,) {
+    constructor(private http: HttpClient, private formBuilder: FormBuilder) {
     }
 
     request(url, postParam): Promise<Status> {
@@ -31,7 +31,7 @@ export class FieldService {
     }
 
     getFieldsDataSB(data, data2): IFieldSB[] {
-        const result: IFieldSB[] = [];
+        let result: IFieldSB[] = [];
         let fieldsTogether = [];
         if (data && data2) {
             fieldsTogether = Object.assign(JSON.parse(data), JSON.parse(data2));
@@ -41,6 +41,7 @@ export class FieldService {
             fieldsTogether = JSON.parse(data2);
         }
 
+        const fieldsSort = [];
         Object.keys(fieldsTogether).map(function (key) {
             const res: IFieldSB = {
                 id: key,
@@ -49,8 +50,9 @@ export class FieldService {
                 isRequired: fieldsTogether[key]['isRequired'],
                 orderNum: fieldsTogether[key]['orderNum'],
             };
-            result[res.orderNum] = res;
+            fieldsSort.push(res);
         });
+        result = fieldsSort.sort((a, b) => (a.orderNum > b.orderNum) ? 1 : -1);
         return result;
     }
 
@@ -101,24 +103,43 @@ export class FieldService {
     }
 
     getReferenceById(referenceId): Promise<IReference>  {
-        return this.http.get<IReference>(`${environment.apiUrl}/api/reference/get/${referenceId}`)
-            .toPromise()
-            .then(response => response as IReference)
-            .catch();
+        if (referenceId) {
+            return this.http.get<IReference>(`${environment.apiUrl}/api/reference/get/${referenceId}`)
+                .toPromise()
+                .then(response => response as IReference)
+                .catch();
+        }
+        return null;
     }
 
-    getReferenceFields(referenceId): Promise<any[]>  {
-        return this.http.get<any[]>(`${environment.apiUrl}/api/reference/get-fields/${referenceId}`)
-            .toPromise()
-            .then(response => this.getAllFields(response, '{}'))
-            .catch();
+    getReferenceFields(referenceId, type = 'array'): Promise<any[]>  {
+        if (referenceId) {
+            return this.http.get<any[]>(`${environment.apiUrl}/api/reference/get-fields/${referenceId}`)
+                .toPromise()
+                .then(response => {
+                    if (type === 'array') {
+                        return this.getAllFields(response, '{}');
+                    }
+                    Object.entries(response).forEach(
+                        ([key, value]) => {
+                            response[key].id = key;
+                        }
+                    );
+                    return response;
+                })
+                .catch();
+        }
+        return null;
     }
 
     getReferenceSections(referenceId): Promise<any[]>  {
-        return this.http.get<any[]>(`${environment.apiUrl}/api/reference/section/list/${referenceId}`)
-            .toPromise()
-            .then(response => response)
-            .catch();
+        if (referenceId) {
+            return this.http.get<any[]>(`${environment.apiUrl}/api/reference/section/list/${referenceId}`)
+                .toPromise()
+                .then(response => response)
+                .catch();
+        }
+        return null;
     }
 
     formValidateChange(_value: any, labelForm: FormGroup, type?: string) {
@@ -161,5 +182,23 @@ export class FieldService {
             }
         }
         return result;
+    }
+
+    mayAccessRecord(type: string, referenceId: string, recordId: string = null): Promise<boolean> {
+        let url = `${environment.apiUrl}/api/reference/access/record/add/${referenceId}`;
+        if (recordId && recordId.length) {
+            url = `${environment.apiUrl}/api/reference/access/record/${type}/${referenceId}/${recordId}`;
+        }
+        return this.http.post<boolean>(url, {})
+            .toPromise()
+            .then(response => response as boolean)
+            .catch();
+    }
+
+    getHeaderFields(referenceId, sectionId): Promise<any[]>  {
+        return this.http.get<any[]>(`${environment.apiUrl}/api/reference/section/header/${referenceId}/${sectionId}`)
+            .toPromise()
+            .then(response => response)
+            .catch();
     }
 }

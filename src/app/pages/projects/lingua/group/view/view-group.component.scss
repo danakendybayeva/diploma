@@ -1,0 +1,81 @@
+:host{
+  .modal-window{
+    width: 700px;
+  }
+  .row-flex {
+    display: flex;
+    flex-flow: wrap;
+  }
+  .match-height tc-card {
+    height: calc(100% - 24px);
+  }
+
+  h5.edu {
+    color: #086dda;
+  }
+  h5.exp {
+    color: #53b324;
+  }
+  .profile-selected {
+    border-radius: 4px;
+    color: #4a505c;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    line-height: 1.42857143;
+    outline: none;
+    width: 100%;
+    -webkit-box-align: center;
+    align-items: center;
+    background-color: rgba(74, 80, 92, 0.08);
+    background-clip: padding-box;
+    border: 1px solid rgba(74, 80, 92, 0.08);
+    padding: 0 0.8rem 0 1.42857143rem;
+    position: relative;
+    -webkit-transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out, box-shadow 0.2s ease-in-out, color 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out, box-shadow 0.2s ease-in-out, color 0.2s ease-in-out;
+    will-change: background-color, border, box-shadow, color;
+    cursor: pointer;
+  }
+  .profile-name {
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: inherit;
+    font: inherit;
+    font-weight: 400;
+    margin: -1px 0;
+    outline: none;
+    padding: calc(0.71428571rem - 1px) 0;
+    width: 100%;
+  }
+  .today {
+    background-color: #fc8b37 !important;
+    color: #ffffff !important;
+
+    .edit, .trash {
+      color: #ffffff !important;
+    }
+  }
+  .edit {
+    background-color: transparent !important;
+    color: #2fa7ff !important;
+    padding: 0;
+  }
+  .trash {
+    background-color: transparent !important;
+    color: #ed253d !important;
+    padding: 0;
+  }
+}
+
+::ng-deep {
+  .cdk-overlay-container {
+    z-index: 9999;
+  }
+}
+
+.colors {
+  background-color: #fc8b37 !important;
+  color: #fff !important;
+}

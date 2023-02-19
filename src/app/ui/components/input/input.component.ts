@@ -64,6 +64,8 @@ export class TCInputComponent
   @Input() bgColor: string | string[];
   @Input() borderColor: string | string[];
   @Input() color: string | string[];
+  @Input() mask: string = null;
+  @Input() validation = false;
 
   @Output() focus: EventEmitter<void>;
   @Output() blur: EventEmitter<void>;

@@ -1,0 +1,147 @@
+@import '../../../../../../assets/sass/variables';
+
+$_module-rem: $module-rem;
+$_shape: $shape;
+$_shadow: 7px 7px 20px 0 rgba(0, 0, 0, 0.08);
+$_title-color: #4a505c;
+$_title-color-bgImg: #fff;
+$_title-fs: 1.2rem;
+$_title-fs-xl: 1.8rem;
+$_title-fs-px: 16px;
+$_line_height_px: 26px;
+$_title-fw: bold;
+
+$_h-padding: $_module-rem * 3;
+$_v-padding: $_module-rem * 2;
+
+:host {
+
+  .grid-block {
+    background: #fff;
+    border: 1px solid #e7e9ec;
+    border-radius: 4px;
+    height: 100%;
+    padding-bottom: 0;
+    -webkit-transition: .2s box-shadow;
+    transition: .2s box-shadow;
+    position: relative;
+    cursor: pointer;
+
+    .card-content {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+
+      padding: 16px 20px 0;
+
+      .count-lesson {
+        margin-bottom: 5px;
+      }
+
+      h2 {
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 1.24;
+        margin-top: 0;
+        margin-bottom: 8px;
+      }
+    }
+
+    .block-small {
+      display: grid;
+      margin-bottom: 10px;
+      margin-top: 5px;
+    }
+
+    .text-small {
+      color: #919191;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: -.24px;
+    }
+  }
+
+  .course-status {
+    position: absolute;
+    z-index: 9;
+    top: 15px;
+    background-color: #007cff;
+    border-radius: 0 15px 15px 0;
+    color: #fff;
+    text-align: center;
+    padding: 5px 12px;
+    text-transform: uppercase;
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: .23px;
+  }
+  .primary-background {
+    background-color: #007cff;
+  }
+
+  .secondary-background {
+    background-color: #1CD991;
+  }
+
+  .course-detail {
+    ul {
+      li {
+        margin-bottom: 5px;
+
+        i {
+          font-size: 16px;
+          line-height: 20px;
+        }
+      }
+    }
+  }
+
+  .card-course {
+
+    .avatar {
+      width: max-content;
+      margin: auto;
+
+      tc-avatar-group {
+
+      }
+      span {
+        line-height: 30px;
+      }
+    }
+
+    .course-detail {
+      h5 {
+        margin-top: 0;
+        margin-bottom: 10px;
+      }
+
+      ul {
+        li {
+          margin-bottom: 10px;
+
+          i {
+            font-size: 18px;
+          }
+          span {
+            line-height: 18.5px;
+          }
+        }
+      }
+
+    }
+
+  }
+}
+
+::ng-deep {
+  .ant-tabs-nav .ant-tabs-tab {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+}

@@ -1,0 +1,225 @@
+<tc-card class="mb-0" [padding]="0">
+    <nz-table
+        #basicTable
+        [nzData]="dataRecord.length ? dataRecord : []"
+        [nzShowPagination]="false"
+        [nzPageSize]="pageSize"
+        [nzTotal]="dataRecord.length"
+        [nzLoading]="loading"
+        [nzShowTotal]="totalTpl"
+    >
+        <thead>
+        <tr>
+            <th width="70px" *ngIf="!selectedBook">#</th>
+            <th>
+                {{'Title'|translate}}
+            </th>
+            <th>
+                {{'Vote'|translate}}
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of (basicTable.data.length ? basicTable.data : []) ; let index = index; trackBy: identify"
+            class="mainTable">
+            <td *ngIf="!selectedBook">
+                <div class="index-table"
+                     [ngStyle]="{'opacity': (checkData[index]? 0 : 1)}">
+                    {{ (pageSize * (pageIndex - 1)) + index + 1 }}
+                </div>
+                <tc-checkbox
+                        [ngStyle]="{'opacity': (checkData[index]? 1 : 0), 'top' : '10px'}"
+                        [(ngModel)]="checkData[index]"
+                        [value]="checkData[index]"
+                        class="check-table"
+                        (click)="selectBook(index)"
+                ></tc-checkbox>
+            </td>
+            <td [ngClass]="{ 'font-weight-bold': data['selectedBook'] }">
+                {{ data['display_name'] }}
+            </td>
+            <td [ngClass]="{ 'font-weight-bold': data['selectedBook'] }">
+                <div class="d-flex align-items-center" nz-dropdown [nzDropdownMenu]="menu">
+                    {{ data['voteCount'] }}
+                    <i class="icofont-simple-down"></i>
+                </div>
+                <nz-dropdown-menu #menu="nzDropdownMenu" >
+                    <ul nz-menu style="padding: 5px">
+                        <li nz-menu-item class="px-2 item" *ngFor="let stu of data['votePeople']; let index1 = index1;">
+                            <a class="item-link align-items-center item-content"
+                               [routerLink]="stu['id'] ? ['/vertical/profile', stu['id']] : ['/vertical/create/profile']">
+                                {{stu['value']}}
+                            </a>
+                        </li>
+                    </ul>
+                </nz-dropdown-menu>
+            </td>
+        </tr>
+        </tbody>
+    </nz-table>
+    <ng-template #totalTpl let-totalData>{{'Total'|translate}}{{ ': ' + totalData}}</ng-template>
+</tc-card>
+<button tc-button
+        *ngIf="!isEmpty && !selectedBook && !loading"
+        [type]="'button'"
+        class="mb-2 mt-3 mr-4"
+        [view]="'info'"
+        (click)="confirmBook()"
+>
+    {{'Confirm'|translate}}
+</button>
+<button tc-button
+        [type]="'button'"
+        class="mb-2 mt-3"
+        [view]="'warning'"
+        (click)="openModal(modalBody, 'Add Voted Books', modalFooter, { closeButton: true, overlayClose: true })"
+>{{'Add'|translate}}</button>
+
+<tc-card class="mb-0" [padding]="0" style="margin-top: 40px;">
+    <nz-table
+        #userTable
+        [nzData]="userBookProfiles.length ? userBookProfiles : []"
+        [nzShowPagination]="true"
+        [nzLoading]="loadingUserBook"
+    >
+        <thead>
+        <tr>
+            <th>
+                {{'Full Name'|translate}}
+            </th>
+            <th>
+                {{'Title'|translate}}
+            </th>
+            <th>
+                {{'Graduated'|translate}}
+            </th>
+            <th>
+                {{'Point'|translate}}
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of userTable.data ; let index = index; trackBy: identify"
+            class="mainTable">
+            <td [ngClass]="{ 'color-red': data['isLateDeadLine'] }">
+                {{ data['fio'] }}
+            </td>
+            <td [ngClass]="{ 'color-red': data['isLateDeadLine'] }">
+                {{ data['bookName'] }}
+                <tc-select *ngIf="toogle[index]"
+                           [options]="books"
+                           [multiple]="false"
+                           [selected]="data['bookId']"
+                           [(ngModel)]="data['bookId']"
+                           (ngModelChange)="setBook(data, index,$event)"
+                ></tc-select>
+            </td>
+            <td [ngClass]="{ 'color-red': data['isLateDeadLine'] }">
+                {{ data['endDate'] | date : 'dd.MM.yyyy HH:mm' }}
+            </td>
+            <td>
+                <div class="d-flex">
+                    <div>
+                        <tc-input
+                                id="grade-{{index}}" class="grade-input" type="number"
+                                [(ngModel)]="data['grade']"
+                                [disabled]="data['nan']"
+                                [placeholder]="'n/a'"
+                                (ngModelChange)="change(data['grade'])"
+                        ></tc-input>
+                    </div>
+                    <div class="save-btn">
+                        <tc-checkbox [(ngModel)]="data['nan']">N/A</tc-checkbox>
+                        <button tc-button class="ml-2 save-btn"
+                                [afterIcon]="'icofont-pencil-alt-1'"
+                                [view]="'info'"
+                                [size]="'sm'"
+                                [square]="true"
+                                (click)="toogle[index] = !toogle[index]; setbook = data['bookId']"
+                        ></button>
+                        <button tc-button class="ml-2 save-btn"
+                                [afterIcon]="'icofont-save'"
+                                [view]="'info'"
+                                [size]="'sm'"
+                                [square]="true"
+                                (click)="setGradeBook(data)"
+                        ></button>
+                        <i class="icofont-close remove-so ml-2 color-red" (click)="openModalDelete(modalBodyDelete, 'Add Voted Books', modalFooterDelete, { closeButton: true, overlayClose: true }, data['id'])"></i>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </nz-table>
+</tc-card>
+
+<button class="no-style settings-btn"
+        *ngIf="canAdd"
+        [routerLink]="prepareNavigateLinkCreate()">
+    <span class="pulse"></span>
+    <tc-icon
+            class="settings-icon"
+            [iconClass]="'icofont-plus'"
+            [tcFontSize]="26"
+            [padding]="'2px 0'"
+    ></tc-icon>
+</button>
+
+<ng-container>
+    <ng-template #modalBody>
+        <tc-select id="student-list"
+                   class="modal-select"
+                   [placeholder]="'Students'"
+                   [options]="students"
+                   [multiple]="true"
+                   [selected]="studentSelect"
+                   [filter]="students.length > 10"
+                   [(ngModel)]="studentSelect"></tc-select>
+        <tc-select
+                   class="modal-select"
+                   [placeholder]="'Books'"
+                   [options]="allBooks"
+                   [multiple]="false"
+                   [selected]="bookSelect"
+                   [filter]="allBooks.length > 10"
+                   [(ngModel)]="bookSelect"
+                   ></tc-select>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'error'" (click)="closeModal()">Close</button>
+            <button tc-button [view]="'success'" (click)="addVotedBook()">Submit</button>
+        </div>
+    </ng-template>
+</ng-container>
+
+<ng-container>
+    <ng-template #modalBodyDelete>
+        <p>{{'Are you sure you want to delete user?' | translate}}</p>
+    </ng-template>
+
+    <ng-template #modalFooterDelete>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'default'" (click)="closeModal()">{{'Cancel'|translate}}</button>
+            <button tc-button [view]="'error'" (click)="removeVotedBook()">{{'Delete'|translate}}</button>
+        </div>
+    </ng-template>
+</ng-container>
+
+
+<!--<nz-empty *ngIf="isEmpty"-->
+<!--          [nzNotFoundImage]="-->
+<!--        'https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original'-->
+<!--      "-->
+<!--          [nzNotFoundContent]="contentTpl"-->
+<!--          [nzNotFoundFooter]="footerTpl"-->
+<!--&gt;-->
+<!--    <ng-template #contentTpl>-->
+<!--        <span> Customize <a href="#API">Description</a> </span>-->
+<!--    </ng-template>-->
+<!--    <ng-template #footerTpl>-->
+<!--    </ng-template>-->
+<!--</nz-empty>-->
+
+

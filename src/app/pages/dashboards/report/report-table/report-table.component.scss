@@ -1,0 +1,44 @@
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    text-align: center;
+    color: #000000;
+    opacity: 0.65;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+tbody tr td {
+
+    div {
+        text-align: center;
+    }
+}
+ng-container {
+    width: max-content;
+}
+
+td {
+    background: #FFFFFF !important;
+}
+
+td.higher {
+    background: #7cdb8670 !important;
+}
+
+td.middle {
+    background: #f8e71c !important;
+}
+
+td.lower {
+    background: #dc143c52 !important;
+}
+
+::ng-deep {
+    .ant-table-wrapper .ant-table-tbody > tr td:first-child, .ant-table-wrapper .ant-table tr th:first-child {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}

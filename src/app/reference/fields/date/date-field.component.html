@@ -1,26 +1,29 @@
-<tc-form-group *ngIf="_valueField && type === 'edit' && form" [formGroup]="form">
+<tc-form-group *ngIf="_valueField && type === 'edit' && form && localeRu['lang']" [formGroup]="form" [ngClass]="{'mb-0' : styleType === 'no-label'}">
   <div class="row align-items-center">
     <div class="col-12 col-md-3" *ngIf="styleType === 'standard'">
-      <tc-form-label class="mb-md-0" *ngIf="!isConfig">{{ _valueField.title }} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
-      <tc-form-label class="mb-md-0" *ngIf="isConfig">Значение по умолчанию <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <tc-form-label class="mb-md-0" *ngIf="!isConfig">{{ _valueField.title |translate}} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <tc-form-label class="mb-md-0" *ngIf="isConfig">{{'Default Value'|translate}} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
     </div>
     <div class="col-12" [ngClass]="{'col-md-9' : styleType === 'standard'}">
-      <tc-form-label *ngIf="styleType != 'standard'">{{ _valueField.title }} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
-      <tc-input id="default-value-edit-{{_valueField.id}}-date"
-                *ngIf="!_valueField.currentTimestamp || !isConfig"
-                [(ngModel)]="value"
-                [placeholder]="_valueField.title"
-                (focusout)="focused()"
-                [type]="'date'"
-                [formControlName]="_valueField.id">
-      </tc-input>
+      <tc-form-label *ngIf="styleType != 'standard' && styleType != 'no-label'">{{ _valueField.title|translate }} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <nz-date-picker
+              id="default-value-edit-{{_valueField.id}}-date"
+              *ngIf="!_valueField.currentTimestamp || !isConfig"
+              [nzShowTime]="false"
+              [nzFormat]="_valueField.viewFormat ? _valueField.viewFormat : 'yyyy-MM-dd'"
+              [nzLocale]="localeRu"
+              [(ngModel)]="value"
+              (focusout)="focused()"
+              [formControlName]="_valueField.id"
+              (ngModelChange)="onChangeDate($event)"
+      ></nz-date-picker>
       <tc-input id="default-value-edit-{{_valueField.id}}-number"
                 *ngIf="_valueField.currentTimestamp && isConfig"
                 [prefix]="'+'"
                 [suffix]="'дней'"
                 [(ngModel)]="value"
                 (focusout)="focused()"
-                [placeholder]="_valueField.title"
+                [placeholder]="_valueField.title|translate"
                 [type]="'number'"
                 [formControlName]="_valueField.id">
       </tc-input>
@@ -34,15 +37,15 @@
 
 <div *ngIf="_valueField && type != 'edit'" [ngSwitch]="styleType">
   <span *ngSwitchCase="'single'">
-      {{ value | date: _valueField.viewFormat }}
+      {{ _valueField.viewFormat ? (value | date : _valueField.viewFormat) : value }}
   </span>
   <tc-form-group *ngSwitchDefault>
     <div class="row align-items-center">
       <div class="col-12 col-md-3">
-        <tc-form-label class="mb-md-0 label-show">{{ _valueField.title }}:</tc-form-label>
+        <tc-form-label class="mb-md-0 label-show">{{ _valueField.title|translate }}:</tc-form-label>
       </div>
       <div class="col-12 col-md-9">
-        {{ value | date: _valueField.viewFormat }}
+        {{ _valueField.viewFormat ? (value | date : _valueField.viewFormat) : value }}
       </div>
     </div>
   </tc-form-group>

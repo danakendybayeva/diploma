@@ -1,0 +1,138 @@
+<tc-card>
+    <button tc-button [view]="'error'" class="delete" *ngIf="!isNew" [disabled]="!exists && !isNew" (click)="deletePassport()" >{{'Delete'|translate}}</button>
+    <nz-tabset>
+        <nz-tab [nzTitle]="'Direction'|translate">
+                <div class="col-12 col-md-7 border">
+                    <div class="column">
+                        <p class="mb-25 mt-0 mr-1 role-pg" >{{'Upload a file in png format with a maximum of 5 megabytes' | translate}}</p>
+                    </div>
+                    <div class="column">
+                        <passport-img [imgUrl]="imgUrl" (changeImgUrl)="imgUrl=$event" ></passport-img>
+                    </div>
+                </div>
+
+            <div class="col-12 col-md-7 ">
+                <tc-form-label class="label">{{ 'Passport Name'|translate }}</tc-form-label>
+                <tc-input id="default-value-edit-{{'passport_name'}}"
+                          [(ngModel)]="passport['title'] ? passport['title'] : title"
+                          [borderColor]="'#8E919B'"
+                          [bgColor]="'#FFFFFF'"
+                          [placeholder]="'Passport Name'"
+                          [maxlength]="100"
+                >
+<!--                    (focusout)="focused()"-->
+<!--                    [formGroup]="labelForm"-->
+<!--                    [formControlName]="'title'"-->
+
+                </tc-input>
+                <!--                    <p class="error-text error" *ngIf="form && form.get([_valueField.id]).invalid && isFocused">-->
+                <!--                        <span *ngIf="this._valueField.maxLength !== null">max length: {{this._valueField.maxLength}} </span>-->
+                <!--                    </p>-->
+            </div>
+            <div class="line"></div>
+            <footer class="float-right">
+                <button type="button" tc-button class="cancel mr-3" [outline]="true"
+                        [tcBorderColor]="'transparent'"
+                        [view]="'br-lock'" [tcColor]="'#10142D'"
+                        [routerLink]="['/vertical/passports/passport/list']">{{'Cancel'|translate}}</button>
+                <button tc-button class="save" [disabled]="!exists && !isNew" [load]="loading" (click)="savePassport()">{{'Save'|translate}}</button>
+            </footer>
+        </nz-tab>
+
+        <nz-tab [nzTitle]="'Tasks'|translate" *ngIf="!isNew">
+            <div class="row">
+                <div class="col-12 col-md-3" *ngFor="let task of passportTasks; let index = index;">
+                    <div class="task-card" (click)="openDraw(index)">
+                            <tc-form-label class="task-title">{{task['title']}}</tc-form-label>
+                            <p class="text-p"> {{task['description']}} </p>
+                    </div>
+                    <i class="icofont-close close-button" (click)="openModalRemove(modalBody, '', modalFooter, { closeButton: true, overlayClose: true }, index)"></i>
+                </div>
+            </div>
+            <button tc-button [align]="'right'" (click)="addTask()" [beforeIcon]="'icofont-plus'" [view]="'info'"
+                    [disabled]="!exists && !isNew" class="margin8">{{'Add Task' | translate}}</button>
+            <div class="line"></div>
+            <footer class="float-right">
+                <button type="button" tc-button class="cancel mr-3" [outline]="true"
+                        [tcBorderColor]="'transparent'"
+                        [view]="'br-lock'" [tcColor]="'#10142D'"
+                        [routerLink]="['/vertical/passports/passport/list']">{{'Cancel'|translate}}</button>
+                <button tc-button class="save" [load]="loading" [disabled]="!exists && !isNew" (click)="savePassport()">{{'Save'|translate}}</button>
+            </footer>
+        </nz-tab>
+    </nz-tabset>
+</tc-card>
+
+<nz-drawer [nzClosable]="true" [nzVisible]="visibleDraw" nzPlacement="right" [nzTitle]="'Task' | translate" (nzOnClose)="closeDraw()" [nzWidth]="480">
+    <div class="block-draw">
+            <div class="col-12 col-md-10 " style="padding-bottom: 15px">
+                <tc-form-label class="label">{{ 'Task Title'|translate }} (2 {{'words'|translate}})</tc-form-label>
+<!--                [(ngModel)]="dataDraw['title'] ? dataDraw['title'] : title"-->
+<!--                [formGroup]="labelForm"-->
+<!--                [formControlName]="'taskTitle'"-->
+<!--                (focusout)="focused()"-->
+                <tc-input
+                        [disabled]="!exists && !isNew"
+                        [(ngModel)]="dataDraw['title']"
+                        [borderColor]="'#8E919B'"
+                        [bgColor]="'#FFFFFF'"
+                        [placeholder]="'Task Name'"
+                        [maxlength]="100"
+                >
+                </tc-input>
+                <!--<p class="error-text error" *ngIf="form && form.get([_valueField.id]).invalid && isFocused">-->
+                <!--    <span *ngIf="this._valueField.maxLength !== null">max length: {{this._valueField.maxLength}} </span>-->
+                <!--</p>-->
+            </div>
+            <div class="col-12 col-md-10 ">
+                <tc-form-label class="label">{{ 'Task Description'|translate }}</tc-form-label>
+<!--                [(ngModel)]="dataDraw['description'] ? dataDraw['description'] : title1"-->
+                <tc-textarea style="border-radius: 4px"
+                             [disabled]="!exists && !isNew"
+                             [(ngModel)]="dataDraw['description']"
+                             [borderColor]="'#8E919B'"
+                             [bgColor]="'#FFFFFF'"
+                             [placeholder]="'Task Description'"
+                             [resize] = "true"
+                             (focusout)="focused()"
+                >
+                </tc-textarea>
+            </div>
+    </div>
+    <div class="footer-drawer">
+        <div>
+            <button tc-button
+                    [type]="'button'"
+                    [view]="'default'"
+                    [outline]="true"
+                    [tcBorderColor]="'transparent'"
+                    class="mr-2"
+                    (click)="closeDraw()"
+            >
+                {{'Cancel'|translate}}
+            </button>
+            <button tc-button
+                    [disabled]="!exists && !isNew"
+                    [type]="'button'"
+                    [view]="'info'"
+                    [load]="loadingTask"
+                    (click)="saveTask()"
+            >
+                {{'Save'|translate}}
+            </button>
+        </div>
+    </div>
+</nz-drawer>
+
+<ng-container>
+    <ng-template #modalBody>
+        <p>{{'Are you sure you want to delete' | translate}}?</p>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'default'" (click)="closeModal()">{{'Cancel'|translate}}</button>
+            <button tc-button [view]="'error'" [disabled]="!exists && !isNew" (click)="removeTask(removeIndex)">{{'Delete'|translate}}</button>
+        </div>
+    </ng-template>
+</ng-container>

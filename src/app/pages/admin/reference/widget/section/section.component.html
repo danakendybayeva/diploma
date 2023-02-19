@@ -1,33 +1,33 @@
-<tc-card [title]="'Редактирование представление'">
+<tc-card [title]="'Edit Section'|translate" *ngIf="!loading">
     <form *ngIf="_value" [formGroup]="labelForm" (ngSubmit)="sendFieldForm(labelForm.valid)" novalidate>
         <tc-form-group>
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">
-                    <tc-form-label class="mb-md-0">Название</tc-form-label>
+                    <tc-form-label class="mb-md-0">{{'Title'|translate}}</tc-form-label>
                 </div>
                 <div class="col-12 col-md-9">
-                    <tc-input id="title" [(ngModel)]="_value.title" [placeholder]="'Название'" formControlName="title"></tc-input>
+                    <tc-input id="title" [(ngModel)]="_value.title" [placeholder]="'Title'|translate" formControlName="title"></tc-input>
                 </div>
             </div>
         </tc-form-group>
         <tc-form-group>
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">
-                    <tc-form-label class="mb-md-0">Подсказка</tc-form-label>
+                    <tc-form-label class="mb-md-0">{{'Hint'|translate}}</tc-form-label>
                 </div>
                 <div class="col-12 col-md-9">
-                    <tc-input id="hint" [(ngModel)]="_value.hint" [placeholder]="'Подсказка'" formControlName="hint"></tc-input>
+                    <tc-input id="hint" [(ngModel)]="_value.hint" [placeholder]="'Hint'|translate" formControlName="hint"></tc-input>
                 </div>
             </div>
         </tc-form-group>
         <tc-structure-field
                 [_valueField]="accessStructure"
                 [isNew]="true"
-                [isConfig]="true"
+                [isConfig]="false"
                 [form]="labelForm"
                 [type]="'edit'"
                 [(ngModel)]="_value.access"
-                formControlName="access"
+                [formControlName]="accessStructure.id"
         ></tc-structure-field>
         <tc-form-group class="mt-minus">
             <div class="row align-items-center">
@@ -42,7 +42,7 @@
         <tc-form-group>
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">
-                    <tc-form-label class="mb-md-0">Опции</tc-form-label>
+                    <tc-form-label class="mb-md-0">{{'Options'|translate}}</tc-form-label>
                 </div>
                 <div class="col-12 col-md-9 checkbox-grid">
                     <tc-checkbox id="enableCustomFields"
@@ -50,7 +50,13 @@
                             [(ngModel)]="_value.enableCustomFields"
                             [value]="_value.enableCustomFields"
                             formControlName="enableCustomFields"
-                    >Enable Custom Fields</tc-checkbox>
+                    >{{'Enable Custom Fields'|translate}}</tc-checkbox>
+                    <tc-checkbox id="fastEdit"
+                                 class="mb-2"
+                                 [(ngModel)]="_value.fastEdit"
+                                 [value]="_value.fastEdit"
+                                 formControlName="fastEdit"
+                    >{{'Fast Edit'|translate}}</tc-checkbox>
                 </div>
             </div>
         </tc-form-group>

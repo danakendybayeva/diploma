@@ -1,20 +1,22 @@
 <tc-card class="mb-0" [padding]="'0'">
     <nz-table
         #basicTable
-        [nzData]="references"
+        [nzData]="references.length ? references : []"
         [nzShowPagination]="true"
-        [nzPageSize]="20"
-        [nzTotal]="102"
+        [nzFrontPagination]="false"
+        [nzPageSize]="pageSize"
+        [nzTotal]="totalData"
         [nzLoading]="loading"
         [nzPageIndex]="pageIndex"
+        [nzShowTotal]="totalTpl"
         (nzPageIndexChange)="onChangePageIndex($event)"
     >
-        <thead nzSingleSort (nzSortChange)="onChangeSort($event)">
+        <thead (nzSortChange)="onChangeSort($event)">
         <tr>
-            <th nzShowSort nzSortKey="title">Название</th>
-            <th nzShowSort nzSortKey="hint">Подсказка</th>
-            <th nzShowSort nzSortKey="creator">Редактор</th>
-            <th nzShowSort nzSortKey="updatedAt">Изменен</th>
+            <th nzShowSort nzColumnKey="title">{{'Title' | translate}}</th>
+            <th nzShowSort nzColumnKey="hint">{{'Hint' | translate}}</th>
+            <th nzShowSort nzColumnKey="creator">{{'Editor' | translate}}</th>
+            <th nzShowSort nzColumnKey="updatedAt">{{'Edited' | translate}}</th>
             <th></th>
         </tr>
         </thead>
@@ -28,35 +30,41 @@
             <td>
                 <a [routerLink]="['/vertical/admin-panel/reference/edit/', data.id]">
                     <button tc-button
-                            class="mr-2"
                             [view]="'warning'"
                             [size]="'sm'"
                             [tcShape]="7">
-                        Edit
+                        {{'Edit' | translate}}
                     </button>
                 </a>
-                <a [routerLink]="['/vertical/reference/record/list', data.id]">
+                <a [routerLink]="['/vertical/reference/record/section', data.id, data.id]">
                     <button tc-button
-                            class="mr-2"
                             [view]="'success'"
                             [size]="'sm'"
                             [tcShape]="7">
-                        List Record
+                        {{'Reference List Record' | translate}}
                     </button>
                 </a>
                 <a [routerLink]="['/vertical/reference/record/create/', data.id]">
                     <button tc-button
-                            class="mr-2"
                             [view]="'success'"
                             [size]="'sm'"
                             [tcShape]="7">
-                        Add Record
+                        {{'Reference Add Record' | translate}}
+                    </button>
+                </a>
+                <a [routerLink]="['/vertical/admin-panel/reference/list', data.id, 'import']">
+                    <button tc-button
+                            [view]="'warning'"
+                            [size]="'sm'"
+                            [tcShape]="7">
+                        {{'Import' | translate}}
                     </button>
                 </a>
             </td>
         </tr>
         </tbody>
     </nz-table>
+    <ng-template #totalTpl>{{'Total'|translate}}{{ ': ' + (totalData)}}</ng-template>
 </tc-card>
 
 <button class="no-style settings-btn"

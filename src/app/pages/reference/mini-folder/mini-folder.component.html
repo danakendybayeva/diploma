@@ -18,7 +18,7 @@
     >
         <thead nzSingleSort (nzSortChange)="onChangeSort($event)">
         <tr>
-            <th *ngFor="let header of headerRecord.header" nzShowSort nzSortKey="{{header['id']}}">{{ header['title']}}</th>
+            <th *ngFor="let header of headerRecord.header" nzShowSort nzColumnKey="{{header['id']}}">{{ header['title'] | translate}}</th>
         </tr>
         </thead>
         <tbody>

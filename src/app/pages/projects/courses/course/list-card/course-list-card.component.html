@@ -1,0 +1,56 @@
+<div class="row justify-content-center">
+    <div class="col col-12">
+        <div class="header-course">
+            <h1 class="page-title">{{'Menu Courses'|translate}}</h1>
+        </div>
+
+        <nz-tabset (nzSelectedIndexChange)="nzTabIndexChange($event)">
+            <nz-tab [nzTitle]="allCourses">
+                <ng-template #allCourses>{{'All courses'|translate}}
+                    <tc-badge
+                        [tcBgColor]="'rgba(24, 144, 255, 0.7)'"
+                        [tcColor]="'#ffffff'"
+                        [tcShape]="500"
+                        [size]="'sm'"
+                    >
+                        <span *ngIf="totalData >= 0">{{totalData}}</span>
+                        <span *ngIf="totalData < 0" class="avatar-loader"><i class="icofont-ui-laoding rotate"></i></span>
+                    </tc-badge>
+                </ng-template>
+
+                <div class="filter-course mb-4"></div>
+                <div>
+                    <ul class="list-unstyled d-flex grid-course">
+                        <li *ngFor="let course of dataRecord; let index = index;">
+                            <tc-course-card [course]="course" [rLink]="['/vertical/courses/course/view', course['id']]"></tc-course-card>
+                        </li>
+                    </ul>
+                </div>
+
+            </nz-tab>
+
+            <nz-tab [nzTitle]="myCourses">
+                <ng-template #myCourses>{{'My courses'|translate}}
+                    <tc-badge
+                            [tcBgColor]="'rgba(24, 144, 255, 0.7)'"
+                            [tcColor]="'#ffffff'"
+                            [tcShape]="500"
+                            [size]="'sm'"
+                    >
+                        <span *ngIf="myCourseTotal >= 0">{{myCourseTotal}}</span>
+                        <span *ngIf="myCourseTotal < 0" class="avatar-loader"><i class="icofont-ui-laoding rotate"></i></span>
+                    </tc-badge>
+                </ng-template>
+
+                <div class="filter-course mb-4"></div>
+                <div>
+                    <ul class="list-unstyled d-flex grid-course">
+                        <li *ngFor="let course of myCourseData; let index = index;">
+                            <tc-course-card [course]="course" [rLink]="['/vertical/courses/course/view', course['id']]"></tc-course-card>
+                        </li>
+                    </ul>
+                </div>
+            </nz-tab>
+        </nz-tabset>
+    </div>
+</div>

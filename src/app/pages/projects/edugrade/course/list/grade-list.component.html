@@ -1,0 +1,214 @@
+<tc-card class="mb-0" [padding]="'20px 0'" *ngIf="!isEmpty">
+    <div class="filter">
+        <div class="filter-table">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="d-flex filter-right">
+                        <div class="search d-flex mb-2" *ngIf="enableSearch">
+                            <tc-filter-students [hasMentor]="true" [(ngModel)]="filterMore"></tc-filter-students>
+                            <tc-input
+                                    [(ngModel)]="searchValue"
+                                    [placeholder]="'Search'|translate"
+                                    [suffixIcon]="'icofont-search'"
+                            ></tc-input>
+                            <button tc-button class="ml-1"
+                                    [afterIcon]="'icofont-search'"
+                                    [view]="'info'"
+                                    [square]="true"
+                                    (click)="searchParam()"
+                            ></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nz-table
+        #basicTable
+        [nzData]="dataRecord.length ? dataRecord : []"
+        [nzShowPagination]="true"
+        [nzPageSize]="pageSize"
+        [nzTotal]="totalData"
+        [nzLoading]="loading"
+        [nzPageIndex]="pageIndex"
+        [nzFrontPagination]="false"
+        [nzShowTotal]="totalTpl"
+        (nzPageIndexChange)="onChangePageIndex($event)"
+    >
+        <thead (nzSortChange)="onChangeSort($event)">
+        <tr>
+            <th
+                    *ngFor="let header of headerRecord; let index = index; trackBy: identify"
+                    nzShowSort
+                    nzColumnKey="{{header['id']}}"
+                    [nzSortOrder]="sortData[header['id']] ? sortData[header['id']]['value'] : ''"
+            >
+                {{ header['title']|translate}}
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of (basicTable.data.length ? basicTable.data : []) ; let index = index; trackBy: identify"
+            class="mainTable">
+            <td *ngFor="let header of headerRecord; let index2 = index;">
+                <tc-factory-field
+                        [_valueField]="header"
+                        [value]="data[header['id']]"
+                        [styleType]="'single'"
+                ></tc-factory-field>
+            </td>
+            <td>
+                <div class="edu-right">
+                    <div class="mr-4 d-flex">
+                        <div *ngFor="let progress of data['course']; let proIndex = index;">
+                            <tc-circle-progress
+                                    *ngIf="progress['id'] && progress['grade'] != null"
+                                    [value]="progress['grade']" [size]="'32px'" [strokeWidth]="5" strokeColor="#2fa7ff">
+                            </tc-circle-progress>
+                            <tc-circle-progress
+                                    *ngIf="progress['grade'] === null"
+                                    [value]="progress['grade']" [size]="'32px'" [strokeWidth]="5" strokeColor="#ed253d">
+                            </tc-circle-progress>
+                        </div>
+                    </div>
+                    <button tc-button
+                            [type]="'button'"
+                            class=""
+                            [size]="'sm'"
+                            [view]="'default'"
+                            (click)="openDraw(index)"
+                    >
+                        {{'Edit'|translate}}
+                    </button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </nz-table>
+    <ng-template #totalTpl let-totalData>{{'Total'|translate}}{{ ': ' + totalData}}</ng-template>
+</tc-card>
+
+<nz-empty *ngIf="isEmpty"
+          [nzNotFoundImage]="
+        'https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original'
+      "
+          [nzNotFoundContent]="contentTpl"
+          [nzNotFoundFooter]="footerTpl"
+>
+    <ng-template #contentTpl>
+        <span> Customize <a href="#API">{{'Description' | translate}}</a> </span>
+    </ng-template>
+    <ng-template #footerTpl>
+    </ng-template>
+</nz-empty>
+
+<nz-drawer [nzClosable]="false" [nzVisible]="visibleDraw" nzPlacement="right" [nzTitle]="'Student assessment' | translate" (nzOnClose)="closeDraw()" [nzWidth]="480">
+    <div class="block-edu">
+        <div class="d-flex align-items-center mb-4">
+            <tc-avatar [tcBgColor]="'#5b97f7'" [initials]="'AC'" [size]="36"></tc-avatar>
+            <span><strong>{{dataEduway['fio']}}</strong></span>
+        </div>
+
+        <div class="edu-grade">
+            <div class="row mb-2" *ngFor="let edu of dataEduway['course']; let indexEdu = index;">
+                <div class="col-12">
+                    <div class="d-flex" style="justify-content: space-between;">
+                        <h6>{{(edu['id'] ? edu['title_lesson'][1][0] : 'New grade')|translate}}</h6>
+                        <div>
+                            <i [class]="edu['hidden'] ? 'icofont-rounded-up' : 'icofont-rounded-down'" (click)="edu['hidden'] = !edu['hidden']" *ngIf="edu['id']"></i>
+                            <i class="icofont-close" (click)="openModalRemove(modalBody, '', modalFooter, { closeButton: true, overlayClose: true }, indexEdu)"></i>
+                        </div>
+                    </div>
+
+                    <tc-form-group *ngIf="!edu['id'] || edu['hidden']">
+                        <tc-form-label>{{ 'Course topic'|translate }}</tc-form-label>
+                        <tc-select
+                                id="title_lesson-{{indexEdu}}"
+                                [options]="titleOptionDraw"
+                                [multiple]="false"
+                                [(ngModel)]="edu['title_lesson'][0][0]"
+                                [placeholder]="'Course topic'|translate"
+                                (ngModelChange)="onTitleChange(edu['title_lesson'])"
+                        ></tc-select>
+                    </tc-form-group>
+                </div>
+                <div class="col-12 col-md-6" *ngIf="!edu['id'] || edu['hidden']">
+                    <tc-form-group>
+                        <tc-form-label>{{ 'Grade'|translate }}</tc-form-label>
+                        <tc-input
+                                id="grade-{{indexEdu}}"
+                                [(ngModel)]="edu['grade']"
+                                [placeholder]="'Grade'|translate"
+                                [type]="'number'"
+                        ></tc-input>
+                    </tc-form-group>
+                </div>
+                <div class="col-12 col-md-6" *ngIf="!edu['id'] || edu['hidden']">
+                    <tc-form-group>
+                        <tc-form-label>{{ 'Date'|translate }}</tc-form-label>
+                        <nz-date-picker
+                                id="set-date-{{indexEdu}}"
+                                [nzShowTime]="false"
+                                [nzFormat]="'dd.MM.yyyy'"
+                                [(ngModel)]="edu['set_date']"
+                        ></nz-date-picker>
+                    </tc-form-group>
+                </div>
+                <div class="col-12 mt-2" *ngIf="dataEduway['course'].length > 1 && indexEdu +1 != dataEduway['course'].length">
+                    <hr />
+                </div>
+            </div>
+            <div>
+                <button tc-button
+                        [type]="'button'"
+                        class=""
+                        [size]="'sm'"
+                        [view]="'success'"
+                        [beforeIcon]="'icofont-plus'"
+                        (click)="addNewGrade()"
+                >
+                    {{'Add grade'|translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="footer-course">
+        <div>
+            <button tc-button
+                    [type]="'button'"
+                    [view]="'default'"
+                    [outline]="true"
+                    [tcBorderColor]="'transparent'"
+                    class="mr-2"
+                    (click)="closeDraw()"
+            >
+                {{'Cancel'|translate}}
+            </button>
+            <button tc-button
+                    [type]="'button'"
+                    [view]="'info'"
+                    [load]="loadingGrade"
+                    (click)="addGrade()"
+            >
+                {{'Save'|translate}}
+            </button>
+        </div>
+    </div>
+</nz-drawer>
+
+<ng-container>
+    <ng-template #modalBody>
+        <p>{{'Are you sure you want to delete' | translate}}?</p>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'default'" (click)="closeModal()">{{'Cancel'|translate}}</button>
+            <button tc-button [view]="'error'" (click)="removeGrade(removeIndex)">{{'Delete'|translate}}</button>
+        </div>
+    </ng-template>
+</ng-container>

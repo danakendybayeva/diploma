@@ -4,30 +4,30 @@
         <tc-form-group>
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">
-                    <tc-form-label class="mb-md-0">Название</tc-form-label>
+                    <tc-form-label class="mb-md-0">{{'Title'|translate}}</tc-form-label>
                 </div>
                 <div class="col-12 col-md-9">
-                    <tc-input id="title" [(ngModel)]="_value.title" [placeholder]="'Название'" formControlName="title"></tc-input>
+                    <tc-input id="title" [(ngModel)]="_value.title" [placeholder]="'Title'|translate" formControlName="title"></tc-input>
                 </div>
             </div>
         </tc-form-group>
         <tc-form-group>
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">
-                    <tc-form-label class="mb-md-0">Подсказка</tc-form-label>
+                    <tc-form-label class="mb-md-0">{{'Hint'|translate}}</tc-form-label>
                 </div>
                 <div class="col-12 col-md-9">
-                    <tc-input id="hint" [(ngModel)]="_value.hint" [placeholder]="'Подсказка'" formControlName="hint"></tc-input>
+                    <tc-input id="hint" [(ngModel)]="_value.hint" [placeholder]="'Hint'|translate" formControlName="hint"></tc-input>
                 </div>
             </div>
         </tc-form-group>
         <tc-form-group>
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">
-                    <tc-form-label class="mb-md-0">Опции</tc-form-label>
+                    <tc-form-label class="mb-md-0">{{'Options'|translate}}</tc-form-label>
                 </div>
                 <div class="col-12 col-md-9 checkbox-grid">
-                    <tc-checkbox id="is-required" [(ngModel)]="_value.isRequired" [value]="_value.isRequired" class="mb-2" formControlName="isRequired">Поле обязательно для заполнения</tc-checkbox>
+                    <tc-checkbox id="is-required" [(ngModel)]="_value.isRequired" [value]="_value.isRequired" class="mb-2" formControlName="isRequired">{{'Required field'|translate}}</tc-checkbox>
                 </div>
             </div>
         </tc-form-group>

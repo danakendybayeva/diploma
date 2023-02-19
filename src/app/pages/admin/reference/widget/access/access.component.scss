@@ -1,0 +1,86 @@
+@import '../../../../../../assets/sass/variables';
+
+:host {
+  .row-flex {
+    display: flex;
+    flex-flow: wrap;
+  }
+
+  .head-block {
+    display: flex;
+    padding-right: 7px;
+
+    p {
+      font-size: 16px;
+      margin-bottom: 5px;
+      width: 100%;
+    }
+
+    .action-hint {
+      align-items: end;
+    }
+
+    ul {
+      li {
+        div {
+          width: 24px;
+          text-align: center;
+          cursor: pointer;
+
+          i {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+
+  .block {
+    border: 1px solid #ccc;
+    min-height: 180px;
+    margin-bottom: 15px;
+
+    .list-so {
+
+      li {
+        padding: 5px 7px 5px 10px;
+        cursor: pointer;
+
+        .text-label {
+          width: 100%;
+        }
+
+        .remove-so {
+          cursor: pointer;
+          color: #979797;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .remove-so:hover {
+          color: rgb(139, 172, 215);
+        }
+
+        .action-checkbox {
+          i {
+            line-height: 20px;
+          }
+          i, tc-checkbox {
+            padding: 0 2px;
+          }
+        }
+      }
+
+      .active {
+        background: #557bfb;
+        color: #ffffff;
+      }
+
+    }
+
+
+  }
+
+}
+

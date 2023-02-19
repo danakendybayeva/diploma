@@ -1,0 +1,12 @@
+<img style="margin-bottom: 15px" [src]="(this.imgUrl.length) ? (apiUrl + '/api/media/file/' + imgUrl | secureFile | async) : 'assets/image/photo34.jpg'" alt="" [style.borderRadius]="'16px'">
+<nz-upload class="col-3"
+           [nzAction]="postAction"
+           [nzShowUploadList]="false"
+           [nzMultiple]="false"
+           [nzAccept]="'image/*'"
+           [nzBeforeUpload]="beforeUpload"
+           (nzChange)="handleChange($event)"
+>
+    <button type="upload" tc-button [beforeIcon]="'icofont-upload-alt'" [size]="'sm'">
+        {{'Upload by click'|translate}}</button>
+</nz-upload>

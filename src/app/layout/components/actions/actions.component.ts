@@ -43,11 +43,12 @@ export class ActionsComponent implements OnInit {
   async ngOnInit() {
     this.getUserData();
     // this.getData('assets/data/navbar-notifications.json', 'notifications');
-    this.getData('assets/data/languages.json', 'languages');
-    this.language = { title: environment.defaultLanguage, img: '', value: localStorage.getItem('language') };
-    if (!this.language) {
+    // this.language = { title: environment.defaultLanguage, img: '', value: localStorage.getItem('language') };
+    if (!localStorage.getItem('language')) {
       this.language = { title: environment.defaultLanguage, img: '', value: environment.defaultLanguage };
+      localStorage.setItem('language', environment.defaultLanguage.toString().toLowerCase());
     }
+    this.getData('assets/data/languages.json', 'languages');
     this.isAdmin = await this.userService.isAdmin();
   }
   // notification
@@ -71,13 +72,13 @@ export class ActionsComponent implements OnInit {
   }
 
   getUserData() {
-    return this.http.get<Status>(`${environment.apiUrl}/api/user-image`)
+    return this.http.get<Status>(`${environment.apiUrl}/api/v2/profiles/user-avatar`)
         .pipe(map(data => {
           return data;
         }))
         .subscribe(data => {
           if (data.status === 1) {
-            this.userImage = data.message;
+            this.userImage = environment.apiUrl + data.message;
           }
         });
   }
@@ -95,7 +96,7 @@ export class ActionsComponent implements OnInit {
     }
 
     setTimeout(() => {
-      this.router.navigate([layout ? layout : this.layout, link]);
+      this.router.navigate([layout ? layout : this.layout, link], {queryParams: { tabindex: 2 } });
     });
   }
 

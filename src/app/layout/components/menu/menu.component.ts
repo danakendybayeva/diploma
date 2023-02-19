@@ -1,6 +1,7 @@
 import { Component, HostBinding, Input, OnInit, OnDestroy, ElementRef } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import {Router, NavigationEnd, ActivatedRoute} from '@angular/router';
 import { Store, select } from '@ngrx/store';
+
 
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -10,6 +11,7 @@ import { IMenuItem } from '../../../interfaces/main-menu';
 import * as SettingsActions from '../../../store/actions/app-settings.actions';
 import { IAppState } from '../../../interfaces/app-state';
 import * as PageActions from '../../../store/actions/page.actions';
+import { DOCUMENT } from '@angular/common';
 
 import {
   animate,
@@ -19,9 +21,6 @@ import {
   trigger,
 } from '@angular/animations';
 import { IAppSettings } from 'src/app/interfaces/settings';
-import {Status} from '../../../interfaces/services/util.service';
-import {environment} from '../../../../environments/environment';
-import {HttpClient} from '@angular/common/http';
 import {UserService} from '../../../user/_services/user.service';
 
 @Component({
@@ -48,8 +47,10 @@ import {UserService} from '../../../user/_services/user.service';
       transition('active => inactive', animate('200ms ease-in-out')),
     ]),
   ],
+
 })
 export class MenuComponent implements OnInit, OnDestroy {
+
   @HostBinding('class.main-menu') true;
   @HostBinding('class.horizontal') get horizontal() {
     return this.orientation === 'horizontal';
@@ -61,6 +62,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   @Input() orientation: string;
   @Input() src: string;
 
+
+
   routerSubscription: Subscription;
   settings: IAppSettings;
   menuItems: IMenuItem[];
@@ -69,6 +72,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   navColor: string;
   caret: string;
   roles: string;
+  color:"#FFFFFF";
+
 
   isAdmin = false;
 
@@ -101,10 +106,25 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.routerSubscription = this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => this.setActiveItem());
+
+    this.initRoute().then();
+    this.onRouteChange();
   }
 
   ngOnDestroy() {
     this.routerSubscription.unsubscribe();
+  }
+
+  onRouteChange() {
+    this.routerSubscription = this.router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd) {
+        this.initRoute().then();
+      }
+    });
+  }
+
+  async initRoute() {
+    this.getMenuDataApi(this.router.url);
   }
 
   getMenuData(url: string) {
@@ -114,13 +134,28 @@ export class MenuComponent implements OnInit, OnDestroy {
         if (!this.isAdmin) {
           const menuAccess: IMenuItem[] = [];
           this.menuItems.forEach(item => {
-            if (item.access && item.access.length > 0) {
-              if (item.access.filter(x => this.roles.includes(x)).length > 0) {
+              // Sub menu begin
+              if (item.sub && item.sub.length > 0) {
+                const subs = [];
+                item.sub.forEach(sub => {
+                  if (sub.access && sub.access.length > 0) {
+                    if (sub.access.filter(x => this.roles.includes(x)).length > 0) {
+                      subs.push(sub);
+                    }
+                  } else {
+                    subs.push(sub);
+                  }
+                });
+                item.sub = subs;
+              }
+              // Sub menu end
+
+              if (
+                  (item.access && item.access.filter(x => this.roles.includes(x)).length > 0)
+                  || !item.access
+              ) {
                 menuAccess.push(item);
               }
-            } else {
-              menuAccess.push(item);
-            }
           });
           this.menuItems = menuAccess;
         }
@@ -136,7 +171,6 @@ export class MenuComponent implements OnInit, OnDestroy {
     event.preventDefault();
 
     const ITEMS: any[] = el.menuItems;
-
     if (item.active) {
       item.active = false;
     } else {
@@ -160,6 +194,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         if (this.isActive([this.orientation, subItem.routing])) {
           this.closeAll();
           item.active = true;
+          subItem.active = true;
           return;
         }
       });
@@ -186,6 +221,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     }
   }
 
+
   closeSidebar() {
     this.store.dispatch(new SettingsActions.SidebarState(false));
   }
@@ -203,19 +239,22 @@ export class MenuComponent implements OnInit, OnDestroy {
   ) {
     if (bool) {
       this.store.dispatch(new PageActions.Reset());
-
+      let routingArr: string[] = [layout];
+      routingArr = routingArr.concat(routing.split('/'));
       setTimeout(() => {
-        if (routing.indexOf('/') >= 0) {
-          this.router.navigateByUrl(`/${layout}/${routing}`);
-        } else {
-          this.router.navigate([`./${layout}`, routing]);
-        }
+        this.router.navigate(routingArr).then();
       }, 0);
     }
   }
 
   isActive(instruction: any[]): boolean {
-    return this.router.isActive(this.router.createUrlTree(instruction), true);
+    let routingArr = instruction;
+    if (instruction.length >= 1 && routingArr[1]) {
+        const secondUrl = routingArr[1].split('/');
+        routingArr.splice(1, 1);
+        routingArr = routingArr.concat(secondUrl);
+    }
+    return this.router.isActive(this.router.createUrlTree(routingArr), true);
   }
 
   getAccentColor(item: IMenuItem): any {
@@ -243,8 +282,47 @@ export class MenuComponent implements OnInit, OnDestroy {
       'background-color': this.accentColor,
     };
   }
+  setActiveLine(acc:boolean): any {
+    if (acc) {
+      return 'currentMenu';
+    }
+
+    return null;
+  }
 
   setAccentColor() {
 
   }
+
+
+  getMenuDataApi(url: string) {
+    if (
+        url.indexOf('courses/course/module/view/') > -1
+        || url.indexOf('courses/course/lesson/view/') > -1
+        || url.indexOf('courses/course/quiz/view/') > -1
+    ) {
+      console.log(url);
+    }
+  }
+
+  colorLine :any;
+
+  setHoverColor(img: string){
+    // console.log(img);
+    // this.hoverColor= document.getElementById(img);
+    // this.hoverColor.setAttribute('style','filter: brightness(0) saturate(100%) invert(100%) sepia(1%) saturate(4382%) hue-rotate(194deg) brightness(113%) contrast(101%);')
+    // this.hoverColor.style.filter = "#brightness(0) saturate(100%) invert(100%) sepia(1%) saturate(4382%) hue-rotate(194deg) brightness(113%) contrast(101%)";
+  }
+
+  setLine(img: any){
+    console.log(img);
+    // this.hoverColor= document.getElementById(img);
+
+    // this.hoverColor= document.getElementById(img);
+    // this.hoverColor.setAttribute('style','filter: brightness(0) saturate(100%) invert(7%) sepia(35%) saturate(2150%) hue-rotate(206deg) brightness(93%) contrast(97%);')
+    // return this.hoverColor("fill","#10142D");
+  }
+
 }
+
+

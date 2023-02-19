@@ -1,0 +1,131 @@
+<div>
+    <div class="row">
+        <div class="col-8">
+            <tc-card>
+                <nz-table
+                    #basicTable
+                    [nzData]="program"
+                    [nzShowPagination]="true"
+                    [nzPageSize]="pageSize"
+                    [nzTotal]="totalData"
+                    [nzLoading]="loading"
+                    [nzPageIndex]="pageIndex"
+                    [nzFrontPagination]="false"
+                    (nzPageIndexChange)="onChangePageIndex($event)"
+                >
+                    <thead>
+                    <tr>
+                        <th class="width2">#</th>
+                        <th>Title</th>
+                        <th class="width1">Creator</th>
+                        <!--                        <th>Date</th>-->
+                        <th class="width">Save</th>
+                        <th class="width">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let data of basicTable.data; let index = index;"
+                        class="mainTable">
+                        <td class="width2">{{ (pageSize * (pageIndex - 1)) + index + 1}}</td>
+                        <td>
+                            <p *ngIf="data.id != null && data.id != ''">{{data.title}}</p>
+                            <tc-input *ngIf="data.id == null || data.id == ''" placeholder="Name" class="name"
+                                      [(ngModel)]="data.title"></tc-input>
+                        </td>
+                        <td class="width1">{{ fieldService.getStructureFio(data.creator) }}</td>
+                        <!--<td>{{ (data.updatedAt !== null ? data.updatedAt : data.createdAt) | date: 'dd.MM.yyyy HH:mm:ss' }}</td>-->
+                        <td class="width">
+                            <button tc-button [afterIcon]="'icofont-arrow-right'" [view]="'info'"
+                                    *ngIf="data.id != null && data.id != ''"
+                                    [afterIcon]="icon[index] !== undefined ? icon[index] : waitIcon"
+                                    [view]="color[index] !== undefined ? color[index] : waitColor"
+                                    (click)="isSelected(index)"
+                            ></button>
+                            <button tc-button [afterIcon]="'icofont-tick-mark'" [view]="'success'"
+                                    *ngIf="data.id == null || data.id == ''"
+                                    (click)="saveProgram(data, index, true)"></button>
+                        </td>
+                        <td class="width">
+                            <button tc-button [afterIcon]="'icofont-close'" [view]="'error'"
+                                    (click)="openModal(modalBody, 'Program title', modalFooter, { closeButton: true, overlayClose: true }, index)"
+                            ></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </nz-table>
+                <!--<div  class="list" *ngFor="let item of program; let index = index">-->
+                <!--    <tc-input placeholder="Name" class="name" [(ngModel)]="item.title"></tc-input>-->
+                <!--    <div class="buttons">-->
+                <!--        <button tc-button [afterIcon]="'icofont-arrow-right'" [view]="'info'"-->
+                <!--                *ngIf="item.id != null && item.id != ''"-->
+                <!--                [afterIcon]="icon[index] !== undefined ? icon[index] : waitIcon"-->
+                <!--                [view]="color[index] !== undefined ? color[index] : waitColor"-->
+                <!--                [square]="true"-->
+                <!--                (click)="isSelected(index)"-->
+                <!--        ></button>-->
+                <!--        <button tc-button [afterIcon]="'icofont-tick-mark'" [view]="'success'"-->
+                <!--                *ngIf="item.id == null || item.id == ''"-->
+                <!--                (click)="saveProgram(item,index, true)"></button>-->
+                <!--        <button tc-button [afterIcon]="'icofont-close'" [view]="'error'"-->
+                <!--                (click)="openModal(modalBody, 'Program title', modalFooter, { closeButton: true, overlayClose: true }, index)"-->
+                <!--        ></button>-->
+                <!--    </div>-->
+                <!--</div>-->
+            </tc-card>
+        </div>
+
+        <!--Right side change topic -->
+        <div class="col-12 col-md-4">
+            <tc-card>
+                <h4 *ngIf="selectedProgram == null">Nothing Selected</h4>
+                <div *ngIf="selectedProgram != null">
+                    <div class="d-flex" style="width: 100%; justify-content: space-between;">
+                        <h4>{{selectedProgram.title}}</h4>
+                        <div class="actions" style="margin-top: 13px" [ngStyle]="{textAlign: 'right', display: 'block'}">
+                            <button tc-button [afterIcon]="'icofont-tick-mark'" [view]="'success'"
+                                    [square]="true" (click)="saveProgram(selectedProgram, index)"></button>
+                        </div>
+                    </div>
+                    <tc-input placeholder="Name" class="name margin-top"
+                              style="margin-top:10px"
+                              [(ngModel)]="selectedProgram.title"></tc-input>
+                    <nz-tree-select
+                            class="mb-4 "
+                            style="width: 100%; margin-top:30px"
+                            [nzNodes]="topicList"
+                            [nzShowSearch]="true"
+                            nzPlaceHolder="Related Topics"
+                            nzCheckable
+                            [(ngModel)]="selectedProgram.relativeTopics"
+                    >
+                    </nz-tree-select>
+                </div>
+            </tc-card>
+        </div>
+    </div>
+</div>
+
+<ng-container>
+    <ng-template #modalBody>
+        <p>{{'Are you sure ?'|translate}}</p>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'error'" (click)="closeModal()">Close</button>
+            <button tc-button [view]="'success'" (click)="deleteProgram(index)">Submit</button>
+        </div>
+    </ng-template>
+</ng-container>
+
+<button class="no-style settings-btn"
+        (click)="addProgram()">
+    <span class="pulse"></span>
+    <tc-icon
+            class="settings-icon"
+            [iconClass]="'icofont-plus'"
+            [tcFontSize]="26"
+            [padding]="'2px 0'"
+    ></tc-icon>
+</button>
+

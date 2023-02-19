@@ -1,8 +1,8 @@
-import { TCGradientDirective } from './gradient.directive';
+import { TcGradientDirective } from './gradient.directive';
 
 describe('TcGradientDirective', () => {
   it('should create an instance', () => {
-    const directive = new TCGradientDirective();
+    const directive = new TcGradientDirective();
     expect(directive).toBeTruthy();
   });
 });

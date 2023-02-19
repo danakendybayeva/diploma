@@ -153,7 +153,7 @@ export class DateFieldComponent implements OnInit, OnChanges, AfterContentChecke
     } else {
       this._value.addDays = null;
     }
-    this.fieldService.formValidateChange(this._value, this.labelForm, 'date');
+    // this.fieldService.formValidateChange(this._value, this.labelForm, 'date');
   }
 
 }

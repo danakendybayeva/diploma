@@ -1,0 +1,42 @@
+@import 'src/assets/sass/variables';
+
+$_module-rem: $module-rem;
+$_h-padding: $_module-rem * 3;
+$_v-padding: $_module-rem * 2;
+
+:host {
+
+  .content {
+    h1 {
+
+    }
+  }
+
+  .list-lesson:hover {
+    color: #2fa7ff;
+  }
+
+  .progress {
+    p {
+      margin-bottom: 0;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 12px;
+    }
+    span {
+      font-weight: 600;
+      font-size: 12px;
+      color: #7f858a;
+    }
+  }
+}
+
+::ng-deep {
+  .ant-progress-circle-trail {
+    stroke: #dbdbdb;
+  }
+
+  .ant-progress-inner {
+    background-color: #dbdbdb;
+  }
+}

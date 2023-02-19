@@ -1,0 +1,19 @@
+:host {
+  .color-red {
+    color: #ed253d;
+    font-weight: bold;
+  }
+  .grade-input {
+    max-width: 70px;
+  }
+  .save-btn {
+    display: flex;
+    align-items: center;
+  }
+}
+
+::ng-deep {
+  .modal-select .select-list {
+    position: inherit !important;
+  }
+}

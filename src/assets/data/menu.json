@@ -2,150 +2,280 @@
   {
     "title": "Dashboard",
     "icon": {
-      "class": "icofont-home"
+      "class": "icofont-chart-pie"
     },
     "routing": "dashboard",
-    "access": ["admin"]
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/Dashboard.svg",
+      "pathToDarkSvg": "assets/menuSvg/DashboardDark.svg"
+    },
+    "access": ["admin", "chief", "mentor", "head_city"]
   },
   {
-    "title": "MDS Projects",
-    "groupTitle": true
+    "title": "Analytics",
+    "icon": {
+      "class": "icofont-sound-wave"
+    },
+    "routing": "analytics",
+    "access": ["admin", "chief", "mentor", "head_city"],
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/Analytics.svg",
+      "pathToDarkSvg": "assets/menuSvg/AnalyticsDark.svg"
+    }
   },
   {
-    "title": "Courses",
+    "title": "Report",
+    "icon": {
+      "class": "icofont-sound-wave"
+    },
+    "routing": "reports/report",
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/Report.svg",
+      "pathToDarkSvg": "assets/menuSvg/ReportDark.svg"
+    },
+    "access": ["admin", "chief", "mentor", "head_city"]
+  },
+  {
+    "title": "Lingua",
     "icon": {
       "class": "icofont-library"
     },
-    "sub": [
-      {
-        "title": "Main",
-        "routing": "courses/main"
-      },
-      {
-        "title": "List Course",
-        "routing": "courses/course/list"
-      }
-    ]
-  },
-  {
-    "title": "English",
-    "routing": "english/group-list",
-    "icon": {
-      "class": "icofont-library"
-    }
-  },
-  {
-    "title": "Skills",
-    "routing": "coming-soon-skills",
-    "icon": {
-      "class": "icofont-library"
-    }
-  },
-  {
-    "title": "Community",
-    "routing": "coming-soon-community",
-    "icon": {
-      "class": "icofont-library"
-    }
-  },
-  {
-    "title": "Community Demo",
-    "icon": {
-      "class": "icofont-library"
-    },
-    "sub": [
-      {
-        "title": "Topic",
-        "routing": "community/admin/topic/add"
-      },
-      {
-        "title": "Add Problem",
-        "routing": "community/admin/problem/add"
-      },
-      {
-        "title": "Problem List",
-        "routing": "community/admin/problem/list"
-      }
-    ],
-    "access": ["admin"]
-  },
-  {
-    "title": "English Demo",
-    "routing": "english/group-list",
-    "icon": {
-      "class": "icofont-library"
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/Lingua.svg",
+      "pathToDarkSvg": "assets/image/icons/LinguaDark.svg"
     },
     "sub": [
       {
         "title": "Group List",
-        "routing": "english/group-list"
+        "routing": "lingua/group/list",
+        "access": ["admin", "chief", "mentor", "head_city", "english_teacher"]
       },
       {
         "title": "Add Group",
-        "routing": "english/english-add-group"
+        "routing": "reference/record/create/d924aba7-a38b-4688-905d-694511177686",
+        "access": ["admin", "chief", "head_city"]
       }
     ],
-    "access": ["english_teacher", "admin"]
+    "access": ["admin", "chief", "mentor", "head_city", "english_teacher"]
   },
   {
-    "title": "Reads Demo",
+    "title": "Professional development",
+    "groupTitle": true,
+    "access": ["admin", "chief", "mentor", "head_city"]
+  },
+  {
+    "title": "Eduway",
+    "icon": {
+      "class": "icofont-justify-left"
+    },
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/Eduway.svg",
+      "pathToDarkSvg": "assets/image/icons/EduwayDark.svg"
+    },
+    "routing": "edugrade/grade/eduway/list",
+    "access": ["admin", "chief", "mentor", "head_city"]
+  },
+  {
+    "title": "Edutest",
+    "icon": {
+      "class": "icofont-justify-left"
+    },
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/Edutest.svg",
+      "pathToDarkSvg": "assets/image/icons/EdutestDark.svg"
+    },
+    "routing": "edugrade/grade/edutest/list",
+    "access": ["admin", "chief", "mentor", "head_city"]
+  },
+  {
+    "title": "Practice",
+    "icon": {
+      "class": "icofont-justify-left"
+    },
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/Work.svg",
+      "pathToDarkSvg": "assets/image/icons/WorkDark.svg"
+    },
+    "routing": "edugrade/grade/practice/list",
+    "access": ["admin", "chief", "mentor", "head_city"]
+  },
+  {
+    "title": "GPA",
+    "icon": {
+      "class": "icofont-justify-left"
+    },
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/List.svg",
+      "pathToDarkSvg": "assets/menuSvg/ListDark.svg"
+    },
+    "routing": "edugrade/grade/gpa/list",
+    "access": ["admin", "chief", "mentor", "head_city"]
+  },
+  {
+    "title": "Personal development",
+    "groupTitle": true
+  },
+  {
+    "title": "Menu Courses",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/MenuCourse.svg",
+      "pathToDarkSvg": "assets/image/icons/MenuCourseDark.svg"
+    },
+    "sub": [
+      {
+        "title": "Main",
+        "routing": "courses/course/main"
+      },
+      {
+        "title": "List Course",
+        "routing": "courses/course/list",
+        "access": ["admin", "chief", "head_city"]
+      },
+      {
+        "title": "Assessment",
+        "routing": "edugrade/grade/course/list",
+        "access": ["admin", "chief", "mentor", "head_city"]
+      }
+    ]
+  },
+  {
+    "title": "Books",
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/Calendar.svg",
+      "pathToDarkSvg": "assets/image/icons/CalendarDark.svg"
+    },
     "icon": {
       "class": "icofont-library"
     },
     "sub": [
       {
         "title": "Book List",
-        "routing": "reads/admin/quiz/list/book"
+        "routing": "reading/book/list"
+      },
+      {
+        "title": "Main",
+        "routing": "reading/category/list"
+      },
+      {
+        "title": "Author",
+        "routing": "reference/record/section/aa76ba90-8e01-49d8-886b-9ed8140d4a87/b13a88ee-259e-48b8-95aa-5eeebdbd29bc",
+        "access": ["admin", "chief", "mentor", "head_city"]
+      },
+      {
+        "title": "Group List",
+        "routing": "reference/record/section/3e0c3b89-7382-4882-9494-f3c45df73e6b/3e0c3b89-7382-4882-9494-f3c45df73e6c",
+        "access": ["admin", "chief", "head_city"]
+      },
+      {
+        "title": "Group",
+        "routing": "reading/group/list",
+        "access": ["admin", "chief", "mentor", "head_city"]
+      },
+      {
+        "title": "Period",
+        "routing": "reference/record/section/a9a2eabe-376d-45d9-8f21-2779a02b6ef4/0e5e1a83-4382-40bf-b2f1-29cbfcf56dcd",
+        "access": ["admin", "chief", "mentor", "head_city"]
+      },
+      {
+        "title": "Rules",
+        "routing": "reference/record/section/33538882-2b58-49c5-a98f-2c2f2587736f/50a008ac-131d-4d01-a725-bdfbb3c032fd",
+        "access": ["admin", "chief", "mentor", "head_city"]
       }
-    ],
-    "access": ["admin"]
+    ]
   },
   {
-    "title": "Students",
+    "title": "Seminar",
+    "icon": {
+      "class": "icofont-justify-left"
+    },
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/Seminar.svg",
+      "pathToDarkSvg": "assets/image/icons/SeminarDark.svg"
+    },
+    "routing": "edugrade/grade/seminar/list",
+    "access": ["admin", "chief", "mentor", "head_city"]
+  },
+  {
+    "title": "Social orientation",
     "groupTitle": true,
-    "access": ["admin"]
+    "access": ["admin", "chief", "mentor", "head_city"]
   },
   {
-    "title": "Lists",
+    "title": "M Passport",
     "icon": {
       "class": "icofont-library"
     },
-    "access": ["admin"],
-    "sub": [
-      {
-        "title": "Lists",
-        "routing": "list",
-        "access": ["admin"]
-      },
-      {
-        "title": "New Profile",
-        "routing": "profile-new"
-      },
-      {
-        "title": "Import",
-        "routing": "import"
-      }
-    ]
-  },
-  {
-    "title": "Apps",
-    "groupTitle": true
-  },
-  {
-    "title": "User pages",
-    "icon": {
-      "class": "icofont-ui-user"
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/MPassport.svg",
+      "pathToDarkSvg": "assets/image/icons/MPassportDark.svg"
     },
     "sub": [
       {
-        "title": "View profile",
-        "routing": "user-profile"
+        "title": "Main",
+        "routing": "passports/passport/list"
       },
       {
-        "title": "Edit account",
-        "routing": "edit-account"
+        "title": "Habits",
+        "routing": "habits",
+        "access": ["admin", "chief", "head_city","mentor"]
+      },
+      {
+        "title": "Assessment",
+        "routing": "edugrade/grade/passport/list",
+        "access": ["admin", "chief", "mentor", "head_city"]
       }
-    ]
+    ],
+    "routing": "",
+    "access": ["admin", "chief", "mentor", "head_city"]
+  },
+  {
+    "title": "User",
+    "groupTitle": true,
+    "access": ["admin", "chief", "mentor", "head_city"]
+  },
+  {
+    "title": "Student List",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/List.svg",
+      "pathToDarkSvg": "assets/menuSvg/ListDark.svg"
+    },
+    "routing": "reference/record/section/00000000-0000-0000-0000-000000000017/00000000-0000-0000-0000-000000000001",
+    "access": ["admin", "chief", "mentor", "head_city"]
+  },
+  {
+    "title": "Student List Archived",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/List.svg",
+      "pathToDarkSvg": "assets/menuSvg/ListDark.svg"
+    },
+    "routing": "reference/record/section/student-list",
+    "access": ["admin", "chief"]
+  },
+  {
+    "title": "Заявки",
+    "groupTitle": true,
+    "access": ["admin", "chief", "mentor", "head_city"]
+  },
+  {
+    "title": "Заявки на стипендию",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/List.svg",
+      "pathToDarkSvg": "assets/menuSvg/ListDark.svg"
+    },
+    "routing": "reference/record/section/ce88aa43-dd6f-495c-9a05-a2fdfcc83fc1/ce09f69a-34ab-4d7f-981f-915763602db7",
+    "access": ["admin", "chief", "mentor", "head_city"]
   },
   {
     "title": "Admin Panel",
@@ -155,9 +285,75 @@
   {
     "title": "Reference",
     "icon": {
-      "class": "icofont-ui-user"
+      "class": "icofont-book"
+    },
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/List.svg",
+      "pathToDarkSvg": "assets/menuSvg/ListDark.svg"
     },
     "routing": "admin-panel/reference/list",
     "access": ["admin"]
+  },
+  {
+    "title": "Structure",
+    "icon": {
+      "class": "icofont-company"
+    },
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/List.svg",
+      "pathToDarkSvg": "assets/menuSvg/ListDark.svg"
+    },
+    "routing": "structure",
+    "access": ["admin", "chief", "head_city"]
+  },
+  {
+    "title": "Profiles",
+    "icon": {
+      "class": "icofont-users"
+    },
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/List.svg",
+      "pathToDarkSvg": "assets/menuSvg/ListDark.svg"
+    },
+    "routing": "reference/record/section/00000000-0000-0000-0000-000000000017/00000000-0000-0000-0000-000000000024",
+    "access": ["admin", "chief", "head_city"]
+  },
+  {
+    "title": "Menu",
+    "icon": {
+      "class": "icofont-justify-left"
+    },
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/List.svg",
+      "pathToDarkSvg": "assets/menuSvg/ListDark.svg"
+    },
+    "routing": "menu",
+    "access": ["admin"]
+  },
+  {
+    "title": "News",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "pathToSvg": {
+      "pathToSvg": "assets/menuSvg/List.svg",
+      "pathToDarkSvg": "assets/menuSvg/ListDark.svg"
+    },
+    "sub": [
+      {
+        "title": "Post",
+        "routing": "reference/record/section/e7e8fb19-d843-425b-b3dd-f1474cd8340f/eeacf1e8-3961-4096-8198-6619b7301b17"
+      },
+      {
+        "title": "Stories",
+        "routing": "reference/record/section/3c10fa1e-c6aa-44e5-a3ce-465fab2d9b00/36b7d46c-a976-46d3-b67d-63d73181a69a",
+        "access": ["admin", "chief", "mentor", "head_city"]
+      },
+      {
+        "title": "Menu Category",
+        "routing": "reference/record/section/20a4ccd9-6300-4462-acb6-6942bf4fe5d7/83aa23d8-f614-4170-8683-b93f8510467d"
+      }
+    ],
+    "access": ["admin", "chief", "mentor", "head_city"]
   }
 ]

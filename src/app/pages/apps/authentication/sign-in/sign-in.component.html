@@ -1,28 +1,39 @@
 <form [formGroup]="loginForm" (ngSubmit)="Login()">
   <div class="title-block">
-    <h5 class="form-title">Sign In</h5>
+    <h5 class="form-title">{{'Sign In' | translate}}</h5>
   </div>
 
   <tc-form-group>
-    <tc-input [prefixIcon]="'icofont-ui-user'" [placeholder]="'Login'" formControlName="login"></tc-input>
+    <tc-input [prefixIcon]="'icofont-ui-user'" [placeholder]="'Login' | translate" formControlName="login"></tc-input>
 
     <ng-container *ngIf="login.invalid && (login.touched || login.dirty)">
-      <span @fadeIn class="error" *ngIf="login.getError('required')">Please enter your login</span>
+      <span @fadeIn class="error" *ngIf="login.getError('required')">{{"Please enter your login" | translate}}</span>
       <span @fadeIn class="error" *ngIf="login.getError('minlength')">Login must be at least 4 characters long</span>
     </ng-container>
   </tc-form-group>
 
   <tc-form-group>
-    <tc-input [prefixIcon]="'icofont-lock'" [type]="'password'" [placeholder]="'Password'" formControlName="password"></tc-input>
+    <tc-input [prefixIcon]="'icofont-lock'" [type]="'password'" [placeholder]="'Password' | translate" formControlName="password"></tc-input>
 
     <ng-container *ngIf="password.invalid && (password.touched || password.dirty)">
-      <span @fadeIn class="error" *ngIf="password.getError('required')">Please enter password</span>
+      <span @fadeIn class="error" *ngIf="password.getError('required')">{{"Please enter password" | translate}}</span>
       <span @fadeIn class="error" *ngIf="password.getError('minlength')">Password must be at least 5 characters long</span>
     </ng-container>
   </tc-form-group>
 
   <tc-form-group class="mt-1 d-flex justify-content-between align-items-center">
-    <a [routerLink]="'/public/forgot-password'" class="link pl-sm-0">Forgot password ?</a>
-    <button type="submit" tc-button [view]="'gradient'">Sign In</button>
+    <a [routerLink]="'/public/forgot-password'" class="link pl-sm-0">{{'Forgot password' | translate}}?</a>
+    <button type="submit" tc-button [view]="'gradient'" [disabled]="loading || loginForm.invalid">{{'Sign In' | translate}}</button>
   </tc-form-group>
+
+  <nz-divider nzPlain nzText="{{'Or' | translate | uppercase}}"></nz-divider>
+  <div class="social-form">
+    <img src="assets/image/social/google.svg" [height]="32" [width]="32" (click)="loginWithGoogle()"/>
+    <img src="assets/image/social/mailru.png" [height]="32" [width]="32"/>
+  </div>
 </form>
+
+<ng-template #indicatorTemplate>
+  <i nz-icon nzType="loading"></i>
+</ng-template>
+<nz-spin nzSimple [nzIndicator]="indicatorTemplate" class="form-loading" *ngIf="loading"></nz-spin>

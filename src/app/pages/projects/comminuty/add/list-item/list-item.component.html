@@ -2,11 +2,13 @@
 
     <li *ngFor="let item of data; let index = index;" cdkDrag  >
       <div class="d-flex mb-2">
+        <!--TODO  need to replace item.title -> item.orderNum and check if there any null in order num
+            TODO if orderNum is null change places of list while all has orderNum
+            TODO after click save button and replace back item.orderNum -> item.title  -->
         <tc-input [(ngModel)]="item.title" class="mr-2" [placeholder]="'Topic title'"></tc-input>
         <button tc-button (click)="toggle(index)" [afterIcon]="iconString" [view]="'info'" [square]="true" class="mr-2"></button>
-        <a [routerLink]="['/vertical/community/admin/problem/add/', item.id]" tc-button [afterIcon]="iconString" [view]="'success'" [square]="true" class="mr-2 text-white"></a>
-        <button tc-button (click)="removeTopic(index)" [afterIcon]="'icofont-close'" [view]="'error'" [square]="true" class="mr-2"></button>
-        <button tc-button *ngIf="item.id != null && item.id != ''" (click)="addChildren(item.children, item.id)" [afterIcon]="'icofont-plus'" [view]="'info'" [square]="true" class="mr-2"></button>
+        <button tc-button (click)="openModal(modalBody, 'Modal title', modalFooter, { closeButton: true, overlayClose: true }, index)" [afterIcon]="'icofont-close'" [view]="'error'" [square]="true" class="mr-2"></button>
+        <button tc-button *ngIf="item.id != null && item.id != ''" (click)="addChildren(item.children, item.id, index)" [afterIcon]="'icofont-plus'" [view]="'info'" [square]="true" class="mr-2"></button>
         <button tc-button (click)="saveTopic(item, index)" [afterIcon]="icon[index] !== undefined ? icon[index] : waitIcon"
                 [view]="color[index] !== undefined ? color[index] : waitColor" [square]="true"></button>
       </div>
@@ -18,13 +20,13 @@
 
 <ng-container>
   <ng-template #modalBody>
-    <p>Are you sure?</p>
+    <p>{{'Are you sure ?'|translate}}</p>
   </ng-template>
 
   <ng-template #modalFooter>
     <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
       <button tc-button [view]="'error'" (click)="closeModal()">Close</button>
-      <button tc-button [view]="'success'" (click)="removeTopic()">Submit</button>
+      <button tc-button [view]="'success'" (click)="removeTopic(index)">Submit</button>
     </div>
   </ng-template>
 </ng-container>

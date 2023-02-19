@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, OnChanges, Output, EventEmitter, forwardRef} from '@angular/core';
 import {ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
 import {StringField} from '../../../interfaces/services/reference/fields/string';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
 	selector: 'tc-string-field',
@@ -20,7 +21,9 @@ export class TCStringFieldComponent implements OnInit, OnChanges, ControlValueAc
 	@Input() type: string;
 	@Input() isNew = false;
 	@Input() isConfig = false;
+	@Input() disabled = false;
 	@Input() styleType = 'standard';
+	@Input() prefixIcon = '';
 	@Input() _valueField: StringField = null;
 	@Input() form: FormGroup = new FormGroup({});
 	// tslint:disable-next-line:no-input-rename
@@ -29,16 +32,21 @@ export class TCStringFieldComponent implements OnInit, OnChanges, ControlValueAc
 	@Output() resultData: EventEmitter<number> = new EventEmitter();
 
 	isFocused = false;
+	prefix = '';
+	mask: string = null;
+	validatorMask = false;
 
 	onChange = (value: string) => {};
 	onTouched = () => {};
+	safeUrl: SafeUrl;
 
-	constructor(private formBuilder: FormBuilder) {}
+	constructor(private formBuilder: FormBuilder, private sanitizer: DomSanitizer) {}
 
 	ngOnInit() {}
 
 	ngOnChanges(changes) {
 		if (changes._valueField && this._valueField) {
+			this.setMask(this._valueField.mask);
 			if (
 				this._valueField
 				&& this.type === 'edit'
@@ -62,6 +70,7 @@ export class TCStringFieldComponent implements OnInit, OnChanges, ControlValueAc
 	set value(value: string) {
 		this.writeValue(value);
 		this.onChange(value);
+		this.setMask(this._valueField.mask);
 	}
 
 	writeValue(value: string) {
@@ -82,6 +91,28 @@ export class TCStringFieldComponent implements OnInit, OnChanges, ControlValueAc
 
 	focused() {
 		this.isFocused = true;
+	}
+
+	setMask(type: string) {
+		switch (type) {
+			case 'phone':
+				this.prefix = '+7';
+				this.mask = '(000) 000 00 00';
+				this.validatorMask = true;
+				if (this.value != null && this.value.includes('+7')) {
+					this.value = this.value.substring(2);
+				}
+				if (this.type !== 'edit' && this.value) {
+					this.safeUrl = this.sanitizer.bypassSecurityTrustUrl('callto:' + this.prefix + this.value.trim());
+				}
+				break;
+			case 'iin':
+				this.mask = '000000000000';
+				this.validatorMask = true;
+				break;
+			default:
+				this.mask = '';
+		}
 	}
 
 }

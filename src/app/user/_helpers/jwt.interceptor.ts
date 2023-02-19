@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../_services/authentication.service';
+import {RouterStateSnapshot} from '@angular/router';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -11,14 +12,15 @@ export class JwtInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add auth header with jwt if user is logged in and request is to api url
-        const currentUser = this.authenticationService.currentUserValue;
+        const currentUser = this.authenticationService.currentUserSwitchValue;
         const isLoggedIn = currentUser && currentUser.accessToken;
         const isApiUrl = request.url.startsWith(environment.apiUrl);
         if (isLoggedIn && isApiUrl) {
             request = request.clone({
                 setHeaders: {
                     Authorization: `Bearer ${currentUser.accessToken}`
-                }
+                },
+                withCredentials: true
             });
         }
 

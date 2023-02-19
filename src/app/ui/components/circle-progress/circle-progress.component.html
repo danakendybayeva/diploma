@@ -26,6 +26,9 @@
   />
 </svg>
 
-<div class="text-box">
-  <p class="text">{{(value) + '%'}}</p>
+<div class="text-box" [ngSwitch]="type">
+  <p *ngSwitchDefault class="text">{{(!value) ? 'N/A' : (value) + '%'}}</p>
+  <i *ngSwitchCase="'icon'"
+     [ngStyle]="{'color' : strokeColor}"
+     [class]="(!value) ? 'icofont-close' : 'icofont-check-alt'"></i>
 </div>

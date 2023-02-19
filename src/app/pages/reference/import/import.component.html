@@ -1,0 +1,96 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-12">
+                <tc-card [title]="'Files list'">
+                    <div class="row">
+                        <nz-upload nzAction="{{apiUrl}}/api/profiles/list/csv/file" class="col-4"
+                                   [nzMultiple]="false"
+                                   [nzBeforeUpload]="beforeUpload"
+                                   (nzChange)="handleChangeUpload($event)">
+                            <button type="upload" tc-button [beforeIcon]="'icofont-upload'" [size]="'sm'">
+                                {{'Upload by click'|translate}}</button>
+                        </nz-upload>
+
+                        <tc-input id="template-view" class="mb-2 col-4"
+                                  [(ngModel)]="separator"
+                                  [size]="'sm'"
+                                  [placeholder]="'Separator'">
+                        </tc-input>
+
+                        <tc-switcher class="mb-2 col-4" [(ngModel)]="headerEnable">{{'Header'|translate}}</tc-switcher>
+                    </div>
+                </tc-card>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<tc-card class="mb-0" [padding]="'0'">
+    <nz-table *ngIf="headerRecord.length"
+        #basicTable
+        [nzData]="dataRecord"
+        [nzShowPagination]="totalPages > 1"
+        [nzPageSize]="pageSize"
+        [nzTotal]="totalData"
+        [nzLoading]="loading"
+        [nzPageIndex]="pageIndex"
+        [nzFrontPagination]="false"
+        [nzShowTotal]="totalTpl"
+    >
+        <thead nzSingleSort (nzSortChange)="onChangeSort($event)">
+        <tr>
+            <th>#</th>
+            <th
+                    *ngFor="let header of headerRecord; let index = index;"
+                    nzShowSort
+                    nzColumnKey="{{header}}"
+                    nzCustomFilter
+            >
+                {{ header | translate}}
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td></td>
+            <td
+                    *ngFor="let header of headerRecord; let index = index;"
+            >
+                <tc-select
+                        [(ngModel)]="fieldSelected[index]"
+                        [placeholder]="'Select field'"
+                        [options]="fieldsOption"
+                        [filter]="true"
+                        [size]="'sm'"
+                        (ngModelChange)="changeSelect($event, index)"
+                ></tc-select>
+            </td>
+        </tr>
+        <tr *ngFor="let data of basicTable.data; let index = index;"
+            class="mainTable">
+            <td>{{index + 1}}</td>
+            <td *ngFor="let item of data; let index2 = index;">
+                <tc-input
+                          [value]="item"
+                          [placeholder]="'Separator'">
+                </tc-input>
+            </td>
+        </tr>
+        </tbody>
+    </nz-table>
+    <ng-template #totalTpl let-range="range" let-totalData>{{'Total'|translate}}{{ ': ' + (isLast ? (totalData - 1) : totalData)}}</ng-template>
+</tc-card>
+
+<button class="no-style settings-btn" *ngIf="dataRecord.length"
+        (click)="saveRecord()">
+    <span class="pulse"></span>
+    <tc-icon
+            class="settings-icon"
+            [tcColor]="'success'"
+            [iconClass]="'icofont-save'"
+            [tcFontSize]="26"
+            [padding]="'2px 0'"
+    ></tc-icon>
+</button>

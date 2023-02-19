@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+        <div class="col-3" [routerLink]="['/vertical/passports/passport/new']" style="cursor: pointer">
+            <div class="p-3" style="border-radius: 24px; background-color: #3D3DD8;text-align: center; height: 265px; margin-bottom: 24px;">
+                <div style="color: white; display: flex; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center">
+                    <h2 class="card-title" style="margin: 0">+</h2>
+                    <p class="card-text">{{'Add new' | translate}}</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-3"  *ngFor="let passport of passports, " [routerLink]="['/vertical/passports/passport/view', passport.id]" style="cursor: pointer">
+            <div class="" style="border-radius: 24px; text-align: center; height: 265px; margin-bottom: 24px; overflow: hidden; position: relative; color: white; text-align: left">
+                    <img [src]="(passport['image'] && passport['image'].length) ? (apiUrl + '/api/media/file/' + passport['image'][0]['id'] | secureFile | async) : 'assets/image/photo34.jpg'" alt="" [style.borderRadius]="'16px'" class="card-img" alt="no photo" style="width: 100%;height: 100%; ">
+                    <div style="position: absolute; bottom: 0; right: 0; left: 0; top: 0; z-index: 1; opacity: 0.3; background-color: black"></div>
+                    <h4 class="card-title" style="z-index: 2; margin: 0; position: absolute; top: 24px; left: 24px; right: 24px; font-size: 18px; line-height: 24px">{{ passport.title }}</h4>
+            </div>
+        </div>
+
+    </div>
+</div>

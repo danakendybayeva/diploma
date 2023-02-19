@@ -1,33 +1,33 @@
 @import '../../../../assets/sass/variables';
 
 $_bg: (
-  default: rgba(#4a505c, 0.08),
-  hover: rgba(#4a505c, 0.08),
+  default: rgba(#1a3860, 0.08),
+  hover: rgba(#1a3860, 0.08),
   focus: #fff,
   disabled: rgba(#ccc, 0.1)
 );
 
 $_border: (
-  default: rgba(#4a505c, 0.08),
-  hover: rgba(#4a505c, 0.08),
-  focus: rgba(#4a505c, 0.08),
+  default: rgba(#1a3860, 0.08),
+  hover: rgba(#1a3860, 0.08),
+  focus: rgba(#1a3860, 0.08),
   disabled: rgba(#ccc, 0.5)
 );
 
 $_color: (
-  default: #4a505c,
-  hover: #4a505c,
-  focus: #4a505c,
+  default: #1a3860,
+  hover: #1a3860,
+  focus: #1a3860,
   disabled: #bdbdbd
 );
 
 $_module-rem: $module-rem;
 $_fs: 1rem;
 $_lh: $_module-rem * 2 / $_fs;
-$_padding-h: $_module-rem * 2;
+$_padding-h: 10px;
 $_padding-v: $_module-rem;
 $_error-color: $error-color;
-$_shape: 20px;
+$_shape: 4px;
 $_animation: $animation;
 $_shadow-hover: none;
 $_list-height: $_module-rem * 21;
@@ -69,8 +69,7 @@ $_padding-v-lg: $_module-rem * 1.5;
     display: flex;
     justify-content: flex-end;
     overflow: hidden;
-    padding: calc(#{$_padding-v} - 1px) calc((#{$_padding-h} / 2) - 0.2em)
-      calc(#{$_padding-v} - 1px) calc(#{$_padding-h} - 0.2em);
+    padding: calc(#{$_padding-v} - 3px) $_padding-h;
     transition: background-color 0.2s $_animation, border-color 0.2s $_animation,
       box-shadow 0.2s $_animation, color 0.2s $_animation;
     width: 100%;
@@ -120,7 +119,7 @@ $_padding-v-lg: $_module-rem * 1.5;
     }
     .selected-option {
       align-items: center;
-      background: rgba(#4a505c, 0.1);
+      background: rgba(#1a3860, 0.1);
       border-radius: 500px;
       display: inline-flex;
       flex-wrap: nowrap;
@@ -148,7 +147,7 @@ $_padding-v-lg: $_module-rem * 1.5;
     margin-top: $_module-rem;
     min-width: 100%;
     flex-flow: column nowrap;
-    padding: ($_module-rem * 1.5) 0;
+    padding: 5px 0;
     position: absolute;
     overflow: hidden;
     top: 100%;
@@ -166,18 +165,19 @@ $_padding-v-lg: $_module-rem * 1.5;
     .options {
       display: flex;
       flex-direction: column;
-      padding: 0 ($_module-rem * 2);
+      padding: 0;
       max-height: $_list-height;
       overflow: auto;
 
       .option {
-        border-radius: 500px;
+        border-radius: 4px;
         cursor: pointer;
         display: inline-block;
         margin-right: auto;
         padding: ($_module-rem / 2) $_module-rem * 1.5;
         transition: background 0.2s $_animation, color 0.2s $_animation;
         vertical-align: top;
+        width: 100%;
 
         &.selected {
           color: main-palette(500);

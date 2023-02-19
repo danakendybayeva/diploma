@@ -4,7 +4,7 @@
         <tc-form-group>
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">
-                    <tc-form-label class="mb-md-0">Название</tc-form-label>
+                    <tc-form-label class="mb-md-0">{{'Title'|translate}}</tc-form-label>
                 </div>
                 <div class="col-12 col-md-9">
                     <tc-input id="title" [(ngModel)]="_value.title" [placeholder]="'Название'" formControlName="title"></tc-input>
@@ -14,23 +14,23 @@
         <tc-form-group>
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">
-                    <tc-form-label class="mb-md-0">Подсказка</tc-form-label>
+                    <tc-form-label class="mb-md-0">{{'Hint'|translate}}</tc-form-label>
                 </div>
                 <div class="col-12 col-md-9">
-                    <tc-input id="hint" [(ngModel)]="_value.hint" [placeholder]="'Подсказка'" formControlName="hint"></tc-input>
+                    <tc-input id="hint" [(ngModel)]="_value.hint" [placeholder]="'Hint'|translate" formControlName="hint"></tc-input>
                 </div>
             </div>
         </tc-form-group>
         <tc-form-group>
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">
-                    <tc-form-label class="mb-md-0">Опции</tc-form-label>
+                    <tc-form-label class="mb-md-0">{{'Options'|translate}}</tc-form-label>
                 </div>
                 <div class="col-12 col-md-9 checkbox-grid">
-                    <tc-checkbox id="is-required" [(ngModel)]="_value.isRequired" [value]="_value.isRequired" class="mb-2" formControlName="isRequired">Поле обязательно для заполнения</tc-checkbox>
-                    <tc-checkbox id="is-unique" [(ngModel)]="_value.isUnique" [value]="_value.isUnique" class="mb-2" formControlName="isUnique">Уникальность</tc-checkbox>
-                    <tc-checkbox id="disable-link" [(ngModel)]="_value.disableLink" [value]="_value.disableLink" class="mb-2" formControlName="disableLink">Отключить ссылку</tc-checkbox>
-                    <tc-checkbox id="enable-numbered" [(ngModel)]="_value.enableNumbered" [value]="_value.enableNumbered" class="mb-2" formControlName="enableNumbered">Включить нумерацию</tc-checkbox>
+                    <tc-checkbox id="is-required" [(ngModel)]="_value.isRequired" [value]="_value.isRequired" class="mb-2" formControlName="isRequired">{{'Required field'|translate}}</tc-checkbox>
+                    <tc-checkbox id="is-unique" [(ngModel)]="_value.isUnique" [value]="_value.isUnique" class="mb-2" formControlName="isUnique">{{'Uniqueness'|translate}}</tc-checkbox>
+                    <tc-checkbox id="disable-link" [(ngModel)]="_value.disableLink" [value]="_value.disableLink" class="mb-2" formControlName="disableLink">{{'Disable Link'|translate}}</tc-checkbox>
+                    <tc-checkbox id="enable-numbered" [(ngModel)]="_value.enableNumbered" [value]="_value.enableNumbered" class="mb-2" formControlName="enableNumbered">{{'Enable numbering'|translate}}</tc-checkbox>
                 </div>
             </div>
         </tc-form-group>
@@ -77,7 +77,7 @@
         <tc-form-group>
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">
-                    <tc-form-label class="mb-md-0">Сортировка по умолчанию</tc-form-label>
+                    <tc-form-label class="mb-md-0">{{'Default sort'|translate}}</tc-form-label>
                 </div>
                 <div class="col-12 col-md-9">
                     <tc-radio  id="sort-type"
@@ -85,8 +85,8 @@
                                [value]="sortType"
                                [direction]="'horizontal'"
                                formControlName="sortType">
-                        <tc-radio-option class="mb-2 color-main" [value]="'asc'">Возрастающий</tc-radio-option>
-                        <tc-radio-option class="mb-2 color-main" [value]="'desc'">Убывающий</tc-radio-option>
+                        <tc-radio-option class="mb-2 color-main" [value]="'asc'">{{'Increasing'|translate}}</tc-radio-option>
+                        <tc-radio-option class="mb-2 color-main" [value]="'desc'">{{'Decreasing'|translate}}</tc-radio-option>
                     </tc-radio>
                 </div>
             </div>
@@ -112,17 +112,17 @@
         <tc-form-group>
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">
-                    <tc-form-label class="mb-md-0">Фильтрация по умолчанию</tc-form-label>
+                    <tc-form-label class="mb-md-0">{{'Default filtering'|translate}}</tc-form-label>
                 </div>
                 <div class="col-12 col-md-9">
-                    // Coming soon
+                    // {{'Coming soon'|translate |uppercase}}
                 </div>
             </div>
         </tc-form-group>
         <tc-form-group>
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">
-                    <tc-form-label class="mb-md-0">Режим выбора</tc-form-label>
+                    <tc-form-label class="mb-md-0">{{'Selection mode'|translate}}</tc-form-label>
                 </div>
                 <div class="col-12 col-md-9">
                     <tc-radio  id="is-single"
@@ -131,8 +131,8 @@
                                [direction]="'horizontal'"
                                (ngModelChange)="changeValueSingle($event)"
                                formControlName="isSingle">
-                        <tc-radio-option class="mb-2 color-main" [value]="'true'">Одиночный</tc-radio-option>
-                        <tc-radio-option class="mb-2 color-main" [value]="'false'">Множественный</tc-radio-option>
+                        <tc-radio-option class="mb-2 color-main" [value]="'true'">{{'Single'|translate}}</tc-radio-option>
+                        <tc-radio-option class="mb-2 color-main" [value]="'false'">{{'Multiple'|translate}}</tc-radio-option>
                     </tc-radio>
                 </div>
             </div>
@@ -165,12 +165,12 @@
         <tc-form-group>
             <div class="row align-items-center">
                 <div class="col-12 col-md-3">
-                    <tc-form-label class="mb-md-0">Шаблон значения</tc-form-label>
+                    <tc-form-label class="mb-md-0">{{'Value Template '|translate}}</tc-form-label>
                 </div>
                 <div class="col-12 col-md-9">
                     <tc-input id="template-view"
                               [(ngModel)]="_value.templateView"
-                              [placeholder]="'Шаблон значения'"
+                              [placeholder]="'Value Template '|translate"
                               formControlName="templateView">
                     </tc-input>
                 </div>

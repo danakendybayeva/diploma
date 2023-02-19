@@ -1,0 +1,15 @@
+@import '../../../../../assets/sass/variables';
+
+:host {
+  display: flex;
+
+  ::ng-deep {
+    .tc-avatar {
+      margin-right: 0;
+
+      &+.tc-avatar {
+        margin-left: calc(#{-$module-rem} + 1px);
+      }
+    }
+  }
+}

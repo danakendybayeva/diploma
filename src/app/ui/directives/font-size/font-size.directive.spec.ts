@@ -1,8 +1,8 @@
-import { TCFontSizeDirective } from './font-size.directive';
+import { FontSizeDirective } from './font-size.directive';
 
-describe('TCFontSizeDirective', () => {
+describe('FontSizeDirective', () => {
   it('should create an instance', () => {
-    const directive = new TCFontSizeDirective();
+    const directive = new FontSizeDirective();
     expect(directive).toBeTruthy();
   });
 });

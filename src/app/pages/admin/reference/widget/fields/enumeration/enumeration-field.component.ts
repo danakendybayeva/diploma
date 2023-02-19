@@ -21,7 +21,8 @@ export class EnumerationFieldComponent implements OnInit, OnChanges {
     defaultValue: null,
     values: [{id: '1', value: 'New value', selected: false}],
     isSingle: true,
-    separator: ', '
+    separator: ', ',
+    isBadges: false
   };
   @Input() referenceId = null;
   @Input() fieldId = null;
@@ -34,6 +35,15 @@ export class EnumerationFieldComponent implements OnInit, OnChanges {
   booleanValue = [
     { value: 'true', text: 'Одиночный' },
     { value: 'false', text: 'Множественный' }
+  ];
+  badges: any[] = [
+    {label: 'Default', value: 'default'},
+    {label: 'Accent', value: 'accent'},
+    {label: 'Success', value: 'success'},
+    {label: 'Info', value: 'info'},
+    {label: 'Warning', value: 'warning'},
+    {label: 'Error', value: 'error'},
+    {label: 'Gradient', value: 'gradient'}
   ];
 
   constructor(
@@ -61,7 +71,8 @@ export class EnumerationFieldComponent implements OnInit, OnChanges {
         defaultValue: null,
         values: [{id: '1', value: 'New value', selected: false}],
         isSingle: true,
-        separator: ', '
+        separator: ', ',
+        isBadges: false
       };
     }
     if (changes._value && this._value) {
@@ -78,6 +89,7 @@ export class EnumerationFieldComponent implements OnInit, OnChanges {
       defaultValue: [null],
       separator: [', '],
       isSingle: ['true'],
+      isBadges: [false],
       values: [[{id: '1', value: 'New value', selected: false}]],
     });
   }

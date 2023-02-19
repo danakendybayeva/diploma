@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TCAutocompleteMdsComponent } from './autocomplete-mds.component';
+import { TCAutocompleteComponent } from './autocomplete.component';
 
 describe('TCAutocompleteComponent', () => {
-  let component: TCAutocompleteMdsComponent;
-  let fixture: ComponentFixture<TCAutocompleteMdsComponent>;
+  let component: TCAutocompleteComponent;
+  let fixture: ComponentFixture<TCAutocompleteComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TCAutocompleteMdsComponent ]
+      declarations: [ TCAutocompleteComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TCAutocompleteMdsComponent);
+    fixture = TestBed.createComponent(TCAutocompleteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

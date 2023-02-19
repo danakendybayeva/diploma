@@ -31,7 +31,7 @@ export class PageResetPasswordConfirmComponent implements OnInit {
     }
     this.activatedRoute.queryParams.subscribe(params => {
       this.token = params['john-wick'];
-      console.log(this.token);
+      // console.log(this.token);
     });
   }
 
@@ -45,7 +45,7 @@ export class PageResetPasswordConfirmComponent implements OnInit {
 
   resetPass() {
     // this.router.navigate(['']);
-    console.log(this.loginForm.value);
+    // console.log(this.loginForm.value);
     this.authenticationService.resetPasswordByToken(this.loginForm.value)
         .pipe(first())
         .subscribe(

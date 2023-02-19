@@ -22,11 +22,13 @@ $_sub-bg: rgba(#fff, 0.07);
 
   ::ng-deep .main-menu-wrap {
     width: inherit;
-
     .menu-ul {
+      font-family: Montserrat;
+      font-weight: 600;
       list-style-type: none;
       margin: 0;
-      padding: ($module-rem * 3) ($module-rem);
+      //padding: ($module-rem * 3) ($module-rem);
+      padding: ($module-rem * 3) 0;
 
       .sub {
         background: $_sub-bg;
@@ -40,29 +42,44 @@ $_sub-bg: rgba(#fff, 0.07);
         .menu-item {
           align-items: center;
           display: flex;
-          padding: 0;
+          //padding: 0;
           margin: 0;
-          padding: 0 ($module-rem / 2) 0 ($module-rem * 3.2);
+          //padding: 0 ($module-rem / 2) 0 ($module-rem * 3.2);
 
           .item-link {
+            background: none !important;
+            padding: 8px;
             .link-text {
+              margin-left: 0;
               font-size: 1rem;
-              opacity: .6;
             }
           }
           &:after {
             display: block;
-            border: 2px solid currentColor;
+            background-color: #3D3DD8;
             border-radius: 50%;
             content: '';
-            height: 8px;
-            margin: -4px 0 0;
-            opacity: .3;
+            height: 6px;
+            opacity: 0;
             position: absolute;
             top: 50%;
+            left: 16px;
+            transform: translate(-50%, -50%);
             transition: opacity .2s $_animation;
-            left: $module-rem * 1.5;
-            width: 8px;
+            width: 6px;
+          }
+          &:before {
+            display: block;
+            border: 1.667px solid #10142D;
+            border-radius: 50%;
+            content: "";
+            height: 12px;
+            width: 12px;
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            transition: border .2s $_animation;
           }
           &:first-child {
             margin-top: $module-rem / 4;
@@ -70,46 +87,83 @@ $_sub-bg: rgba(#fff, 0.07);
           &:last-child {
             margin-bottom: $module-rem / 4;
           }
-          &:hover,
+          &:hover{
+            &:after{
+              opacity: 1;
+            }
+            &:before{
+              border: 1.667px solid #3D3DD8;
+            }
+            > .item-link{
+              color: #3D3DD8;
+            }
+          }
           &.active {
+            &:after{
+              opacity: 1;
+            }
+            &:before{
+              border: 1.667px solid #3D3DD8;
+            }
             > .item-link {
               background: none !important;
+              color: #3D3DD8;
 
               .link-text {
                 opacity: 1;
               }
             }
-            &:after {
-              opacity: 1;
-            }
-          }
-          &.active {
-            > .item-link {
-              .link-text {
-                color: $_accent-palette;
-                color: var(--accent);
-              }
-            }
+
           }
         }
       }
+      .icon-link{
+        transition: color .03s $_animation, opacity .03s $_animation;
+      }
       .menu-item {
-        padding: ($module-rem / 4) 0;
-        margin: ($module-rem / 2) 0;
+
+        //padding: ($module-rem / 4) 0;
+        margin: 3px 0;
         border-radius: 20px;
         position: relative;
+        padding: 0 24px 0 28px;
 
+        .line {
+          margin: 24px 0;
+          border-top: 0.5px solid #8E919B;
+          opacity: 0.5;
+        }
+        &:after{
+          content: '';
+          width: 4px;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          background-color: #3D3DD8;
+          border-top-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+          opacity: 0;
+          transition: opacity .2s $_animation;
+        }
         &.group {
           margin: 0;
-          padding-bottom: $module-rem / 4;
+          //padding-bottom: $module-rem / 4;
+          &:after{
+            opacity: 0 !important;
+          }
         }
         .group-title {
-          color: $_accent-palette;
-          color: var(--accent);
+          color: #8E919B;
+          //color: $_accent-palette;
+          //color: var(--accent);
           display: block;
-          font-size: 0.9em;
+          font-size: 12px;
+          line-height: 16px;
           letter-spacing: .8px;
-          padding: ($module-rem * 1.5) ($_item-h-indents + ($module-rem / 2)) 0;
+          //padding: 0 0 ($module-rem * 1.5) 0;
+          margin-bottom: 24px;
+          //padding: ($module-rem * 1.5) ($_item-h-indents + ($module-rem / 2)) 0;
           text-transform: uppercase;
         }
         &:first-child {
@@ -118,14 +172,15 @@ $_sub-bg: rgba(#fff, 0.07);
           }
         }
         .item-link {
+          color: #10142D;
           align-items: center;
-          border-radius: 500px;
-          color: currentColor;
+          border-radius: 8px;
+          //color: currentColor;
           display: flex;
           height: 100%;
           justify-content: space-between;
           min-height: ($module-rem * 3);
-          padding: ($module-rem / 2) $_item-h-indents;
+          padding: 12px 16px;
           position: relative;
           text-decoration: none;
           transition:
@@ -134,17 +189,20 @@ $_sub-bg: rgba(#fff, 0.07);
             opacity .2s $_animation;
 
           .link-text {
+            font-size: 15px;
+            line-height: 24px;
             flex-grow: 2;
             flex-shrink: 1;
-            font-size: 1.1em;
-            line-height: 1.25;
-            margin: 0 ($module-rem / 2);
+            margin-left: 16px;
             transition:
-              color .2s $_animation,
-              opacity .2s $_animation;
+              color .03s $_animation,
+              opacity .3s $_animation;
           }
           .link-badge {
             margin: 0 ($module-rem / 2);
+          }
+          .icon-fill {
+            fill: #00ff80;
           }
           .link-icon {
             color: inherit;
@@ -162,22 +220,37 @@ $_sub-bg: rgba(#fff, 0.07);
           }
         }
         &:hover {
+          &:after{
+            opacity: 1;
+          }
           > .item-link {
+            background-color: #3D3DD8;
+            color: white;
             .link-icon {
               opacity: 1;
             }
           }
         }
-        &.active:not(.has-sub) {
+
+        &.currentMenu{
+          &:after{
+            opacity: 1;
+          }
           > .item-link {
-            background: $_accent-palette;
-            background: var(--accent);
-            color: $_accent-contrast;
-            color: var(--accent-contrast);
+            background-color: #3D3DD8;
+            color: white;
+            .link-icon {
+              opacity: 1;
+            }
           }
         }
         &.active {
+          &:after{
+            opacity: 1;
+          }
           > .item-link {
+            background-color: #3D3DD8;
+            color: white;
             .link-icon {
 
             }
@@ -189,32 +262,7 @@ $_sub-bg: rgba(#fff, 0.07);
             }
           }
         }
-        &.has-sub {
-          position: relative;
 
-          > .item-link {
-            background: none !important;
-            position: relative;
-
-            .caret {
-              display: block;
-            }
-          }
-          &:hover,
-          &.active {
-            > .item-link {
-              .link-icon {
-                opacity: 1;
-              }
-              .link-text {
-
-              }
-              .caret {
-                transform: rotate(90deg);
-              }
-            }
-          }
-        }
       }
     }
   }
@@ -354,5 +402,12 @@ $_sub-bg: rgba(#fff, 0.07);
         }
       }
     }
+  }
+}
+
+
+::ng-deep {
+  ::-webkit-scrollbar-thumb {
+    background-color: #3d3dd8;
   }
 }

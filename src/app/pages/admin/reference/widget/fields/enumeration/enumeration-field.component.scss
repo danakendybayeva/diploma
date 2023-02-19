@@ -12,3 +12,17 @@ h5.edu {
 h5.exp {
   color: #53b324;
 }
+
+::ng-deep {
+  .select-list {
+    padding: 5px 0 !important;
+
+    .options {
+      padding: 0 10px !important;
+
+      .option {
+        padding: 3px 0 !important;
+      }
+    }
+  }
+}

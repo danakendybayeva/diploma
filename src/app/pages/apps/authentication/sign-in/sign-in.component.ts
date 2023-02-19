@@ -20,20 +20,22 @@ export class PageSignInComponent implements OnInit {
   returnUrl: string;
   error = '';
 
-  constructor(private formBuilder: FormBuilder,
-              private router: Router,
-              private route: ActivatedRoute,
-              private authenticationService: AuthenticationService,
-              private toastr: ToastrService) {
+  constructor(
+      private formBuilder: FormBuilder,
+      private router: Router,
+      private route: ActivatedRoute,
+      private authenticationService: AuthenticationService,
+      private toastr: ToastrService
+  ) {
     if (this.authenticationService.currentUserValue) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/']).then(r => {});
     }
   }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
       login: new FormControl('', [Validators.required, Validators.minLength(4)]),
-      password: new FormControl('', [Validators.required, Validators.minLength(5)])
+      password: new FormControl('', [Validators.required, Validators.minLength(1)])
     });
 
     // get return url from route parameters or default to '/'
@@ -46,7 +48,7 @@ export class PageSignInComponent implements OnInit {
     this.submitted = true;
 
     // stop here if form is invalid
-    if (this.loginForm.invalid) {
+    if (this.loginForm.invalid && this.loading) {
       return;
     }
 
@@ -55,11 +57,16 @@ export class PageSignInComponent implements OnInit {
         .pipe(first())
         .subscribe(
             data => {
-              this.toastr.success('Welcome!', 'Success', { closeButton: true });
-              this.router.navigate([this.returnUrl]);
+              if (data.status) {
+                this.toastr.success('Welcome!', 'Success', {closeButton: true});
+                this.router.navigate([this.returnUrl]).then(r => {});
+              } else {
+                this.toastr.error(data.message, 'Error', { closeButton: true });
+                this.error = data.message;
+                this.loading = false;
+              }
             },
             error => {
-              console.log(error);
               this.toastr.error(error.message, 'Error', { closeButton: true });
               this.error = error;
               this.loading = false;
@@ -73,4 +80,39 @@ export class PageSignInComponent implements OnInit {
   get password() {
     return this.loginForm.get('password');
   }
+
+  loginWithGoogle(): void {
+    this.loading = true;
+    this.authenticationService.googleAuth()
+        .then(result => {
+          if (result['idToken']) {
+            this.authenticationService.googleSignIn(result)
+                .pipe(first())
+                .subscribe(
+                    data => {
+                      this.loading = false;
+                      if (data.status) {
+                        this.toastr.success('Welcome!', 'Success', {closeButton: true});
+                        this.router.navigate([this.returnUrl]).then(r => {});
+                      } else {
+                        this.toastr.error(data.message, 'Error', { closeButton: true });
+                        this.error = data.message;
+                      }
+                    },
+                    error => {
+                      this.toastr.error(error.message, 'Error', { closeButton: true });
+                      this.error = error;
+                      this.loading = false;
+                    });
+          } else {
+            this.toastr.error('Error', 'Error', { closeButton: true });
+            this.loading = false;
+          }
+        })
+        .catch((error) => {
+          this.toastr.error(error, 'Error', { closeButton: true });
+          this.loading = false;
+        });
+  }
+
 }

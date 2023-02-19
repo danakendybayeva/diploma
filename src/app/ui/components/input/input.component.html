@@ -21,6 +21,9 @@
       [attr.maxlength]="charLimiting"
       [readonly]="readonly ? true : null"
       [required]="required ? true : null"
+      [mask]="mask"
+      [showMaskTyped]="!!mask"
+      [validation]="validation"
       (focus)="onFocus(disabled || readonly)"
       (blur)="onBlur(disabled || readonly)"
     >

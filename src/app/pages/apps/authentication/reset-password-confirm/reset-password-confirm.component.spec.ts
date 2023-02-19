@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageResetPasswordConfirmComponent } from './reset-password-confirm.component';
+import { PageSignUpComponent } from './sign-up.component';
 
-describe('PageResetPasswordConfirmComponent', () => {
-  let component: PageResetPasswordConfirmComponent;
-  let fixture: ComponentFixture<PageResetPasswordConfirmComponent>;
+describe('PageSignUpComponent', () => {
+  let component: PageSignUpComponent;
+  let fixture: ComponentFixture<PageSignUpComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PageResetPasswordConfirmComponent ]
+      declarations: [ PageSignUpComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PageResetPasswordConfirmComponent);
+    fixture = TestBed.createComponent(PageSignUpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

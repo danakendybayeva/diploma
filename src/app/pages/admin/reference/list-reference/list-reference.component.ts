@@ -27,10 +27,11 @@ export class ListReferenceComponent extends BasePageComponent implements OnInit 
   referenceId = '';
   typeField = null;
 
-  pageSize = 10;
+  pageSize = 20;
   pageIndex = 1;
   loading = false;
-
+  totalData = 0;
+  totalPages = 0;
   references: IReference[] = [];
 
   constructor(store: Store<IAppState>, httpSv: HttpService,
@@ -42,7 +43,7 @@ export class ListReferenceComponent extends BasePageComponent implements OnInit 
   ) {
     super(store, httpSv);
     this.pageData = {
-      title: 'Справочник',
+      title: 'Reference',
       loaded: true
     };
     this.loading = true;
@@ -53,7 +54,6 @@ export class ListReferenceComponent extends BasePageComponent implements OnInit 
     if (this.route.snapshot.params['referenceId']) {
       this.referenceId = this.route.snapshot.params['referenceId'];
       this.isNew = false;
-      console.log(this.referenceId);
     }
     if (this.route.snapshot.params['typeField']) {
       this.typeField = this.route.snapshot.params['typeField'];
@@ -71,26 +71,30 @@ export class ListReferenceComponent extends BasePageComponent implements OnInit 
 
   getListReference() {
     this.initTable();
-    return this.http.get<IPageContent>(`${environment.apiUrl}/api/reference/list?page=1&size=20`)
+    return this.http.get<IPageContent>(`${environment.apiUrl}/api/reference/list?page=${this.pageIndex}&size=${this.pageSize}`)
         .pipe(map(data => {
           return data;
         }))
         .subscribe(data => {
           this.references = data.content;
+          this.totalData = data.totalElements;
+          this.totalPages = data.totalPages;
           this.loading = false;
         });
   }
 
   onChangePageIndex(param) {
-    console.log(param);
+    this.pageIndex = param;
+    this.loading = true;
+    this.getListReference();
   }
 
   onChangeSort(param): void {
-    console.log(param);
+    // console.log(param);
   }
 
   gotoByUrl(urlGoto: string) {
-    this.router.navigate([urlGoto]).then(r => {});
+    this.router.navigate([urlGoto]).then();
   }
 
 }

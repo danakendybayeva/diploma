@@ -1,0 +1,352 @@
+<div  *ngIf="loaded">
+    <div class="row">
+        <div class="col col-12 col-md-4 mb-4 mb-md-0">
+            <tc-card [img]="(fieldsValue['profile']['avatar_ref'] && fieldsValue['profile']['avatar_ref'].length) ? (apiUrl + '/api/media/file/' + fieldsValue['profile']['avatar_ref'][0]['id'] | secureFile | async) : 'assets/image/photo34.jpg'" [tcGradient]="['#fff', '#fbfbfb']" class="personal-info-card">
+                <div class="d-flex mb-3 user-actions" [style.float]="'right'">
+                    <button tc-button *ngIf="fieldsValue['profile']['grants'].toString().toLocaleLowerCase() == 'no'" [tcBgColor]="'#e91e63'" [tcShape]="500">{{'Profile No Grants'|translate}}</button>
+                    <button tc-button *ngIf="fieldsValue['profile']['grants'].toString().toLocaleLowerCase() == 'yes'" [view]="'success'" [tcShape]="500">{{'Profile Grants'|translate}}</button>
+                </div>
+
+                <div class="mb-5" [style.marginTop]="'30px'">
+                    <h5 class="mb-0 mt-0 mr-1">{{ fieldsValue['profile']['fio'] }}</h5>
+                    <span class="mb-0 mt-0 mr-1" [style.color]="'#949494'">{{fieldsValue['profile']['roles']}}</span>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12 eng-block mb-3">
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-between eng-left">
+                                <div class="in-eng">
+                                    <span class="color-grey">{{'Level'|translate}}</span>
+                                    <h5 class="mt-2 mb-0 eng-title">{{ fieldsValue['group']['level'] | mapToString }}</h5>
+                                </div>
+                                <div class="in-eng">
+                                    <tc-circle-progress strokeColor="#48bf84" [strokeWidth]="3" [value]="67" [size]="'65px'"></tc-circle-progress>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12 d-flex justify-content-between eng-left">
+                                <div class="in-eng">
+                                    <h5 class="mt-4 mb-0 eng-title">{{'Attendance' | translate}}</h5>
+                                </div>
+                                <div class="in-eng">
+                                    <tc-circle-progress strokeColor="red" [strokeWidth]="3" [value]="fieldsValue['attendance_percentage']" [size]="'65px'"></tc-circle-progress>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12 d-flex justify-content-between eng-left">
+                                <div class="in-eng">
+                                    <h5 class="mt-4 mb-0 eng-title">{{'City'}}:</h5>
+                                </div>
+                                <div class="in-eng">
+                                    <p class="mt-4 mb-0 eng-title" style="font-size: 1.2rem">{{ fieldsValue['group']['city'] | mapToString }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12 d-flex justify-content-between eng-left">
+                                <div class="in-eng">
+                                    <h5 class="mt-4 mb-0 eng-title" >{{'Teacher'|translate}}:</h5>
+                                </div>
+                                <div class="in-eng">
+                                    <p class="mt-4 mb-0 eng-title" style="font-size: 1.2rem">{{ fieldsValue['group']['teacher'] | mapToString }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 month-btn">
+                            <div *ngFor="let report of fieldsValue['reports']; let r = index;">
+                                <tc-badge
+                                        *ngIf="report.id === recordId"
+                                        [tcFontSize]="'11px'"
+                                        [size]="'xs'"
+                                        [tcBgColor]="'#498fcc'"
+                                        class=""
+                                        style="border-radius: 4px; border: none; color: white"
+                                >
+                                    {{ report.title }}
+                                </tc-badge>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </tc-card>
+            <button tc-button class="mt-2"
+                    [view]="'success'"
+                    [tcShape]="500"
+                    (click)="saveReport()"
+            >{{'Save'|translate}}</button>
+        </div>
+
+        <div class="col-12 col-md-8">
+
+            <tc-card [title]="'Attendance'|translate">
+                <div class="row level">
+                    <div class="row level сalendars" *ngIf="fieldsValue['attendances'] && fieldsValue['attendances'].length">
+                        <div *ngFor="let item of fieldsValue['attendances']" class="mb-2 ml-2">
+                            <button tc-button *ngIf="(isDateBeforeToday(item.day) && item['is_attendance']); else secondDay"
+                                    [view]="'success'" class="calendar col-xs-4">
+                                <span class="day">{{ item.day | date : 'd' }}</span><br/>
+                                <span class="month">{{ item.day | date : 'MMM' }}</span>
+                            </button>
+                            <ng-template #secondDay>
+                                <button tc-button  *ngIf="!isDateBeforeToday(item.day) && !isTodayDate(item.day); else thirdDay"
+                                        [tcColor]="'#fff'" [tcBgColor]="'#c0cfd5'" class="calendar col-xs-4">
+                                    <span class="day">{{ item.day | date : 'd' }}</span><br/>
+                                    <span class="month">{{ item.day | date : 'MMM' }}</span>
+                                </button>
+                            </ng-template>
+                            <ng-template #thirdDay>
+                                <button tc-button *ngIf="isTodayDate(item.day); else fourthDay"
+                                        [view]="'warning'" class="calendar col-xs-4">
+                                    <span class="day">{{ item.day | date : 'd' }}</span><br/>
+                                    <span class="month">{{ item.day | date : 'MMM' }}</span>
+                                </button>
+                            </ng-template>
+
+                            <ng-template #fourthDay>
+                                <button tc-button
+                                        *ngIf="(isDateBeforeToday(item.day) && !item['is_attendance'])"
+                                        [view]="'error'" class="calendar col-xs-4"
+                                >
+                                    <span class="day">{{ item.day | date : 'd' }}</span><br/>
+                                    <span class="month">{{ item.day | date : 'MMM' }}</span>
+                                </button>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </tc-card>
+
+            <tc-card class="grade-label">
+                <div class="row">
+                    <div class="col-12 col-md-6 col-sm-12 col-xs-12">
+                        <tc-form-group>
+                            <div class="row">
+                                <tc-rating
+                                        [iconsNumber]="5"
+                                        [value]="fieldsValue['active']"
+                                        [(ngModel)]="fieldsValue['active']"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [view]="'number'"
+                                ></tc-rating>
+                                <label class="ml-3">{{'Activity'|translate}}</label>
+                            </div>
+                        </tc-form-group>
+                        <tc-form-group>
+                            <div class="row">
+                                <tc-rating
+                                        [iconsNumber]="5"
+                                        [value]="fieldsValue['home_project']"
+                                        [(ngModel)]="fieldsValue['home_project']"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [view]="'number'"
+                                ></tc-rating>
+                                <label class="ml-3">{{'H/W and Project'|translate}}</label>
+                            </div>
+                        </tc-form-group>
+                        <tc-form-group>
+                            <div class="row">
+                                <tc-rating
+                                        [iconsNumber]="5"
+                                        [value]="fieldsValue['reading']"
+                                        [(ngModel)]="fieldsValue['reading']"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [view]="'number'"
+                                ></tc-rating>
+                                <label class="ml-3">{{'Books'|translate}}</label>
+                            </div>
+                        </tc-form-group>
+                        <tc-form-group>
+                            <div class="row">
+                                <tc-rating
+                                        [iconsNumber]="5"
+                                        [value]="fieldsValue['listening']"
+                                        [(ngModel)]="fieldsValue['listening']"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [view]="'number'"
+                                ></tc-rating>
+                                <label class="ml-3">{{'Listening'|translate}}</label>
+                            </div>
+                        </tc-form-group>
+                        <tc-form-group>
+                            <div class="row">
+                                <tc-rating
+                                        [iconsNumber]="5"
+                                        [value]="fieldsValue['writing']"
+                                        [(ngModel)]="fieldsValue['writing']"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [view]="'number'"
+                                ></tc-rating>
+                                <label class="ml-3">{{'Writing'|translate}}</label>
+                            </div>
+                        </tc-form-group>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-sm-12 col-xs-12">
+                        <tc-form-group>
+                            <div class="row">
+                                <tc-rating
+                                        [iconsNumber]="5"
+                                        [value]="fieldsValue['speaking']"
+                                        [(ngModel)]="fieldsValue['speaking']"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [view]="'number'"
+                                ></tc-rating>
+                                <label class="ml-3">{{'Speech'|translate}}</label>
+                            </div>
+                        </tc-form-group>
+                        <tc-form-group>
+                            <div class="row">
+                                <tc-rating
+                                        [iconsNumber]="5"
+                                        [value]="fieldsValue['vocabulary']"
+                                        [(ngModel)]="fieldsValue['vocabulary']"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [view]="'number'"
+                                ></tc-rating>
+                                <label class="ml-3">{{'Vocabulary'|translate}}</label>
+                            </div>
+                        </tc-form-group>
+                        <tc-form-group>
+                            <div class="row">
+                                <tc-rating
+                                        [iconsNumber]="5"
+                                        [value]="fieldsValue['grammar']"
+                                        [(ngModel)]="fieldsValue['grammar']"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [view]="'number'"
+                                ></tc-rating>
+                                <label class="ml-3">{{'Grammar'|translate}}</label>
+                            </div>
+                        </tc-form-group>
+                        <tc-form-group>
+                            <div class="row">
+                                <tc-rating
+                                        [iconsNumber]="5"
+                                        [value]="fieldsValue['pronunciation']"
+                                        [(ngModel)]="fieldsValue['pronunciation']"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [view]="'number'"
+                                ></tc-rating>
+                                <label class="ml-3">{{'Pronunciation'|translate}}</label>
+                            </div>
+                        </tc-form-group>
+                    </div>
+                </div>
+            </tc-card>
+
+            <tc-card [title]="'Vertical bar'|translate">
+                <div class="row">
+                    <div class="col-12 col-md-12">
+                        <tc-form-group *ngFor="let mock of fieldsValue['mocks']; let index = index; trackBy: trackByFn">
+                            <div class="d-flex">
+                                <div style="width: 100%;">
+                                    <tc-form-label>{{'Mock'|translate}} {{ index + 1 }}</tc-form-label>
+                                    <nz-slider
+                                        [nzMin]="0"
+                                        [nzMax]="100"
+                                        [(ngModel)]="fieldsValue['mocks'][index]"
+                                        [ngModelOptions]="{standalone: true}"
+                                        (ngModelChange)="onChangeSlider($event, index, 'mock')"
+                                    ></nz-slider>
+                                </div>
+                                <tc-input
+                                    [disabled]="!fieldsValue['mocks'][index]"
+                                    [(ngModel)]="fieldsValue['mocks'][index]"
+                                    [ngModelOptions]="{standalone: true}"
+                                    [type]="'number'"
+                                    (ngModelChange)="checkMCPer($event, 'mock', index)"
+                                    [suffix]="'%'"
+                                    class="ml-2"
+                                    style="width: 150px;"
+                                ></tc-input>
+                                <div>
+                                    <button
+                                        tc-button
+                                        [view]="fieldsValue['mocks'][index] ? 'info' : 'default'"
+                                        [square]="true"
+                                        class="ml-2"
+                                        (click)="naMC('mock', index)"
+                                    >N/A</button>
+                                </div>
+                                <div>
+                                    <button
+                                        tc-button
+                                        [afterIcon]="'icofont-close'"
+                                        [view]="'error'"
+                                        [square]="true"
+                                        class="ml-2"
+                                        (click)="removeMC('mock', index)"
+                                    ></button>
+                                </div>
+
+                            </div>
+                        </tc-form-group>
+                        <button tc-button (click)="addMCPer('mock')" class="mb-4" [beforeIcon]="'icofont-plus'" [tcBgColor]="'#3f51b5'">{{'Add Mock'|translate}}</button>
+                    </div>
+                    <div class="col-12 col-md-12">
+                        <tc-form-group *ngFor="let cept of fieldsValue['cepts']; let index = index; trackBy: trackByFn">
+                            <div class="d-flex">
+                                <div style="width: 100%;">
+                                    <tc-form-label>{{'Cept'|translate}} {{ index + 1 }}</tc-form-label>
+                                    <nz-slider
+                                        [nzMin]="0"
+                                        [nzMax]="100"
+                                        [(ngModel)]="fieldsValue['cepts'][index]"
+                                        [ngModelOptions]="{standalone: true}"
+                                        (ngModelChange)="onChangeSlider($event, index, 'cept')"
+                                    ></nz-slider>
+                                </div>
+
+                                <tc-input
+                                    [(ngModel)]="fieldsValue['cepts'][index]"
+                                    [ngModelOptions]="{standalone: true}"
+                                    [type]="'number'"
+                                    (ngModelChange)="checkMCPer($event, 'cept', index)"
+                                    [suffix]="'%'"
+                                    class="ml-2"
+                                    style="width: 150px;"
+                                ></tc-input>
+                                <div>
+                                    <button
+                                        tc-button
+                                        [afterIcon]="'icofont-close'"
+                                        [view]="'error'"
+                                        [square]="true"
+                                        class="ml-2"
+                                        (click)="removeMC('cept', index)"
+                                    ></button>
+                                </div>
+                            </div>
+                        </tc-form-group>
+                        <button tc-button (click)="addMCPer('cept')" class="mb-4" [beforeIcon]="'icofont-plus'" [tcBgColor]="'#3f51b5'">{{'Add Cept'|translate}}</button>
+                    </div>
+                </div>
+            </tc-card>
+
+            <tc-card [title]="'Comment of your Teacher'|translate" [tcGradient]="['#fff', '#fbfbfb']">
+                <form [formGroup]="labelForm">
+                    <tc-text-field
+                        [_valueField]="comment"
+                        [(ngModel)]="fieldsValue['comment']"
+                        [type]="'edit'"
+                        [form]="labelForm"
+                        [isNew]="false"
+                        [styleType]="'single'"
+                        [formControlName]="'comment'"
+                        [minHeightText]="200"
+                    ></tc-text-field>
+                </form>
+            </tc-card>
+
+        </div>
+    </div>
+</div>

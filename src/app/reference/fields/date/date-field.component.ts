@@ -2,6 +2,8 @@ import {Component, OnInit, Input, OnChanges, Output, EventEmitter, AfterViewChec
 import {ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
 import {DateField} from '../../../interfaces/services/reference/fields/date';
 import {CustomValidators} from '../../validators/CustomValidators';
+import {DatePipe} from '@angular/common';
+import {HttpService} from '../../../services/http/http.service';
 
 @Component({
 	selector: 'tc-date-field',
@@ -29,11 +31,18 @@ export class TCDateFieldComponent implements OnInit, OnChanges, ControlValueAcce
 	@Output() resultData: EventEmitter<any> = new EventEmitter();
 
 	isFocused = false;
+	localeRu = {};
 
 	onChange = (value: string) => {};
 	onTouched = () => {};
 
-	constructor(private formBuilder: FormBuilder) {}
+	constructor(
+		private formBuilder: FormBuilder,
+		private datePipe: DatePipe,
+		private httpSv: HttpService
+	) {
+		this.getData('assets/data/data-locale-ru.json', 'localeRu', 'setLoaded');
+	}
 
 	ngOnInit() {}
 
@@ -58,9 +67,13 @@ export class TCDateFieldComponent implements OnInit, OnChanges, ControlValueAcce
 						+ (dateValue2.getMonth() + 1 > 9 ? dateValue2.getMonth() + 1 : '0' + (dateValue2.getMonth() + 1)) + '-'
 						+ (dateValue2.getDate() > 9 ? dateValue2.getDate() : '0' + dateValue2.getDate());
 				}
-				validate.push(Validators.min(this._valueField.minDate), Validators.max(this._valueField.maxDate));
-			} else {
-				validate.push(CustomValidators.dateMinByDay(this._valueField.minDate), CustomValidators.dateMaxByDay(this._valueField.maxDate));
+				// validate.push(Validators.min(this._valueField.minDate), Validators.max(this._valueField.maxDate));
+			}
+			if (this._valueField.minDate) {
+				validate.push(CustomValidators.dateMinByDay(this._valueField.minDate));
+			}
+			if (this._valueField.maxDate) {
+				validate.push(CustomValidators.dateMaxByDay(this._valueField.maxDate));
 			}
 			if (this.form.contains(this._valueField.id)) {
 				this.form.setControl(this._valueField.id, this.formBuilder.control(this.value, validate));
@@ -86,7 +99,7 @@ export class TCDateFieldComponent implements OnInit, OnChanges, ControlValueAcce
 			return;
 		}
 		if (value !== this.innerValue) {
-			this.innerValue = value;
+			this.innerValue = this.datePipe.transform(value, 'yyyy-MM-dd');
 		}
 	}
 
@@ -102,6 +115,25 @@ export class TCDateFieldComponent implements OnInit, OnChanges, ControlValueAcce
 
 	focused() {
 		this.isFocused = true;
+	}
+
+	onChangeDate(result: Date): void {
+	}
+
+	getData(url: string, dataName: string, callbackFnName?: string, errCallback: boolean = false) {
+		this.httpSv.getData(url).subscribe(
+			data => {
+				this[dataName] = data;
+			},
+			err => {
+				if (errCallback) {
+					(callbackFnName && typeof this[callbackFnName] === 'function') ? this[callbackFnName](this[dataName]) : null;
+				}
+			},
+			() => {
+				(callbackFnName && typeof this[callbackFnName] === 'function') ? this[callbackFnName](this[dataName]) : null;
+			}
+		);
 	}
 
 }

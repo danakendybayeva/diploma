@@ -1,4 +1,4 @@
-import {AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewChecked, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ValidationErrors} from '@angular/forms';
 
 import { Store } from '@ngrx/store';
@@ -14,6 +14,7 @@ import {environment} from '../../../../../environments/environment';
 import {map} from 'rxjs/operators';
 import {IReference} from '../../../../interfaces/services/reference/reference';
 import {FieldService} from '../../../../interfaces/services/reference/field.service';
+import {roleReference} from '../../../../interfaces/services/user.service';
 
 @Component({
   selector: 'edit-record',
@@ -24,7 +25,12 @@ export class EditRecordComponent extends BasePageComponent implements OnInit, On
   labelForm: FormGroup;
   isNew = true;
 
-  referenceId = '';
+  @Input() referenceId = '';
+  @Input() isElement = false;
+  @Input() submitUrl = '';
+  @Input() postFile = '';
+  postImage = environment.apiUrl + '/api/media/file/request-file/image';
+  getImageUrl = environment.apiUrl + '/api/media/file/';
   recordId = '';
   fieldId = null;
   fieldsTogether = [];
@@ -43,6 +49,9 @@ export class EditRecordComponent extends BasePageComponent implements OnInit, On
   urlPath = [];
   typePage = 'view';
   loaded = false;
+  isEmpty = false;
+  canAdd = false;
+  canEdit = false;
 
   constructor(store: Store<IAppState>, httpSv: HttpService,
               private formBuilder: FormBuilder,
@@ -86,19 +95,26 @@ export class EditRecordComponent extends BasePageComponent implements OnInit, On
   }
 
   async initRoute() {
+    this.loaded = false;
     this.urlPath = this.route.snapshot.url;
-    if (this.route.snapshot.params['referenceId']) {
-      this.referenceId = this.route.snapshot.params['referenceId'];
+    if (
+        (this.isElement && this.referenceId)
+        || this.route.snapshot.params['referenceId']
+    ) {
+      this.referenceId = this.isElement ? this.referenceId : this.route.snapshot.params['referenceId'];
       this.fieldsData = await this.fieldService.getReferenceFields(this.referenceId);
-      if (this.route.snapshot.params['recordId']) {
+      if (this.referenceId === '00000000-0000-0000-0000-000000000017') {
+        this.fieldsData.push(roleReference);
+      }
+      if (this.route.snapshot.params['recordId'] && await this.fieldService.mayAccessRecord('edit', this.referenceId, this.recordId)) {
         this.isNew = false;
         this.recordId = this.route.snapshot.params['recordId'];
         this.typePage = this.urlPath[0].path;
         this.getRecordData('get-edit');
-      } else {
+      } else if (await this.fieldService.mayAccessRecord('add', this.referenceId)) {
         this.isNew = true;
         this.pageData = {
-          title: 'Создать запись',
+          title: 'Create record',
           loaded: true
         };
         this.typePage = 'edit';
@@ -106,6 +122,8 @@ export class EditRecordComponent extends BasePageComponent implements OnInit, On
           item.value = item.defaultValue;
         });
         this.loaded = true;
+      } else {
+        this.isEmpty = true;
       }
       super.ngOnInit();
     }
@@ -124,15 +142,17 @@ export class EditRecordComponent extends BasePageComponent implements OnInit, On
     if (valid) {
       this.prepareValues();
       let url = `${environment.apiUrl}/api/reference/record/create/${this.referenceId}`;
-      if (!this.isNew) {
-        url = `${environment.apiUrl}/api/reference/record/edit/${this.referenceId}/${this.recordId}`;
+      if (this.submitUrl) {
+        url = this.submitUrl;
+      } else if (!this.isNew) {
+          url = `${environment.apiUrl}/api/reference/record/edit/${this.referenceId}/${this.recordId}`;
       }
       return this.http.post<Status>(url, this.fieldsValue)
           .subscribe({
             next: data => {
               if (data.status === 1) {
                 this.toastr.success(data.message, 'Success', { closeButton: true });
-                this.router.navigate(['/vertical/reference/record/view', this.referenceId, data.value.id]).then(r => {});
+                this.router.navigate(['/vertical/reference/record/view', this.referenceId, data.value]).then(r => {});
               } else {
                 this.toastr.error(data.message, 'Error', { closeButton: true });
               }
@@ -170,24 +190,6 @@ export class EditRecordComponent extends BasePageComponent implements OnInit, On
             item.value = data[item.id];
           });
           this.loaded = true;
-        });
-  }
-
-  removeRecord(referenceId: string, recordId: string) {
-    return this.http.post<Status>(`${environment.apiUrl}/api/reference/record/remove/${this.referenceId}/${this.recordId}`,
-        this.fieldsValue)
-        .subscribe({
-          next: data => {
-            if (data.status === 1) {
-              this.toastr.success(data.message, 'Success', { closeButton: true });
-              this.router.navigate(['/vertical/reference/record/list', this.referenceId]).then(r => {});
-            } else {
-              this.toastr.error(data.message, 'Error', { closeButton: true });
-            }
-          },
-          error: error => {
-            this.toastr.error('Not saved!', 'Error', { closeButton: true });
-          }
         });
   }
 

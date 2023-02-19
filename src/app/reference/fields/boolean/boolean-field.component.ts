@@ -21,6 +21,7 @@ export class TCBooleanFieldComponent implements OnInit, OnChanges, ControlValueA
 	@Input() isNew = false;
 	@Input() isConfig = false;
 	@Input() styleType = 'standard';
+	@Input() isSwitcher = false;
 	@Input() _valueField: BooleanField = null;
 	@Input() form: FormGroup = new FormGroup({});
 	// tslint:disable-next-line:no-input-rename

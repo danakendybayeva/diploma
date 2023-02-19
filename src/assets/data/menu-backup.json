@@ -1,6 +1,6 @@
 [
   {
-    "title": "Dashboard",
+    "title": "Dashboard Admin",
     "icon": {
       "class": "icofont-home"
     },
@@ -8,7 +8,15 @@
     "access": ["admin"]
   },
   {
-    "title": "MDS Projects",
+    "title": "Dashboard",
+    "routing": "coming-soon-skills",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "access": ["admin", "chief", "mentor", "head_city"]
+  },
+  {
+    "title": "Projects",
     "groupTitle": true
   },
   {
@@ -19,7 +27,7 @@
     "sub": [
       {
         "title": "Main",
-        "routing": "courses/main"
+        "routing": "courses/course/main"
       },
       {
         "title": "List Course",
@@ -28,74 +36,128 @@
     ]
   },
   {
-    "title": "English",
-    "routing": "english-list",
-    "icon": {
-      "class": "icofont-library"
-    }
-//    "sub": [
-//      {
-//        "title": "English",
-//        "routing": "english"
-//      },
-//      {
-//        "title": "List",
-//        "routing": "english-list"
-//      },
-//      {
-//        "title": "English Add Group",
-//        "routing": "english-add-group"
-//      }
-//    ]
-  },
-  {
-    "title": "Skills",
-    "routing": "self-new",
-    "icon": {
-      "class": "icofont-library"
-    }
-//    "sub": [
-//      {
-//        "title": "List",
-//        "routing": "self-dev-list"
-//      },
-//      {
-//        "title": "Create New",
-//        "routing": "self-new"
-//      }
-//    ]
-  },
-  {
     "title": "Community",
-    "routing": "self-new",
+    "routing": "coming-soon-community",
     "icon": {
       "class": "icofont-library"
     }
+  },
+  {
+    "title": "Community Demo",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "sub": [
+      {
+        "title": "Topic",
+        "routing": "community/admin/topic/add"
+      },
+      {
+        "title": "Add Problem",
+        "routing": "community/admin/problem/add"
+      },
+      {
+        "title": "Problem List",
+        "routing": "community/admin/problem/list"
+      },
+      {
+        "title": "Programs",
+        "routing": "community/admin/program"
+      },
+      {
+        "title": "Quiz",
+        "routing": "community/admin/quiz"
+      }
+    ],
+    "access": ["admin"]
+  },
+  {
+    "title": "English Demo",
+    "routing": "english/group-list",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "sub": [
+      {
+        "title": "Group List",
+        "routing": "english/group-list"
+      },
+      {
+        "title": "Add Group",
+        "routing": "english/english-add-group"
+      }
+    ],
+    "access": ["english_teacher", "admin"]
+  },
+  {
+    "title": "Lingua",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "sub": [
+      {
+        "title": "Group List",
+        "routing": "lingua/group/list"
+      },
+      {
+        "title": "Add Group",
+        "routing": "english/english-add-group"
+      }
+    ],
+    "access": ["admin", "chief", "mentor", "head_city", "english_teacher"]
+  },
+  {
+    "title": "Reading",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "sub": [
+      {
+        "title": "Book List",
+        "routing": "reading/book/list"
+      },
+      {
+        "title": "Main",
+        "routing": "reading/category/list"
+      },
+      {
+        "title": "Author",
+        "routing": "reference/record/section/aa76ba90-8e01-49d8-886b-9ed8140d4a87/b13a88ee-259e-48b8-95aa-5eeebdbd29bc",
+        "access": ["admin", "chief", "mentor", "head_city"]
+      },
+      {
+        "title": "Group",
+        "routing": "reading/group/list",
+        "access": ["admin", "chief", "mentor", "head_city"]
+      }
+    ]
   },
   {
     "title": "Students",
     "groupTitle": true,
-    "access": ["admin"]
+    "access": ["admin", "chief", "mentor", "head_city"]
   },
   {
     "title": "Lists",
     "icon": {
       "class": "icofont-library"
     },
-    "access": ["admin"],
+    "access": ["admin", "chief", "mentor", "head_city"],
     "sub": [
       {
         "title": "Lists",
-        "routing": "list",
-        "access": ["admin"]
+        "routing": "reference/record/section/00000000-0000-0000-0000-000000000017/00000000-0000-0000-0000-000000000001",
+        "access": ["admin", "chief", "mentor", "head_city"]
       },
       {
-        "title": "New Profile",
-        "routing": "profile-new"
+        "title": "New User",
+        "routing": "create/profile",
+        "access": ["admin", "chief", "head_city"]
       },
       {
         "title": "Import",
-        "routing": "import"
+        "routing": "import",
+        "access": ["admin", "chief", "head_city"]
       }
     ]
   },
@@ -118,5 +180,64 @@
         "routing": "edit-account"
       }
     ]
+  },
+  {
+    "title": "Admin Panel",
+    "groupTitle": true,
+    "access": ["admin"]
+  },
+  {
+    "title": "Reference",
+    "icon": {
+      "class": "icofont-book"
+    },
+    "routing": "admin-panel/reference/list",
+    "access": ["admin"]
+  },
+  {
+    "title": "Structure",
+    "icon": {
+      "class": "icofont-company"
+    },
+    "routing": "structure",
+    "access": ["admin", "chief", "head_city"]
+  },
+  {
+    "title": "Profiles",
+    "icon": {
+      "class": "icofont-users"
+    },
+    "routing": "reference/record/section/00000000-0000-0000-0000-000000000017/00000000-0000-0000-0000-000000000024",
+    "access": ["admin", "chief", "head_city"]
+  },
+  {
+    "title": "Menu",
+    "icon": {
+      "class": "icofont-justify-left"
+    },
+    "routing": "menu",
+    "access": ["admin"]
+  },
+  {
+    "title": "News",
+    "icon": {
+      "class": "icofont-library"
+    },
+    "sub": [
+      {
+        "title": "Post",
+        "routing": "reference/record/section/e7e8fb19-d843-425b-b3dd-f1474cd8340f/eeacf1e8-3961-4096-8198-6619b7301b17"
+      },
+      {
+        "title": "Stories",
+        "routing": "reference/record/section/3c10fa1e-c6aa-44e5-a3ce-465fab2d9b00/36b7d46c-a976-46d3-b67d-63d73181a69a",
+        "access": ["admin", "chief", "mentor", "head_city"]
+      },
+      {
+        "title": "Category",
+        "routing": "reference/record/section/20a4ccd9-6300-4462-acb6-6942bf4fe5d7/83aa23d8-f614-4170-8683-b93f8510467d"
+      }
+    ],
+    "access": ["admin", "chief", "mentor", "head_city"]
   }
 ]

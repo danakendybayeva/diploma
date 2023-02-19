@@ -1,226 +1,494 @@
-<tc-alert
-        *ngIf="false"
-  [view]="'success'"
-  [iconColor]="'rgba(124,219,134, .8)'"
-  [beforeIcon]="'icofont-info-circle'"
-  class="mb-4 animated fadeInDown delay-01s"
->
-  This is a warning message. Please pay attention to view it.
-</tc-alert>
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex mb-3 filter-block">
+            <tc-select class="mr-3" placeholder="{{'AllUniversities'|translate}}" [options]="university" [filter]="university.length > 6" [multiple]="true" [allowClear]="true" [(ngModel)]="filter.specCount.university"></tc-select>
+            <tc-select class="mr-3" placeholder="{{'AllCities'|translate}}" [options]="city" [filter]="city.length > 6" [multiple]="true" [allowClear]="true" [(ngModel)]="filter.specCount.city" (ngModelChange)="changeMonthFilter()"></tc-select>
+            <tc-select class="mr-3" placeholder="{{'AllSpecialties'|translate}}" [options]="speciality" [filter]="speciality.length > 6" [multiple]="true" [allowClear]="true" [(ngModel)]="filter.specCount.speciality"></tc-select>
+            <tc-select class="mr-3" placeholder="{{'AllMentors'|translate}}" [options]="mentors" [filter]="mentors.length > 6" [multiple]="true" [allowClear]="true" [(ngModel)]="filter.specCount.mentors"></tc-select>
+            <tc-select class="mr-3" placeholder="{{'English Level'|translate}}" [options]="englevel" [filter]="englevel.length > 6" [multiple]="true" [allowClear]="true" [(ngModel)]="filter.specCount.englevel"></tc-select>
+            <tc-select class="mr-3" placeholder="{{'Gender'|translate}}" [options]="gender" [allowClear]="true" [(ngModel)]="filter.specCount.gender"></tc-select>
+            <button tc-button [view]="'info'" [load]="filter.specCount.loading" (click)="applyFilter('specCount')">{{'Apply' |translate}}</button>
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <tc-card class="dashboard">
+            <h6 class="mt-0">{{'Number of students in the Humanities'|translate}}</h6>
+            <div class="row"  *ngIf="countStatistic['STUDENT']">
+                <div class="col-12">
+                    <tc-select class="mb-4" placeholder="{{'All courses'|translate}}" [options]="specCourseOption" [allowClear]="true" [(ngModel)]="filter.specCount.specHumCourse" (ngModelChange)="getHumCountSpec($event)"></tc-select>
+                </div>
+            </div>
+            <div class="row pie-charts"  *ngIf="countStatistic['STUDENT']">
+                <div class="col-12 col-md-6">
+                    <apx-chart
+                            *ngIf="chartGum"
+                            class="hum-charts"
+                            [series]="humanitarian"
+                            [chart]="chartGum.chart"
+                            [legend]="chartGum.legend"
+                            [dataLabels]="chartGum.dataLabels"
+                            [plotOptions]="chartGum.plotOptions"
+                            [colors]="hColors"
+                    ></apx-chart>
+                </div>
+                <div class="col-12 col-md-6 pie-chart-text">
+                    <div class="row">
+                        <div class="col-12 col-md-6" *ngFor="let item of humanitarianLabels; let index = index;">
+                            <div class="d-flex">
+                                <div class="pie-mark">
+                                    <div [style.background]="item.color"></div>
+                                </div>
+                                <div class="pie-text">
+                                    <p>{{item.label}}</p>
+                                    <span>{{item.count}} студент</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row pie-charts"  *ngIf="!countStatistic['STUDENT']">
+                <div class="col-12 col-md-6">
+                    <apx-chart
+                            *ngIf="chartGum"
+                            class="hum-charts"
+                            [series]="[1]"
+                            [chart]="chartGum.chart"
+                            [legend]="chartGum.legend"
+                            [dataLabels]="chartGum.dataLabels"
+                            [plotOptions]="chartGum.plotOptions"
+                            [colors]="['#999ea0']"
+                    ></apx-chart>
+                </div>
+            </div>
+        </tc-card>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <tc-card class="dashboard">
+            <h6 class="mt-0">{{'Number of students in the Natural specialities'|translate}}</h6>
+            <div class="row" *ngIf="countStatistic['STUDENT']">
+                <div class="col-12">
+                    <tc-select class="mb-4" placeholder="{{'All courses'|translate}}" [options]="specCourseOption" [allowClear]="true" [(ngModel)]="filter.specCount.specTechCourse" (ngModelChange)="getTechCountSpec($event)"></tc-select>
+                </div>
+            </div>
+            <div class="row pie-charts" *ngIf="countStatistic['STUDENT']">
+                <div class="col-12 col-md-6">
+                    <apx-chart
+                            *ngIf="chartTech"
+                            class="hum-charts"
+                            [series]="technical"
+                            [chart]="chartTech.chart"
+                            [legend]="chartTech.legend"
+                            [dataLabels]="chartTech.dataLabels"
+                            [plotOptions]="chartTech.plotOptions"
+                            [colors]="tColors"
+                    ></apx-chart>
+                </div>
+                <div class="col-12 col-md-6 pie-chart-text">
+                    <div class="row">
+                        <div class="col-12 col-md-6" *ngFor="let item of technicalLabels; let index = index;">
+                            <div class="d-flex">
+                                <div class="pie-mark">
+                                    <div [style.background]="item.color"></div>
+                                </div>
+                                <div class="pie-text">
+                                    <p>{{item.label}}</p>
+                                    <span>{{item.count}} студент</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row pie-charts"  *ngIf="!countStatistic['STUDENT']">
+                <div class="col-12 col-md-6">
+                    <apx-chart
+                            *ngIf="chartTech"
+                            class="hum-charts"
+                            [series]="[1]"
+                            [chart]="chartTech.chart"
+                            [legend]="chartTech.legend"
+                            [dataLabels]="chartTech.dataLabels"
+                            [plotOptions]="chartTech.plotOptions"
+                            [colors]="['#999ea0']"
+                    ></apx-chart>
+                </div>
+            </div>
+        </tc-card>
+    </div>
+</div>
 
 <div class="row">
-  <div class="col-12 col-xl-6">
-    <tc-card [title]="'Number of students in the Humanities'" class="pt-2 pb-2">
-      <div
-              echarts
-              [options]="dOptions"
-              class="chart-container container-h-300 pt-2 pb-2"
-      ></div>
-    </tc-card>
-  </div>
+    <div class="col-12 col-md-6">
+        <tc-card>
+            <h6 class="mt-0">{{'Students'|translate}}</h6>
+            <div class="d-flex mb-4"  *ngIf="countStatistic['STUDENT']">
+                <h3 class="count-header">{{getTotalCount(countStatistic['STUDENT'])}}</h3>
+                <div class="paragraph vertical-middle">{{'StudentsNum'|translate}}</div>
+            </div>
+            <div class="d-flex mb-4"  *ngIf="!countStatistic['STUDENT']">
+                <h3 class="count-header">0</h3>
+                <div class="paragraph vertical-middle">{{'StudentsNum'|translate}}</div>
+            </div>
+            <div class="d-flex progress-percent" *ngIf="countStatistic['STUDENT']">
+                <div class="rectangle-blue" [style.width]="getPercentageCount(countStatistic['STUDENT'], 'Мужской') +'%'"></div>
+                <div class="rectangle-pink" [style.width]="getPercentageCount(countStatistic['STUDENT'], 'Женский') +'%'"></div>
+                <div class="rectangle-grey" [style.width]="getPercentageCount(countStatistic['STUDENT'], '') +'%'"></div>
+            </div>
+            <div class="row d-flex mt-3" *ngIf="countStatistic['STUDENT'] && countStatistic['STUDENT'].length">
+                <div class="col-12 col-md-6" *ngFor="let item of countStatistic['STUDENT']">
+                    <div class="d-flex">
+                        <div class="pie-mark">
+                            <div *ngIf="item['gender_enum'] == 'Мужской'" [style.background]="'#3D3DD8'"></div>
+                            <div *ngIf="item['gender_enum'] == 'Женский'" [style.background]="'#E066FF'"></div>
+                            <div *ngIf="item['gender_enum'] != 'Мужской' && item['gender_enum'] != 'Женский'" [style.background]="'#999ea0'"></div>
+                        </div>
+                        <div class="pie-text">
+                            <p *ngIf="item['gender_enum'] == 'Мужской'">{{'Boys'|translate}}</p>
+                            <p *ngIf="item['gender_enum'] == 'Женский'">{{'Girls'|translate}}</p>
+                            <p *ngIf="item['gender_enum'] != 'Мужской' && item['gender_enum'] != 'Женский'">{{'Not marked'|translate}}</p>
+                            <span>{{item['count']}} {{'Student' | translate | lowercase}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </tc-card>
+    </div>
 
-  <div class="col-12 col-xl-6">
-    <tc-card [title]="'Number of students in the Natural specialities'" class="pt-2 pb-2">
-      <div
-              echarts
-              [options]="dOptions2"
-              class="chart-container container-h-300 pt-2 pb-2"
-      ></div>
-    </tc-card>
-  </div>
+    <div class="col-12 col-md-6">
+        <tc-card>
+            <h6 class="mt-0">{{'Mentors'|translate}}</h6>
+            <div class="d-flex mb-4" *ngIf="countStatistic['MENTOR']">
+                <h3 class="count-header">{{getTotalCount(countStatistic['MENTOR'])}}</h3>
+                <div class="paragraph vertical-middle">{{'TotalNumberOfMentors'|translate}}</div>
+            </div>
+            <div class="d-flex progress-percent" *ngIf="countStatistic['MENTOR']">
+                <div class="rectangle-blue" [style.width]="getPercentageCount(countStatistic['MENTOR'], 'Мужской') +'%'"></div>
+                <div class="rectangle-pink" [style.width]="getPercentageCount(countStatistic['MENTOR'], 'Женский') +'%'"></div>
+                <div class="rectangle-grey" [style.width]="getPercentageCount(countStatistic['MENTOR'], '') +'%'"></div>
+            </div>
+            <div class="row d-flex mt-3" *ngIf="countStatistic['MENTOR'] && countStatistic['MENTOR'].length">
+                <div class="col-12 col-md-6" *ngFor="let item of countStatistic['MENTOR']">
+                    <div class="d-flex">
+                        <div class="pie-mark">
+                            <div *ngIf="item['gender_enum'] == 'Мужской'" [style.background]="'#3D3DD8'"></div>
+                            <div *ngIf="item['gender_enum'] == 'Женский'" [style.background]="'#E066FF'"></div>
+                            <div *ngIf="item['gender_enum'] != 'Мужской' && item['gender_enum'] != 'Женский'" [style.background]="'#999ea0'"></div>
+                        </div>
+                        <div class="pie-text">
+                            <p *ngIf="item['gender_enum'] == 'Мужской'">{{'Men'|translate}}</p>
+                            <p *ngIf="item['gender_enum'] == 'Женский'">{{'Women'|translate}}</p>
+                            <p *ngIf="item['gender_enum'] != 'Мужской' && item['gender_enum'] != 'Женский'">{{'Not marked'|translate}}</p>
+                            <span>{{item['count']}} {{'Mentor' | translate | lowercase}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </tc-card>
+    </div>
+</div>
 
-  <div class="col-md-8 col-sm-12">
-    <tc-card [title]="'English by Attendance'" [padding]="0">
-      <div
-              echarts
-              [options]="lineOptions"
-              class="chart-container container-h-350"
-      ></div>
-    </tc-card>
-  </div>
+<div>
+    <div class="d-flex mb-2 filter-block">
+        <tc-select class="mr-3" placeholder="{{'Semester'|translate}}" [options]="semester"  [allowClear]="true" [(ngModel)]="filter.monthReport.semester" (ngModelChange)="changeMonthFilter()"></tc-select>
+        <tc-select class="mr-3" placeholder="{{'AllMonth'|translate}}" [options]="months" [allowClear]="true" [(ngModel)]="filter.monthReport.month" (ngModelChange)="changeMonthFilter()" [disabled]="filter.monthReport.semester"></tc-select>
+        <tc-select class="mr-3" placeholder="{{'AllCities'|translate}}" [options]="city" [filter]="city.length > 6" [multiple]="true" [allowClear]="true" [(ngModel)]="filter.monthReport.city" (ngModelChange)="changeMonthFilter()"></tc-select>
+    </div>
 
-  <div class="col-md-4 col-sm-12">
+    <div class="d-flex mb-2 filter-block">
+        <tc-select class="mr-3" placeholder="{{'AllMentors'|translate}}" [options]="mentors" [filter]="mentors.length > 6" [multiple]="true" [allowClear]="true" [(ngModel)]="filter.monthReport.mentors" (ngModelChange)="changeMonthFilter()"></tc-select>
+        <tc-select class="mr-3" placeholder="{{'AllUniversities'|translate}}" [options]="university" [filter]="university.length > 6" [multiple]="true" [allowClear]="true" [(ngModel)]="filter.monthReport.university" (ngModelChange)="changeMonthFilter()"></tc-select>
+        <tc-select class="mr-3" placeholder="{{'AllSpecialties'|translate}}" [options]="speciality" [filter]="speciality.length > 6" [multiple]="true" [allowClear]="true" [(ngModel)]="filter.monthReport.speciality" (ngModelChange)="changeMonthFilter()"></tc-select>
+        <tc-select class="mr-3" placeholder="{{'Gender'|translate}}" [options]="gender" [allowClear]="true" [(ngModel)]="filter.monthReport.gender" (ngModelChange)="changeMonthFilter()"></tc-select>
+        <button tc-button [view]="'info'" [load]="this.filter.monthReport.loading" (click)="applyMonthReport()">{{'Apply' |translate}}</button>
+    </div>
+
+    <div class="container-fluid statistic-fluid mb-4">
+        <div class="row d-flex">
+            <div class="col" *ngIf="mothReportFiltered['READING']">
+                <h6 class="mt-0 mb-2">{{'Books'|translate}}</h6>
+                <div class="d-flex align-items-center mb-2">
+                    <div>
+                        <h2 class="mt-0 mb-0">{{mothReportFiltered['READING']['avg']}}%</h2>
+                    </div>
+                    <div class="ml-3 icons vertical-middle" *ngIf="mothReportFiltered['READING']['progress'] != 0"
+                         [ngClass]="{'up': mothReportFiltered['READING']['progress'] > 0, 'down': mothReportFiltered['READING']['progress'] < 0}">
+                        <img
+                            [src]="'./assets/image/icons/arrow-' + (mothReportFiltered['READING']['progress'] > 0 ? 'up' : 'down') + '.svg'"
+                            alt=""
+                        >{{abs(mothReportFiltered['READING']['progress'])}}%
+                    </div>
+                </div>
+                <p class="description-sf" *ngIf="!this.filter.monthReport.semester">{{'LastMonth'|translate}} {{mothReportFiltered['READING']['oldAvg']}}% - {{'Сomparison'|translate}}</p>
+            </div>
+<!--            <div class="col" *ngIf="mothReportFiltered['EDUWAY']">-->
+<!--                <h6 class="mt-0 mb-2">{{'Eduway'|translate}}</h6>-->
+<!--                <div class="d-flex align-items-center mb-2">-->
+<!--                    <div>-->
+<!--                        <h2 class="mt-0 mb-0">{{mothReportFiltered['EDUWAY']['avg']}}%</h2>-->
+<!--                    </div>-->
+<!--                    <div class="ml-3 icons vertical-middle" *ngIf="mothReportFiltered['EDUWAY']['progress'] != 0"-->
+<!--                         [ngClass]="{'up': mothReportFiltered['EDUWAY']['progress'] > 0, 'down': mothReportFiltered['EDUWAY']['progress'] < 0}">-->
+<!--                        <img-->
+<!--                            [src]="'./assets/image/icons/arrow-' + (mothReportFiltered['EDUWAY']['progress'] > 0 ? 'up' : 'down') + '.svg'"-->
+<!--                            alt="">{{abs(mothReportFiltered['EDUWAY']['progress'])}}%-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <p class="description-sf" *ngIf="!this.filter.monthReport.semester">{{'LastMonth'|translate}} {{mothReportFiltered['EDUWAY']['oldAvg']}}% - {{'Сomparison'|translate}}</p>-->
+<!--            </div>-->
+            <div class="col" *ngIf="mothReportFiltered['EDUTEST']">
+                <h6 class="mt-0 mb-2">{{'Edutest'|translate}}</h6>
+                <div class="d-flex align-items-center mb-2">
+                    <div>
+                        <h2 class="mt-0 mb-0">{{mothReportFiltered['EDUTEST']['avg']}}%</h2>
+                    </div>
+                    <div class="ml-3 icons vertical-middle" *ngIf="mothReportFiltered['EDUTEST']['progress'] != 0"
+                         [ngClass]="{'up': mothReportFiltered['EDUTEST']['progress'] > 0, 'down': mothReportFiltered['EDUTEST']['progress'] < 0}">
+                        <img
+                            [src]="'./assets/image/icons/arrow-' + (mothReportFiltered['EDUTEST']['progress'] > 0 ? 'up' : 'down') + '.svg'"
+                            alt="">{{abs(mothReportFiltered['EDUTEST']['progress'])}}%
+                    </div>
+                </div>
+                <p class="description-sf" *ngIf="!this.filter.monthReport.semester">{{'LastMonth'|translate}} {{mothReportFiltered['EDUTEST']['oldAvg']}}% - {{'Сomparison'|translate}}</p>
+            </div>
+            <div class="col" *ngIf="mothReportFiltered['COURSE']">
+                <h6 class="mt-0 mb-2">{{'Course'|translate}}</h6>
+                <div class="d-flex align-items-center mb-2">
+                    <div>
+                        <h2 class="mt-0 mb-0">{{mothReportFiltered['COURSE']['avg']}}%</h2>
+                    </div>
+                    <div class="ml-3 icons vertical-middle" *ngIf="mothReportFiltered['COURSE']['progress'] != 0"
+                         [ngClass]="{'up': mothReportFiltered['COURSE']['progress'] > 0, 'down': mothReportFiltered['COURSE']['progress'] < 0}">
+                        <img
+                                [src]="'./assets/image/icons/arrow-' + (mothReportFiltered['COURSE']['progress'] > 0 ? 'up' : 'down') + '.svg'"
+                                alt="">{{abs(mothReportFiltered['COURSE']['progress'])}}%
+                    </div>
+                </div>
+                <p class="description-sf" *ngIf="!this.filter.monthReport.semester">{{'LastMonth'|translate}} {{mothReportFiltered['COURSE']['oldAvg']}}% - {{'Сomparison'|translate}}</p>
+            </div>
+            <div class="col" *ngIf="mothReportFiltered['LINGUA']">
+                <h6 class="mt-0 mb-2">{{'English'|translate}}</h6>
+                <div class="d-flex align-items-center mb-2">
+                    <div>
+                        <h2 class="mt-0 mb-0">{{mothReportFiltered['LINGUA']['avg']}}%</h2>
+                    </div>
+                    <div class="ml-3 icons vertical-middle" *ngIf="mothReportFiltered['LINGUA']['progress'] != 0"
+                         [ngClass]="{'up': mothReportFiltered['LINGUA']['progress'] > 0, 'down': mothReportFiltered['LINGUA']['progress'] < 0}">
+                        <img
+                                [src]="'./assets/image/icons/arrow-' + (mothReportFiltered['LINGUA']['progress'] > 0 ? 'up' : 'down') + '.svg'"
+                                alt="">{{abs(mothReportFiltered['LINGUA']['progress'])}}%
+                    </div>
+                </div>
+                <p class="description-sf" *ngIf="!this.filter.monthReport.semester">{{'LastMonth'|translate}} {{mothReportFiltered['LINGUA']['oldAvg']}}% - {{'Сomparison'|translate}}</p>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
-      <div class="col-12">
-        <tc-card [padding]="0">
-          <div class="d-flex p-4 justify-content-between">
-            <div class="title-box d-flex flex-column">
-              <h5 [tcFontSize]="18" class="title mb-1">Reads pages number</h5>
-              <span class="mb-2 sub-title">MDS Reads</span>
-              <span class="d-flex align-items-baseline" [tcColor]="'#c565e7'">
-                80,340
-                <i class="icofont-rounded-right-up ml-1"></i>
-              </span>
+        <div class="col-12 col-md-4" *ngIf="mothReportFiltered['PRACTICE'] && mothReportFiltered['PRACTICE']['avg'] >= 0">
+            <tc-card>
+                <div style="width: content-box; justify-content: center">
+                    <div class="card-header" style="text-align: center">
+                        <h3 class="card-title" >{{ 'Practice'|translate }}</h3>
+                    </div>
+                    <div class="d-flex" style="justify-content: center">
+                        <div class="radial-bar-content">
+                            <apx-chart
+                                    [series]="[round(mothReportFiltered['PRACTICE']['avg'])]"
+                                    [chart]="radialBar.chart"
+                                    [plotOptions]="radialBar.plotOptions"
+                                    [labels]="radialBar.labels"
+                                    [dataLabels]="radialBar.dataLabels"
+                                    [legend]="radialBar.legend"
+                                    [colors]="radialBar.colors"
+                            ></apx-chart>
+                        </div>
+                    </div>
+                </div>
+            </tc-card>
+        </div>
+        <div class="col-12 col-md-4" *ngIf="mothReportFiltered['SEMINAR'] && mothReportFiltered['SEMINAR']['avg'] >= 0">
+            <tc-card>
+                <div style="width: content-box; justify-content: center">
+                    <div class="card-header" style="text-align: center">
+                        <h3 class="card-title" >{{ 'Seminar-training'|translate }}</h3>
+                    </div>
+                    <div class="d-flex" style="justify-content: center">
+                        <div class="radial-bar-content">
+                            <apx-chart
+                                       [series]="[round(mothReportFiltered['SEMINAR']['avg'])]"
+                                       [chart]="radialBar.chart"
+                                       [plotOptions]="radialBar.plotOptions"
+                                       [labels]="radialBar.labels"
+                                       [dataLabels]="radialBar.dataLabels"
+                                       [legend]="radialBar.legend"
+                                       [colors]="radialBar.colors"
+                            ></apx-chart>
+                        </div>
+                    </div>
+                </div>
+            </tc-card>
+        </div>
+        <div class="col-12 col-md-4" *ngIf="mothReportFiltered['PASSPORT'] && mothReportFiltered['PASSPORT']['avg'] >= 0">
+            <tc-card>
+                <div style="width: content-box; justify-content: center">
+                    <div class="card-header" style="text-align: center">
+                        <h3 class="card-title" >{{ 'M Passport' }}</h3>
+                    </div>
+                    <div class="d-flex" style="justify-content: center">
+                        <div class="radial-bar-content">
+                            <apx-chart
+                                    [series]="[round(mothReportFiltered['PASSPORT']['avg'])]"
+                                    [chart]="radialBar.chart"
+                                    [plotOptions]="radialBar.plotOptions"
+                                    [labels]="radialBar.labels"
+                                    [dataLabels]="radialBar.dataLabels"
+                                    [legend]="radialBar.legend"
+                                    [colors]="radialBar.colors"
+                            ></apx-chart>
+                        </div>
+                    </div>
+                </div>
+            </tc-card>
+        </div>
+    </div>
+
+    <div>
+        <tc-card>
+            <div class="d-flex" style="justify-content: space-between;">
+                <h5 class="mt-0">{{'Lingua attendance'|translate}}</h5>
+                <div class="d-flex filter-block">
+                    <tc-select class="mr-3" [(ngModel)]="filter.filterAttLin.semester" [options]="semester" [allowClear]="true" placeholder="{{'Semester'|translate}}"></tc-select>
+                    <tc-select class="mr-3" [(ngModel)]="filter.filterAttLin.month" [options]="months" [multiple]="true" [allowClear]="true" placeholder="{{'AllMonth'|translate}}" ></tc-select>
+                    <tc-select class="mr-3" [(ngModel)]="filter.filterAttLin.mentors" [options]="mentors" [multiple]="true" [allowClear]="true" placeholder="{{'AllMentors'|translate}}"></tc-select>
+                    <tc-select class="mr-3" [(ngModel)]="filter.filterAttLin.gender" [options]="gender" [allowClear]="true" placeholder="{{'Gender'|translate}}"></tc-select>
+                    <button tc-button [view]="'info'" [load]="filter.filterAttLin.loading" (click)="applyAttLin()">{{'Apply' |translate}}</button>
+                </div>
+            </div>
+            <apx-chart
+                    [series]="attendanceEnglish.series"
+                    [chart]="attendanceEnglish.chart"
+                    [xaxis]="attendanceEnglish.xaxis"
+                    [dataLabels]="attendanceEnglish.dataLabels"
+                    [grid]="attendanceEnglish.grid"
+                    [stroke]="attendanceEnglish.stroke"
+                    [title]="attendanceEnglish.title"
+            ></apx-chart>
+        </tc-card>
+    </div>
+
+    <div>
+        <tc-card>
+            <div class="d-flex mb-2" style="justify-content: space-between;">
+                <h5 class="mt-0">{{'Students Rating12'|translate}}</h5>
+                <div class="d-flex">
+                    <tc-select class="mr-3" [options]="semester" placeholder="{{'Semester'|translate}}" [(ngModel)]="filter.rating12.semester" [allowClear]="true"></tc-select>
+                    <tc-select class="mr-3" placeholder="{{'AllMentors'|translate}}" [options]="mentors" [filter]="mentors.length > 6" [multiple]="true" [allowClear]="true" [(ngModel)]="filter.rating12.mentors"></tc-select>
+                    <tc-select class="mr-3" placeholder="{{'AllCities'|translate}}" [options]="city" [filter]="city.length > 6" [multiple]="true" [allowClear]="true" [(ngModel)]="filter.rating12.city" (ngModelChange)="changeMonthFilter()"></tc-select>
+                    <tc-select class="mr-3" placeholder="{{'Gender'|translate}}" [options]="gender" [allowClear]="true" [(ngModel)]="filter.rating12.gender"></tc-select>
+                    <button tc-button [view]="'info'" [load]="filter.rating12.loading" (click)="applyFilter('rating' , 'freshman')">{{'Apply' |translate}}</button>
+                </div>
             </div>
 
-            <span [tcFontSize]="37" class="income">
-              80,340
-            </span>
-          </div>
-
-          <div
-            echarts
-            [options]="piOptions"
-            class="chart-container container-h-100 negative-indents"
-          ></div>
+            <nz-table #raking12Table
+                      [nzData]="studentData12"
+                      [nzPageSize]="5"
+                      [nzShowTotal]="total12Tpl"
+                      [nzPageIndex]="pageIndex"
+                      (nzPageIndexChange)="onChangePageIndex($event)"
+                      nzTableLayout="fixed"
+                      class="table-raking"
+            >
+                <thead>
+                    <tr>
+                        <th width="70px" class="th-raking">{{ 'Ranking' | translate}}</th>
+                        <th>
+                            {{'Student' | translate}}
+                        </th>
+                        <th>
+                            {{'Gender' | translate}}
+                        </th>
+                        <th>
+                            {{'Group' | translate}}
+                        </th>
+                        <th>
+                            {{'Mentor' | translate}}
+                        </th>
+                        <th width="175">
+                            {{'Points' | translate}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of raking12Table.data; let index = index;">
+                        <td class="ranking">{{ (5 * (pageIndex - 1)) + index + 1 }}</td>
+                        <td>{{ data['fio'] }}</td>
+                        <td>{{ data['gender_enum'] }}</td>
+                        <td>{{ data['group'] }}</td>
+                        <td>{{ data['mentor'] }}</td>
+                        <td class="points">{{ data['points'] }} pts.</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+            <ng-template #total12Tpl let-total12Data>{{'Total'|translate}}{{ ': ' + total12Data}}</ng-template>
         </tc-card>
-      </div>
 
-      <div class="col-12">
-        <tc-card [padding]="0">
-          <div class="d-flex p-4 justify-content-between">
-            <div class="title-box d-flex flex-column">
-              <h5 [tcFontSize]="18" class="title mb-1">Reviews number</h5>
-              <span class="mb-2 sub-title">MDS Reads</span>
-              <span class="d-flex align-items-baseline" [tcColor]="'#7cdb86'">
-                903
-                <i class="icofont-rounded-right-up ml-1"></i>
-              </span>
+        <tc-card>
+            <div class="d-flex mb-2" style="justify-content: space-between;">
+                <h5 class="mt-0">{{'Students Rating34'|translate}}</h5>
+                <div class="d-flex">
+                    <tc-select class="mr-3" [options]="semester" placeholder="{{'Semester'|translate}}" [(ngModel)]="filter.rating34.semester" [allowClear]="true"></tc-select>
+                    <tc-select class="mr-3" placeholder="{{'AllMentors'|translate}}" [options]="mentors" [filter]="mentors.length > 6" [multiple]="true" [allowClear]="true" [(ngModel)]="filter.rating34.mentors"></tc-select>
+                    <tc-select class="mr-3" placeholder="{{'AllCities'|translate}}" [options]="city" [filter]="city.length > 6" [multiple]="true" [allowClear]="true" [(ngModel)]="filter.rating34.city" (ngModelChange)="changeMonthFilter()"></tc-select>
+                    <tc-select class="mr-3" placeholder="{{'Gender'|translate}}" [options]="gender" [allowClear]="true" [(ngModel)]="filter.rating34.gender"></tc-select>
+                    <button tc-button [view]="'info'" [load]="filter.rating34.loading" (click)="applyFilter('rating' , 'big')">{{'Apply' |translate}}</button>
+                </div>
             </div>
 
-            <span [tcFontSize]="37" class="income">
-              903
-            </span>
-          </div>
-
-          <div
-            echarts
-            [options]="pi2Options"
-            class="chart-container container-h-100 negative-indents"
-          ></div>
+            <nz-table #raking34Table
+                      [nzData]="studentData34"
+                      [nzPageSize]="5"
+                      [nzShowTotal]="total34Tpl"
+                      [nzPageIndex]="pageIndex2"
+                      (nzPageIndexChange)="onChangePageIndex2($event)"
+                      nzTableLayout="fixed"
+                      class="table-raking"
+            >
+                <thead>
+                <tr>
+                    <th width="70px" class="th-raking">{{ 'Ranking' | translate}}</th>
+                    <th>
+                        {{'Student' | translate}}
+                    </th>
+                    <th>
+                        {{'Gender' | translate}}
+                    </th>
+                    <th>
+                        {{'Group' | translate}}
+                    </th>
+                    <th>
+                        {{'Mentor' | translate}}
+                    </th>
+                    <th width="175">
+                        {{'Points' | translate}}
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let data of raking34Table.data; let index = index;">
+                    <td class="ranking">{{ (5 * (pageIndex2 - 1)) + index + 1 }}</td>
+                    <td>{{ data['fio'] }}</td>
+                    <td>{{ data['gender_enum'] }}</td>
+                    <td>{{ data['group'] }}</td>
+                    <td>{{ data['mentor'] }}</td>
+                    <td class="points">{{ data['points'] }} pts.</td>
+                </tr>
+                </tbody>
+            </nz-table>
+            <ng-template #total34Tpl let-total34Data>{{'Total'|translate}}{{ ': ' + total34Data}}</ng-template>
         </tc-card>
-      </div>
     </div>
-  </div>
 </div>
-
-<div class="row">
-  <div class="col col-12 col-md-4">
-    <tc-card [title]="'Percentage of students by cities'">
-      <div
-              echarts
-              [options]="caOptions"
-              class="chart-container container-h-300"
-      ></div>
-    </tc-card>
-  </div>
-  <div class="col col-12 col-md-4">
-    <tc-card [title]="'Clients gender'">
-      <div
-              echarts
-              [options]="cgOptions"
-              class="chart-container container-h-300"
-      ></div>
-    </tc-card>
-  </div>
-
-
-
-  <div class="col-md-4 col-12">
-    <tc-card [tcGradient]="['#cd5447', '#b3589c', '#9d5ce5']">
-      <div
-        class="widget-card d-flex flex-column justify-content-center align-items-center"
-        [tcColor]="'#fff'"
-      >
-        <tc-icon
-          class="mb-3 mt-auto"
-          [tcShape]="500"
-          [tcFontSize]="20"
-          [padding]="'25px'"
-          [tcColor]="'#f8e71c'"
-          [iconClass]="'icofont-color-picker'"
-          [tcBgColor]="'rgba(74,74,74, .15)'"
-        ></tc-icon>
-
-        <div class="info text-center mb-auto" [tcColor]="'#fff'">
-          <div [tcFontSize]="'16px'" class="desc mb-2">
-            <span class="desc">
-              Aktau
-            </span>
-          </div>
-
-          <span class="title" [tcFontSize]="'40px'" [tcColor]="'#fff'">
-            5&#176;
-          </span>
-        </div>
-
-        <div class="w-100 align-self-end d-flex d-flex justify-content-between">
-          <div
-            class="d-flex align-items-center justify-content-between"
-            [tcFontSize]="12"
-          >
-            <tc-icon
-              [iconClass]="'icofont-water-drop'"
-              [tcColor]="'#f8e71c'"
-            ></tc-icon>
-            87,5%
-          </div>
-
-          <div
-            class="d-flex align-items-center justify-content-between"
-            [tcFontSize]="12"
-          >
-            98,5%
-          </div>
-
-          <div
-            class="d-flex align-items-center justify-content-between"
-            [tcFontSize]="12"
-          >
-            <tc-icon
-              [iconClass]="'icofont-paper-plane'"
-              [tcColor]="'#f8e71c'"
-            ></tc-icon>
-            64,3%
-          </div>
-        </div>
-      </div>
-    </tc-card>
-  </div>
-</div>
-
-<tc-card [padding]="'0 0 20px'" class="table-card">
-  <div tc-card-header class="card-header mb-4">
-    <div class="title-box">
-      <h5 class="title">Top 50 Reads by Students rating</h5>
-    </div>
-
-    <div class="actions d-flex" *ngIf="false">
-      <tc-icon [iconClass]="'icofont-archive'"></tc-icon>
-      <tc-icon [iconClass]="'icofont-trash'"></tc-icon>
-      <tc-icon [iconClass]="'icofont-navigation-menu'"></tc-icon>
-    </div>
-  </div>
-
-  <nz-table #basicTable [nzData]="studentData" [nzShowPagination]="true" [nzPageSize]="5">
-    <thead>
-      <tr>
-        <th nzShowSort nzSortKey="student">Student</th>
-        <th nzShowSort nzSortKey="readBooks">Read Books</th>
-        <th nzShowSort nzSortKey="gender">Gender</th>
-        <th nzShowSort nzSortKey="group">Group</th>
-        <th nzShowSort nzSortKey="mentor">Mentor</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of basicTable.data">
-        <td>
-          <div class="person-block d-flex align-items-center">
-            <tc-avatar [src]="'assets/image/user.png'"></tc-avatar>
-            <span>{{ data.student }}</span>
-          </div>
-        </td>
-        <td>{{ data.readBooks }}</td>
-        <td>
-          <tc-badge [view]="data.gender === 'Male' ? 'info' : 'warning'" [size]="'sm'">
-            {{ data.gender }}
-          </tc-badge>
-        </td>
-        <td>{{ data.group }}</td>
-        <td>
-          <div class="person-block d-flex align-items-center">{{ data.mentor }}</div>
-        </td>
-      </tr>
-    </tbody>
-  </nz-table>
-</tc-card>

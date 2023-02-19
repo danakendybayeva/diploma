@@ -1,8 +1,8 @@
-import { TCFilterTableDirective } from './filter-table.directive';
+import { FilterTableDirective } from './filter-table.directive';
 
-describe('TCFilterTableDirective', () => {
+describe('FilterTableDirective', () => {
   it('should create an instance', () => {
-    const directive = new TCFilterTableDirective(null, null);
+    const directive = new FilterTableDirective();
     expect(directive).toBeTruthy();
   });
 });

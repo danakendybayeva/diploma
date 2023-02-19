@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, OnChanges, Output, EventEmitter, forwardRef} from '@angular/core';
 import {ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
 import {IField} from '../../../interfaces/services/reference/fields/field';
+import {environment} from '../../../../environments/environment';
 
 @Component({
 	selector: 'tc-factory-field',
@@ -17,6 +18,7 @@ import {IField} from '../../../interfaces/services/reference/fields/field';
 export class TCFactoryFieldComponent implements OnInit, OnChanges, ControlValueAccessor {
 	@Input() align: string;
 	@Input() title: string;
+	@Input() color: string;
 	@Input() type: string;
 	@Input() isNew = false;
 	@Input() isConfig = false;
@@ -25,6 +27,8 @@ export class TCFactoryFieldComponent implements OnInit, OnChanges, ControlValueA
 	@Input() form: FormGroup = new FormGroup({});
 	// tslint:disable-next-line:no-input-rename
 	@Input('value') innerValue: any = null;
+	@Input() postImage = environment.apiUrl + '/api/media/file/request-file/image';
+	@Input() getImageUrl = environment.apiUrl + '/api/media/file/';
 
 	@Output() resultData: EventEmitter<any> = new EventEmitter();
 
@@ -33,7 +37,7 @@ export class TCFactoryFieldComponent implements OnInit, OnChanges, ControlValueA
 	onChange = (value: any) => {};
 	onTouched = () => {};
 
-	constructor(private formBuilder: FormBuilder) {}
+	constructor() {}
 
 	ngOnInit() {}
 
@@ -46,7 +50,7 @@ export class TCFactoryFieldComponent implements OnInit, OnChanges, ControlValueA
 	}
 
 	// set value
-	set value(value: boolean) {
+	set value(value: any) {
 		this.writeValue(value);
 		this.onChange(value);
 	}
@@ -69,6 +73,12 @@ export class TCFactoryFieldComponent implements OnInit, OnChanges, ControlValueA
 
 	focused() {
 		this.isFocused = true;
+	}
+
+	getColor(){
+		console.log(this.color);
+		if(this.innerValue == 'Женский'){
+		}
 	}
 
 }

@@ -1,0 +1,36 @@
+<ul class="list" *ngIf="data && data.length" cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+    <li *ngFor="let item of data; let index = index;" cdkDrag>
+        <div class="d-flex mb-2">
+            <tc-input [(ngModel)]="item.title" class="mr-2" [placeholder]="'SubMenu Name'"></tc-input>
+            <!--Access(ROLE)-->
+            <tc-select
+                    [placeholder]="'Access'"
+                    [(ngModel)]="item.roles"
+                    [options]="role"
+                    class="select-Menu"
+                    [multiple]="true"
+                    [allowClear]="true"
+            ></tc-select>
+            <tc-select [placeholder]="'Select placeholder'" [options]="routing"></tc-select>
+            <button tc-button (click)="saveMenu(item, index)"
+                    [afterIcon]="icon[index] !== undefined ? icon[index] : waitIcon"
+                    [view]="color[index] !== undefined ? color[index] : waitColor" [square]="true"></button>
+            <button tc-button
+                    (click)="openModal(modalBody, 'Modal title', modalFooter, { closeButton: true, overlayClose: true }, index)"
+                    [afterIcon]="'icofont-close'" [view]="'error'" [square]="true" class="mr-2"></button>
+        </div>
+    </li>
+</ul>
+
+<ng-container>
+    <ng-template #modalBody>
+        <p>{{'Are you sure ?'|translate}}</p>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'error'" (click)="closeModal()">{{'Close'|translate}}</button>
+            <button tc-button [view]="'success'" (click)="removeMenu(index)">{{'Submit'|translate}}</button>
+        </div>
+    </ng-template>
+</ng-container>

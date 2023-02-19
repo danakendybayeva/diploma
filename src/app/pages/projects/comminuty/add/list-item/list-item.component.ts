@@ -26,6 +26,7 @@ import {ExpEx} from '../../../../../interfaces/services/projects/sendex';
 export class TopicListItemComponent implements OnInit {
   @Input() data: Topic[] = [];
 
+  index;
   successColor = 'success';
   successIcon = 'icofont-check tc-icon-wrap';
   waitColor = 'info';
@@ -47,7 +48,9 @@ export class TopicListItemComponent implements OnInit {
   ngOnInit() {
   }
 
-  addChildren(children: Topic[], parentId: string) {
+  addChildren(children: Topic[], parentId: string, pos: number) {
+    this.data[pos].hidden = false;
+    this.iconString = 'icofont-caret-down tc-icon-wrap';
     children.push({ id: '', title: '', key: '', children: [], parentId: parentId, orderNum: 0, hidden: false});
   }
 
@@ -105,13 +108,15 @@ export class TopicListItemComponent implements OnInit {
     this.modal.close();
   }
 
-  openModal<T>(body: Content<T>, header: Content<T> = null, footer: Content<T> = null, options: any = null) {
+  openModal<T>(body: Content<T>, header: Content<T> = null, footer: Content<T> = null, options: any = null, index = -1) {
+    this.index = index;
     this.modal.open({
       body: body,
       header: header,
       footer: footer,
       options: options
     });
+    // this.removeTopic(index);
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -121,6 +126,7 @@ export class TopicListItemComponent implements OnInit {
     }
     this.topicList();
   }
+
   topicList() {
     this.http.post(`${environment.apiUrl}/api/project/community/topic/update/order`, this.data)
         .subscribe({
@@ -131,6 +137,7 @@ export class TopicListItemComponent implements OnInit {
 
   toggle(pos: number) {
     this.data[pos].hidden = !this.data[pos].hidden;
+    console.log(this.data[pos]);
     if (this.data[pos].hidden) {
       this.iconString = 'icofont-caret-left tc-icon-wrap';
     } else {

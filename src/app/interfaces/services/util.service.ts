@@ -74,4 +74,49 @@ export class Util {
             [item[param], item])).values()];
         return arrayUniqueByKey;
     }
+
+    static getFromArrObjectFilter(array: any[], search: string = '', column: string = 'id'): any {
+        if (!search.trim()) {
+            return array;
+        }
+
+        return array.filter(item => {
+            return item[column].toLowerCase().indexOf(search.toLowerCase()) !== -1;
+        });
+    }
+
+    static mapToString(data: any[]): string {
+        const result = [];
+        if (data && data.length) {
+            data.forEach(item => {
+                if (item['value']) {
+                    result.push(item['value'].toString());
+                }
+            });
+        }
+        return result.join(', ');
+    }
+
+    static prepareFilter(filter: any): string {
+        const result = [];
+        if (filter.semester) {
+            result.push('st=' + filter.semester);
+        }
+        if (filter.month && filter.semester == null) {
+            result.push('mm=' + filter.month);
+        }
+        if (filter.gender) {
+            result.push('gn=' + filter.gender);
+        }
+        if (filter.mentors && filter.mentors.length) {
+            result.push('mt=' + filter.mentors.join(','));
+        }
+        if (filter.university && filter.university.length) {
+            result.push('u=' + filter.university.join(','));
+        }
+        if (filter.speciality && filter.speciality.length) {
+            result.push('sp=' + filter.speciality.join(','));
+        }
+        return result.join('&');
+    }
 }

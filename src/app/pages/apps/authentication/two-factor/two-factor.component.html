@@ -1,0 +1,15 @@
+<form [formGroup]="loginForm">
+  <div class="title-block d-flex-column mb-4">
+    <h5 class="form-title">{{'Two factor' | translate}}</h5>
+    <p class="desc mb-2">
+      A verification code has been sent to your email. This code will be valid for 15 minutes.
+    </p>
+    <tc-input [prefixIcon]="'icofont-lock'" [placeholder]="'Please enter the code here' | translate" formControlName="t2fa"></tc-input>
+  </div>
+
+  <tc-form-group>
+    <div class="elem-list justify-content-between">
+      <button [view]="'error'" tc-button>OK</button>
+    </div>
+  </tc-form-group>
+</form>

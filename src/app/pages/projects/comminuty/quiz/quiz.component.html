@@ -1,0 +1,165 @@
+<!--Select Program-->
+<div *ngIf="program == null">
+    <div class="row">
+        <tc-card class="col-12">
+            <nz-radio-group [(ngModel)]="currentProgram" *ngFor="let pr of programs">
+                <label nz-radio nzValue="{{pr.id}}">{{pr.title}}</label>
+            </nz-radio-group>
+            <button tc-button [view]="'success'" (click)="selectProgram()">Submit</button>
+        </tc-card>
+    </div>
+</div>
+
+<div class="row" *ngIf="id != null">
+    <div class="col-8">
+        <tc-card>
+            <div *ngIf="question">
+                <div class="row">
+
+                    <div class="mt-4">
+                        <ng-katex-html *ngIf="langType == 'kz'"
+                                       [html]="question.description ? question.description : ' '"></ng-katex-html>
+                        <ng-katex-html *ngIf="langType == 'en'"
+                                       [html]="question.descriptionEn ? question.descriptionEn : ' '"></ng-katex-html>
+                        <ng-katex-html *ngIf="langType == 'ru'"
+                                       [html]="question.descriptionRu ? question.descriptionRu : ' '"></ng-katex-html>
+                        <!--Test-->
+                        <div class="variants-show mt-2" *ngIf="question.answerType == 1">
+                            <nz-radio-group nzName="radiogroup" [(ngModel)]="answerFill.id" class="mb-2">
+                                <label nz-radio nzValue="{{variantShow.id}}"
+                                       *ngFor="let variantShow of question.answerVariants">
+                                    <ng-katex [equation]="variantShow.text"></ng-katex>
+                                </label>
+                            </nz-radio-group>
+                        </div>
+                        <!--Multiple-->
+                        <div class="variants-show mt-2" *ngIf="question.answerType == 2">
+                            <tc-form-group class="variants-input"
+                                           *ngFor="let variantShow of question.answerVariants">
+                                <tc-checkbox class="checkbox mr-3"
+                                             [(ngModel)]="variantShow.isAnswer"></tc-checkbox>
+                                <ng-katex [equation]="variantShow.text"></ng-katex>
+                                <!--</tc-form-group>-->
+                                <!--<tc-checkbox class="mb-2"-->
+                                <!--             *ngFor="let variantShow of question.variants">-->
+                                <!--    <ng-katex [equation]="variantShow.text"></ng-katex>-->
+                                <!--</tc-checkbox>-->
+                            </tc-form-group>
+                        </div>
+                        <!--Fill-->
+                        <div class="variants-show mt-2" *ngIf="question.answerType == 3">
+                            <tc-input [(ngModel)]="answerFill.text" [ngModelOptions]="{standalone: true}"
+                                      placeholder="Type variant of answer"></tc-input>
+                            <!--                    <tc-input [(ngModel)]="answerFill.textRu" [ngModelOptions]="{standalone: true}" placeholder="Type variant of answer"></tc-input>-->
+                            <!--                    <tc-input [(ngModel)]="answerFill.textEn" [ngModelOptions]="{standalone: true}" placeholder="Type variant of answer"></tc-input>-->
+                            <!--[(ngModel)]="question.variants[0]"-->
+                            <!--[ngModelOptions]="{standalone: true}"-->
+                        </div>
+                        <!--Match-->
+                        <div class="variants-show d-flex mt-2" *ngIf="question.answerType == 4">
+                            <div>
+                                <tc-card *ngFor="let variantShow of question.answerVariants">
+                                    <ng-katex [equation]="variantShow.text"></ng-katex>
+                                </tc-card>
+                            </div>
+                            <div [cdkDropListData]="question.answerRelVariants" cdkDropList
+                                 (cdkDropListDropped)="onDrop($event, question.answerRelVariants)">
+                                <tc-card *ngFor="let variantRelShow of question.answerRelVariants">
+                                    <ng-katex [equation]="variantRelShow.text"></ng-katex>
+                                </tc-card>
+                            </div>
+                        </div>
+                        <!--Order-->
+                        <div class="variants-show mt-2" *ngIf="question.answerType == 5"
+                             [cdkDropListData]="question.answerVariants" cdkDropList
+                             (cdkDropListDropped)="onDrop($event, question.answerVariants)">
+                            <tc-card *ngFor="let variantShow of question.answerVariants">
+                                <i class="icofont-drag tc-icon-wrap.mr-2"></i>
+                                <ng-katex [equation]="variantShow.text"></ng-katex>
+                            </tc-card>
+                        </div>
+                    </div>
+                    <button tc-button [view]="'success'" (click)="nextQuestion()">Next</button>
+                </div>
+            </div>
+        </tc-card>
+    </div>
+    <div class="col-12 col-md-4">
+        <tc-card>
+            <div class="d-flex div-note">
+                <i class="icofont-clock-time icofont-2x" style="margin: 5px"></i>
+                <h3 style="margin-top: 0; height: 31px">Time</h3>
+            </div>
+            <hr>
+        </tc-card>
+    </div>
+</div>
+
+<!--Generated Question taked from Back-->
+<!--<div *ngIf="null">-->
+<!--    &lt;!&ndash;*ngIf="quiz"&ndash;&gt;-->
+<!--    <div class="row">-->
+<!--        <tc-card *ngFor="let exercise of quiz">-->
+<!--            <div class="mt-4">-->
+<!--                <ng-katex-html *ngIf="langType == 'kz'"-->
+<!--                               [html]="exercise.description ? exercise.description : ' '"></ng-katex-html>-->
+<!--                <ng-katex-html *ngIf="langType == 'en'"-->
+<!--                               [html]="exercise.descriptionEn ? exercise.descriptionEn : ' '"></ng-katex-html>-->
+<!--                <ng-katex-html *ngIf="langType == 'ru'"-->
+<!--                               [html]="exercise.descriptionRu ? exercise.descriptionRu : ' '"></ng-katex-html>-->
+<!--                &lt;!&ndash;Test&ndash;&gt;-->
+<!--                <div class="variants-show mt-2" *ngIf="exercise.answerType == 2">-->
+<!--                    <tc-radio class="mb-2"-->
+<!--                              *ngFor="let variantShow of exercise.answerVariants">-->
+<!--                        <tc-radio-option>-->
+<!--                            <ng-katex [equation]="variantShow"-->
+<!--                            ></ng-katex>-->
+<!--                        </tc-radio-option>-->
+
+<!--                        &lt;!&ndash;<tc-radio-option [value]="'val2'">Option label</tc-radio-option>&ndash;&gt;-->
+<!--                    </tc-radio>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;Multiple&ndash;&gt;-->
+<!--                <div class="variants-show mt-2" *ngIf="exercise.answerType == 2">-->
+<!--                    <tc-checkbox class="mb-2"-->
+<!--                                 *ngFor="let variantShow of exercise.answerVariants">-->
+<!--                        <ng-katex [equation]="variantShow"-->
+<!--                        ></ng-katex>-->
+<!--                    </tc-checkbox>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;Fill&ndash;&gt;-->
+<!--                <div class="variants-show mt-2" *ngIf="exercise.answerType == 3">-->
+<!--                    <tc-input placeholder="Type variant of answer"-->
+<!--                              [(ngModel)]="exercise.answerVariants[0]"-->
+<!--                              [ngModelOptions]="{standalone: true}"></tc-input>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;Match&ndash;&gt;-->
+<!--                <div class="variants-show d-flex mt-2" *ngIf="exercise.answerType == 4">-->
+<!--                    <div>-->
+<!--                        <tc-card *ngFor="let variantShow of exercise.answerVariants">-->
+<!--                            <ng-katex [equation]="variantShow"-->
+<!--                            ></ng-katex>-->
+<!--                        </tc-card>-->
+<!--                    </div>-->
+<!--                    <div [cdkDropListData]="exercise.answerRelVariants" cdkDropList-->
+<!--                         (cdkDropListDropped)="onDrop($event, exercise.answerRelVariants)">-->
+<!--                        <tc-card *ngFor="let variantRelShow of exercise.answerRelVariants">-->
+<!--                            <ng-katex [equation]="variantRelShow"-->
+<!--                            ></ng-katex>-->
+<!--                        </tc-card>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;Order&ndash;&gt;-->
+<!--                <div class="variants-show mt-2" *ngIf="exercise.answerType == 5"-->
+<!--                     [cdkDropListData]="exercise.answerVariants" cdkDropList-->
+<!--                     (cdkDropListDropped)="onDrop($event, exercise.answerVariants)">-->
+<!--                    <tc-card *ngFor="let variantRelShow of exercise.answerVariants">-->
+<!--                        <i class="icofont-drag tc-icon-wrap mr-2"></i>-->
+<!--                        <ng-katex [equation]="variantRelShow"-->
+<!--                        ></ng-katex>-->
+<!--                    </tc-card>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </tc-card>-->
+<!--    </div>-->
+<!--</div>-->

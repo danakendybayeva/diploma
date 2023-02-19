@@ -1,32 +1,32 @@
 @import '../../../../assets/sass/variables';
 
 $_bg: (
-  default: rgba(#4a505c, 0.08),
-  hover: rgba(#4a505c, 0.08),
+  default: rgba(#1A3860, 0.08),
+  hover: rgba(#1a3860, 0.08),
   focus: #fff,
   disabled: rgba(#ccc, .1));
   
 $_border: (
-  default: rgba(#4a505c, 0.08),
-  hover: rgba(#4a505c, 0.08),
-  focus: rgba(#4a505c, 0.08),
+  default: rgba(#1a3860, 0.08),
+  hover: rgba(#1a3860, 0.08),
+  focus: rgba(#1a3860, 0.08),
   disabled: rgba(#ccc, .5));
 
 $_color: (
-  default: #4a505c,
-  hover: #4a505c,
-  focus: #4a505c,
+  default: #1a3860,
+  hover: #1a3860,
+  focus: #1a3860,
   disabled: #bdbdbd);
 
 $_module-rem: $module-rem;
-$_placeholder-color: #4a505c;
+$_placeholder-color: #1a3860;
 $_border-style: solid;
 $_border-width: 1px;
 $_fs: 1rem;
 $_lh: $_module-rem * 2 / $_fs;
-$_padding-h: $_module-rem * 2;
+$_padding-h: 10px;
 $_padding-v: $_module-rem;
-$_shape: 20px;
+$_shape: 4px;
 $_animation: $animation;
 $_shadow-hover: none;
 
@@ -117,7 +117,7 @@ input:-webkit-autofill {
       font-weight: 400;
       margin: -$_border-width 0;
       outline: none;
-      padding: $_padding-v .2em;
+      padding: 8px .2em;
       width: 100%;
 
       @include placeholder {

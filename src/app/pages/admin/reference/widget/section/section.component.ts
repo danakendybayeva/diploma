@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {AfterContentChecked, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {FieldService} from '../../../../../interfaces/services/reference/field.service';
 import {Status, Util} from '../../../../../interfaces/services/util.service';
 import {environment} from '../../../../../../environments/environment';
 import {ReferenceField} from '../../../../../interfaces/services/reference/fields/reference';
-import {IReference, ISection} from '../../../../../interfaces/services/reference/reference';
+import {ISection} from '../../../../../interfaces/services/reference/reference';
 import {HttpClient} from '@angular/common/http';
 import {IOption} from '../../../../../ui/interfaces/option';
 
@@ -13,7 +13,7 @@ import {IOption} from '../../../../../ui/interfaces/option';
   templateUrl: './section.component.html',
   styleUrls: ['./section.component.scss']
 })
-export class TCSectionComponent implements OnInit, OnChanges {
+export class TCSectionComponent implements OnInit, OnChanges, AfterContentChecked {
   labelForm: FormGroup;
   @Input() _value: ISection = {
     id: '',
@@ -26,7 +26,8 @@ export class TCSectionComponent implements OnInit, OnChanges {
     enableCustomFields: false,
     filterField: [],
     referenceId: '',
-    showOrder: 99999
+    showOrder: 99999,
+    fastEdit: false
   };
   @Input() referenceId = null;
   @Input() fields: any[] = null;
@@ -57,45 +58,57 @@ export class TCSectionComponent implements OnInit, OnChanges {
 
   accessStructure: ReferenceField = {
     id: 'access',
-    title: 'Имеют доступ к представлению',
     hint: null,
-    isRequired: false,
-    type: 'reference',
-    isUnique: false,
-    defaultValue: [],
-    referenceId: null,
-    isSingle: false,
-    separator: ', ',
+    type: 'structure',
     limit: -1,
+    title: 'Имеют доступ к представлению',
+    fields: [
+      'fio'
+    ],
+    hideAll: false,
+    isActive: true,
+    isSingle: false,
+    isUnique: false,
+    orderNum: 2,
+    separator: ', ',
+    isRequired: false,
+    defaultSort: {
+      type: 'asc',
+      field: ''
+    },
     disableLink: false,
-    fields: ['last_name', 'first_name'],
+    enableGroup: false,
     defaultGroup: [],
-    defaultSort: {field: '', type: 'asc'},
-    templateView: '{Last Name} {First Name}',
+    defaultValue: [],
+    templateView: '{ФИО}',
     enableNumbered: false,
-    value: []
+    enableSubdivision: true,
+    referenceId: '00000000-0000-0000-0000-000000000017'
   };
+  oldId = null;
+  loading = false;
 
   constructor(
       private formBuilder: FormBuilder,
       private fieldService: FieldService,
-      private http: HttpClient
+      private http: HttpClient,
+      private ref: ChangeDetectorRef
   ) {
   }
 
   ngOnInit() {
     this.initLabelForm();
-    if (this._value.id && this._value.id.length) {
-      this.urlRequest = `${environment.apiUrl}/api/reference/${this._value.referenceId}/edit/field/${this._value.id}`;
+    this.urlRequest = `${environment.apiUrl}/api/reference/section/create`;
+  }
+
+  ngOnChanges(changes) {
+    if (this._value.id && this._value.id.length && this.oldId !== this._value.id) {
+      this.loading = true;
       this.removeEnable = true;
-      this._value.fields = JSON.parse(this._value.fields.toString());
-      this._value.groupField = JSON.parse(this._value.groupField.toString());
-      this._value.sortField = JSON.parse(this._value.sortField.toString());
-      this._value.filterField = JSON.parse(this._value.filterField.toString());
+      this.oldId = this._value.id;
 
-      this._value.access = this.fieldService.convertRefArray(this._value.access);
-
-    } else {
+    } else if (this.oldId !== this._value.id) {
+      this.loading = true;
       this._value = {
         id: '',
         title: '',
@@ -107,19 +120,21 @@ export class TCSectionComponent implements OnInit, OnChanges {
         enableCustomFields: false,
         filterField: [],
         referenceId: this.referenceId,
-        showOrder: 99999
+        showOrder: 99999,
+        fastEdit: false
       };
     }
-    this.urlRequest = `${environment.apiUrl}/api/reference/section/create`;
-  }
-
-  ngOnChanges(changes) {
     setTimeout(() => {
       this.referenceOption = [];
       this.fields.forEach(ref => {
         this.referenceOption.push({value: ref.id, label: ref.title});
       });
+      this.loading = false;
     });
+  }
+
+  ngAfterContentChecked() {
+    this.ref.detectChanges();
   }
 
   initLabelForm() {
@@ -130,6 +145,7 @@ export class TCSectionComponent implements OnInit, OnChanges {
       defaultGroup: [[]],
       defaultSort: [],
       enableCustomFields: [false],
+      fastEdit: [false],
       sort: [],
       filter: []
     });

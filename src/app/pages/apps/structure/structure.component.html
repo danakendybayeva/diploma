@@ -1,0 +1,154 @@
+<tc-card>
+    <nz-input-group [nzSuffix]="" class="mb-3">
+        <tc-input
+                type="text"
+                tc-input
+                placeholder="Search"
+                [(ngModel)]="searchValue"
+                [style.Width]="'480px'"
+        ></tc-input>
+    </nz-input-group>
+    <nz-tree class="structure-node"
+            *ngIf="loaded"
+            [nzData]="nodes"
+             [nzSearchValue]="searchValue"
+             [nzTreeTemplate]="nzTreeTemplate"
+            nzAsyncData
+            [nzDraggable]="true"
+            [nzBlockNode]="true"
+            (nzOnDragEnd)="dragEvent($event)"
+    ></nz-tree>
+    <ng-template #nzTreeTemplate let-node>
+      <span [class.active]="activedNode?.key === node.key" class="item-span">
+        <div class="item-tree">
+            <tc-avatar-own class="mr-2" *ngIf="node.icon === 'icofont-institution'"
+                [bgColor]="'#2fa7ff'"
+                [size]="28"
+                [icon]="'icofont-institution'"
+            ></tc-avatar-own>
+            <tc-avatar-own class="mr-2" *ngIf="node.icon === 'icofont-user'"
+                [bgColor]="managerIds.indexOf(node.key) >= 0 ? '#e91e63' : '#ecebeb'"
+                [size]="28"
+                [icon]="node.icon"
+                [tcColor]="managerIds.indexOf(node.key) >= 0 ? '#ffffff' : '#b9b9b9'"
+            ></tc-avatar-own>
+            <span>{{ node.title }}</span>
+            <i class="icofont-edit-alt edit ml-2"
+               nz-popover
+               nzPopoverTitle=""
+               nzPopoverTrigger="click"
+               nzPopoverPlacement="bottomLeft"
+               [nzPopoverContent]="contentTemplate"
+               (click)="selectingNode(node)"
+            ></i>
+            <i class="icofont-drag edit drag ml-2"
+            ></i>
+        </div>
+      </span>
+    </ng-template>
+</tc-card>
+
+<ng-template #contentTemplate>
+    <ul class="list-unstyled structure-popover fields-type-add">
+        <li class="field-type-add"
+            (click)="showModal('subdivision', true)"
+        >
+            <span>Добавить подразделение</span>
+        </li>
+        <li class="field-type-add bottom-border"
+            (click)="showModal('profile', true)"
+        >
+            <span>Добавить сотрудника</span>
+        </li>
+        <li class="field-type-add bottom-border"
+            (click)="showModal('editprofile', false)"
+        >
+            <span>Редактировать</span>
+        </li>
+        <li class="field-type-add"
+            *ngIf="selectedNode.key !== '00000000-0000-0000-0000-000000000000'"
+            (click)="openModalEdit(
+                modalBodyDelete,
+                '',
+                modalFooterDelete,
+                { closeButton: true, overlayClose: true, width: 'auto', height: 'auto' },
+                structure.type,
+                false
+                )">
+            <span>{{'Delete'|translate}}</span>
+        </li>
+    </ul>
+</ng-template>
+
+<ng-container>
+    <ng-template #modalBodyDelete>
+        <p>{{ 'Student delete title' | translate }}</p>
+    </ng-template>
+
+    <ng-template #modalFooterDelete class="mini-folder-footer">
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [size]="'sm'" [view]="'error'" (click)="closeModal()">Close</button>
+            <button tc-button [size]="'sm'" [view]="'success'" (click)="deleteStructure()">OK</button>
+        </div>
+    </ng-template>
+</ng-container>
+
+<nz-modal
+        nzWrapClassName="vertical-center-modal"
+        [(nzVisible)]="isVisibleAddSubdivision"
+        (nzOnCancel)="handleCancelMiddle()"
+        (nzOnOk)="createSub()"
+>
+    <div class="container">
+        <div class="row">
+            <form class="col-12" *ngIf="loaded" [formGroup]="labelForm">
+                <tc-string-field
+                        [_valueField]="userField.display_name"
+                        [(ngModel)]="structure.displayName"
+                        [form]="labelForm"
+                        [type]="'edit'"
+                        [isNew]="isNew"
+                        [formControlName]="userField.display_name.id"
+                ></tc-string-field>
+                <tc-reference-field *ngIf="!isNew && structure.parent"
+                                    [_valueField]="userField.parent"
+                                    [(ngModel)]="structure.parent"
+                                    [form]="labelForm"
+                                    [type]="'edit'"
+                                    [isNew]="isNew"
+                                    [formControlName]="userField.parent.id"
+                ></tc-reference-field>
+                <tc-structure-field
+                        *ngIf="this.structure.type === 'subdivision'"
+                        [_valueField]="userField.manager"
+                        [(ngModel)]="structure.manager"
+                        [form]="labelForm"
+                        [type]="'edit'"
+                        [isNew]="isNew"
+                        [formControlName]="userField.manager.id"
+                ></tc-structure-field>
+            </form>
+        </div>
+    </div>
+</nz-modal>
+
+<nz-modal
+        nzWrapClassName="vertical-center-modal"
+        [(nzVisible)]="isVisibleAddEmployee"
+        (nzOnCancel)="handleCancelMiddle()"
+        (nzOnOk)="createEmployees()"
+>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <tc-structure-field
+                            [_valueField]="userField.employee"
+                            [(ngModel)]="structure.employee"
+                            [ngModelOptions]="{standalone: true}"
+                            [type]="'edit'"
+                            [isNew]="true"
+                    ></tc-structure-field>
+                </div>
+            </div>
+        </div>
+</nz-modal>

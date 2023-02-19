@@ -1,6 +1,6 @@
 @import '../../../assets/sass/variables';
 
-$_page-title-color: #4a505c;
+$_page-title-color: #10142D;
 
 @keyframes pulse {
   0% {
@@ -66,8 +66,9 @@ $_page-title-color: #4a505c;
         .page-header {
           display: flex;
           justify-content: space-between;
-          border-bottom: 1px solid rgba(#000, .08);
-          margin: 0 0 ($module-rem * 3);
+          //border-bottom: 1px solid rgba(#000, .08);
+          margin: 0 0 32px;
+          //margin: 0 0 ($module-rem * 3);
           @media only screen and (max-width: 767px) {
             margin-bottom: $module-rem * 2;
           }
@@ -75,10 +76,11 @@ $_page-title-color: #4a505c;
           .page-title {
             color: $_page-title-color;
             font-size: 1.75rem;
-            font-weight: bold;
+            font-weight: 600;
             margin: 0;
             letter-spacing: .1px;
-            padding: 0 0 ($module-rem  * 2.5);
+            padding: 0;
+            //padding: 0 0 ($module-rem  * 2.5);
             @media only screen and (max-width: 767px) {
               font-size: 1.5rem;
               padding-bottom: $module-rem;

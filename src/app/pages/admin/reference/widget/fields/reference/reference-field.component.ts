@@ -200,7 +200,7 @@ export class ReferenceFieldComponent implements OnInit, OnChanges {
       this.referenceFieldsOption.forEach(item => {
         if (this._value.fields.indexOf(item.value) >= 0) {
           fieldArray.push(item.label);
-          if (this._value.templateView === null || this._value.templateView.indexOf(item.label) < 0) {
+          if (this._value.templateView === null) {
             isNew = true;
           }
         }

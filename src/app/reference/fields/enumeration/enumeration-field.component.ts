@@ -1,7 +1,8 @@
-import {Component, OnInit, Input, OnChanges, Output, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {EnumerationField, EnumValues} from '../../../interfaces/services/reference/fields/enumeration';
+import {EnumerationField} from '../../../interfaces/services/reference/fields/enumeration';
 import {IOption} from '../../../ui/interfaces/option';
+import {Util} from '../../../interfaces/services/util.service';
 
 @Component({
 	selector: 'tc-enumeration-field',
@@ -12,9 +13,10 @@ export class TCEnumerationFieldComponent implements OnInit, OnChanges {
 	@Input() align: string;
 	@Input() title: string;
 	@Input() type: string;
+	@Input() color: string;
 	@Input() isNew = false;
 	@Input() styleType = 'standard';
-	@Input('value') innerValue: string;
+	@Input('value') innerValue: any[] = [];
 	@Input() _valueField: EnumerationField = null;
 	@Input() form: FormGroup = new FormGroup({});
 
@@ -33,8 +35,8 @@ export class TCEnumerationFieldComponent implements OnInit, OnChanges {
 		if (changes._valueField && this._valueField) {
 			if (this.type === 'edit') {
 				const validate = (this._valueField.isRequired) ? [Validators.required] : [];
-				this.form.addControl(this._valueField.id, this.formBuilder.control(this._valueField.value, validate));
-				this.convertToAng();
+				this.form.addControl(this._valueField.id, this.formBuilder.control(null, validate));
+
 				if (this._valueField.value) {
 					this._valueField.value.forEach(item => {
 						this.selected.push(item.id);
@@ -54,10 +56,15 @@ export class TCEnumerationFieldComponent implements OnInit, OnChanges {
 	}
 
 	changeValueEnum(event) {
-		const values = this._valueField.values.filter(function(item) {
-			return event.indexOf(item.id) > -1;
-		});
-		this._valueField.value = values;
+		if (event) {
+			let eventClone = event;
+			if (!Array.isArray(event)) {
+				eventClone = [event];
+			}
+			this._valueField.value = this._valueField.values.filter(function (item) {
+				return eventClone.indexOf(item.id) > -1;
+			});
+		}
 	}
 
 	convertToAng() {
@@ -70,7 +77,14 @@ export class TCEnumerationFieldComponent implements OnInit, OnChanges {
 			);
 			this._valueField.value = result;
 		}
+	}
 
+	setBadges(id) {
+		const badges = Util.getFromArrObjectFilter(this._valueField.values, id);
+		if (badges.length) {
+			return badges[0].badges;
+		}
+		return null;
 	}
 
 }

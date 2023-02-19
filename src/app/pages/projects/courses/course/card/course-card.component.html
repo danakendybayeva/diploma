@@ -1,0 +1,61 @@
+<div class="grid-block">
+    <div [routerLink]="rLink"
+            [ngStyle]="{'background-image': 'url(' + (course['feature_image'].length ? (srcImage(course['feature_image'][0]['id']) | secureFile | async) : 'assets/image/course-default.jpg') + ')'}"
+            class="card-img div-card"
+    >
+        <div [ngSwitch]="course['progress_percent']">
+            <ng-template [ngSwitchCase]="null"><div class="course-status course-primary-background">{{'Start Course'|translate}}</div></ng-template>
+            <ng-template [ngSwitchCase]="100"><div class="course-status course-success-background">{{'Complete'|translate}}</div></ng-template>
+            <ng-template ngSwitchDefault><div class="course-status course-primary-background">{{'In Progress'|translate}}</div></ng-template>
+        </div>
+    </div>
+
+    <div class="card-content" [routerLink]="rLink">
+        <div class="count-lesson">
+            {{ course['lesson_count'] ? course['lesson_count']  : 0 }} {{(course['lesson_count'] > 1 ? 'Lessons' : 'Lesson')|translate }}
+        </div>
+        <h2>{{ course['display_name'] }}</h2>
+        <div class="d-flex align-items-center mb-2" *ngIf="course['teachers'].length">
+            <tc-avatar
+                    [tcBgColor]="'#7cdb86'"
+                    [src]="(course['teachers'][0]['src'] ? course['teachers'][0]['src'] : null)"
+                    [initials]="(course['teachers'][0]['src'] ? null : getLetters(course['teachers'][0]['value']))"
+                    [size]="30"
+                    style="margin-right: 10px;"
+            ></tc-avatar>
+            <span style="font-size: 13px;">{{course['teachers'][0]['value']}}</span>
+        </div>
+        <nz-progress [nzPercent]="course['progress_percent'] ? course['progress_percent'] : 0" [nzShowInfo]="false" nzSize="small" [nzStrokeColor]="{ '0%': '#108ee9', '100%': '#7cdb86' }"></nz-progress>
+        <div class="block-small">
+            <span style="font-size: 13px;">{{course['progress_percent'] ? course['progress_percent'] : 0}}% {{'Complete'|translate}}</span>
+            <span style="font-size: 13px;" *ngIf="course['last_activity']">{{'Last activity on'|translate}} February 17, 2021</span>
+        </div>
+    </div>
+<!--    <tc-card [img]="course['feature_image'].length ? (srcImage(course['feature_image'][0]['id']) | secureFile | async) : ''"-->
+<!--             class="mb-md-0 card"-->
+<!--             [title]="course['display_name']"-->
+<!--             [ratio]="'16:9'"-->
+<!--             [topTitle]="(course.progress > 75 && course.progress < 100) ? 'Осталось немного!': ''"-->
+<!--             [topIcon]="(course.progress > 75 && course.progress < 100) ? 'sli-bell tc-icon-wrap' : ''" [type]="'course'"-->
+<!--    >-->
+<!--        <div class="tc-card-padding">-->
+<!--            <div class="d-flex justify-start">-->
+<!--                <div class="mr-5 options-course">-->
+<!--                    <tc-icon class="mr-2" [iconClass]="'sli-clock tc-icon-wrap'" [tcFontSize]="18"></tc-icon>-->
+<!--                    <span>{{ course.allTime }} часов</span>-->
+<!--                </div>-->
+<!--                <div class="mr-3 options-course">-->
+<!--                    <tc-icon class="mr-2" [iconClass]="'sli-layers tc-icon-wrap'" [tcFontSize]="18"></tc-icon>-->
+<!--                    <span>{{ course.allLesson }} урок</span>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div *ngIf="course.isJoined">-->
+<!--            <div class="progress-outer"></div>-->
+<!--            <div class="process-right-radius"></div>-->
+<!--            <div class="progress-card" [ngStyle]="{width: course.progress + '%',-->
+<!--                borderBottomRightRadius: (course.progress == 100) ? '15px' : 0}">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </tc-card>-->
+</div>

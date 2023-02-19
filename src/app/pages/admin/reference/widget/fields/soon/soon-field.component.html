@@ -1,6 +1,6 @@
-<tc-card [title]="'Coming soon'">
+<tc-card [title]="'Coming soon'|translate">
     <nz-empty [nzNotFoundContent]="contentTpl"></nz-empty>
     <ng-template #contentTpl>
-        <span>Coming soon!</span>
+        <span>{{'Coming soon'|translate|uppercase}}!</span>
     </ng-template>
 </tc-card>

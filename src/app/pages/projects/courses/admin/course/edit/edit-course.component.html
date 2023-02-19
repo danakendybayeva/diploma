@@ -1,0 +1,425 @@
+<nz-breadcrumb class="breadcrumb">
+    <nz-breadcrumb-item>
+        <a [routerLink]="['/vertical/courses/course/list']">{{'List Course' | translate}}</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+        {{'Add Course' | translate}}
+    </nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<form *ngIf="loaded && !isEmpty" [formGroup]="labelForm" (ngSubmit)="submitEvent(labelForm.valid)">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <nz-tabset (nzSelectedIndexChange)="nzTabIndexChange($event)">
+                <nz-tab nzTitle="{{'Course Page'|translate}}"></nz-tab>
+                <nz-tab nzTitle="{{'Setting'|translate}}"></nz-tab>
+                <nz-tab nzTitle="{{'Builder'|translate}}" [nzDisabled]="(recordId == null || recordId.length == 0)"></nz-tab>
+            </nz-tabset>
+
+            <tc-card [ngClass]="{'d-none': (tabShow != 0)}">
+                <tc-string-field
+                        [_valueField]="fieldsData['display_name']"
+                        [(ngModel)]="fieldsData['display_name'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'display_name'"
+                ></tc-string-field>
+                <tc-string-field
+                        [_valueField]="fieldsData['intro_video']"
+                        [(ngModel)]="fieldsData['intro_video'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'intro_video'"
+                ></tc-string-field>
+                <tc-text-field
+                        *ngIf="loaded && tabShow === 0"
+                        [_valueField]="fieldsData['intro_description']"
+                        [(ngModel)]="fieldsData['intro_description'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'intro_description'"
+                        [minHeightText]="300"
+                ></tc-text-field>
+                <tc-text-field
+                        *ngIf="loaded && tabShow === 0"
+                        [_valueField]="fieldsData['description']"
+                        [(ngModel)]="fieldsData['description'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'description'"
+                        [minHeightText]="400"
+                ></tc-text-field>
+
+                <div class="row">
+                    <tc-image-field
+                            class="col-12 col-md-6"
+                            [_valueField]="fieldsData['feature_image']"
+                            [(ngModel)]="fieldsData['feature_image'].value"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [isNew]="isNew"
+                            [referenceId]="referenceId"
+                            [formControlName]="'feature_image'"
+                            [styleType]="'single'"
+                            [postAction]="postImage"
+                            [getUrl]="getImageUrl"
+                    ></tc-image-field>
+
+                    <tc-image-field
+                            class="col-12 col-md-6"
+                            [_valueField]="fieldsData['bg_image']"
+                            [(ngModel)]="fieldsData['bg_image'].value"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [isNew]="isNew"
+                            [referenceId]="referenceId"
+                            [formControlName]="'bg_image'"
+                            [styleType]="'single'"
+                            [postAction]="postImage"
+                            [getUrl]="getImageUrl"
+                    ></tc-image-field>
+                </div>
+            </tc-card>
+
+            <div [ngClass]="{'d-none': (tabShow != 1)}">
+                <tc-card>
+                    <tc-boolean-field
+                            [_valueField]="fieldsData['is_prerequisites']"
+                            [(ngModel)]="fieldsData['is_prerequisites'].value"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [isNew]="isNew"
+                            [formControlName]="'is_prerequisites'"
+                            [isSwitcher]="true"
+                    ></tc-boolean-field>
+                    <div *ngIf="fieldsData['is_prerequisites'].value">
+                        <tc-form-group>
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-3">
+                                    <tc-form-label class="mb-md-0">{{'Compare Mode'|translate}}</tc-form-label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <tc-radio id="default-value-prerequisites_mode"
+                                              [formControlName]="'prerequisites_mode'"
+                                              [direction]="'vertical'"
+                                              [(ngModel)]="fieldsData['prerequisites_mode'].value"
+                                              [value]="fieldsData['prerequisites_mode'].value">
+                                        <tc-radio-option class="mb-2 color-main" [value]="'ANY'">
+                                            {{'Any Selected'|translate}}
+                                        </tc-radio-option>
+                                        <span class="small-font">{{'The user must complete any one of the selected courses in order to access this course'|translate}}</span>
+                                        <tc-radio-option class="mb-2 color-main" [value]="'ALL'">
+                                            {{'All Selected'|translate}}
+                                        </tc-radio-option>
+                                        <span class="small-font">{{'The user must complete all selected course in order to access this course'|translate}}</span>
+                                    </tc-radio>
+                                </div>
+                            </div>
+                        </tc-form-group>
+
+                        <tc-enumeration-field
+                            [_valueField]="fieldsData['prerequisites_courses']"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [isNew]="isNew"
+                        ></tc-enumeration-field>
+                        <hr />
+                    </div>
+                </tc-card>
+                <tc-card>
+                    <tc-structure-field
+                        [_valueField]="fieldsData['access']"
+                        [(ngModel)]="fieldsData['access'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [formControlName]="'access'"
+                    ></tc-structure-field>
+                    <tc-integer-field
+                        [_valueField]="fieldsData['access_course']"
+                        [(ngModel)]="fieldsData['access_course'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [formControlName]="'access_course'"
+                    ></tc-integer-field>
+                    <hr />
+                </tc-card>
+            </div>
+
+            <div [ngClass]="{'d-none': (tabShow != 2)}">
+                <tc-card cdkDropList (cdkDropListDropped)="onDrop($event)">
+                    <div *ngFor="let blockB of builders; let index = index;" cdkDrag>
+                        <div
+                                class="module-block"
+                                [ngClass]="{'block-active' : (builderActive === index)}"
+                                (click)="builderActive = index"
+                        >
+                            <div class="d-flex align-items-center">
+                                <div class="left-btn">
+                                    <tc-icon *ngIf="index > 0" [iconClass]="'icofont-rounded-up'" [tcFontSize]="18" (click)="changeOrderNum(index, 'up')"></tc-icon>
+                                    <tc-icon *ngIf="index === 0" [iconClass]="'icofont-rounded-up'" [tcFontSize]="18" [tcColor]="'transparent'"></tc-icon>
+                                    <tc-icon [iconClass]="'icofont-drag2'" [tcFontSize]="18" cdkDragHandle></tc-icon>
+                                    <tc-icon *ngIf="index < (builders.length - 1)"  [iconClass]="'icofont-rounded-down'" [tcFontSize]="18" (click)="changeOrderNum(index, 'down')"></tc-icon>
+                                    <tc-icon *ngIf="index === (builders.length - 1)" [iconClass]="'icofont-rounded-down'" [tcFontSize]="18" [tcColor]="'transparent'"></tc-icon>
+                                </div>
+                                <div class="d-flex align-items-center pl-2 module-center-block">
+                                    <div class="d-flex align-items-center pl-2">
+                                        <tc-avatar [tcBgColor]="'#5b97f7'" [initials]="'M'" [size]="30"></tc-avatar>
+                                        <span><strong>{{blockB.title}}</strong> ({{blockB.lessons.length}})</span>
+                                    </div>
+                                    <div class="d-flex align-items-center pl-2 edit-remove">
+                                        <tc-icon [routerLink]="['/vertical/courses/admin/course/module/edit', blockB['id']]" class="mr-1" [iconClass]="'icofont-ui-edit'" [tcFontSize]="14" [tcColor]="'#2fa7ff'"></tc-icon>
+                                        <tc-icon [iconClass]="'icofont-close'" [tcFontSize]="14" [tcColor]="'#ed253d'"></tc-icon>
+                                    </div>
+                                </div>
+                                <div class="right-btn">
+                                    <tc-icon [iconClass]="blockB.expanded ? 'icofont-simple-up': 'icofont-simple-down'" [tcFontSize]="18" (click)="blockB.expanded = !blockB.expanded"></tc-icon>
+                                </div>
+                            </div>
+
+                            <div *ngIf="blockB.expanded" class="block-more" cdkDropList  (cdkDropListDropped)="onDropLesson($event, index)">
+                                <div class="block-lesson" cdkDrag *ngFor="let lesson of blockB.lessons; let indexLesson = index;">
+                                    <div class="d-flex align-items-center block-more-ed">
+                                        <div class="left-btn">
+                                            <tc-icon [iconClass]="'icofont-drag2'" [tcFontSize]="18" cdkDragHandle></tc-icon>
+                                        </div>
+                                        <div class="d-flex align-items-center pl-2 module-center-block">
+                                            <div class="d-flex align-items-center pl-2">
+                                                <tc-avatar [tcBgColor]="'#f75b5b'" [initials]="'L'" [size]="25"></tc-avatar>
+                                                <span><strong>{{lesson.title}}</strong></span>
+                                            </div>
+                                            <div class="d-flex align-items-center pl-2 edit-remove">
+                                                <tc-icon [routerLink]="['/vertical/courses/admin/course/lesson/edit', lesson['id']]" class="mr-1" [iconClass]="'icofont-ui-edit'" [tcFontSize]="14" [tcColor]="'#2fa7ff'"></tc-icon>
+                                                <tc-icon [iconClass]="'icofont-close'" [tcFontSize]="14" [tcColor]="'#ed253d'" (click)="openModal(modalBody, 'Modal title', modalFooter, { closeButton: true, overlayClose: true }, index, indexLesson)"></tc-icon>
+                                            </div>
+                                        </div>
+                                        <div class="right-btn">
+                                            <tc-icon [iconClass]="lesson.expanded ? 'icofont-simple-up': 'icofont-simple-down'" [tcFontSize]="18" (click)="lesson.expanded = !lesson.expanded"></tc-icon>
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="lesson.expanded" class="block-more block-lesson">
+                                        <div class="block-quiz" cdkDrag *ngFor="let quiz of lesson.quizzes; let indexQuiz = index;">
+                                            <div class="d-flex align-items-center block-more-ed">
+                                                <div class="left-btn">
+                                                    <tc-icon [iconClass]="'icofont-drag2'" [tcFontSize]="18" cdkDragHandle></tc-icon>
+                                                </div>
+                                                <div class="d-flex align-items-center pl-2 module-center-block">
+                                                    <div class="d-flex align-items-center pl-2">
+                                                        <tc-avatar [tcBgColor]="'#7cdb86'" [initials]="'Q'" [size]="25"></tc-avatar>
+                                                        <span><strong>{{quiz.title}}</strong></span>
+                                                    </div>
+                                                    <div class="d-flex align-items-center pl-2 edit-remove">
+                                                        <tc-icon [routerLink]="['/vertical/courses/admin/course/quiz/edit', quiz['id']]" class="mr-1" [iconClass]="'icofont-ui-edit'" [tcFontSize]="14" [tcColor]="'#2fa7ff'"></tc-icon>
+                                                        <tc-icon [iconClass]="'icofont-close'" [tcFontSize]="14" [tcColor]="'#ed253d'" (click)="openModal(modalBody, 'Modal title', modalFooter, { closeButton: true, overlayClose: true }, index, indexLesson, indexQuiz)"></tc-icon>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="empty-block" *ngIf="lesson.quizzes.length === 0">
+
+                                        </div>
+
+                                        <div class="d-flex align-items-center mb-4" *ngIf="lesson.addingNewQuiz">
+                                            <tc-input [(ngModel)]="newQuizTitle" [ngModelOptions]="{standalone: true}" [size]="'sm'" [placeholder]="'New Quiz'"></tc-input>
+                                            <button tc-button
+                                                    class="mr-1 ml-1"
+                                                    [type]="'button'"
+                                                    [size]="'sm'"
+                                                    [view]="'info'"
+                                                    (click)="addNewQuiz(index, indexLesson, newQuizTitle)"
+                                            >
+                                                {{'Save'|translate}}
+                                            </button>
+                                            <button tc-button
+                                                    [type]="'button'"
+                                                    [size]="'sm'"
+                                                    [view]="'default'"
+                                                    (click)="cancelAddingNewQuiz(index, indexLesson)"
+                                            >
+                                                {{'Cancel'|translate}}
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <a [ngStyle]="{color: '#2fa7ff', lineHeight: '27px'}" *ngIf="!lesson.addingNewQuiz" (click)="lesson.addingNewQuiz = true">
+                                                <tc-icon [iconClass]="'sli-plus tc-icon-wrap'" [tcFontSize]="14" [tcColor]="'#2fa7ff'"></tc-icon>
+                                                {{'Create Quiz'|translate}}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="blockB.lessons.length === 0" class="empty-block">
+
+                                </div>
+
+                                <div class="d-flex align-items-center mb-4" *ngIf="blockB.addingNewLesson">
+                                    <tc-input [(ngModel)]="newLessonTitle" [ngModelOptions]="{standalone: true}" [size]="'sm'" [placeholder]="(('New'|translate )+ 'Lesson'|translate)"></tc-input>
+                                    <button tc-button
+                                            class="mr-1 ml-1"
+                                            [type]="'button'"
+                                            [size]="'sm'"
+                                            [view]="'info'"
+                                            (click)="addNewLesson(index, newLessonTitle)"
+                                    >
+                                        {{'Save'|translate}}
+                                    </button>
+                                    <button tc-button
+                                            [type]="'button'"
+                                            [size]="'sm'"
+                                            [view]="'default'"
+                                            (click)="cancelAddingNewLesson(index)"
+                                    >
+                                        {{'Cancel'|translate}}
+                                    </button>
+                                </div>
+                                <div>
+                                    <a [ngStyle]="{color: '#2fa7ff', lineHeight: '27px'}" *ngIf="!blockB.addingNewLesson" (click)="blockB.addingNewLesson = true">
+                                        <tc-icon [iconClass]="'sli-plus tc-icon-wrap'" [tcFontSize]="14" [tcColor]="'#2fa7ff'"></tc-icon>
+                                        {{'Create Lesson'|translate}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mt-2 mb-4" *ngIf="addingNewModule">
+                        <tc-input [(ngModel)]="newModuleTitle" [ngModelOptions]="{standalone: true}" [size]="'sm'" [placeholder]="'New Module'"></tc-input>
+                        <button tc-button
+                                class="mr-1 ml-1"
+                                [type]="'button'"
+                                [size]="'sm'"
+                                [view]="'info'"
+                                (click)="addModuleLesson(newModuleTitle)"
+                        >
+                            {{'Save'|translate}}
+                        </button>
+                        <button tc-button
+                                [type]="'button'"
+                                [size]="'sm'"
+                                [view]="'default'"
+                                (click)="cancelAddingNewModule()"
+                        >
+                            {{'Cancel'|translate}}
+                        </button>
+                    </div>
+                    <div class="mt-2">
+                        <a [ngStyle]="{color: '#2fa7ff', lineHeight: '27px'}" *ngIf="!addingNewModule" (click)="addingNewModule = true">
+                            <tc-icon [iconClass]="'sli-plus tc-icon-wrap'" [tcFontSize]="14" [tcColor]="'#2fa7ff'"></tc-icon>
+                            {{'Create Module'|translate}}
+                        </a>
+                    </div>
+                </tc-card>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <tc-card [title]="'Publish'|translate" class="mt-61">
+                <tc-enumeration-field
+                        [_valueField]="fieldsData['status']"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [styleType]="'single'"
+                        [isNew]="isNew"
+                ></tc-enumeration-field>
+                <tc-timestamp-field
+                        [_valueField]="fieldsData['publish_date']"
+                        [(ngModel)]="fieldsData['publish_date'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'publish_date'"
+                ></tc-timestamp-field>
+                <div style="text-align: right;">
+                    <button tc-button
+                            [size]="'sm'"
+                            [view]="'info'">
+                        {{'Save'|translate}}
+                    </button>
+                </div>
+            </tc-card>
+
+            <div [ngClass]="{'d-none': (tabShow != 0)}">
+                <tc-card [title]="'Packages'|translate">
+                    <tc-input
+                        id="search-package"
+                        class="mb-2"
+                        [size]="'sm'"
+                        [suffixIcon]="'icofont-search-2'"
+                        [formControlName]="'search-package'"
+                        [placeholder]="'Search'"
+                        [(ngModel)]="searchPackages">
+                    </tc-input>
+                    <div class="packages-block pt-2">
+                        <nz-tree
+                            [nzData]="packages"
+                            nzCheckable
+                            nzMultiple
+                            [nzSearchValue]="searchPackages"
+                            [nzCheckedKeys]="packagesDefaultSelected"
+                            (nzClick)="nzEvent($event)"
+                            (nzExpandChange)="nzEvent($event)"
+                            (nzCheckBoxChange)="nzEvent($event)"
+                            (nzSearchValueChange)="nzEvent($event)"
+                        >
+                        </nz-tree>
+                    </div>
+                </tc-card>
+
+                <tc-card [title]="'Details'|translate">
+                    <tc-integer-field
+                        [_valueField]="fieldsData['order_num']"
+                        [(ngModel)]="fieldsData['order_num'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'order_num'"
+                    ></tc-integer-field>
+                    <tc-enumeration-field
+                            [_valueField]="fieldsData['company']"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [styleType]="'single'"
+                            [isNew]="isNew"
+                    ></tc-enumeration-field>
+                    <tc-enumeration-field
+                            [_valueField]="fieldsData['teachers']"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [styleType]="'single'"
+                            [isNew]="isNew"
+                    ></tc-enumeration-field>
+                    <tc-enumeration-field
+                            [_valueField]="fieldsData['language']"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [styleType]="'single'"
+                            [isNew]="isNew"
+                    ></tc-enumeration-field>
+                </tc-card>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<ng-container>
+    <ng-template #modalBody>
+        <p>{{'Are you sure'|translate}}?</p>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'default'" (click)="closeModal()">{{'Cancel'|translate}}</button>
+            <button tc-button [view]="'error'" (click)="removeLesson(selectedModule, selectedLesson)">{{'Delete'|translate}}</button>
+        </div>
+    </ng-template>
+</ng-container>

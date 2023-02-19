@@ -24,7 +24,7 @@ $_border-style: solid;
 $_border-width: 1px;
 $_fs: 1rem;
 $_lh: decimal-round($_module-rem / $_fs * 2);
-$_padding-h: $_module-rem * 2;
+$_padding-h: 10px;
 $_padding-v: $_module-rem * 2;
 $_shape: 30px;
 $_animation: $animation;

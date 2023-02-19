@@ -1,0 +1,75 @@
+:host {
+  .label-show {
+    font-weight: 700;
+  }
+  .error-text {
+    text-align: right;
+    color: #ed253d;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  error-color {
+    color: #ed253d;
+  }
+
+  i[nz-icon] {
+    font-size: 32px;
+    color: #999;
+  }
+  .ant-upload-text {
+    margin-top: 8px;
+    color: #666;
+  }
+
+  .file-uploader {
+    margin-bottom: 0;
+  }
+
+  ::ng-deep .ant-upload-list-item-info .ant-upload-text-icon .anticon {
+    top: 3px !important;
+  }
+
+  //.mr-file {
+  //  margin: 15px 0;
+  //}
+  //.file-list {
+  //  list-style: none;
+  //  padding: 0;
+  //
+  //  li {
+  //    div {
+  //      display: flex;
+  //    }
+  //
+  //    .icon {
+  //      margin-right: 5px;
+  //    }
+  //  }
+  //}
+  //
+  //.loader {
+  //  font-size: 120%;
+  //  display: flex;
+  //
+  //  .icon {
+  //    animation: rotation 1s infinite linear;
+  //  }
+  //}
+  //
+  //::ng-deep .ant-progress-bg {
+  //  height: 3px !important;
+  //}
+
+  .filelist {
+    list-style: none;
+    padding-left: 0;
+
+    .download i {
+      font-size: 16px;
+      color: #cacaca;
+    }
+    .download:hover i {
+
+    }
+  }
+}

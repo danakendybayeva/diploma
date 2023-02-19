@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VerticalLayoutComponent } from './vertical.component';
+import { DefaultComponent } from './vertical.component';
 
 describe('DefaultComponent', () => {
-  let component: VerticalLayoutComponent;
-  let fixture: ComponentFixture<VerticalLayoutComponent>;
+  let component: DefaultComponent;
+  let fixture: ComponentFixture<DefaultComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VerticalLayoutComponent ]
+      declarations: [ DefaultComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VerticalLayoutComponent);
+    fixture = TestBed.createComponent(DefaultComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,23 @@
+:host {
+  .label-show {
+    font-weight: 700;
+  }
+  .error-text {
+    text-align: right;
+    color: #ed253d;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  error-color {
+    color: #ed253d;
+  }
+
+  i[nz-icon] {
+    font-size: 32px;
+    color: #999;
+  }
+  .ant-upload-text {
+    margin-top: 8px;
+    color: #666;
+  }
+}

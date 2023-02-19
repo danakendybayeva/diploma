@@ -1,0 +1,152 @@
+<div *ngIf="loaded && !isEmpty">
+    <div
+            #coverBanner
+            id="cover-banner"
+            class="cover-banner"
+    >
+        <img [src]="(course['bg_image'].length ? (srcImage(course['bg_image'][0]['id']) | secureFile | async) : 'assets/image/course-default.jpg')" />
+        <div class="container banner-info">
+            <div class="banner-inner">
+                <h1>{{ course['display_name'] }}</h1>
+                <div class="intro-description" [innerHTML]="course['intro_description']"></div>
+                <div class="banner-details mb-4">
+                    <a href="#course-content">{{'View Course details'|translate}} <i class="icofont-simple-down ml-2"></i></a>
+                </div>
+
+                <div class="banner-teacher d-flex align-items-center mb-4" *ngIf="course['teachers'].length">
+                    <tc-avatar
+                            [tcBgColor]="'#7cdb86'"
+                            [src]="(course['teachers'][0]['src'] ? course['teachers'][0]['src'] : null)"
+                            [initials]="(course['teachers'][0]['src'] ? null : getLetters(course['teachers'][0]['value']))"
+                            [size]="30"
+                            style="margin-right: 10px;"
+                    ></tc-avatar>
+                    <span style="font-size: 13px;">{{course['teachers'][0]['value']}}</span>
+                    <span class="ml-3 mr-3">&middot;</span>
+                    <span style="font-size: 13px;">
+                        <tc-timestamp-field
+                                [_valueField]="fieldsDataObj['publish_date']"
+                                [value]="course['publish_date']"
+                                [styleType]="'single'"
+                        ></tc-timestamp-field>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="grid-detail">
+        <div class="container grid-info">
+            <div class="content-course">
+                <div class="course-status">
+                    <div class="info">
+                        <p>{{course['progress_percent'] ? course['progress_percent'] : 0}}% {{'Complete'|translate}}</p>
+                        <span>{{'Last activity on' |translate}} May 28, 2019</span>
+                    </div>
+                    <div class="progress">
+                        <nz-progress [nzPercent]="course['progress_percent'] ? course['progress_percent'] : 0" [nzShowInfo]="false" nzSize="small" [nzStrokeColor]="{ '0%': '#108ee9', '100%': '#7cdb86' }"></nz-progress>
+                    </div>
+                </div>
+                <div class="course-description" [innerHTML]="course['description'] | safeHtml"></div>
+
+                <div class="course-content" id="course-content">
+                    <div class="text-header mb-4">
+                        <div class="text-h">
+                            <h5>{{'Course Content'|translate}}</h5>
+                        </div>
+                        <div class="pointer">
+                            <span (click)="expandingAll()">
+                                <i class="icofont-simple-down mr-2" [ngClass]="{'icofont-simple-down' : !expandedAll, 'icofont-simple-up' : expandedAll}"></i>
+                                {{ (!expandedAll ? 'Expand All' : 'Collapse All')|translate}}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div *ngFor="let module of course['modules']; let index = index;">
+                        <div class="course-status course-lesson">
+                            <div class="info-full">
+                                <i class="mr-2" [ngClass]="{'sli-arrow-right': !expandB[index], 'sli-arrow-down': expandB[index]}" (click)="expandB[index] = !expandB[index]"></i>
+                                <span [routerLink]="['/vertical/courses/course/module/view', module['id']]" [ngClass]="{'lesson-decoration' : module['progress_percent'] === 100}">{{ module['display_name'] }}</span>
+                            </div>
+                            <div class="detail-lesson">
+                                <span *ngIf="module['lesson_count'] && module['lesson_count'] > 0">{{module['lesson_count']}} {{(module['lesson_count'] > 1 ? 'Lessons' : 'Lesson')|translate}}</span>
+                                <span *ngIf="module['quiz_count'] && module['quiz_count'] > 0" class="mr-2 ml-2">|</span>
+                                <span *ngIf="module['quiz_count'] && module['quiz_count'] > 0">{{module['quiz_count']}} {{(module['quiz_count'] > 1 ? 'Quizzes' : 'Quiz')|translate}}</span>
+                                <i *ngIf="module['progress_percent'] === 100" class="icofont-check-circled ml-3" style="color: #2fa7ff;"></i>
+                                <nz-progresss
+                                        class="ml-3"
+                                        *ngIf="module['progress_percent'] < 100"
+                                        [nzPercent]="module['progress_percent'] ? module['progress_percent'] : 0"
+                                        nzType="circle"
+                                        [nzWidth]="20"
+                                        [nzShowInfo]="false"
+                                ></nz-progresss>
+                            </div>
+                        </div>
+
+                        <div class="more-module mb-4" [ngClass]="{'d-none': !expandB[index]}">
+                            <div class="text-header">
+                                <div class="text-h">
+                                    <p>{{'Module Content'|translate}}</p>
+                                </div>
+                                <div class="pointer-progress">
+                                    <span class="mr-3"><strong>{{module['progress_percent'] ? module['progress_percent'] : 0}}% {{'Complete'|translate}}</strong></span>
+                                    <span>{{module['marked_count'] ? module['marked_count'] : 0}}/{{module['lesson_count']}} {{'Steps'|translate}}</span>
+                                </div>
+                            </div>
+
+                            <div class="list-lesson" *ngFor="let lesson of module['lessons']; let indexLesson = index;">
+                                <div class="info-full" [routerLink]="['/vertical/courses/course/lesson/view', lesson['id']]">
+                                    <i class="sli-list mr-3"></i>
+                                    <span [ngClass]="{'lesson-decoration' : lesson['marked']}">{{ lesson['display_name'] }}</span>
+                                </div>
+                                <div class="detail-lesson">
+                                    <i *ngIf="lesson['marked']" class="icofont-check-circled" style="color: #2fa7ff;"></i>
+                                    <nz-progress *ngIf="!lesson['marked']" [nzPercent]="0" nzType="circle" [nzWidth]="20" [nzShowInfo]="false"></nz-progress>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="course-instructor" *ngIf="course['teachers'] && course['teachers'].length">
+                    <div class="text-h">
+                        <h5>{{'About Instructor'|translate}}</h5>
+                        <tc-card>
+                            <div *ngFor="let teacher of course['teachers']; let tIndex = index;">
+                                <div class="d-flex">
+                                    <tc-avatar
+                                            [tcBgColor]="'#7cdb86'"
+                                            [src]="(teacher['src'] ? teacher['src'] : null)"
+                                            [initials]="(teacher['src'] ? null : getLetters(teacher['value']))"
+                                            [size]="52"
+                                            style="margin-right: 20px;"
+                                    ></tc-avatar>
+                                    <div class="instructor-center">
+                                        <div>
+                                        <h5 style="margin: 0;">{{teacher['value']}}</h5>
+                                        <span style="font-size: 13px; color: #919191;">13 {{'Courses'|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="mt-3 mb-3" *ngIf="tIndex + 1 < course['teachers'].length" />
+                            </div>
+                        </tc-card>
+                    </div>
+                </div>
+                <a [routerLink]="['/vertical/courses/admin/course/edit/', course['id']]" [ngStyle]="{color: '#949494'}"><i class="sli-pencil tc-icon-wrap mr-2"></i> {{'Edit'|translate}}</a>
+            </div>
+
+            <div class="single-course-sidebar" [ngStyle]="contentHeight > 0 ? {marginTop: (-1 * (contentHeight * 0.7)) + 'px'} : {}">
+                <nz-affix [nzOffsetTop]="(contentHeight * 0.3 + 70)"  (nzChange)="onChangeAffix($event)">
+                    <tc-course-card-sidebar [course]="course" [accessCourse]="course['course_access']" [statusCourse]="statusCourse"></tc-course-card-sidebar>
+                </nz-affix>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<not-found-page *ngIf="isEmpty"></not-found-page>

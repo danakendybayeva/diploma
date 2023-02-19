@@ -1,0 +1,85 @@
+<!--<ul *ngIf="data && data.length" cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">-->
+
+<!--    <li *ngFor="let item of data; let index = index;" cdkDrag>-->
+<!--        <div class="d-flex mb-2">-->
+<!--            &lt;!&ndash;Icon&ndash;&gt;-->
+<!--            <tc-select [placeholder]="'I'" [options]="icons"-->
+<!--                       *ngIf="item.icon != null"-->
+<!--                       class="select-icon"></tc-select>-->
+<!--            &lt;!&ndash;Name&ndash;&gt;-->
+<!--            <tc-input [(ngModel)]="item.title" class="mr-2" [placeholder]="'Name'"></tc-input>-->
+<!--            &lt;!&ndash;Menu List&ndash;&gt;-->
+<!--            <tc-select-->
+<!--                    *ngIf="item.typeMenu == 0"-->
+<!--                    [placeholder]="'Menu List'"-->
+<!--                    [(ngModel)]="item.sub"-->
+<!--                    [options]="role"-->
+<!--                    class="select-Menu"-->
+<!--                    [multiple]="true"-->
+<!--                    [allowClear]="true"-->
+<!--            ></tc-select>-->
+<!--            &lt;!&ndash;Access(ROLE)&ndash;&gt;-->
+<!--            <tc-select-->
+<!--                    [placeholder]="'Access'"-->
+<!--                    [(ngModel)]="item.roles"-->
+<!--                    [options]="role"-->
+<!--                    class="select-Menu"-->
+<!--                    [multiple]="true"-->
+<!--                    [allowClear]="true"-->
+<!--                    (change)="change(item)"-->
+<!--            ></tc-select>-->
+<!--            &lt;!&ndash;Routing if Menu&ndash;&gt;-->
+<!--            <tc-select  [placeholder]="'Routing'" [options]="routing"-->
+<!--                        *ngIf="item.sub.length == 0 && item.typeMenu != 0"></tc-select>-->
+<!--            &lt;!&ndash;Toggle&ndash;&gt;-->
+<!--            <button tc-button *ngIf="item.sub.length != 0 && item.typeMenu != 0"-->
+<!--                    (click)="toggle(index)"-->
+<!--                    [afterIcon]="iconString"-->
+<!--                    [view]="'info'" [square]="true"-->
+<!--                    class="mr-2"-->
+<!--            ></button>-->
+<!--            &lt;!&ndash;item.id != null&ndash;&gt;-->
+<!--            <button tc-button *ngIf="item.typeMenu != 0"-->
+<!--                    [align]="'right'"-->
+<!--                    (click)="addSubMenu(item.sub, item.id, index)"-->
+<!--                    [afterIcon]="'icofont-plus'"-->
+<!--                    [view]="'info'"-->
+<!--                    [square]="true"-->
+<!--                    class="mr-2"-->
+<!--            ></button>-->
+
+
+<!--            &lt;!&ndash;SAVE and DELETE&ndash;&gt;-->
+<!--            <button tc-button-->
+<!--                    (click)="saveMenu(item, index)" [afterIcon]="icon[index] !== undefined ? icon[index] : waitIcon"-->
+<!--                    [view]="color[index] !== undefined ? color[index] : waitColor" [square]="true"-->
+<!--            ></button>-->
+
+<!--            <button tc-button-->
+<!--                    (click)="openModal(modalBody, 'Modal title', modalFooter, { closeButton: true, overlayClose: true }, index)"-->
+<!--                    [afterIcon]="'icofont-close'"-->
+<!--                    [view]="'error'"-->
+<!--                    [square]="true" class="mr-2"-->
+<!--            ></button>-->
+
+<!--        </div>-->
+<!--        <div>-->
+<!--            <submenu-list *ngIf="!item.hidden && item.typeMenu != 0"-->
+<!--                          [data]="item.sub"-->
+<!--            ></submenu-list>-->
+<!--        </div>-->
+<!--    </li>-->
+<!--</ul>-->
+
+<!--<ng-container>-->
+<!--    <ng-template #modalBody>-->
+<!--        <p>{{'Are you sure ?'|translate}}</p>-->
+<!--    </ng-template>-->
+
+<!--    <ng-template #modalFooter>-->
+<!--        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">-->
+<!--            <button tc-button [view]="'error'" (click)="closeModal()">Close</button>-->
+<!--            <button tc-button [view]="'success'" (click)="removeMenu(index)">Submit</button>-->
+<!--        </div>-->
+<!--    </ng-template>-->
+<!--</ng-container>-->

@@ -1,49 +1,46 @@
 <nav class="main-menu-wrap">
   <ul class="menu-ul">
     <ng-container *ngFor="let item of menuItems">
-      <li 
+      <li
         class="menu-item"
-        [ngStyle]="getAccentBg((item.active || isActive([orientation, item.routing])) && !item.sub)" 
+        [routerLink]="item.routing"
+        [routerLinkActive]="setActiveLine(!item.sub)"
+        [ngStyle]="getAccentBg((item.active || isActive([orientation, item.routing])) && !item.sub)"
         (mouseenter)="item.hovered = true"
         (mouseleave)="item.hovered = false"
-        [ngClass]="{ 
-          'active': (item.active || isActive([orientation, item.routing], item)),
+        [ngClass]="{
+          'active': (item.active || isActive([orientation, item.routing])),
           'has-sub': item.sub,
           'simple': !item.sub,
           'group': item.groupTitle
         }"
       >
         <div *ngIf="item.groupTitle; then group else default"></div>
-
         <!-- Group title -->
         <ng-template #group>
-          <span class="group-title" [ngStyle]="{ 'color': accentColor }">{{ item.title }}</span>
+          <div id="{{item.routing}}" class="line"></div>
+          <span class="group-title" [ngStyle]="{ 'color': accentColor }">{{ item.title |translate}}</span>
         </ng-template>
         <!-- end Group title -->
 
         <!-- Default item -->
         <ng-template #default>
-          <div *ngIf="!item.sub; then simple else sub"></div>
 
+          <div *ngIf="!item.sub; then simple else sub"></div>
           <!-- Single item -->
           <ng-template #simple>
-            <a 
+            <a
               href="#"
-              class="item-link"
-              (click)="toggle($event, item, this); closeAll(); closeSidebar()"
-            >
-              <tc-icon
-                class="link-icon"
-                [iconClass]="item.icon.class"
-                [tcFontSize]="'1.2em'"
-                [tcColor]="item.icon.color"
-                [tcBgColor]="item.icon.bg"
-                *ngIf="item.icon && item.icon.class"
-              ></tc-icon>
+              class="item-link "
+              (click)="toggle($event, item, this); closeAll(); closeSidebar();"
+              >
+                <div class="icon-link" [inlineSVG]="item.pathToSvg.pathToDarkSvg" ></div>
+<!--                <img id="{{item.title}}" class="iconIMG" [attr.fill]="color"   [src]="item.pathToSvg.pathToDarkSvg"/>-->
 
-              <span class="link-text">{{ item.title }}</span>
+<!--                <img [src]="item.pathToSvg.pathToSvg" *ngIf="item.hovered"/>-->
+              <span class="link-text">{{ item.title |translate}}</span>
 
-              <tc-badge 
+              <tc-badge
                 class="link-badge"
                 [size]="'sm'"
                 [tcColor]="item.badge.color"
@@ -58,20 +55,16 @@
 
           <!-- Item with sub -->
           <ng-template #sub>
-            <a href="#" class="item-link" (click)="toggle($event, item, this)" [ngStyle]="getItemColor(item)">
-              <tc-icon
-                class="link-icon"
-                [tcFontSize]="'1.2em'"
-                [iconClass]="item.icon.class"
-                [tcColor]="item.icon.color"
-                [ngStyle]="getItemColor(item)"
-                [tcBgColor]="item.icon.bg"
-                *ngIf="item.icon && item.icon.class"
-              ></tc-icon>
-
-              <span class="link-text">{{ item.title }}</span>
-
-              <tc-badge 
+            <a href="#" class="item-link"
+               (click)="toggle($event, item, this);setActiveLine(false)"
+               [ngStyle]="getItemColor(item)">
+              <div class="icon-link" [inlineSVG]="item.pathToSvg.pathToDarkSvg" ></div>
+<!--                <img [src]="item.pathToSvg.pathToDarkSvg" *ngIf="(!(item.hovered || item.active || isActive([orientation, item.routing])))"/>-->
+<!--                <img [src]="item.pathToSvg.pathToSvg" *ngIf="(item.hovered || item.active || isActive([orientation, item.routing]))"/>-->
+              <span class="link-text">{{ item.title |translate}}</span>
+<!--              <span class="link-text">{{ item.active || isActive([orientation, item.routing]) }}</span>-->
+<!--              <span class="link-text">{{ item.active || isActive([orientation, item.routing]) }}</span>-->
+              <tc-badge
                 class="link-badge"
                 [size]="'sm'"
                 [tcColor]="item.badge.color"
@@ -81,18 +74,18 @@
                 {{ item.badge.text }}
               </tc-badge>
 
-              <span class="link-caret {{ caret }}" *ngIf="item.sub" [ngStyle]="getItemColor(item)"></span>
+<!--              <span class="link-caret {{ caret }}" *ngIf="item.sub" [ngStyle]="getItemColor(item)"></span>-->
             </a>
 
           </ng-template>
         </ng-template>
         <!-- Menu sub -->
-        <ul 
+        <ul
           class="sub"
           *ngIf="!item.groupTitle && item.sub"
           [@subMenu]="subState(item, isActive([orientation, item.routing]))"
         >
-          <li 
+          <li
             class="menu-item"
             *ngFor="let itemSub of item.sub"
             (mouseenter)="itemSub.hovered = true"
@@ -102,6 +95,8 @@
             <a
               href="#"
               class="item-link"
+              [routerLink]="item.routing"
+              [routerLinkActive]="['active']"
               (click)="
                 $event.preventDefault();
                 changeRoute(itemSub.routing, !isActive([orientation, itemSub.routing]), itemSub.layout ? itemSub.layout : orientation);
@@ -110,7 +105,7 @@
               "
             >
 
-              <span class="link-text">{{ itemSub.title }}</span>
+              <span class="link-text">{{ itemSub.title |translate}}</span>
             </a>
           </li>
         </ul>
@@ -121,3 +116,20 @@
     <!-- end Default item -->
   </ul>
 </nav>
+<style>
+
+  arsenLine{
+    content: '';
+    width: 4px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #3D3DD8;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    opacity: 0;
+    transition: opacity .2s ;
+  }
+</style>
+

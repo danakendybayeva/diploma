@@ -56,15 +56,21 @@ import { TCUserComponent } from './components/user';
 import { OutsideClickDirective } from './directives/outside-click/outside-click.directive';
 import {TCAutocompleteMdsComponent} from './components/autocomplete-mds';
 import {TCGroupEnglishComponent} from './components/group-english';
+import {NgxMaskModule, IConfig} from 'ngx-mask';
+import {TranslateModule} from '@ngx-translate/core';
+
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    ReactiveFormsModule,
-    DragulaModule.forRoot(),
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        RouterModule,
+        ReactiveFormsModule,
+        DragulaModule.forRoot(),
+        NgxMaskModule.forRoot(),
+        TranslateModule,
+    ],
   declarations: [
     TCBgColorDirective,
     TCBorderColorDirective,

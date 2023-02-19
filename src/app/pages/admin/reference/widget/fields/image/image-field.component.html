@@ -1,0 +1,173 @@
+<tc-card [title]="'Редактирование поля'">
+    <h6>Тип поля: Картинка</h6>
+    <form *ngIf="_value" [formGroup]="labelForm" (ngSubmit)="sendFieldForm(labelForm.valid)" novalidate>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">{{'Title'|translate}}</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="title" [(ngModel)]="_value.title" [placeholder]="'Title'|translate" formControlName="title"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">{{'Hint'|translate}}</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="hint" [(ngModel)]="_value.hint" [placeholder]="'Hint'|translate" formControlName="hint"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">{{'Options'|translate}}</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9 checkbox-grid">
+                    <tc-checkbox id="is-required" [(ngModel)]="_value.isRequired" [value]="_value.isRequired" class="mb-2" formControlName="isRequired">{{'Required field'|translate}}</tc-checkbox>
+                    <tc-checkbox id="is-avatar" [(ngModel)]="_value.isAvatar" [value]="_value.isAvatar" class="mb-2" formControlName="isAvatar">Использовать для аватара</tc-checkbox>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">{{'Selection mode'|translate}}</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-radio id="is-single"
+                               [(ngModel)]="isSingle"
+                               [value]="isSingle"
+                               [direction]="'horizontal'"
+                               (ngModelChange)="changeValueSingle($event)"
+                               formControlName="isSingle">
+                        <tc-radio-option class="mb-2 color-main" [value]="'true'">{{'Single'|translate}}</tc-radio-option>
+                        <tc-radio-option class="mb-2 color-main" [value]="'false'">{{'Multiple'|translate}}</tc-radio-option>
+                    </tc-radio>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group *ngIf="!_value.isSingle">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">Разделитель</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="separator" [(ngModel)]="_value.separator" [placeholder]="'Разделитель'" formControlName="separator"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group class="mt-4">
+            <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+                <nz-tab [nzTitle]="'ОГРАНИЧЕНИЯ'">
+                    <div class="card-tabset">
+                        <tc-form-group>
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-3">
+                                    <tc-form-label class="mb-md-0">Максимальный размер файла в байтах</tc-form-label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <tc-input id="max-size" [type]="'number'" [(ngModel)]="_value.maxSize" [placeholder]="'Максимальный размер файла в байтах'" formControlName="maxSize"></tc-input>
+                                    <div class="hint">
+                                        <span>Максимально возможное значение 41943040 байт (40.0 МБ)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </tc-form-group>
+                        <tc-form-group>
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-3">
+                                    <tc-form-label class="mb-md-0">Фильтр названия файла</tc-form-label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <tc-input id="filter-name" [(ngModel)]="_value.filterName" [placeholder]="'Фильтр названия файла'" formControlName="filterName"></tc-input>
+                                    <div class="hint">
+                                        <span>Исключать все перечисленные символы (1,!,баг)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </tc-form-group>
+                        <tc-form-group>
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-3">
+                                    <tc-form-label class="mb-md-0">Максимальное количество файлов</tc-form-label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <tc-input id="max-count" [type]="'number'" [(ngModel)]="_value.maxCount" [placeholder]="'Максимальное количество файлов'" formControlName="maxCount"></tc-input>
+                                    <div class="hint">
+                                        <span>Ограничение по количеству прикрепляемых файлов. 0 unlimited</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </tc-form-group>
+                        <tc-form-group>
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-3">
+                                    <tc-form-label class="mb-md-0">Ширина x Высота (пиксели)</tc-form-label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <div class="d-flex">
+                                        <tc-input id="thumb-x" [type]="'number'" [(ngModel)]="_value.thumbX" [placeholder]="'Ширина'" formControlName="thumbX"></tc-input>
+                                        <span class="mr-2 ml-2" style="line-height: 40px;">x</span>
+                                        <tc-input id="thumb-y" [type]="'number'" [(ngModel)]="_value.thumbY" [placeholder]="'Высота'" formControlName="thumbY"></tc-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </tc-form-group>
+                    </div>
+                </nz-tab>
+                <nz-tab [nzTitle]="'ПЕРЕИМЕНОВАНИЕ'">
+                    <div class="card-tabset">
+                        <tc-form-group>
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-3">
+                                    <tc-form-label class="mb-md-0">Изменять название</tc-form-label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <tc-input id="rename-file" [(ngModel)]="_value.renameFile" [placeholder]="'Изменять название'" formControlName="renameFile"></tc-input>
+                                    <div class="hint">
+                                        <span>При загрузке файла он будет переименован. Расширение остается прежним. (Вложения по умолчанию не переименовываются)</span>
+                                    </div>
+                                    <div class="hint">
+                                        <span>
+                                            %COUNT% - Количество вложений + 1 (Будет срабатывать для уже созданных документов)<br/>
+                                            %ORIG% - Оригинальное название (Без расширения)<br/>
+                                            %Y% - Год<br/>
+                                            %M% - Месяц<br/>
+                                            %D% - День<br/>
+                                            %h% - Час<br/>
+                                            %m% - Минута<br/>
+                                            %s% - Секунда<br/>
+                                            <strong>(Вложения по умолчанию переименовываются)</strong>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </tc-form-group>
+                    </div>
+                </nz-tab>
+            </nz-tabset>
+        </tc-form-group>
+        <tc-image-field
+                [_valueField]="_value"
+                [isNew]="true"
+                [isConfig]="true"
+                [type]="'edit'"
+                [styleType]="'other'"
+                [form]="labelForm"
+                [referenceId]="referenceId"
+                [(ngModel)]="_value.defaultValue"
+                formControlName="defaultValue"
+        ></tc-image-field>
+        <reference-action-fields
+            [referenceId]="referenceId"
+            [fieldId]="fieldId"
+            [disable]="labelForm.invalid"
+            [load]="loadingLabelForm"
+            [removeBtn]="removeEnable">
+        </reference-action-fields>
+    </form>
+</tc-card>

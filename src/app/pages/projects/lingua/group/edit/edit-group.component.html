@@ -1,0 +1,91 @@
+<form *ngIf="loaded && !isEmpty" [formGroup]="labelForm" (ngSubmit)="submitEvent(labelForm.valid)">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <tc-card *ngIf="loaded">
+                <tc-string-field
+                    [_valueField]="fieldsData['display_name']"
+                    [(ngModel)]="fieldsData['display_name'].value"
+                    [type]="typePage"
+                    [form]="labelForm"
+                    [isNew]="isNew"
+                    [formControlName]="'display_name'"
+                ></tc-string-field>
+                <tc-reference-field
+                    [_valueField]="fieldsData['city']"
+                    [(ngModel)]="fieldsData['city'].value"
+                    [type]="typePage"
+                    [form]="labelForm"
+                    [isNew]="isNew"
+                    [formControlName]="'city'"
+                ></tc-reference-field>
+                <tc-reference-field
+                    [_valueField]="fieldsData['level']"
+                    [(ngModel)]="fieldsData['level'].value"
+                    [type]="typePage"
+                    [form]="labelForm"
+                    [isNew]="isNew"
+                    [formControlName]="'level'"
+                ></tc-reference-field>
+                <tc-date-field
+                    [_valueField]="fieldsData['start_date']"
+                    [(ngModel)]="fieldsData['start_date'].value"
+                    [type]="typePage"
+                    [form]="labelForm"
+                    [isNew]="isNew"
+                    [formControlName]="'start_date'"
+                ></tc-date-field>
+                <tc-integer-field
+                    [_valueField]="fieldsData['total_hours']"
+                    [(ngModel)]="fieldsData['total_hours'].value"
+                    [type]="typePage"
+                    [form]="labelForm"
+                    [isNew]="isNew"
+                    [formControlName]="'total_hours'"
+                ></tc-integer-field>
+                <tc-text-field
+                    [_valueField]="fieldsData['description']"
+                    [(ngModel)]="fieldsData['description'].value"
+                    [type]="typePage"
+                    [form]="labelForm"
+                    [isNew]="isNew"
+                    [formControlName]="'description'"
+                ></tc-text-field>
+            </tc-card>
+        </div>
+        <div class="col-12 col-md-4">
+            <tc-card [title]="'Publish'|translate">
+                <div style="text-align: right;">
+                    <button tc-button
+                            *ngIf="typePage == 'edit'"
+                            class="mr-2"
+                            [size]="'sm'"
+                            [view]="'info'">
+                        {{'Save'|translate}}
+                    </button>
+                </div>
+            </tc-card>
+
+            <tc-card>
+                <tc-structure-field
+                    class="mb-4"
+                    [_valueField]="fieldsData['teacher']"
+                    [(ngModel)]="fieldsData['teacher'].value"
+                    [type]="typePage"
+                    [styleType]="'other'"
+                    [form]="labelForm"
+                    [isNew]="isNew"
+                    [formControlName]="'teacher'"
+                ></tc-structure-field>
+                <tc-structure-field
+                    [_valueField]="fieldsData['students']"
+                    [(ngModel)]="fieldsData['students'].value"
+                    [type]="typePage"
+                    [styleType]="'other'"
+                    [form]="labelForm"
+                    [isNew]="isNew"
+                    [formControlName]="'students'"
+                ></tc-structure-field>
+            </tc-card>
+        </div>
+    </div>
+</form>

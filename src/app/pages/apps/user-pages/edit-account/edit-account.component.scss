@@ -1,13 +1,16 @@
 @import '../../../../../assets/sass/variables';
 
 :host {
-  .skills-list {
-    display: flex;
-    flex-wrap: wrap;
-    margin: -($module-rem / 2);
-
-    .tc-badge {
-      margin: $module-rem / 2;
-    }
+  form {
+    width: 100%;
   }
+}
+
+[tc-input] {
+  width: 400px !important;
+}
+
+.save {
+  background: #3D3DD8 !important;
+  color: #fff !important;
 }

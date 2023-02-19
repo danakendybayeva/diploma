@@ -23,7 +23,7 @@ export class SidebarMenuComponent implements OnInit, OnChanges {
   panels = [
     {
       active: false,
-      name: 'Поля',
+      name: 'Fields',
       type: 'field',
       disabled: false
     },
@@ -31,13 +31,13 @@ export class SidebarMenuComponent implements OnInit, OnChanges {
       active: false,
       disabled: false,
       type: 'section',
-      name: 'Представления'
+      name: 'Section'
     },
     {
       active: false,
-      disabled: true,
-      type: 'permission',
-      name: 'Права доступа'
+      disabled: false,
+      type: 'access',
+      name: 'Reference Access'
     }
   ];
 
@@ -91,6 +91,11 @@ export class SidebarMenuComponent implements OnInit, OnChanges {
       title: 'Перечисление',
       icon: 'icofont-layout',
       type: 'enumeration'
+    },
+    {
+      title: 'Картинка',
+      icon: 'icofont-image',
+      type: 'image'
     },
     {
       title: 'Файл',

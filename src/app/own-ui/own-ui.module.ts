@@ -5,9 +5,15 @@ import { RouterModule } from '@angular/router';
 import {UIModule} from '../ui/ui.module';
 import {TranslateModule} from '@ngx-translate/core';
 import {DragDropModule} from '@angular/cdk/drag-drop';
-import {NgZorroAntdModule} from 'ng-zorro-antd';
-import {TCTreeDropComponent} from './components/tree-drop/tree-drop.component';
+import {TCTreeDropComponent} from './components/tree-drop';
+import {TCAvatarComponent} from './components/avatar';
+import {TCTestComponent} from './components/quiz/test';
+import {ReferenceModule} from '../reference/reference.module';
+import {TCMultipleComponent} from './components/quiz/multiple';
+import {TCFilterStudentsComponent} from './components/filter-students';
+import {ReportTableComponent} from './components/report-table';
 
+import { NzTableModule } from 'ng-zorro-antd/table';
 
 @NgModule({
     imports: [
@@ -18,15 +24,25 @@ import {TCTreeDropComponent} from './components/tree-drop/tree-drop.component';
         UIModule,
         TranslateModule,
         DragDropModule,
-        NgZorroAntdModule,
+        ReferenceModule,
+        NzTableModule,
     ],
     declarations: [
         TCTreeDropComponent,
-
+        TCAvatarComponent,
+        TCTestComponent,
+        TCMultipleComponent,
+        TCFilterStudentsComponent,
+        ReportTableComponent,
     ],
     entryComponents: [],
     exports: [
         TCTreeDropComponent,
+        TCAvatarComponent,
+        TCTestComponent,
+        TCMultipleComponent,
+        TCFilterStudentsComponent,
+        ReportTableComponent,
     ]
 })
 export class OwnUiModule {}

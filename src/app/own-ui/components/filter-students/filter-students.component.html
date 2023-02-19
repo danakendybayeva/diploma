@@ -1,0 +1,11 @@
+<div class="d-flex filter-block" *ngIf="value">
+	<tc-select *ngIf="hasSemester" class="mr-3" placeholder="{{'Semester'|translate}}" [options]="semester" [allowClear]="true" [(ngModel)]="value['semester']" (ngModelChange)="changeFilter()"></tc-select>
+	<tc-select *ngIf="hasMonth" class="mr-3" placeholder="{{'AllMonth'|translate}}" [options]="months" [allowClear]="true" [(ngModel)]="value['semester']" (ngModelChange)="changeFilter()" [disabled]="value['semester']"></tc-select>
+	<tc-select *ngIf="hasUniversity" class="mr-3" placeholder="{{'AllUniversities'|translate}}" [options]="university" [filter]="university.length > 6" [multiple]="true" [allowClear]="true" [(ngModel)]="value['university']" (ngModelChange)="changeFilter()"></tc-select>
+	<tc-select *ngIf="hasCity" class="mr-3" placeholder="{{'AllCities'|translate}}" [options]="city" [filter]="city.length > 6" [multiple]="true" [allowClear]="true" [(ngModel)]="value['city']" (ngModelChange)="changeFilter()"></tc-select>
+	<tc-select *ngIf="hasSpeciality" class="mr-3" placeholder="{{'AllSpecialties'|translate}}" [options]="speciality" [filter]="speciality.length > 6" [multiple]="true" [allowClear]="true" [(ngModel)]="value['speciality']" (ngModelChange)="changeFilter()"></tc-select>
+	<tc-select *ngIf="hasMentor" class="mr-3" placeholder="{{'AllMentors'|translate}}" [options]="mentors" [filter]="mentors.length > 6" [multiple]="true" [allowClear]="true" [(ngModel)]="value['mentors']" (ngModelChange)="changeFilter()"></tc-select>
+	<tc-select *ngIf="hasCourse" class="mr-3" placeholder="{{'Course'|translate}}" [options]="course" [multiple]="true" [allowClear]="true" [(ngModel)]="value['course']" (ngModelChange)="changeFilter()"></tc-select>
+	<tc-select *ngIf="hasGender" class="mr-3" placeholder="{{'Gender'|translate}}" [options]="gender" [allowClear]="true" [(ngModel)]="value['gender']" (ngModelChange)="changeFilter()"></tc-select>
+	<button *ngIf="hasApply" tc-button [view]="'info'" (click)="applyFilter()">Apply</button>
+</div>

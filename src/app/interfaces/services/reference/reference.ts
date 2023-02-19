@@ -26,4 +26,22 @@ export interface ISection {
     filterField?: any[];
     referenceId?: string;
     showOrder: number;
+    fastEdit: boolean;
+}
+
+export interface IAccess {
+    subject_id: string;
+    title: string;
+    view_menu: boolean;
+    may_view: boolean;
+    may_add: boolean;
+    objects: IObject[];
+}
+
+export interface IObject {
+    id: string;
+    title: string;
+    may_view: boolean;
+    may_edit: boolean;
+    may_delete: boolean;
 }

@@ -7,4 +7,8 @@ export interface StringField extends IField {
     maxShowLength?: number;
     mask?: string;
     defaultValue?: string;
+    prefix?: string;
+    suffix?: string;
+    prefixIcon?: string;
+    suffixIcon?: string;
 }

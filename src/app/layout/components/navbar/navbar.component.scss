@@ -14,8 +14,9 @@
   z-index: 900;
 
   .navbar-wrap {
+    background: $_bg;
     align-items: center;
-    background: inherit;
+    //background: inherit;
     display: flex;
     height: 100%;
     justify-content: space-between;
@@ -133,7 +134,7 @@
           .logo {
             height: 4.28571429rem;
             background: #fff;
-            box-shadow: 0 0 10px 0 rgba(#000, 0.15);
+            //box-shadow: 0 0 10px 0 rgba(#000, 0.15);
             z-index: 99;
           }
         }
@@ -181,7 +182,7 @@
         .logo {
           height: 4.28571429rem;
           background: #fff;
-          box-shadow: 0 0 10px 0 rgba(#000, 0.15);
+          //box-shadow: 0 0 10px 0 rgba(#000, 0.15);
           z-index: 99;
         }
       }

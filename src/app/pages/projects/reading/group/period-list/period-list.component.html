@@ -1,0 +1,76 @@
+<tc-card class="mb-0" [padding]="0" *ngIf="!isEmpty">
+    <nz-table
+        #basicTable
+        [nzData]="dataRecord.length ? dataRecord : []"
+        [nzShowPagination]="false"
+        [nzPageSize]="pageSize"
+        [nzTotal]="dataRecord.length"
+        [nzLoading]="loading"
+        [nzShowTotal]="totalTpl"
+        (nzPageIndexChange)="onChangePageIndex($event)"
+    >
+        <thead>
+        <tr>
+            <th>
+                {{'Title'|translate}}
+            </th>
+            <th>
+                {{'Start Date'|translate}}
+            </th>
+            <th>
+                {{'End Date'|translate}}
+            </th>
+            <th>
+                {{'Vote end'|translate}}
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of (basicTable.data.length ? basicTable.data : []) ; let index = index; trackBy: identify"
+            class="mainTable">
+            <td (click)="goTo($event, prepareNavigateLink(data['id']))">
+                {{ data['display_name'] }}
+            </td>
+            <td (click)="goTo($event, prepareNavigateLink(data['id']))">
+                {{ data['start_date'] | date : 'dd.MM.yyyy HH:mm' }}
+            </td>
+            <td (click)="goTo($event, prepareNavigateLink(data['id']))">
+                {{ data['end_date'] | date : 'dd.MM.yyyy HH:mm' }}
+            </td>
+            <td (click)="goTo($event, prepareNavigateLink(data['id']))">
+                {{ data['vote_end_date'] | date : 'dd.MM.yyyy HH:mm' }}
+            </td>
+        </tr>
+        </tbody>
+    </nz-table>
+    <ng-template #totalTpl let-totalData>{{'Total'|translate}}{{ ': ' + totalData}}</ng-template>
+</tc-card>
+
+<button class="no-style settings-btn"
+        *ngIf="canAdd"
+        [routerLink]="prepareNavigateLinkCreate()">
+    <span class="pulse"></span>
+    <tc-icon
+            class="settings-icon"
+            [iconClass]="'icofont-plus'"
+            [tcFontSize]="26"
+            [padding]="'2px 0'"
+    ></tc-icon>
+</button>
+
+<nz-empty *ngIf="isEmpty"
+          [nzNotFoundImage]="
+        'https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original'
+      "
+          [nzNotFoundContent]="contentTpl"
+          [nzNotFoundFooter]="footerTpl"
+>
+    <ng-template #contentTpl>
+        <span> Customize <a href="#API">Description</a> </span>
+    </ng-template>
+    <ng-template #footerTpl>
+    </ng-template>
+</nz-empty>
+
+
+

@@ -1,21 +1,33 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { ChartsModule } from 'ng2-charts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgxEchartsModule } from 'ngx-echarts';
-import { AgmCoreModule } from '@agm/core';
+import * as echarts from 'echarts';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import { NgZorroAntdModule } from 'ng-zorro-antd';
-import { NzMessageModule, NzDatePickerModule, NzSliderModule, NzUploadModule } from 'ng-zorro-antd';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
-import { NZ_I18N, NZ_ICONS, en_US, NZ_MESSAGE_CONFIG } from 'ng-zorro-antd';
-
+import {NZ_I18N, en_US, NZ_DATE_CONFIG} from 'ng-zorro-antd/i18n';
+import { NzIconModule, NZ_ICONS } from 'ng-zorro-antd/icon';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzTreeModule } from 'ng-zorro-antd/tree';
+import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzAffixModule } from 'ng-zorro-antd/affix';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { DeleteOutline } from '@ant-design/icons-angular/icons';
 
 import { FilterInputPipe } from '../ui/pipe/filter-input/filterInput.pipe';
@@ -40,22 +52,15 @@ import { LayoutModule } from '../layout/layout.module';
 import { BasePageComponent } from './base-page';
 import {ReferenceModule} from '../reference/reference.module';
 
-import { PageAnalyticsComponent } from './dashboards/analytics';
 import { Page404Component } from './errors/page-404';
 import { Page500Component } from './errors/page-500';
 import { Page503Component } from './errors/page-503';
 import { Page505Component } from './errors/page-505';
-import { PageInvoiceComponent } from './apps/service-pages/invoice';
-import { PageInvoicesComponent } from './apps/service-pages/invoices';
-import { PagePricingComponent } from './apps/service-pages/pricing';
-import { PageTimelineComponent } from './apps/service-pages/timeline';
 import { PageUserProfileComponent } from './apps/user-pages/user-profile';
 import { PageEditAccountComponent } from './apps/user-pages/edit-account';
-import { PageCalendarComponent } from './apps/service-pages/calendar';
 import { PageSignInComponent } from './apps/authentication/sign-in';
 import { PageSignUpComponent } from './apps/authentication/sign-up';
 import { PageSettingsComponent } from './settings';
-import { PageECommerceComponent } from './dashboards/e-commerce';
 import { PageDashboardComponent } from './dashboards/dashboard';
 import { PageResetPasswordComponent } from './apps/authentication/reset-password';
 import { PageVerifyAccountComponent } from './apps/authentication/verify-account';
@@ -66,46 +71,19 @@ import { PageGroupsComponent } from './apps/user-pages/groups';
 
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
-import { ListComponent } from './lists/list/list.component';
-import { EditComponent } from './lists/edit/edit.component';
 
 import { TagInputModule } from 'ngx-chips';
 import { TrimPipe } from '../ui/pipe/filter-input/trim.pipe';
 import { SafeUrlPipe } from '../ui/pipe/filter-input/safeUrl.pipe';
-import { ImportComponent } from './lists/import/import.component';
-import { GroupsListComponent } from '../pages/groups/groups';
-import { ListsComponent } from './projects/self-dev/lists';
-import { SubListComponent } from './projects/self-dev/sub-list/sub-list.component';
-import {SubListTableComponent} from './projects/self-dev/sub-list-table';
-import {SubEditComponent} from './projects/self-dev/sub-edit';
-import {EnglishProfileComponent} from './projects/english/english-profile';
-import {EnglishAttendanceComponent} from './projects/english/english-attendance/english-attendance.component';
-import {MiniListComponent} from './lists/mini-list';
-import {EnglishEditGroupComponent} from './projects/english/english-edit-group/english-edit-group.component';
-import {EnglishListComponent} from './projects/english/english-list/english-list.component';
-import {SubNewActualComponent} from './projects/self-dev/sub-new-actual';
-import {SubPassComponent} from './projects/self-dev/sub-pass';
-import {AddCompanyComponent} from './projects/courses/companies/add';
-import {CompanyListComponent} from './projects/courses/companies/list';
-import {AddPackageComponent} from './projects/courses/package/add';
-import {AddCourseComponent} from './projects/courses/course/add';
-import {CourseMainComponent} from './projects/courses/main';
-import {CourseListComponent} from './projects/courses/course/course-list';
-import {CourseComponent} from './projects/courses/course/course';
-import {LessonComponent} from './projects/courses/course/lesson';
-import {PackageListComponent} from './projects/courses/package/package-list';
+import { GroupsListComponent } from './groups/groups';
+import {CompanyListComponent} from './projects/courses/company/list';
 import {IvyCarouselModule} from 'angular-responsive-carousel';
-import {AddModuleComponent} from './projects/courses/course/add/module';
-import {AddLessonComponent} from './projects/courses/course/add/lesson';
 import {FilterTopPipe} from '../ui/pipe/filter-input/filterTop.pipe';
-import {PageResetPasswordConfirmComponent} from './apps/authentication/reset-password-confirm/reset-password-confirm.component';
+import {PageResetPasswordConfirmComponent} from './apps/authentication/reset-password-confirm';
 import {SoonComponent} from './projects/soon';
-import {AddTopicComponent} from './projects/comminuty/add/add-topic.component';
+import {AddTopicComponent} from './projects/comminuty/add';
 import {TopicListItemComponent} from './projects/comminuty/add/list-item/list-item.component';
-import {AddProblemComponent} from './projects/comminuty/add-problem/add-problem.component';
-import {EnglishUserProfileComponent} from './projects/english/english-user-profile/english-user-profile.component';
-import {EnglishEditProfileComponent} from './projects/english/english-edit-profile/english-edit-profile.component';
-import {EnglishAddGroupComponent} from './projects/english/english-add-group';
+import {AddProblemComponent} from './projects/comminuty/add-problem';
 import {TCVTimelineComponent} from '../ui/components/v-timeline';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {EditReferenceComponent} from './admin/reference/edit-reference';
@@ -115,7 +93,7 @@ import {IntegerFieldComponent} from './admin/reference/widget/fields/integer';
 import {ListReferenceComponent} from './admin/reference/list-reference';
 import {TreeListComponent} from './tree-list';
 import {TreeChildListComponent} from './tree-list/child-list';
-import {ProblemListComponent} from './projects/comminuty/problem-list/problem-list.component';
+import {ProblemListComponent} from './projects/comminuty/problem-list';
 import {ActionFieldsComponent} from './admin/reference/widget/fields/action-fields';
 import {FloatFieldComponent} from './admin/reference/widget/fields/float';
 import {StringFieldComponent} from './admin/reference/widget/fields/string';
@@ -131,14 +109,89 @@ import {TCFolderComponent} from './reference/folder';
 import {TCSectionComponent} from './admin/reference/widget/section';
 import {TableFieldComponent} from './admin/reference/widget/fields/table';
 import {TCMiniFolderComponent} from './reference/mini-folder';
-import {AddQuizComponent} from './projects/reads/add-problem/add-quiz.component';
-import {QuizListComponent} from './projects/reads/problem-list/quiz-list.component';
-import {BookListComponent} from './projects/reads/book-list/book-list.component';
-import {EnglishGroupComponent} from './projects/english/english-group';
-import {EnglishAddReportComponent} from './projects/english/english-add-report';
 import {ViewRecordComponent} from './reference/record/view-record';
 import {OwnUiModule} from '../own-ui/own-ui.module';
-
+import {StructureFieldComponent} from './admin/reference/widget/fields/structure';
+import {PageStructureComponent} from './apps/structure';
+import {TCImportComponent} from './reference/import';
+import {PasswordFieldComponent} from './admin/reference/widget/fields/password';
+import {ImageFieldComponent} from './admin/reference/widget/fields/image';
+import {PageEditProfileComponent} from './apps/user-pages/edit-profile';
+import {FileFieldComponent} from './admin/reference/widget/fields/file';
+import {NgxMaskModule} from 'ngx-mask';
+import {
+    NzCardModule,
+    NzCarouselModule,
+    NzInputModule,
+    NzProgressModule,
+    NzSelectModule,
+    NzStatisticModule,
+    NzSwitchModule
+} from 'ng-zorro-antd';
+import {NgApexchartsModule} from 'ng-apexcharts';
+import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
+import {NzDividerModule} from 'ng-zorro-antd/divider';
+import {NzSpinModule} from 'ng-zorro-antd/spin';
+import {PageTwoFactorComponent} from './apps/authentication/two-factor';
+import { QuizComponent } from './projects/comminuty/quiz/quiz.component';
+import { ProgramComponent } from './projects/comminuty/program/program.component';
+import {TextFieldComponent} from './admin/reference/widget/fields/text';
+import {EditCompanyComponent} from './projects/courses/admin/company/edit';
+import {TCExternalEditRecordComponent} from './reference/external/record/edit-record';
+import {ViewCompanyComponent} from './projects/courses/company/view';
+import {EditPackageComponent} from './projects/courses/admin/package/edit';
+import {EditTeacherComponent} from './projects/courses/admin/teacher/edit';
+import {TeacherListComponent} from './projects/courses/teacher/list';
+import {ViewTeacherComponent} from './projects/courses/teacher/view';
+import {EditCourseComponent} from './projects/courses/admin/course/edit';
+import {EditModuleComponent} from './projects/courses/admin/module/edit';
+import {EditLessonComponent} from './projects/courses/admin/lesson/edit';
+import {CourseListComponent} from './projects/courses/course/list';
+import {EditQuizCourseComponent} from './projects/courses/admin/quiz/edit';
+import {CourseListCardComponent} from './projects/courses/course/list-card';
+import {CourseCardComponent} from './projects/courses/course/card';
+import {ViewCourseComponent} from './projects/courses/course/view/course';
+import {CourseCardSidebarComponent} from './projects/courses/course/card-sidebar';
+import {ViewModuleComponent} from './projects/courses/course/view/module';
+import {ViewLessonComponent} from './projects/courses/course/view/lesson';
+import {EmbedIdPipe} from '../ui/pipe/embedId.pipe';
+import {NotFoundPageComponent} from './errors/not-found-page';
+import {ViewQuizComponent} from './projects/courses/course/view/quiz';
+import {TCAccessComponent} from './admin/reference/widget/access';
+import {BookListComponent} from './projects/reading/book/list';
+import {FolderExtendComponent} from './reference/external/folder';
+import {CategoryListComponent} from './projects/reading/category/list';
+import {RDGroupListComponent} from './projects/reading/group/list';
+import {RDPeriodListComponent} from './projects/reading/group/period-list';
+import {RDVoteBookComponent} from './projects/reading/group/vote-book';
+import {LGGroupListComponent} from './projects/lingua/group/list';
+import {LGViewGroupComponent} from './projects/lingua/group/view';
+import {LGEditGroupComponent} from './projects/lingua/group/edit';
+import {TCExternalViewRecordComponent} from './reference/external/record/view-record';
+import {MapToStringPipe} from '../ui/pipe/filter-input/mapToString.pipe';
+import {LGViewReportComponent} from './projects/lingua/report/view-report';
+import {LGEditReportComponent} from './projects/lingua/report/edit-report';
+import {WayListComponent} from './projects/edugrade/eduway/list';
+import {EdutestListComponent} from './projects/edugrade/edutest/list';
+import {SeminarListComponent} from './projects/edugrade/seminar/list';
+import {PracticeListComponent} from './projects/edugrade/practice/list';
+import {GpaListComponent } from './projects/edugrade/gpa/list';
+import {GradeListComponent } from './projects/edugrade/course/list';
+import {PageAnalyticsComponent} from './dashboards/analytics';
+import {ReportComponent} from './dashboards/report';
+import {LinguaReportTableComponent} from './projects/lingua/report-table';
+import {ReadingReportTableComponent} from './projects/reading/report-table';
+import { EdugradeReportTableComponent } from './projects/edugrade/report-table';
+import { PassportDirectionsComponent } from './projects/passport/directions';
+import { PassportListComponent } from './projects/passport/list';
+import { PassportImgComponent} from './projects/passport/passport-img';
+import { PassportGradeListComponent} from './projects/edugrade/passport/list';
+import { PassportReportTableComponent } from './projects/passport/report-table';
+import { HabitListComponent } from './projects/habit/list';
+import { ReportTableComponent } from './dashboards/report/report-table/report-table.component';
+import { ArchiveListComponent } from './apps/user-pages/archive-list/archive-list.component';
+import { InlineSVGModule} from 'ng-inline-svg';
+import { AllGradeListComponent } from './projects/edugrade/grade-list';
 
 
 registerLocaleData(en);
@@ -152,14 +205,8 @@ registerLocaleData(en);
         ChartsModule,
         NgxChartsModule,
         NgxEchartsModule,
-        NzMessageModule,
-        AgmCoreModule.forRoot({
-            apiKey: 'AIzaSyAbIFQ5ffgouATqs-sp8hgQf3zV4dTLzaU',
-        }),
         LeafletModule,
-        NgZorroAntdModule,
         HighlightModule,
-        FullCalendarModule,
         UIModule,
         ReferenceModule,
         OwnUiModule,
@@ -173,75 +220,70 @@ registerLocaleData(en);
         NzUploadModule,
         NzPopoverModule,
         NzEmptyModule,
-        TranslateModule
+        NzButtonModule,
+        NzTableModule,
+        NzDropDownModule,
+        NzIconModule,
+        NzMessageModule,
+        NzCollapseModule,
+        NzTabsModule,
+        NzTreeModule,
+        NzTreeSelectModule,
+        NzModalModule,
+        NzProgressModule,
+        TranslateModule,
+        NgxMaskModule,
+        NgApexchartsModule,
+        NzDatePickerModule,
+        NzDividerModule,
+        NzSpinModule,
+        NzRadioModule,
+        NzAffixModule,
+        NzBreadCrumbModule,
+        NzSliderModule,
+        NzDrawerModule,
+        NzCarouselModule,
+        NzInputModule,
+        NzStatisticModule,
+        NzCardModule,
+        NzSwitchModule,
+        InlineSVGModule,
+        NzSelectModule,
     ],
     declarations: [
         BasePageComponent,
-        PageAnalyticsComponent,
         Page404Component,
         Page500Component,
         Page503Component,
         Page505Component,
-        PageInvoiceComponent,
-        PageInvoicesComponent,
-        PagePricingComponent,
-        PageTimelineComponent,
         PageUserProfileComponent,
         PageEditAccountComponent,
-        PageCalendarComponent,
         PageSignInComponent,
         PageResetPasswordConfirmComponent,
         PageSignUpComponent,
+        PageTwoFactorComponent,
         PageSettingsComponent,
-        PageECommerceComponent,
         PageDashboardComponent,
+        PageAnalyticsComponent,
         PageResetPasswordComponent,
         PageVerifyAccountComponent,
         PageConnectionsComponent,
         ErrorBasePageComponent,
         PageWidgetsComponent,
         PageGroupsComponent,
-        ListComponent,
         FilterInputPipe,
         FilterArrayPipe,
         FilterTopPipe,
         OrderByPipe,
-        EditComponent,
         TrimPipe,
+        MapToStringPipe,
         SafeUrlPipe,
-        ImportComponent,
         GroupsListComponent,
-        ListsComponent,
-        SubListComponent,
-        SubListTableComponent,
-        SubEditComponent,
-        EnglishProfileComponent,
-        EnglishAttendanceComponent,
-        EnglishGroupComponent,
-        EnglishEditGroupComponent,
-        MiniListComponent,
-        EnglishListComponent,
-        SubNewActualComponent,
-        SubPassComponent,
-        AddCompanyComponent,
         CompanyListComponent,
-        AddPackageComponent,
-        AddCourseComponent,
-        CourseMainComponent,
-        CourseListComponent,
-        CourseComponent,
-        LessonComponent,
-        PackageListComponent,
-        AddModuleComponent,
-        AddLessonComponent,
         SoonComponent,
         AddTopicComponent,
         TopicListItemComponent,
         AddProblemComponent,
-        EnglishUserProfileComponent,
-        EnglishEditProfileComponent,
-        EnglishAddGroupComponent,
-        EnglishAddReportComponent,
         EditReferenceComponent,
         SidebarMenuComponent,
         PropertyComponent,
@@ -253,6 +295,9 @@ registerLocaleData(en);
         IntegerFieldComponent,
         FloatFieldComponent,
         StringFieldComponent,
+        TextFieldComponent,
+        PasswordFieldComponent,
+        ImageFieldComponent,
         DateFieldComponent,
         TimestampFieldComponent,
         BooleanFieldComponent,
@@ -260,22 +305,86 @@ registerLocaleData(en);
         ReferenceFieldComponent,
         SoonFieldComponent,
         TableFieldComponent,
+        StructureFieldComponent,
         EditRecordComponent,
         ViewRecordComponent,
         TCFolderComponent,
         TCMiniFolderComponent,
+        FolderExtendComponent,
         TCSectionComponent,
-        AddQuizComponent,
-        QuizListComponent,
+        TCAccessComponent,
+        PageStructureComponent,
+        TCImportComponent,
+        PageEditProfileComponent,
+        FileFieldComponent,
+        QuizComponent,
+        ProgramComponent,
+        EditCompanyComponent,
+        TCExternalEditRecordComponent,
+        ViewCompanyComponent,
+        EditPackageComponent,
+        EditTeacherComponent,
+        TeacherListComponent,
+        ViewTeacherComponent,
+        EditCourseComponent,
+        EditModuleComponent,
+        EditLessonComponent,
+        CourseListComponent,
+        EditQuizCourseComponent,
+        CourseListCardComponent,
+        CourseCardComponent,
+        ViewCourseComponent,
+        CourseCardSidebarComponent,
+        ViewModuleComponent,
+        ViewLessonComponent,
+        ViewQuizComponent,
+        EmbedIdPipe,
+        NotFoundPageComponent,
         BookListComponent,
+        CategoryListComponent,
+        RDGroupListComponent,
+        RDPeriodListComponent,
+        RDVoteBookComponent,
+        LGGroupListComponent,
+        LGViewGroupComponent,
+        LGEditGroupComponent,
+        TCExternalViewRecordComponent,
+        LGViewReportComponent,
+        LGEditReportComponent,
+        WayListComponent,
+        EdutestListComponent,
+        SeminarListComponent,
+        PracticeListComponent,
+        GpaListComponent,
+        GradeListComponent,
+        ReportComponent,
+        LinguaReportTableComponent,
+        ReadingReportTableComponent,
+        EdugradeReportTableComponent,
+        PassportDirectionsComponent,
+        PassportListComponent,
+        PassportImgComponent,
+        PassportGradeListComponent,
+        PassportReportTableComponent,
+        HabitListComponent,
+        ReportTableComponent,
+        ArchiveListComponent,
+        AllGradeListComponent
     ],
     exports: [
-        TCMiniFolderComponent
+        TCMiniFolderComponent,
+        SafeUrlPipe,
+        EmbedIdPipe,
+        TrimPipe,
+        MapToStringPipe,
     ],
     providers: [
         {provide: NZ_I18N, useValue: en_US},
         {provide: NZ_ICONS, useValue: icons},
-        {provide: NZ_MESSAGE_CONFIG, useValue: {nzDuration: 300000, nzMaxStack: 7, nzPauseOnHover: true, nzAnimate: true}},
-        MiniListComponent, TCVTimelineComponent]
+        // {provide: NZ_MESSAGE_CONFIG, useValue: {nzDuration: 300000, nzMaxStack: 7, nzPauseOnHover: true, nzAnimate: true}},
+        {provide: NZ_DATE_CONFIG, useValue: { firstDayOfWeek: 1 }},
+        TCVTimelineComponent,
+        DatePipe,
+    ]
 })
 export class PagesModule { }

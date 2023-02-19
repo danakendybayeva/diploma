@@ -10,6 +10,7 @@ export class User {
     accessToken?: string;
     refreshToken?: string;
     language?: string;
+    expiryDuration?: Date;
 }
 
 export class AuthToken {

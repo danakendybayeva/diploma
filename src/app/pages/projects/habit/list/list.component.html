@@ -1,0 +1,85 @@
+<tc-card>
+    <nz-tabset>
+        <nz-tab [nzTitle]="'Habits'|translate">
+            <div class="row">
+                <div class="col-12 col-md-3" *ngFor="let habit of habits; let index = index;">
+                    <div class="habit-card" (click)="openDraw(index)">
+                        <tc-form-label class="habit-title">{{habit['display_name']}}</tc-form-label>
+                        <p class="text-p"> {{habit['description']}} </p>
+                    </div>
+                    <i class="icofont-close close-button" (click)="openModalRemove(modalBody, '', modalFooter, { closeButton: true, overlayClose: true }, index)"></i>
+                </div>
+            </div>
+            <button tc-button [align]="'right'" (click)="addHabit()" [beforeIcon]="'icofont-plus'" [view]="'info'"
+                    class="margin8">{{'Add Habit' | translate}}</button>
+            <div class="line"></div>
+        </nz-tab>
+    </nz-tabset>
+</tc-card>
+
+<nz-drawer [nzClosable]="true" [nzVisible]="visibleDraw" nzPlacement="right" [nzTitle]="'Habit' | translate" (nzOnClose)="closeDraw()" [nzWidth]="480">
+    <div class="block-draw">
+        <div class="col-12 col-md-10 " style="padding-bottom: 15px">
+            <!--                <tc-form-label class="label">{{ 'Habit Title'|translate }} (2 {{'words'|translate}})</tc-form-label>-->
+            <tc-form-label class="label">{{ 'Habit Title'|translate }}</tc-form-label>
+
+            <tc-input
+                    [disabled]="!dataDraw['isExists']"
+                    [(ngModel)]="dataDraw['display_name']"
+                    [borderColor]="'#8E919B'"
+                    [bgColor]="'#FFFFFF'"
+                    [placeholder]="'Habit Name'"
+                    [maxlength]="100"
+            >
+            </tc-input>
+        </div>
+        <div class="col-12 col-md-10 ">
+            <tc-form-label class="label">{{ 'Habit Description'|translate }}</tc-form-label>
+            <tc-textarea style="border-radius: 4px"
+                         [disabled]="!dataDraw['isExists']"
+                         [(ngModel)]="dataDraw['description']"
+                         [borderColor]="'#8E919B'"
+                         [bgColor]="'#FFFFFF'"
+                         [placeholder]="'Habit Description'"
+                         [resize] = "true"
+            >
+            </tc-textarea>
+        </div>
+    </div>
+    <div class="footer-drawer">
+        <div>
+            <button tc-button
+                    [type]="'button'"
+                    [view]="'default'"
+                    [outline]="true"
+                    [tcBorderColor]="'transparent'"
+                    class="mr-2"
+                    (click)="closeDraw()"
+            >
+                {{'Cancel'|translate}}
+            </button>
+            <button tc-button
+                    [type]="'button'"
+                    [view]="'info'"
+                    [load]="loadingHabit"
+                    (click)="saveHabit()"
+                    [disabled]="!dataDraw['isExists']"
+            >
+                {{'Save'|translate}}
+            </button>
+        </div>
+    </div>
+</nz-drawer>
+
+<ng-container>
+    <ng-template #modalBody>
+        <p>{{'Are you sure you want to delete' | translate}}?</p>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'default'" (click)="closeModal()">{{'Cancel'|translate}}</button>
+            <button tc-button [view]="'error'" [disabled]="!this.habits[removeIndex]['isExists']" [load]="loading" (click)="removeHabit(removeIndex)">{{'Delete'|translate}}</button>
+        </div>
+    </ng-template>
+</ng-container>

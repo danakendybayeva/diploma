@@ -1,58 +1,21 @@
-<tc-form-group *ngIf="_valueField && type === 'edit' && form" [formGroup]="form">
+<tc-form-group *ngIf="_valueField && type === 'edit' && form" [formGroup]="form" [ngClass]="{'mb-0' : styleType === 'no-label'}">
   <div class="row align-items-center">
     <div class="col-12 col-md-3" *ngIf="styleType === 'standard'">
-      <tc-form-label class="mb-md-0" *ngIf="!isConfig">{{ _valueField.title }} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
-      <tc-form-label class="mb-md-0" *ngIf="isConfig">Значение по умолчанию <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <tc-form-label class="mb-md-0" *ngIf="!isConfig">{{ _valueField.title|translate }} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <tc-form-label class="mb-md-0" *ngIf="isConfig">{{'Default Value'|translate}}<span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
     </div>
     <div class="col-12" [ngClass]="{'col-md-9' : styleType === 'standard'}">
-      <tc-form-label *ngIf="styleType != 'standard'">{{ _valueField.title }} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
-
-      <div *ngIf="!_valueField.currentTimestamp || !isConfig" class="row">
-        <tc-input id="default-date-{{_valueField.id}}" class="col-6"
-                  [(ngModel)]="dateValue"
-                  [placeholder]="'Значение по умолчанию'"
-                  (ngModelChange)="timestampChanged()"
-                  (focusout)="focused()"
-                  [type]="'date'"
-                  [formControlName]="_valueField.id + 'date'">
-        </tc-input>
-        <tc-input id="default-time-{{_valueField.id}}" class="col-6"
-                  [(ngModel)]="timeValue"
-                  [placeholder]="'Значение по умолчанию'"
-                  (ngModelChange)="timestampChanged()"
-                  (focusout)="focused()"
-                  [type]="'time'"
-                  [formControlName]="_valueField.id + 'time'">
-        </tc-input>
-      </div>
-      <div *ngIf="_valueField.currentTimestamp && isConfig" class="row">
-        <tc-input id="add-days-{{_valueField.id}}" class="col-6"
-                  [prefix]="'+'"
-                  [suffix]="'дней'"
-                  [(ngModel)]="_valueField.addDays"
-                  (ngModelChange)="timestampChanged()"
-                  (focusout)="focused()"
-                  [placeholder]="'Значение по умолчанию'"
-                  [type]="'number'"
-                  [formControlName]="_valueField.id + 'date'">
-        </tc-input>
-        <tc-input id="add-time-{{_valueField.id}}" class="col-6"
-                  [prefix]="'+'"
-                  [suffix]="'время'"
-                  [(ngModel)]="_valueField.addTime"
-                  (ngModelChange)="timestampChanged()"
-                  (focusout)="focused()"
-                  [placeholder]="'Значение по умолчанию'"
-                  [type]="'time'"
-                  [formControlName]="_valueField.id + 'time'">
-        </tc-input>
-        <tc-input  class="d-none"
-                  [(ngModel)]="value"
-                  (ngModelChange)="defaultSetDate()"
-                  [type]="'hidden'"
-                  [formControlName]="_valueField.id">
-        </tc-input>
-      </div>
+      <tc-form-label *ngIf="styleType != 'standard' && styleType != 'no-label'">{{ _valueField.title |translate}} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <nz-date-picker
+              [nzShowTime]="{ nzFormat: (_valueField.viewFormat ? _valueField.viewFormat.substring(_valueField.viewFormat.lastIndexOf(' ')) : 'HH:mm')}"
+              [nzFormat]="_valueField.viewFormat ? _valueField.viewFormat : 'yyyy-MM-dd HH:mm'"
+              [nzPlaceHolder]="_valueField.title|translate"
+              [(ngModel)]="value"
+              (ngModelChange)="onChangeTimestamp($event)"
+              (nzOnOk)="onOk($event)"
+              (focusout)="focused()"
+              [formControlName]="_valueField.id"
+      ></nz-date-picker>
       <p class="error-text error" *ngIf="form && form.get([_valueField.id]).invalid && isFocused">
         <span *ngIf="this._valueField.minDay !== null">min: {{this._valueField.minDay}} </span>
         <span *ngIf="this._valueField.maxDay !== null">max: {{this._valueField.maxDay}} </span>
@@ -63,16 +26,16 @@
 
 <div *ngIf="_valueField && type != 'edit'" [ngSwitch]="styleType">
   <span *ngSwitchCase="'single'">
-    {{ value | date: _valueField.viewFormat }}
+    {{ _valueField.viewFormat ? (value | date : _valueField.viewFormat) : value }}
   </span>
 
   <tc-form-group *ngSwitchDefault>
     <div class="row align-items-center">
       <div class="col-12 col-md-3">
-        <tc-form-label class="mb-md-0 label-show">{{ _valueField.title }}:</tc-form-label>
+        <tc-form-label class="mb-md-0 label-show">{{ _valueField.title|translate }}:</tc-form-label>
       </div>
       <div class="col-12 col-md-9">
-        {{ value | date: _valueField.viewFormat }}
+        {{ _valueField.viewFormat ? (value | date : _valueField.viewFormat) : value }}
       </div>
     </div>
   </tc-form-group>

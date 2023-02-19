@@ -160,7 +160,7 @@ export class TCReferenceFieldComponent implements OnInit, OnChanges, ControlValu
 	}
 
 	changeDefaultAutoSelected(event) {
-		if (this.value.length >= this._valueField.limit && this._valueField.limit >= 0) {
+		if (this.value.length >= this._valueField.limit && this._valueField.limit > 0) {
 			this.refDefaultValue = '';
 			return;
 		}
@@ -190,10 +190,16 @@ export class TCReferenceFieldComponent implements OnInit, OnChanges, ControlValu
 
 	closeModal() {
 		this.modal.close();
+		// TODO потом озгерту керек; когда екі модалка ашылганда search input жасамайды; пока говно код спасает
+		const myElement = document.getElementsByClassName('cdk-overlay-container');
+		for (let i = 0; i < myElement.length; i++) {
+			const slide = myElement[i] as HTMLElement;
+			slide.style.display = 'block';
+		}
 	}
 
 	selectRecordRef() {
-		this.modal.close();
+		this.closeModal();
 		const record = this.modalRec;
 		let templateView = this._valueField.templateView;
 		this.referenceFieldsOption.forEach(item => {
@@ -216,7 +222,6 @@ export class TCReferenceFieldComponent implements OnInit, OnChanges, ControlValu
 
 	selectedDefaultValue(event) {
 		this.modalRec = event;
-
 	}
 
 	removeItem(index: number) {

@@ -11,6 +11,7 @@ export class LogoComponent implements OnInit {
   @Input() width: number | string;
   @Input() height: number | string;
   @Input() alt: string;
+  @Input() fill: string;
 
   constructor() {
     this.width = 'auto';

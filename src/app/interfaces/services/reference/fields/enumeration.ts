@@ -5,10 +5,13 @@ export interface EnumerationField extends IField {
     values: EnumValues[];
     isSingle: boolean;
     separator: string;
+    value?: EnumValues[];
+    isBadges: boolean;
 }
 
 export interface EnumValues {
     id: string;
     value: string;
     selected?: boolean;
+    badges?: string;
 }

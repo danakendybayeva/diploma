@@ -14,6 +14,11 @@ export interface ReferenceField extends IField {
     templateView: string;
     enableNumbered: boolean;
     filters?: any[];
+
+    isActive?: boolean;
+    enableSubdivision?: boolean;
+    enableGroup?: boolean;
+    hideAll?: boolean;
 }
 
 export interface SortType {

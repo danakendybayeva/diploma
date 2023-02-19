@@ -25,6 +25,22 @@
                         (resultEvent)="submitEvent($event)">
                 </string-field>
             </div>
+            <div *ngSwitchCase="'text'">
+                <text-field
+                        [referenceId]="referenceId"
+                        [_value]="fieldsTogether[fieldId]"
+                        [fieldId]="fieldId"
+                        (resultEvent)="submitEvent($event)">
+                </text-field>
+            </div>
+            <div *ngSwitchCase="'password'">
+                <password-field
+                        [referenceId]="referenceId"
+                        [_value]="fieldsTogether[fieldId]"
+                        [fieldId]="fieldId"
+                        (resultEvent)="submitEvent($event)">
+                </password-field>
+            </div>
             <div *ngSwitchCase="'timestamp'">
                 <timestamp-field
                         [referenceId]="referenceId"
@@ -66,13 +82,28 @@
                 </reference-field>
             </div>
             <div *ngSwitchCase="'structure'">
-                <soon-field></soon-field>
+                <structure-field
+                        [referenceId]="referenceId"
+                        [_value]="fieldsTogether[fieldId]"
+                        [fieldId]="fieldId"
+                        (resultEvent)="submitEvent($event)">
+                </structure-field>
             </div>
-            <div *ngSwitchCase="'text'">
-                <soon-field></soon-field>
+            <div *ngSwitchCase="'image'">
+                <image-field
+                        [referenceId]="referenceId"
+                        [_value]="fieldsTogether[fieldId]"
+                        [fieldId]="fieldId"
+                        (resultEvent)="submitEvent($event)">
+                </image-field>
             </div>
             <div *ngSwitchCase="'file'">
-                <soon-field></soon-field>
+                <file-field
+                        [referenceId]="referenceId"
+                        [_value]="fieldsTogether[fieldId]"
+                        [fieldId]="fieldId"
+                        (resultEvent)="submitEvent($event)">
+                </file-field>
             </div>
             <div *ngSwitchCase="'table'">
                 <table-field
@@ -98,6 +129,11 @@
                         (resultEvent)="submitEvent($event)"
                     >
                 </tc-section>
+
+                <tc-access
+                        *ngIf="urlPath == 'access'"
+                        [referenceId]="referenceId"
+                ></tc-access>
             </div>
         </div>
         <div class="col-12 col-md-3">

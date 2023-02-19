@@ -30,6 +30,7 @@ export class VerticalLayoutComponent extends BaseLayoutComponent implements OnIn
 
   editPencil = false;
   appMenu = environment.appMenu;
+  logo = environment.logo;
 
   loading = false;
   currentUser: User;

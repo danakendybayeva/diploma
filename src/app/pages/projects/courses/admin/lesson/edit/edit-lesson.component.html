@@ -1,0 +1,167 @@
+<form *ngIf="loaded && !isEmpty" [formGroup]="labelForm" (ngSubmit)="submitEvent(labelForm.valid)">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <nz-tabset (nzSelectedIndexChange)="nzTabIndexChange($event)">
+                <nz-tab nzTitle="{{'Course Page'|translate}}"></nz-tab>
+                <nz-tab nzTitle="{{'Setting'|translate}}"></nz-tab>
+            </nz-tabset>
+
+            <tc-card [ngClass]="{'d-none': (tabShow != 0)}">
+                <tc-string-field
+                        [_valueField]="fieldsData['display_name']"
+                        [(ngModel)]="fieldsData['display_name'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'display_name'"
+                ></tc-string-field>
+                <tc-text-field
+                        *ngIf="loaded && tabShow === 0"
+                        [_valueField]="fieldsData['description']"
+                        [(ngModel)]="fieldsData['description'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'description'"
+                        [minHeightText]="400"
+                ></tc-text-field>
+
+            </tc-card>
+
+            <div [ngClass]="{'d-none': (tabShow != 1)}">
+                <tc-card>
+                    <tc-boolean-field
+                            [_valueField]="fieldsData['is_video_progression']"
+                            [(ngModel)]="fieldsData['is_video_progression'].value"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [isNew]="isNew"
+                            [formControlName]="'is_video_progression'"
+                            [isSwitcher]="true"
+                    ></tc-boolean-field>
+                    <div *ngIf="fieldsData['is_video_progression'].value">
+                        <tc-form-group>
+                            <tc-string-field
+                                    [_valueField]="fieldsData['video_progression_url']"
+                                    [(ngModel)]="fieldsData['video_progression_url'].value"
+                                    [type]="typePage"
+                                    [form]="labelForm"
+                                    [isNew]="isNew"
+                                    [formControlName]="'video_progression_url'"
+                            ></tc-string-field>
+                            <div class="row align-items-center mb-4">
+                                <div class="col-12 col-md-3">
+                                    <tc-form-label class="mb-md-0">{{'Display Timing'}}</tc-form-label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <tc-radio id="default-value-prerequisites_mode"
+                                              [formControlName]="'video_progression_mode'"
+                                              [direction]="'vertical'"
+                                              [(ngModel)]="fieldsData['video_progression_mode'].value"
+                                              [value]="fieldsData['video_progression_mode'].value">
+                                        <tc-radio-option class="mb-2 color-main" [value]="'ANY'">
+                                            {{'Before completed sub - steps'|translate}}
+                                        </tc-radio-option>
+                                        <span class="small-font">{{'The video will be shown and must be fully watched before the user can access the lesson’s associated steps.'|translate}}</span>
+                                        <tc-radio-option class="mb-2 color-main" [value]="'ALL'">
+                                            {{'After completing sub - steps'|translate}}
+                                        </tc-radio-option>
+                                        <span class="small-font">{{'The video will be visible after the user has completed the lesson’s associated steps. The full video must be watched in order to complete the lesson.'|translate}}</span>
+                                    </tc-radio>
+                                </div>
+                            </div>
+                            <tc-boolean-field
+                                    [_valueField]="fieldsData['is_autostart']"
+                                    [(ngModel)]="fieldsData['is_autostart'].value"
+                                    [type]="typePage"
+                                    [form]="labelForm"
+                                    [isNew]="isNew"
+                                    [formControlName]="'is_autostart'"
+                                    [isSwitcher]="true"
+                            ></tc-boolean-field>
+                            <tc-boolean-field
+                                    [_valueField]="fieldsData['is_video_controls_display']"
+                                    [(ngModel)]="fieldsData['is_video_controls_display'].value"
+                                    [type]="typePage"
+                                    [form]="labelForm"
+                                    [isNew]="isNew"
+                                    [formControlName]="'is_video_controls_display'"
+                                    [isSwitcher]="true"
+                            ></tc-boolean-field>
+                            <tc-boolean-field
+                                    [_valueField]="fieldsData['is_video_pause_unf']"
+                                    [(ngModel)]="fieldsData['is_video_pause_unf'].value"
+                                    [type]="typePage"
+                                    [form]="labelForm"
+                                    [isNew]="isNew"
+                                    [formControlName]="'is_video_pause_unf'"
+                                    [isSwitcher]="true"
+                            ></tc-boolean-field>
+                            <tc-boolean-field
+                                    [_valueField]="fieldsData['is_video_resume']"
+                                    [(ngModel)]="fieldsData['is_video_resume'].value"
+                                    [type]="typePage"
+                                    [form]="labelForm"
+                                    [isNew]="isNew"
+                                    [formControlName]="'is_video_resume'"
+                                    [isSwitcher]="true"
+                            ></tc-boolean-field>
+                        </tc-form-group>
+                        <hr />
+                    </div>
+                </tc-card>
+            </div>
+
+        </div>
+        <div class="col-12 col-md-4">
+            <tc-card [title]="'Publish'|translate" class="mt-61">
+                <tc-enumeration-field
+                        [_valueField]="fieldsData['status']"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [styleType]="'single'"
+                        [isNew]="isNew"
+                ></tc-enumeration-field>
+                <tc-timestamp-field
+                        [_valueField]="fieldsData['publish_date']"
+                        [(ngModel)]="fieldsData['publish_date'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'publish_date'"
+                ></tc-timestamp-field>
+                <div style="text-align: right;">
+                    <button tc-button
+                            [size]="'sm'"
+                            [view]="'info'">
+                        {{'Save'|translate}}
+                    </button>
+                </div>
+            </tc-card>
+
+            <div [ngClass]="{'d-none': (tabShow != 0)}">
+                <tc-card [title]="'Details'|translate">
+                    <tc-integer-field
+                        [_valueField]="fieldsData['order_num']"
+                        [(ngModel)]="fieldsData['order_num'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'order_num'"
+                    ></tc-integer-field>
+                    <tc-enumeration-field
+                            [_valueField]="fieldsData['teachers']"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [styleType]="'single'"
+                            [isNew]="isNew"
+                    ></tc-enumeration-field>
+                </tc-card>
+            </div>
+        </div>
+    </div>
+</form>

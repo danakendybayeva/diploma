@@ -1,12 +1,12 @@
-<tc-form-group *ngIf="_valueField && type === 'edit' && form" [formGroup]="form">
+<tc-form-group *ngIf="_valueField && type === 'edit' && form" [formGroup]="form" [ngClass]="{'mb-0' : styleType === 'no-label'}">
   <div class="row align-items-center">
     <div class="col-12 col-md-3" *ngIf="styleType === 'standard'">
-      <tc-form-label class="mb-md-0">{{ _valueField.title }} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <tc-form-label class="mb-md-0">{{ _valueField.title |translate}} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
     </div>
     <div class="col-12" [ngClass]="{'col-md-9' : styleType === 'standard'}">
-      <tc-form-label *ngIf="styleType != 'standard'">{{ _valueField.title }} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <tc-form-label *ngIf="styleType != 'standard' && styleType != 'no-label'">{{ _valueField.title|translate }} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
       <tc-select *ngIf="enumOption.length > 0"
-                 [placeholder]="'Поля'"
+                 [placeholder]="'Fields'|translate"
                  [options]="enumOption"
                  [multiple]="!_valueField.isSingle"
                  [allowClear]="true"
@@ -21,14 +21,28 @@
   </div>
 </tc-form-group>
 <div *ngIf="_valueField && type != 'edit'" [ngSwitch]="styleType">
-  <span *ngSwitchCase="'single'" [innerHTML]="innerValue"></span>
+  <div *ngSwitchCase="'single'">
+    <div *ngIf="_valueField.isBadges">
+      <div *ngFor="let item of innerValue">
+        <tc-badge *ngIf="setBadges(item.id)" [size]="'sm'" [view]="setBadges(item.id)">{{ item.value |translate }}</tc-badge>
+      </div>
+    </div>
+    <span *ngIf="!_valueField.isBadges" [innerHTML]="innerValue"></span>
+  </div>
 
   <tc-form-group *ngSwitchDefault>
     <div class="row align-items-center">
       <div class="col-12 col-md-3">
-        <tc-form-label class="mb-md-0 label-show">{{ _valueField.title }}:</tc-form-label>
+        <tc-form-label class="mb-md-0 label-show">{{ _valueField.title|translate }}:</tc-form-label>
       </div>
-      <div class="col-12 col-md-9" [innerHTML]="innerValue"></div>
+      <div class="col-12 col-md-9">
+        <div *ngIf="_valueField.isBadges">
+          <div *ngFor="let item of innerValue">
+            <tc-badge *ngIf="setBadges(item.id)" [size]="'sm'" [view]="setBadges(item.id)">{{ item.value |translate }}</tc-badge>
+          </div>
+        </div>
+        <span *ngIf="!_valueField.isBadges" [innerHTML]="innerValue"></span>
+      </div>
     </div>
   </tc-form-group>
 </div>

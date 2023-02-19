@@ -1,0 +1,259 @@
+<form *ngIf="loaded && !isEmpty" [formGroup]="labelForm" (ngSubmit)="submitEvent(labelForm.valid)">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <nz-tabset (nzSelectedIndexChange)="nzTabIndexChange($event)">
+                <nz-tab nzTitle="{{'Course Page'|translate}}"></nz-tab>
+                <nz-tab nzTitle="{{'Setting'|translate}}"></nz-tab>
+                <nz-tab nzTitle="{{'Builder'|translate}}" [nzDisabled]="(recordId == null || recordId.length == 0)"></nz-tab>
+            </nz-tabset>
+
+            <tc-card [ngClass]="{'d-none': (tabShow != 0)}">
+                <tc-string-field
+                        [_valueField]="fieldsData['display_name']"
+                        [(ngModel)]="fieldsData['display_name'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'display_name'"
+                ></tc-string-field>
+                <tc-text-field
+                        *ngIf="loaded && tabShow === 0"
+                        [_valueField]="fieldsData['description']"
+                        [(ngModel)]="fieldsData['description'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'description'"
+                        [minHeightText]="400"
+                ></tc-text-field>
+            </tc-card>
+
+            <div [ngClass]="{'d-none': (tabShow != 1)}">
+                <tc-card [title]="'Progression and Restriction Settings'|translate">
+                    <tc-integer-field
+                            [_valueField]="fieldsData['passing_score']"
+                            [(ngModel)]="fieldsData['passing_score'].value"
+                            [type]="typePage"
+                            [form]="labelForm"
+                            [isNew]="isNew"
+                            [formControlName]="'passing_score'"
+                    ></tc-integer-field>
+                </tc-card>
+            </div>
+
+            <div [ngClass]="{'d-none': (tabShow != 2)}">
+                <tc-card cdkDropList (cdkDropListDropped)="onDrop($event)">
+                    <div *ngFor="let question of builders; let index = index;" cdkDrag>
+                        <div
+                                class="module-block"
+                                [ngClass]="{'block-active' : (builderActive === index)}"
+                                (click)="builderActive = index"
+                        >
+                            <div class="d-flex align-items-center">
+                                <div class="left-btn">
+                                    <tc-icon *ngIf="index > 0" [iconClass]="'icofont-rounded-up'" [tcFontSize]="18" (click)="changeOrderNum(index, 'up')"></tc-icon>
+                                    <tc-icon *ngIf="index === 0" [iconClass]="'icofont-rounded-up'" [tcFontSize]="18" [tcColor]="'transparent'"></tc-icon>
+                                    <tc-icon [iconClass]="'icofont-drag2'" [tcFontSize]="18" cdkDragHandle></tc-icon>
+                                    <tc-icon *ngIf="index < (builders.length - 1)"  [iconClass]="'icofont-rounded-down'" [tcFontSize]="18" (click)="changeOrderNum(index, 'down')"></tc-icon>
+                                    <tc-icon *ngIf="index === (builders.length - 1)" [iconClass]="'icofont-rounded-down'" [tcFontSize]="18" [tcColor]="'transparent'"></tc-icon>
+                                </div>
+                                <div class="d-flex align-items-center pl-2 module-center-block">
+                                    <div class="d-flex align-items-center pl-2" >
+                                        <tc-avatar [tcBgColor]="'#7cdb86'" [initials]="'Q'" [size]="30"></tc-avatar>
+                                        <span *ngIf="!question['edit']"><strong>{{question.title}}</strong> ({{question.answers.length}})</span>
+                                    </div>
+                                    <div class="d-flex align-items-center" *ngIf="question['edit']" style="width: 100%;">
+                                        <tc-input [(ngModel)]="editString" [ngModelOptions]="{standalone: true}" [size]="'sm'" [placeholder]="question.title |translate"></tc-input>
+                                        <button tc-button
+                                                class="mr-1 ml-1"
+                                                [type]="'button'"
+                                                [size]="'sm'"
+                                                [view]="'info'"
+                                                (click)="saveEditText(index)"
+                                        >
+                                            {{'Save'|translate}}
+                                        </button>
+                                        <button tc-button
+                                                [type]="'button'"
+                                                [size]="'sm'"
+                                                [view]="'default'"
+                                                (click)="question['edit'] = false"
+                                        >
+                                            {{'Cancel'|translate}}
+                                        </button>
+                                    </div>
+                                    <div class="d-flex align-items-center pl-2 edit-remove" *ngIf="!question['edit']">
+                                        <tc-select
+                                                *ngIf="question.expanded"
+                                                class="mr-1"
+                                                [placeholder]="'Select placeholder'|translate"
+                                                [options]="quizType"
+                                                [(ngModel)]="question.type"
+                                                [ngModelOptions]="{standalone: true}"
+                                                [size]="'sm'"
+                                                [bgColor]="['#fdfdfd', '#fff']"
+                                        ></tc-select>
+                                        <tc-icon class="mr-1" [iconClass]="'icofont-ui-edit'" [tcFontSize]="14" [tcColor]="'#2fa7ff'" (click)="editText(index)"></tc-icon>
+                                        <tc-icon [iconClass]="'icofont-close'" [tcFontSize]="14" [tcColor]="'#ed253d'"></tc-icon>
+                                    </div>
+                                </div>
+                                <div class="right-btn">
+                                    <tc-icon [iconClass]="question.expanded ? 'icofont-simple-up': 'icofont-simple-down'" [tcFontSize]="18" (click)="question.expanded = !question.expanded"></tc-icon>
+                                </div>
+                            </div>
+
+                            <div *ngIf="question.expanded" class="block-more" cdkDropList  (cdkDropListDropped)="onDropAnswer($event, index)">
+
+                                    <div class="block-lesson">
+                                        <nz-radio-group [(ngModel)]="question.answer" style="width: 100%;" [ngModelOptions]="{standalone: true}">
+                                            <div class="d-flex align-items-center block-more-ed" cdkDrag *ngFor="let answer of question.answers; let indexAnswer = index;">
+                                                <div class="left-btn">
+                                                    <tc-icon [iconClass]="'icofont-drag2'" [tcFontSize]="18" cdkDragHandle></tc-icon>
+                                                </div>
+                                                <div class="d-flex align-items-center pl-2 module-center-block">
+                                                    <div class="d-flex align-items-center pl-2">
+                                                        <tc-avatar [tcBgColor]="'#5b97f7'" [initials]="'A'" [size]="25"></tc-avatar>
+                                                        <span *ngIf="!answer['edit']"><strong>{{answer.title}}</strong></span>
+                                                    </div>
+                                                    <div class="d-flex align-items-center" *ngIf="answer['edit']" style="width: 100%;">
+                                                        <tc-input [(ngModel)]="editString" [ngModelOptions]="{standalone: true}" [size]="'sm'" [placeholder]="answer.title|translate"></tc-input>
+                                                        <button tc-button
+                                                                class="mr-1 ml-1"
+                                                                [type]="'button'"
+                                                                [size]="'sm'"
+                                                                [view]="'info'"
+                                                                (click)="saveEditText(indexAnswer, 'answer', index)"
+                                                        >
+                                                            {{'Save'|translate}}
+                                                        </button>
+                                                        <button tc-button
+                                                                [type]="'button'"
+                                                                [size]="'sm'"
+                                                                [view]="'default'"
+                                                                (click)="answer['edit'] = false"
+                                                        >
+                                                            {{'Cancel'|translate}}
+                                                        </button>
+                                                    </div>
+                                                    <div class="d-flex align-items-center pl-2 edit-remove" *ngIf="!answer['edit']">
+                                                        <label *ngIf="question.type === 'test'" class="mr-1" nz-radio [nzValue]="answer.id">{{'Correct'|translate}}</label>
+                                                        <tc-checkbox *ngIf="question.type === 'multiple'" class="mr-1" [(ngModel)]="answer.isAnswer" [ngModelOptions]="{standalone: true}" [value]="answer.isAnswer">{{'Correct'|translate}}</tc-checkbox>
+                                                        <tc-icon class="mr-1" [iconClass]="'icofont-ui-edit'" [tcFontSize]="14" [tcColor]="'#2fa7ff'" (click)="editText(indexAnswer, 'answer', index)"></tc-icon>
+                                                        <tc-icon [iconClass]="'icofont-close'" [tcFontSize]="14" [tcColor]="'#ed253d'" (click)="openModal(modalBody, 'Modal title', modalFooter, { closeButton: true, overlayClose: true }, index, indexAnswer)"></tc-icon>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </nz-radio-group>
+                                    </div>
+
+
+                                <div class="d-flex align-items-center mb-4" *ngIf="question.addingNewAnswer">
+                                    <tc-input [(ngModel)]="newAnswerTitle" [ngModelOptions]="{standalone: true}" [size]="'sm'" [placeholder]="'New Answer'|translate"></tc-input>
+                                    <button tc-button
+                                            class="mr-1 ml-1"
+                                            [type]="'button'"
+                                            [size]="'sm'"
+                                            [view]="'info'"
+                                            (click)="addNewAnswer(index, newAnswerTitle)"
+                                    >
+                                        {{'Save'|translate}}
+                                    </button>
+                                    <button tc-button
+                                            [type]="'button'"
+                                            [size]="'sm'"
+                                            [view]="'default'"
+                                            (click)="cancelAddingNewAnswer(index)"
+                                    >
+                                        {{'Cancel'|translate}}
+                                    </button>
+                                </div>
+
+                                <div>
+                                    <a [ngStyle]="{color: '#2fa7ff', lineHeight: '27px'}" *ngIf="!question.addingNewAnswer" (click)="question.addingNewAnswer = true">
+                                        <tc-icon [iconClass]="'sli-plus tc-icon-wrap'" [tcFontSize]="14" [tcColor]="'#2fa7ff'"></tc-icon> {{'Create answer'|translate}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mt-2 mb-4" *ngIf="addingNewQuestion">
+                        <tc-input [(ngModel)]="newQuestionTitle" [ngModelOptions]="{standalone: true}" [size]="'sm'" [placeholder]="'New Question'"></tc-input>
+                        <button tc-button
+                                class="mr-1 ml-1"
+                                [type]="'button'"
+                                [size]="'sm'"
+                                [view]="'info'"
+                                (click)="addNewQuestion(newQuestionTitle)"
+                        >
+                            {{'Save'|translate}}
+                        </button>
+                        <button tc-button
+                                [type]="'button'"
+                                [size]="'sm'"
+                                [view]="'default'"
+                                (click)="cancelAddingNewQuestion()"
+                        >
+                            {{'Cancel'|translate}}
+                        </button>
+                    </div>
+                    <div class="mt-2">
+                        <a [ngStyle]="{color: '#2fa7ff', lineHeight: '27px'}" *ngIf="!addingNewQuestion" (click)="addingNewQuestion = true">
+                            <tc-icon [iconClass]="'sli-plus tc-icon-wrap'" [tcFontSize]="14" [tcColor]="'#2fa7ff'"></tc-icon>
+                            {{'Create question'|translate}}
+                        </a>
+                    </div>
+                </tc-card>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <tc-card [title]="'Publish'|translate" class="mt-61">
+                <tc-enumeration-field
+                        [_valueField]="fieldsData['status']"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [styleType]="'single'"
+                        [isNew]="isNew"
+                ></tc-enumeration-field>
+                <div style="text-align: right;">
+                    <button tc-button
+                            [size]="'sm'"
+                            [view]="'info'">
+                        {{'Save'|translate}}
+                    </button>
+                </div>
+            </tc-card>
+
+            <div [ngClass]="{'d-none': (tabShow != 0)}">
+
+                <tc-card [title]="'Details'|translate">
+                    <tc-integer-field
+                        [_valueField]="fieldsData['order_num']"
+                        [(ngModel)]="fieldsData['order_num'].value"
+                        [type]="typePage"
+                        [form]="labelForm"
+                        [isNew]="isNew"
+                        [styleType]="'single'"
+                        [formControlName]="'order_num'"
+                    ></tc-integer-field>
+                </tc-card>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<ng-container>
+    <ng-template #modalBody>
+        <p>{{'Are you sure'|translate}}?</p>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'default'" (click)="closeModal()">{{'Cancel'|translate}}</button>
+            <button tc-button [view]="'error'" (click)="removeAnswer(selectedModule, selectedLesson)">{{'Delete'|translate}}</button>
+        </div>
+    </ng-template>
+</ng-container>

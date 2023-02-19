@@ -1,15 +1,19 @@
-<tc-form-group *ngIf="_valueField && type === 'edit' && form" [formGroup]="form">
+<tc-form-group *ngIf="_valueField && type === 'edit' && form" [formGroup]="form" [ngClass]="{'mb-0' : styleType === 'no-label'}">
   <div class="row align-items-center">
     <div class="col-12 col-md-3" *ngIf="styleType === 'standard'">
-      <tc-form-label class="mb-md-0" *ngIf="!isConfig">{{ _valueField.title }} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
-      <tc-form-label class="mb-md-0" *ngIf="isConfig">Значение по умолчанию <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <tc-form-label class="mb-md-0" *ngIf="!isConfig">{{ _valueField.title |translate}} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <tc-form-label class="mb-md-0" *ngIf="isConfig"> {{'Default Value'|translate}} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
     </div>
     <div class="col-12" [ngClass]="{'col-md-9' : styleType === 'standard'}">
-      <tc-form-label *ngIf="styleType != 'standard'">{{ _valueField.title }} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
+      <tc-form-label *ngIf="styleType != 'standard' && styleType != 'no-label'">{{ _valueField.title }} <span class="error" *ngIf="_valueField.isRequired">*</span></tc-form-label>
       <tc-input id="default-value-edit-{{_valueField.id}}"
                 [(ngModel)]="value"
-                [placeholder]="_valueField.title"
+                [placeholder]="_valueField.title | translate"
                 (focusout)="focused()"
+                [prefix]="_valueField.prefix"
+                [suffix]="_valueField.suffix"
+                [prefixIcon]="_valueField.prefixIcon"
+                [suffixIcon]="_valueField.suffixIcon"
                 [formControlName]="_valueField.id"
                 type="number">
       </tc-input>
@@ -28,7 +32,7 @@
   <tc-form-group *ngSwitchDefault>
     <div class="row align-items-center">
       <div class="col-12 col-md-3">
-        <tc-form-label class="mb-md-0 label-show">{{ _valueField.title }}:</tc-form-label>
+        <tc-form-label class="mb-md-0 label-show">{{ _valueField.title |translate}}:</tc-form-label>
       </div>
       <div class="col-12 col-md-9">
         {{ value }}

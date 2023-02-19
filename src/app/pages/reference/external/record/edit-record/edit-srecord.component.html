@@ -1,0 +1,14 @@
+<nz-empty *ngIf="isEmpty"
+          [nzNotFoundImage]="
+        'https://gw.alipayobjects.com/mdn/miniapp_social/afts/img/A*pevERLJC9v0AAAAAAAAAAABjAQAAAQ/original'
+      "
+          [nzNotFoundContent]="contentTpl"
+          [nzNotFoundFooter]="footerTpl"
+>
+    <ng-template #contentTpl>
+        <span> Customize <a href="#API">Description</a> </span>
+    </ng-template>
+    <ng-template #footerTpl>
+        <button tc-button [view]="'info'">Create Now</button>
+    </ng-template>
+</nz-empty>

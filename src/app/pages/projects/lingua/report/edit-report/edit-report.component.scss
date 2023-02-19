@@ -1,0 +1,17 @@
+:host {
+  .month-btn {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: -10px;
+    margin-right: -10px;
+    flex-wrap: wrap;
+
+    tc-badge {
+      margin: 5px 10px;
+      cursor: pointer;
+    }
+    tc-badge:hover {
+      background-color: #40a9ff !important;
+    }
+  }
+}

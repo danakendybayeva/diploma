@@ -59,7 +59,7 @@
 <tc-dropdown class="item" [close]="closeDropdown">
   <tc-dropdown-button>
     <div class="d-flex align-items-center">
-      <tc-avatar [src]="userImage" [size]="32" class="mr-1"></tc-avatar>
+      <tc-avatar [src]="userImage | secureFile | async" [size]="32" class="mr-1"></tc-avatar>
       <i class="icofont-simple-down"></i>
     </div>
   </tc-dropdown-button>
@@ -68,19 +68,19 @@
     <ul class="list">
       <li class="px-2 item">
         <a href="#" (click)="goTo($event, 'user-profile')" class="item-link align-items-center item-content">
-          My account
+          {{'My account'|translate}}
         </a>
       </li>
 
       <li class="px-2 item" *ngIf="isAdmin">
         <a href="#" (click)="goTo($event, 'profile-new')" class="item-link align-items-center item-content">
-          Add account
+          {{'Add account' |translate}}
         </a>
       </li>
 
       <li class="px-2 item">
         <a href="#" (click)="goTo($event, 'edit-account')" class="item-link align-items-center item-content">
-          Reset Password
+          {{'Reset Password'|translate}}
         </a>
       </li>
 
@@ -88,7 +88,7 @@
 
       <li class="px-2 item">
         <a href="#" (click)="goTo($event, 'sign-in', '../public/')" class="item-link align-items-center item-content">
-          Log Out
+          {{'Log Out'|translate}}
           <span class="icon icofont-logout log-out-icon p-1 mr-0"></span>
         </a>
       </li>

@@ -12,3 +12,9 @@
     color: #ed253d;
   }
 }
+
+::ng-deep {
+  .tc-radio-horizontal > tc-radio-option {
+    margin-bottom: 0 !important;
+  }
+}

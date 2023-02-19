@@ -1,0 +1,30 @@
+:host {
+  .item-tree {
+    display: flex;
+    line-height: 28px;
+  }
+
+  .fields-type-add {
+    .field-type-add {
+      padding-bottom: 5px;
+      padding-top: 5px;
+    }
+  }
+}
+
+::ng-deep {
+  .ant-tree .ant-tree-switcher {
+    line-height: 28px;
+    margin-top: 3px;
+  }
+
+  .vertical-center-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .ant-modal {
+      top: 0;
+    }
+  }
+}

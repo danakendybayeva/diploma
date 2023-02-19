@@ -84,13 +84,13 @@ $accent-palette: (
 $link-color: #2fa7ff;
 $main-bg: #fff;
 $main-gradient: linear-gradient(250deg, #cd5447, #b3589c 65%, #9d5ce5);
-$main-color: #4a505c;
+$main-color: #10142D;
 $boxed-width: 1140px;
 
 $main-color-bg: #213A8F;
 
 :root {
-  --main-color: #4a505c;
+  --main-color: #10142D;
   --main-bg: #f4f5f8;
   --boxed-width: 1140px;
 }
@@ -98,6 +98,7 @@ $main-color-bg: #213A8F;
 $success-color: #7cdb86;
 $success-contrast: #fff;
 $info-color: #2fa7ff;
+$info-color-pr: #3D3DD8;
 $info-contrast: #fff;
 $warning-color: #fc8b37;
 $warning-contrast: #fff;

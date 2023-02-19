@@ -1,6 +1,6 @@
 <div class="app-container" [ngClass]="{ 'boxed': appSettings.boxed }" *ngIf="appSettings">
   <!-- Horizontal navbar -->
-  <navbar 
+  <navbar
     class="horizontal-navbar"
     [boxed]="appSettings.boxed"
     [tcBgColor]="appSettings.topbarBg"
@@ -35,10 +35,10 @@
       (click)="toggleSidebar(false)"
     ></button>
 
-    <logo
-      [src]="'assets/img/mdsg.png'"
+    <logo style="margin-top: 0.28571429rem"
+      [src]="logo"
       [tcBgColor]="appSettings.topbarBg"
-      [height]="40"
+      [height]="65"
     ></logo>
 
     <app-menu class="menu" [src]="appMenu"></app-menu>

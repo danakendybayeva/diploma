@@ -1,0 +1,67 @@
+<tc-card [title]="'Редактирование поля'">
+    <h6>Тип поля: Строка</h6>
+    <form *ngIf="_value && labelForm" [formGroup]="labelForm" (ngSubmit)="sendFieldForm(labelForm.valid)" novalidate>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">{{'Title'|translate}}</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="title" [(ngModel)]="_value.title" [placeholder]="'Title'|translate" formControlName="title"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">{{'Hint'|translate}}</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="hint" [(ngModel)]="_value.hint" [placeholder]="'Hint'|translate" formControlName="hint"></tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">{{'Options'|translate}}</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9 checkbox-grid">
+                    <tc-checkbox id="is-required" [(ngModel)]="_value.isRequired" [value]="_value.isRequired" class="mb-2" formControlName="isRequired">{{'Required field'|translate}}</tc-checkbox>
+                    <tc-checkbox id="is-unique" [(ngModel)]="_value.isUnique" [value]="_value.isUnique" class="mb-2" formControlName="isUnique">{{'Uniqueness'|translate}}</tc-checkbox>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-form-group>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-3">
+                    <tc-form-label class="mb-md-0">{{'Maximum number of characters to display'|translate}}</tc-form-label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <tc-input id="max-show-length"
+                              [(ngModel)]="_value.maxShowLength"
+                              [placeholder]="'Maximum number of characters to display'|translate"
+                              type="number"
+                              formControlName="maxShowLength">
+                    </tc-input>
+                </div>
+            </div>
+        </tc-form-group>
+        <tc-text-field
+                [_valueField]="_value"
+                [isNew]="true"
+                [isConfig]="true"
+                [type]="'edit'"
+                [form]="labelForm"
+                [(ngModel)]="_value.defaultValue"
+                formControlName="defaultValue"
+        ></tc-text-field>
+        <reference-action-fields
+            [referenceId]="referenceId"
+            [fieldId]="fieldId"
+            [disable]="labelForm.invalid"
+            [load]="loadingLabelForm"
+            [removeBtn]="removeEnable">
+        </reference-action-fields>
+    </form>
+</tc-card>

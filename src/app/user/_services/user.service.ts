@@ -20,7 +20,7 @@ export class UserService {
     }
 
     getAdmin(): Promise<Status> {
-        return this.http.get(`${environment.apiUrl}/api/user/role/super/admin`)
+        return this.http.get(`${environment.apiUrl}/api/auth/user/role/super/admin`)
             .toPromise()
             .then(response => response as Status)
             .catch();
@@ -35,7 +35,7 @@ export class UserService {
         if (role.length === 0) {
             return true;
         }
-        const res = await this.http.post<Status>(`${environment.apiUrl}/api/account/islogging`, role)
+        const res = await this.http.post<Status>(`${environment.apiUrl}/api/auth/account/islogging`, role)
             .toPromise()
             .then(response => response as Status)
             .catch();
@@ -43,7 +43,7 @@ export class UserService {
     }
 
     async getRolesAccount(): Promise<string> {
-        const roles = await this.http.get(`${environment.apiUrl}/api/user/role`)
+        const roles = await this.http.get(`${environment.apiUrl}/api/auth/user/role`)
             .toPromise()
             .then(response => response as Status)
             .catch();

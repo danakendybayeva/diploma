@@ -1,69 +1,281 @@
-<div class="row justify-content-center" *ngIf="profileDetails">
-  <div class="col col-12 col-xl-8">
-    <tc-card [title]="'User photo'">
-      <tc-form-group class="mb-0">
-        <input type="file" accept="image/*" (change)="onFileChanged($event)" #fileInput hidden>
+<tc-card>
+    <div>
+        <nz-tabset [nzSelectedIndex]="tabindex ? tabindex : 0">
+            <nz-tab [nzTitle]="'About User' | translate">
+                <form *ngIf="loaded && !isEmpty" [formGroup]="labelForm1"
+                      (ngSubmit)="submitEvent(labelForm1.valid, 'acc')">
+                    <div class="row">
+                        <div class="col-12 col-md-5">
+                            <tc-string-field
+                                    [_valueField]="fieldsData['first_name']"
+                                    [(ngModel)]="fieldsData['first_name'].value"
+                                    [type]="'edit'"
+                                    [form]="labelForm1"
+                                    [isNew]="false"
+                                    [styleType]="'single'"
+                                    [formControlName]="'first_name'"
+                                    [disabled]="!canEdit"
+                            ></tc-string-field>
+                            <tc-string-field
+                                    [_valueField]="fieldsData['last_name']"
+                                    [(ngModel)]="fieldsData['last_name'].value"
+                                    [type]="'edit'"
+                                    [form]="labelForm1"
+                                    [isNew]="false"
+                                    [styleType]="'single'"
+                                    [formControlName]="'last_name'"
+                                    [disabled]="!canEdit"
+                            ></tc-string-field>
+                            <tc-string-field
+                                    [_valueField]="fieldsData['middle_name']"
+                                    [(ngModel)]="fieldsData['middle_name'].value"
+                                    [type]="'edit'"
+                                    [form]="labelForm1"
+                                    [isNew]="false"
+                                    [styleType]="'single'"
+                                    [formControlName]="'middle_name'"
+                                    [disabled]="!canEdit"
+                            ></tc-string-field>
+                            <tc-enumeration-field
+                                    [_valueField]="fieldsData['gender_enum']"
+                                    [type]="'edit'"
+                                    [form]="labelForm1"
+                                    [styleType]="'single'"
+                                    [isNew]="false"
+                            ></tc-enumeration-field>
+                            <tc-reference-field class="col-12 col-md-6"
+                                                [_valueField]="fieldsData['city']"
+                                                [(ngModel)]="fieldsData['city'].value"
+                                                [type]="'edit'"
+                                                [form]="labelForm1"
+                                                [isNew]="false"
+                                                [styleType]="'single'"
+                                                [formControlName]="'city'"
+                            ></tc-reference-field>
+                            <tc-reference-field class="col-12 col-md-6" *ngIf="canEdit"
+                                                [_valueField]="fieldsData['roles']"
+                                                [(ngModel)]="fieldsData['roles'].value"
+                                                [type]="'edit'"
+                                                [form]="labelForm1"
+                                                [isNew]="isNew"
+                                                [styleType]="'single'"
+                                                [formControlName]="'roles'"
+                            ></tc-reference-field>
+                            <tc-string-field class="col-12 col-md-6"
+                                             [_valueField]="fieldsData['address']"
+                                             [(ngModel)]="fieldsData['address'].value"
+                                             [type]="'edit'"
+                                             [form]="labelForm1"
+                                             [isNew]="false"
+                                             [styleType]="'single'"
+                                             [formControlName]="'address'"
+                            ></tc-string-field>
+                            <tc-string-field class="col-12 col-md-6"
+                                             [_valueField]="fieldsData['phone']"
+                                             [(ngModel)]="fieldsData['phone'].value"
+                                             [type]="'edit'"
+                                             [form]="labelForm1"
+                                             [isNew]="false"
+                                             [styleType]="'single'"
+                                             [formControlName]="'phone'"
+                            ></tc-string-field>
+                        </div>
 
-        <div class="d-sm-flex align-items-center">
-          <tc-avatar [src]="currentAvatar" [size]="100" class="mb-2 mb-sm-0"></tc-avatar>
-          <button
-            tc-button
-            [type]="'button'"
-            [afterIcon]="'sli-user tc-icon-wrap'"
-            [view]="'info'"
-            [outline]="true"
-            (click)="fileInput.click()"
-          >
-            Change photo
-          </button>
+                        <div class="col-12 col-md-7">
+                            <tc-image-field
+                                    [_valueField]="fieldsData['avatar_ref']"
+                                    [(ngModel)]="fieldsData['avatar_ref'].value"
+                                    [type]="'edit'"
+                                    [form]="labelForm1"
+                                    [isNew]="false"
+                                    [referenceId]="referenceId"
+                                    [styleType]="'no-label'"
+                                    [formControlName]="'avatar_ref'"
+                                    [postAction]="postAction"
+                            ></tc-image-field>
+                        </div>
+                    </div>
+                    <footer class="float-right">
+                        <button type="button" tc-button class="cancel mr-3" [outline]="true"
+                                [tcBorderColor]="'transparent'"
+                                [view]="'br-lock'" [tcColor]="'#10142D'"
+                                [routerLink]="recordId ? ['/vertical/profile', recordId] : ['/vertical/user-profile']">{{'Cancel'|translate}}</button>
+<!--                        [disabled]="!canEdit"-->
+                        <button tc-button class="save" >{{'Save'|translate}}</button>
+                    </footer>
+                </form>
+            </nz-tab>
 
-          <button
-                  tc-button
-                  *ngIf="canSave"
-                  [type]="'button'"
-                  [afterIcon]="'sli-cloud-upload tc-icon-wrap'"
-                  [view]="'warning'"
-                  [outline]="true"
-                  (click)="saveAvatar()"
-                  class="ml-4"
-          >
-            Save
-          </button>
-        </div>
-      </tc-form-group>
-    </tc-card>
+            <nz-tab [nzTitle]="'Education1' | translate" >
 
-    <tc-card [title]="'Change password'" class="mb-0">
-      <div class="row">
-        <div class="col-12 col-sm-6">
-          <tc-form-group>
-            <tc-form-label>Current password</tc-form-label>
-            <tc-input [placeholder]="'Current password'" [type]="'password'" [(ngModel)]="passwordChange.password"
-                      [ngModelOptions]="{standalone: true}"></tc-input>
-          </tc-form-group>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-sm-6">
-          <tc-form-group>
-            <tc-form-label>New password</tc-form-label>
-            <tc-input [placeholder]="'New password'" [type]="'password'" [(ngModel)]="passwordChange.newPassword"
-                      [ngModelOptions]="{standalone: true}"></tc-input>
-          </tc-form-group>
-        </div>
+                <form *ngIf="loaded && !isEmpty" [formGroup]="labelForm2"
+                      (ngSubmit)="submitEvent(labelForm2.valid, 'acc')">
+                    <div class="row">
+                        <div class="col-12 col-md-5">
+                            <tc-reference-field class="col-12"
+                                                [_valueField]="fieldsData['university']"
+                                                [(ngModel)]="fieldsData['university'].value"
+                                                [type]="'edit'"
+                                                [form]="labelForm2"
+                                                [isNew]="isNew"
+                                                [styleType]="'single'"
+                                                [formControlName]="'university'"
+                            ></tc-reference-field>
+                            <tc-reference-field class="col-12"
+                                                [_valueField]="fieldsData['speciality']"
+                                                [(ngModel)]="fieldsData['speciality'].value"
+                                                [type]="'edit'"
+                                                [form]="labelForm2"
+                                                [isNew]="isNew"
+                                                [styleType]="'single'"
+                                                [formControlName]="'speciality'"
+                            ></tc-reference-field>
+                            <tc-integer-field class="col-12"
+                                              [_valueField]="fieldsData['course']"
+                                              [(ngModel)]="fieldsData['course'].value"
+                                              [type]="'edit'"
+                                              [form]="labelForm2"
+                                              [styleType]="'single'"
+                                              [isNew]="isNew"
+                                              [formControlName]="'course'"
 
-        <div class="col-12 col-sm-6">
-          <tc-form-group>
-            <tc-form-label>Confirm new password</tc-form-label>
-            <tc-input [placeholder]="'Confirm new password'" [type]="'password'" [(ngModel)]="passwordChange.confirmPassword"
-                      [ngModelOptions]="{standalone: true}"></tc-input>
-          </tc-form-group>
-        </div>
-      </div>
+                            ></tc-integer-field>
+<!--                            [disabled]="!canEdit"-->
+                            <tc-enumeration-field class="col-12"
+                                                  [_valueField]="fieldsData['edu_degree']|translate"
+                                                  [type]="'edit'"
+                                                  [form]="labelForm2"
+                                                  [styleType]="'single'"
+                                                  [isNew]="isNew"
+                            ></tc-enumeration-field>
+                            <tc-enumeration-field class="col-12"
+                                                  [_valueField]="fieldsData['status']|translate"
+                                                  [type]="'edit'"
+                                                  [form]="labelForm2"
+                                                  [styleType]="'single'"
+                                                  [isNew]="isNew"
+                                                  [disabled]="!canEdit"
+                            ></tc-enumeration-field>
+                            <tc-reference-field class="col-12"
+                                                [_valueField]="fieldsData['english_level']|translate"
+                                                [(ngModel)]="fieldsData['english_level'].value"
+                                                [type]="'edit'"
+                                                [form]="labelForm2"
+                                                [isNew]="isNew"
+                                                [styleType]="'single'"
+                                                [formControlName]="'english_level'"
+                            ></tc-reference-field>
+                        </div>
+                    </div>
 
-      <button tc-button [view]="'default'" [outline]="true" [type]="'button'" (click)="changePassword()">
-        Change password
-      </button>
-    </tc-card>
-  </div>
-</div>
+                    <footer class="float-right">
+                        <button type="button" tc-button class="cancel mr-3" [outline]="true"
+                                [tcBorderColor]="'transparent'" [view]="'br-lock'"
+                                [tcColor]="'#10142D'"
+                                [routerLink]="recordId ? ['/vertical/profile', recordId] : ['/vertical/user-profile']">{{'Cancel'|translate}}</button>
+                        <button tc-button class="save">{{'Save'|translate}}</button>
+                    </footer>
+
+                </form>
+            </nz-tab>
+
+            <nz-tab [nzTitle]="'Account Settings' | translate">
+
+                <form *ngIf="loaded && !isEmpty" [formGroup]="labelForm3"
+                      (ngSubmit)="submitEvent(labelForm3.valid, 'acc')">
+
+                    <div class="row">
+                        <div class="col-12 col-md-5">
+                            <tc-string-field
+                                    [_valueField]="fieldsData['username']"
+                                    [(ngModel)]="fieldsData['username'].value"
+                                    [type]="'edit'"
+                                    [form]="labelForm3"
+                                    [isNew]="isNew"
+                                    [styleType]="'single'"
+                                    [prefixIcon]="'icofont-ui-user'"
+                                    [disabled]="!canEdit"
+                                    [formControlName]="'username'"
+                            ></tc-string-field>
+                            <tc-string-field
+                                    [_valueField]="fieldsData['email']"
+                                    [(ngModel)]="fieldsData['email'].value"
+                                    [type]="'edit'"
+                                    [form]="labelForm3"
+                                    [isNew]="isNew"
+                                    [styleType]="'single'"
+                                    [formControlName]="'email'"
+                            ></tc-string-field>
+                            <div class="row mb-4" *ngIf="!recordId">
+                                <div class="col-12">
+                                    <tc-form-label>{{'Current password'|translate}}</tc-form-label>
+                                    <tc-input
+                                            [prefixIcon]="'icofont-key'"
+                                            [type]="'password'"
+                                            [(ngModel)]="currentPassword"
+                                            [placeholder]="'Current password'"
+                                            [formControlName]="'current'"
+                                    >
+                                    </tc-input>
+                                </div>
+                            </div>
+                            <tc-password-field
+                                    [_valueField]="fieldsData['password']"
+                                    [(ngModel)]="fieldsData['password'].value"
+                                    [type]="'edit'"
+                                    [form]="labelForm3"
+                                    [isNew]="isNew"
+                                    [styleType]="''"
+                                    [formControlName]="'password'"
+                            ></tc-password-field>
+                        </div>
+                    </div>
+
+                    <footer class="float-right">
+                        <button type="button" tc-button class="cancel mr-3" [outline]="true"
+                                [tcBorderColor]="'transparent'"
+                                [view]="'br-lock'" [tcColor]="'#10142D'"
+                                [routerLink]="recordId ? ['/vertical/profile', recordId] : ['/vertical/user-profile']">{{'Cancel'|translate}}</button>
+                        <button type="button" tc-button class="save" [disabled]="labelForm3.invalid"
+                                (click)="changePassword()">{{'Save'|translate}}</button>
+                    </footer>
+                </form>
+
+            </nz-tab>
+
+            <nz-tab [nzTitle]="'Imports' |translate" >
+                <form *ngIf="loaded && !isEmpty" [formGroup]="labelForm4"
+                      (ngSubmit)="submitEvent(labelForm4.valid, 'acc')">
+                    <div class="row">
+                        <div class="col-12" style="height: 300px;">
+                            <div class="d-flex justify-content-center" style="align-items: center; height: 100%;">
+                                <tc-file-field
+                                        [_valueField]="fieldsData['sertificates'] |translate"
+                                        [(ngModel)]="fieldsData['sertificates'].value"
+                                        [type]="'edit'"
+                                        [form]="labelForm4"
+                                        [isNew]="isNew"
+                                        [styleType]="'single'"
+                                        [formControlName]="'sertificates'"
+                                ></tc-file-field>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <footer class="float-right">
+                        <button type="button" tc-button class="cancel mr-3" [outline]="true"
+                                [tcBorderColor]="'transparent'"
+                                [view]="'br-lock'" [tcColor]="'#10142D'"
+                                [routerLink]="recordId ? ['/vertical/profile', recordId] : ['/vertical/user-profile']">{{'Cancel'|translate}}</button>
+                        <button tc-button [disabled]="labelForm4.invalid" [view]="'info'">{{'Save'|translate}}</button>
+                    </footer>
+                </form>
+            </nz-tab>
+
+        </nz-tabset>
+    </div>
+
+
+</tc-card>
+

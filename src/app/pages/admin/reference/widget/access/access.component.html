@@ -1,0 +1,235 @@
+<tc-card [title]="'Редактирование доступ'" *ngIf="!loading">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="head-block">
+                <p>
+                    Субъекты
+
+                    <button
+                        tc-button
+                        class="mr-2"
+                        [view]="'info'"
+                        [size]="'sm'"
+                        (click)="openModal(
+                                        modalBody, '',
+                                        modalFooter,
+                                        { closeButton: true, overlayClose: true, width: 'auto', height: 'auto' }
+                                   )"
+                    >
+                        Добавить субъект
+                    </button>
+                </p>
+                <ul class="list-unstyled action-hint d-flex">
+                    <li class="d-flex">
+                        <div>
+                            <i class="icofont-eye-alt" [title]="'Субъекту разрешен просмотр в Меню ...'"></i>
+                        </div>
+                        <div>
+                            <i class="icofont-eye-alt" [title]="'Субъекту разрешен просмотр справочника ...'"></i>
+                        </div>
+                        <div>
+                            <i class="icofont-plus" [title]="'Субъекту разрешено добавление ...'"></i>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="block">
+                <ul class="list-unstyled list-so">
+                    <li class="d-flex"
+                        *ngFor="let item of accessValue; let index = index;"
+                        [ngClass]="{active : subjectActiveId === item.subject_id}"
+                    >
+                        <div class="text-label" (click)="selectSubject(item.subject_id)">{{ item.title }}</div>
+                        <div class="d-flex action-checkbox">
+                            <i class="icofont-close remove-so" (click)="removeSO('subject', index)"></i>
+                            <tc-checkbox
+                                    *ngIf="subjectActiveId !== item.subject_id"
+                                    class="check-block"
+                                    [(ngModel)]="item.view_menu"
+                                    [value]="item.view_menu"
+                            ></tc-checkbox>
+                            <tc-checkbox
+                                    *ngIf="subjectActiveId !== item.subject_id"
+                                    class="check-block"
+                                    [(ngModel)]="item.may_view"
+                                    [value]="item.may_view"
+                            ></tc-checkbox>
+                            <tc-checkbox
+                                    *ngIf="subjectActiveId !== item.subject_id"
+                                    class="check-block"
+                                    [(ngModel)]="item.may_add"
+                                    [value]="item.may_add"
+                            ></tc-checkbox>
+
+                            <tc-checkbox
+                                    *ngIf="subjectActiveId === item.subject_id"
+                                    class="check-block"
+                                    [(ngModel)]="item.view_menu"
+                                    [value]="item.view_menu"
+                                    [bgColor]="['#ffffff', '#ffffff', '#fc8b37']"
+                                    [borderColor]="['#ffffff', '#fc8b37', '#fc8b37']"
+                                    [color]="['#ffffff', '#fc8b37', '#ffffff']"
+                            ></tc-checkbox>
+                            <tc-checkbox
+                                    *ngIf="subjectActiveId === item.subject_id"
+                                    class="check-block"
+                                    [(ngModel)]="item.may_view"
+                                    [value]="item.may_view"
+                                    [bgColor]="['#ffffff', '#ffffff', '#fc8b37']"
+                                    [borderColor]="['#ffffff', '#fc8b37', '#fc8b37']"
+                                    [color]="['#ffffff', '#fc8b37', '#ffffff']"
+                            ></tc-checkbox>
+                            <tc-checkbox
+                                    *ngIf="subjectActiveId === item.subject_id"
+                                    class="check-block"
+                                    [(ngModel)]="item.may_add"
+                                    [value]="item.may_add"
+                                    [bgColor]="['#ffffff', '#ffffff', '#fc8b37']"
+                                    [borderColor]="['#ffffff', '#fc8b37', '#fc8b37']"
+                                    [color]="['#ffffff', '#fc8b37', '#ffffff']"
+                            ></tc-checkbox>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="head-block">
+                <p>
+                    Объекты
+
+                    <button tc-button
+                            class="mr-2"
+                            [view]="'info'"
+                            [size]="'sm'"
+                            [disabled]="!subjectActiveId.length"
+                            (click)="openModal(
+                                        modalBodyObject, '',
+                                        modalFooterObject,
+                                        { closeButton: true, overlayClose: true, width: 'auto', height: 'auto' }
+                                   )"
+                    >
+                        Добавить объект
+                    </button>
+                </p>
+                <ul class="list-unstyled action-hint d-flex">
+                    <li class="d-flex">
+                        <div>
+                            <i class="icofont-eye-alt" [title]="'Объекту разрешен просмотр ...'"></i>
+                        </div>
+                        <div>
+                            <i class="icofont-pencil-alt-2" [title]="'Объекту разрешено редактирование ...'"></i>
+                        </div>
+                        <div>
+                            <i class="icofont-ui-close" [title]="'Объекту разрешено удаление ...'"></i>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="block">
+                <ul class="list-unstyled list-so" *ngIf="subjectActiveIndex > -1">
+                    <li class="d-flex"
+                        *ngFor="let item of accessValue[subjectActiveIndex].objects; let index = index;"
+                        [ngClass]="{active : objectActiveId === item.id}"
+                    >
+                        <div class="text-label" (click)="objectActiveId = item.id">{{ item.title }}</div>
+                        <div class="d-flex action-checkbox">
+                            <i class="icofont-close remove-so" (click)="removeSO('object', subjectActiveIndex, index)"></i>
+                            <tc-checkbox
+                                    *ngIf="objectActiveId !== item.id"
+                                    class="check-block"
+                                    [(ngModel)]="item.may_view"
+                                    [value]="item.may_view"
+                            ></tc-checkbox>
+                            <tc-checkbox
+                                    *ngIf="objectActiveId !== item.id"
+                                    class="check-block"
+                                    [(ngModel)]="item.may_edit"
+                                    [value]="item.may_edit"
+                            ></tc-checkbox>
+                            <tc-checkbox
+                                    *ngIf="objectActiveId !== item.id"
+                                    class="check-block"
+                                    [(ngModel)]="item.may_delete"
+                                    [value]="item.may_delete"
+                            ></tc-checkbox>
+
+                            <tc-checkbox
+                                    *ngIf="objectActiveId === item.id"
+                                    class="check-block"
+                                    [(ngModel)]="item.may_view"
+                                    [value]="item.may_view"
+                                    [bgColor]="['#ffffff', '#ffffff', '#fc8b37']"
+                                    [borderColor]="['#ffffff', '#fc8b37', '#fc8b37']"
+                                    [color]="['#ffffff', '#fc8b37', '#ffffff']"
+                            ></tc-checkbox>
+                            <tc-checkbox
+                                    *ngIf="objectActiveId === item.id"
+                                    class="check-block"
+                                    [(ngModel)]="item.may_edit"
+                                    [value]="item.may_edit"
+                                    [bgColor]="['#ffffff', '#ffffff', '#fc8b37']"
+                                    [borderColor]="['#ffffff', '#fc8b37', '#fc8b37']"
+                                    [color]="['#ffffff', '#fc8b37', '#ffffff']"
+                            ></tc-checkbox>
+                            <tc-checkbox
+                                    *ngIf="objectActiveId === item.id"
+                                    class="check-block"
+                                    [(ngModel)]="item.may_delete"
+                                    [value]="item.may_delete"
+                                    [bgColor]="['#ffffff', '#ffffff', '#fc8b37']"
+                                    [borderColor]="['#ffffff', '#fc8b37', '#fc8b37']"
+                                    [color]="['#ffffff', '#fc8b37', '#ffffff']"
+                            ></tc-checkbox>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <button tc-button
+            class="mr-2"
+            [view]="'info'"
+            [load]="loading"
+            (click)="createAccess()"
+    >
+        {{'Save'|translate}}
+    </button>
+</tc-card>
+
+<ng-container>
+    <ng-template #modalBody>
+        <tc-mini-folder-ref
+                [referenceTitle]="''"
+                [reference]="accessStructure"
+                [records]="[]"
+                [isStructure]="true"
+                (selectedItem)="selectedDefaultValue($event)"
+        ></tc-mini-folder-ref>
+    </ng-template>
+
+    <ng-template #modalBodyObject>
+        <tc-mini-folder-ref
+                [referenceTitle]="''"
+                [reference]="accessStructure"
+                [records]="[]"
+                [isStructure]="true"
+                (selectedItem)="selectedDefaultValue($event)"
+        ></tc-mini-folder-ref>
+    </ng-template>
+
+    <ng-template #modalFooter class="mini-folder-footer">
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [size]="'sm'" [view]="'error'" (click)="closeModal()">Close</button>
+            <button tc-button [size]="'sm'" [view]="'success'" (click)="selectRecordRef()">Submit</button>
+        </div>
+    </ng-template>
+
+    <ng-template #modalFooterObject class="mini-folder-footer">
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [size]="'sm'" [view]="'error'" (click)="closeModal()">Close</button>
+            <button tc-button [size]="'sm'" [view]="'success'" (click)="selectRecordRef('object')">Submit</button>
+        </div>
+    </ng-template>
+</ng-container>

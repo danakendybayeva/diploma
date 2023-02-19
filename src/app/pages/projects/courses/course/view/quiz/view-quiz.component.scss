@@ -1,0 +1,58 @@
+@import 'src/assets/sass/variables';
+
+$_module-rem: $module-rem;
+$_h-padding: $_module-rem * 3;
+$_v-padding: $_module-rem * 2;
+
+:host {
+  .justify-end {
+    justify-content: end !important;
+  }
+  .result-quiz {
+    padding: 1em;
+    text-align: center;
+    background-color: #f0f3f6;
+    border-radius: 6px;
+    margin: 1em 0;
+    border: 2px solid #e2e7ed;
+    color: #728188;
+  }
+
+  .content {
+    h1 {
+
+    }
+  }
+
+  .list-lesson:hover {
+    color: #2fa7ff;
+  }
+
+  .progress {
+    p {
+      margin-bottom: 0;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 12px;
+    }
+    span {
+      font-weight: 600;
+      font-size: 12px;
+      color: #7f858a;
+    }
+  }
+}
+
+::ng-deep {
+  .ant-progress-circle-trail {
+    stroke: #dbdbdb;
+  }
+
+  .ant-progress-inner {
+    background-color: #dbdbdb;
+  }
+
+  .card-content {
+    padding: ($_v-padding) ($_h-padding) !important;
+  }
+}

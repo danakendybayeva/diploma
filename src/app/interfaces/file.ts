@@ -1,4 +1,7 @@
 export interface IFile {
-	name: string;
-	size: string;
+	id: string;
+	fileName: string;
+	fileFormat: string;
+	mime: string;
+	base64: string;
 }

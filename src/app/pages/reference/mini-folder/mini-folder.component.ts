@@ -70,7 +70,7 @@ export class TCMiniFolderComponent extends BasePageComponent implements OnInit {
   getListRefRecord() {
     this.initTable();
     return this.http.get<IPageContent>(`${environment.apiUrl}/api/reference/record/list/${this.referenceId}` +
-        `?page=${this.pageIndex}&size=${this.pageSize}&customised=false&fields=${this.fields.join(',')}`)
+        `?page=${this.pageIndex}&size=${this.pageSize}&customised=false&fields=${this.fields.join(',')}&headerenable=true`)
         .pipe(map(data => {
           return data;
         }))

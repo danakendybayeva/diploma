@@ -1,0 +1,109 @@
+:host {
+  .edu-right {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .edu-grade {
+    min-width: 480px;
+
+  }
+}
+
+.block-edu {
+  padding-bottom: 61px;
+}
+
+.edu-grade i {
+  cursor: pointer;
+  line-height: 60px;
+  font-size: 16px;
+  color: #ed253d;
+}
+
+.footer-gpa {
+  border-top: 1px solid #e1e1e1;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  bottom: 0;
+  background-color: #fff;
+
+  div {
+    margin: 10px 24px;
+    text-align: right;
+  }
+}
+
+.footer-one-draw {
+  width: 100%;
+  background-color: #fff;
+  div {
+    margin: 20px 3px;
+    text-align: right;
+  }
+}
+
+button {
+  height: fit-content;
+}
+
+::ng-deep {
+  .cdk-overlay-container {
+    z-index: 10000;
+  }
+
+  .mainTable tc-circle-progress {
+    margin: 0 2px;
+
+    .text-box .text {
+      font-size: 10px !important;
+      font-weight: bold;
+    }
+  }
+
+  tc-modal.opened {
+    z-index: 10001;
+  }
+}
+
+.profile-selected {
+  border-radius: 4px;
+  color: #4a505c;
+  display: flex;
+  font-size: 1rem;
+  //line-height: 1.42857143;
+  height: 36px;
+  outline: none;
+  width: 100%;
+  -webkit-box-align: center;
+  align-items: center;
+  background-color: rgba(26, 56, 96, 0.08);
+  background-clip: padding-box;
+  border: 1px solid rgba(74, 80, 92, 0.08);
+  padding: 0 0.8rem 0 1.42857143rem;
+  position: relative;
+  -webkit-transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out, box-shadow 0.2s ease-in-out, color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out, box-shadow 0.2s ease-in-out, color 0.2s ease-in-out;
+  will-change: background-color, border, box-shadow, color;
+  cursor: pointer;
+}
+
+.text-p {
+  background: none;
+  color: inherit;
+  cursor: inherit;
+  font: inherit;
+  font-weight: 400;
+  margin: -1px 0;
+  outline: none;
+  line-height: 3;
+  padding: calc(0.71428571rem - 1px) 0;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* number of lines to show */
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+}

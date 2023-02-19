@@ -1,0 +1,300 @@
+<div *ngIf="loaded && !isEmpty">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <tc-card>
+                <tc-string-field
+                    [_valueField]="fieldsData['display_name']"
+                    [value]="fieldsData['display_name'].value"
+                    [styleType]="styleType"
+                ></tc-string-field>
+                <tc-reference-field
+                    [_valueField]="fieldsData['city']"
+                    [value]="fieldsData['city'].value | mapToString"
+                    [styleType]="styleType"
+                ></tc-reference-field>
+                <tc-reference-field
+                    [_valueField]="fieldsData['level']"
+                    [value]="fieldsData['level'].value | mapToString"
+                    [styleType]="styleType"
+                ></tc-reference-field>
+                <tc-date-field
+                    [_valueField]="fieldsData['start_date']"
+                    [value]="fieldsData['start_date'].value"
+                    [styleType]="styleType"
+                ></tc-date-field>
+                <tc-integer-field
+                    [_valueField]="fieldsData['total_hours']"
+                    [value]="fieldsData['total_hours'].value"
+                    [styleType]="styleType"
+                ></tc-integer-field>
+                <tc-structure-field
+                    [_valueField]="fieldsData['teacher']"
+                    [value]="fieldsData['teacher'].value"
+                    [styleType]="styleType"
+                ></tc-structure-field>
+                <div class="row mb-2">
+                    <div class="col-12 col-md-3 mb-2">
+                        <span><b>{{fieldsData['students']['title']|translate}}:</b></span>
+                    </div>
+                    <div class="col-12 col-md-9">
+                        <div class="row mb-2">
+                            <div class="d-flex col-12">
+                                <div class="col-8 mb-2">
+                                </div>
+                                <div class="col-4">
+                                    <!--TODO Style-->
+                                    <p>
+                                        Final Exam
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2" *ngFor="let item of fieldsData['students'].value; let index = index;">
+                            <div class="d-flex col-12">
+                                <div class="profile-selected col-8 mb-2">
+                                    <span class="profile-name">
+                                        {{item.value }}
+                                    </span>
+                                    <div class="d-flex" *ngIf="fieldsValue['student_report'][item['id']]">
+                                        <tc-badge
+                                                *ngFor="let report of sort(fieldsValue['student_report'][item['id']]); let indReport = index;"
+                                                [view]="'warning'"
+                                                [size]="'xs'"
+                                                class="ml-1"
+                                                [routerLink]="['/vertical/lingua/report/view', recordId, report['id']]"
+                                        >
+                                            {{ report['title'] |translate}}
+                                        </tc-badge>
+                                    </div>
+                                </div>
+                                <tc-input class="col-3 col-md-1"
+                                          [disabled]="checkDataFinal[item['id']]"
+                                          [type]="'number'"
+                                          [(ngModel)]="fieldsValue['final_grades'][item['id']]['value']"
+                                ></tc-input>
+                                <div class="d-flex col-1" style="margin-top: -10px; margin-left: -10px">
+                                    <tc-checkbox  [(ngModel)]="checkDataFinal[item['id']]" (ngModelChange)="changeFinal(item['id'])">N/A</tc-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <tc-text-field
+                    [_valueField]="fieldsData['description']"
+                    [value]="fieldsData['description'].value"
+                    [styleType]="styleType"
+                ></tc-text-field>
+            </tc-card>
+        </div>
+        <div class="col-12 col-md-4">
+            <tc-card [title]="'Date and attendance'">
+                <div class="mb-2">
+                    <a *ngIf="canEdit" (click)="editDateEvent(modalBodyAddDate, '', modalFooterAddDate, { closeButton: true, overlayClose: true })" [ngStyle]="{color: '#949494'}">
+                        <i class="sli-plus tc-icon-wrap mr-2"></i> <span>{{'Add Date'|translate}}</span>
+                    </a>
+                </div>
+                <div *ngFor="let item of fieldsValue['days']; let index = index;" [ngClass]="{'today': isTodayDate(item.day)}" [ngStyle]="{color: '#949494'}" class="profile-selected col-12 mb-2">
+                    <span class="profile-name" (click)="getAttendanceList(modalBodyAttendance, dateString(item.day), modalFooterAttendance,  { closeButton: true, overlayClose: true }, item.id)">
+                        {{ item.day | date : 'dd.MM.yyyy' }}
+                    </span>
+                    <button tc-button *ngIf="canEdit" (click)="editDateEvent(modalBodyAddDate, '', modalFooterAddDate, { closeButton: true, overlayClose: true }, index)" [afterIcon]="'icofont-pencil-alt-1'" [view]="'info'" class="edit"></button>
+                    <button tc-button *ngIf="canEdit" (click)="removeDateEvent(modalBody, '', modalFooterDate, { closeButton: true, overlayClose: true }, item.id)" [afterIcon]="'icofont-trash'" [view]="'error'" class="trash"></button>
+                </div>
+                <div class="mt-4">
+                    <a *ngIf="canEdit" (click)="editDateEvent(modalBodyAddDate, '', modalFooterAddDate, { closeButton: true, overlayClose: true })" [ngStyle]="{color: '#949494'}">
+                        <i class="sli-plus tc-icon-wrap mr-2"></i> <span>{{'Add Date'|translate}}</span>
+                    </a>
+
+                </div>
+                <div class="mt-4">
+                    <button (click)="getAllAttendance(); openModal(modalLinguaAttendanceBody, 'Lingua Attendance', modalLinguaAttendaceFooter)" tc-button [size]="'sm'" style="margin-top: 5px">View All Day Attendance</button>
+                </div>
+            </tc-card>
+            <tc-card>
+                <div class="mb-2">
+                    <a *ngIf="canEdit" (click)="saveFinal()" [ngStyle]="{color: '#949494'}">
+                        <i class="sli-note tc-icon-wrap mr-2"></i>{{'Save Final Grades'|translate}}
+                    </a>
+                </div>
+                <div class="mb-2">
+                    <a *ngIf="canEdit" [routerLink]="getEditUrl()" [ngStyle]="{color: '#949494'}">
+                        <i class="sli-pencil tc-icon-wrap mr-2"></i>{{'Edit Group'|translate}}
+                    </a>
+                </div>
+                <div class="mb-2">
+                    <a *ngIf="canEdit" [routerLink]="getDublicateUrl()" [ngStyle]="{color: '#949494'}">
+                        <i class="icofont-copy tc-icon-wrap mr-2"></i> {{'Dublicate'|translate}}
+                    </a>
+                </div>
+                <div class="mb-2">
+                    <a *ngIf="canEdit" (click)="editPeriodEvent(modalBodyAddPeriod, '', modalFooterAddPeriod, { closeButton: true, overlayClose: true })" [ngStyle]="{color: '#949494'}">
+                        <i class="sli-pie-chart tc-icon-wrap mr-2"></i>{{'Create monthly report'|translate}}
+                    </a>
+                </div>
+                <div class="mb-2">
+                    <a *ngIf="canEdit" (click)="openModal(modalBody, '', modalFooter, { closeButton: true, overlayClose: true })" [ngStyle]="{color: '#949494'}">
+                        <i class="sli-trash tc-icon-wrap mr-2"></i> {{'Delete'|translate}}
+                    </a>
+                </div>
+            </tc-card>
+        </div>
+    </div>
+</div>
+
+<not-found-page *ngIf="isEmpty"></not-found-page>
+
+<ng-container>
+    <ng-template #modalBody>
+        <p>{{'Are you sure you want to delete' | translate}}?</p>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'default'" (click)="closeModal()">{{'Cancel'|translate}}</button>
+            <button tc-button [view]="'error'" (click)="removeRecord(referenceId, recordId)">{{'Delete'|translate}}</button>
+        </div>
+    </ng-template>
+
+    <ng-template #modalBodyAddDate>
+        <form *ngIf="loaded && !isEmpty" [formGroup]="labelForm">
+            <tc-date-field
+                [_valueField]="addDate"
+                [(ngModel)]="addDate.value"
+                [type]="'edit'"
+                [form]="labelForm"
+                [formControlName]="addDate.id"
+            ></tc-date-field>
+        </form>
+    </ng-template>
+
+    <ng-template #modalFooterAddDate>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'default'" (click)="closeModal()">{{'Cancel'|translate}}</button>
+            <button tc-button [view]="'success'" (click)="addDateEvent()">{{'Add'|translate}}</button>
+        </div>
+    </ng-template>
+
+    <ng-template #modalFooterDate>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'default'" (click)="closeModal()">{{'Cancel'|translate}}</button>
+            <button tc-button [view]="'error'" (click)="removeDate()">{{'Delete'|translate}}</button>
+        </div>
+    </ng-template>
+
+
+    <ng-template #modalBodyAttendance>
+        <nz-table #basicTable
+                  [nzLoading]="loadingAttendance"
+                  [nzData]="attendance"
+                  [nzShowPagination]="true"
+                  [nzPageSize]="100"
+                  [nzSize]="'default'"
+        >
+            <thead>
+            <tr>
+                <th>{{'Full Name'|translate}}</th>
+                <th>{{'Action'|translate}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let data of basicTable.data" class="mainTable">
+                <td>{{ data.value }}</td>
+                <td>
+                    <tc-switcher [(ngModel)]="data.is_attendance" [value]="data.is_attendance"></tc-switcher>
+                </td>
+            </tr>
+            </tbody>
+        </nz-table>
+    </ng-template>
+
+    <ng-template #modalFooterAttendance>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'default'" (click)="closeModal()">{{'Cancel'|translate}}</button>
+            <button tc-button [view]="'success'" *ngIf="canEdit" (click)="setAttendance()">{{'Save'|translate}}</button>
+        </div>
+    </ng-template>
+</ng-container>
+
+<ng-container>
+    <ng-template #modalBodyAddPeriod>
+        <form *ngIf="loaded && !isEmpty" [formGroup]="periodForm">
+            <tc-enumeration-field
+                [_valueField]="fieldPeriod.period_title"
+                [type]="'edit'"
+                [form]="periodForm"
+                [isNew]="true"
+            ></tc-enumeration-field>
+            <tc-integer-field
+                [_valueField]="fieldPeriod.order_num"
+                [(ngModel)]="fieldPeriod.order_num.value"
+                [type]="'edit'"
+                [form]="periodForm"
+                [isNew]="true"
+                [formControlName]="fieldPeriod.order_num.id"
+            ></tc-integer-field>
+            <tc-enumeration-field
+                [_valueField]="fieldPeriod.start_date"
+                [type]="'edit'"
+                [form]="periodForm"
+                [isNew]="true"
+            ></tc-enumeration-field>
+            <tc-enumeration-field
+                [_valueField]="fieldPeriod.end_date"
+                [type]="'edit'"
+                [form]="periodForm"
+                [isNew]="true"
+            ></tc-enumeration-field>
+        </form>
+    </ng-template>
+
+    <ng-template #modalFooterAddPeriod>
+        <div class="actions" [ngStyle]="{textAlign: 'right', display: 'block'}">
+            <button tc-button [view]="'default'" (click)="closeModal()">{{'Cancel'|translate}}</button>
+            <button tc-button [view]="'success'" [disabled]="periodForm.invalid" (click)="addPeriodEvent()">{{'Add'|translate}}</button>
+        </div>
+    </ng-template>
+</ng-container>
+
+<ng-container>
+
+    <ng-template #modalLinguaAttendaceFooter>
+        <button (click)="downloadExcell()" tc-button
+                [size]="'sm'"
+                [load] = "loadingAttendance || loadingAttendanceBtn"
+                style="margin-top: 5px">Download Attendance</button>
+    </ng-template>
+
+    <ng-template #modalLinguaAttendanceBody>
+        <nz-table #linguaTable
+                  [nzLoading]="loadingAttendance"
+                  [nzData]="allAttendance"
+                  [nzShowPagination]="true"
+                  [nzPageSize]="100"
+                  [nzSize]="'default'"
+                  [nzScroll]="{ x: '1600px' }"
+                  style="min-height: 20px"
+        >
+            <thead>
+            <tr class="mainTable">
+                <th [nzLeft]="key == 'fio'"
+                    *ngFor="let key of headerOfAttendanceTable"
+                    [ngStyle]="{'width' : ((key == 'fio') ? '200px' : '100px'), 'background':'#FFFFFF'}"
+                >{{ key.toUpperCase() }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let personData of linguaTable.data; let i = index" class="mainTable">
+
+                <td [nzLeft]="key == 'fio'"
+                    *ngFor="let key of headerOfAttendanceTable"
+                    [ngStyle]="{'background': (key == 'fio') ? '#FFFFFF' : ''}"
+                    [ngClass]="{
+                        'table-success': (personData[key]=='yes'),
+                        'table-danger': (personData[key]=='no')
+                    }"
+                >{{ (personData[key] !== undefined && personData[key] !== null) ? personData[key].toUpperCase() : '' }}</td>
+            </tr>
+            </tbody>
+        </nz-table>
+    </ng-template>
+</ng-container>

@@ -1,46 +1,116 @@
 <h6 *ngIf="referenceTitle.length > 0">{{ referenceTitle }}</h6>
-<tc-input id="template-view" class="mb-2"
-          [(ngModel)]="searchValue"
-          [size]="'sm'"
-          [placeholder]="'Найти'">
-</tc-input>
-<tc-card class="mb-0" [padding]="'0'" class="mini-folder">
-    <nz-table
-        #basicTable
-        [nzData]="data"
-        [nzShowPagination]="totalPages > 1"
-        [nzPageSize]="pageSize"
-        [nzTotal]="totalData"
-        [nzLoading]="loading"
-        [nzPageIndex]="pageIndex"
-        [nzFrontPagination]="false"
-        (nzPageIndexChange)="onChangePageIndex($event)"
-        [nzSize]="'default'"
-    >
-        <thead nzSingleSort (nzSortChange)="onChangeSort($event)">
-        <tr>
-            <th *ngFor="let header of headerRecord.header" nzShowSort nzSortKey="{{header['id']}}">{{ header['title']}}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let data of basicTable.data; let index = index;"
-            class="mainTable">
-            <td *ngFor="let header of headerRecord.header; let index2 = index;">
-                <tc-checkbox
-                        *ngIf="index2 == 0"
-                        id="is-required-{{index + 1}}"
-                        [(ngModel)]="checkData[index]"
-                        [value]="checkData[index]"
-                        (click)="changeCheckbox(index)"
-                        class="check-table"
-                ></tc-checkbox>
-                <span
-                        [ngClass]="{'ml-check': hasCheck && index2 == 0}"
-                        (click)="changeCheckbox(index, true)"
-                        [innerHTML]="data[header['id']] | translate"
-                ></span>
-            </td>
-        </tr>
-        </tbody>
-    </nz-table>
+<div class="d-flex">
+    <tc-input id="template-view" class="mb-2"
+              [(ngModel)]="searchValue"
+              [size]="'sm'"
+              [placeholder]="'Найти'">
+    </tc-input>
+    <button tc-button class="ml-1"
+            [ngStyle]="{'min-width': '30px !important', 'height': '30px','padding': 0   }"
+            [afterIcon]="'icofont-search'"
+            [view]="'info'"
+            [size]="'sm'"
+            [square]="true"
+            (click)="searchParam()"
+    ></button>
+</div>
+<tc-card class="mb-0 mini-folder" [padding]="0">
+    <ng-template #allList>
+        <nz-table
+            #basicTable
+            [nzData]="data"
+            [nzShowPagination]="totalPages > 1"
+            [nzPageSize]="pageSize"
+            [nzTotal]="totalData"
+            [nzLoading]="loading"
+            [nzPageIndex]="pageIndex"
+            [nzFrontPagination]="false"
+            (nzPageIndexChange)="onChangePageIndex($event)"
+            [nzSize]="'default'"
+        >
+            <thead (nzSortChange)="onChangeSort($event)">
+                <tr>
+                    <th *ngFor="let header of headerRecord.header" nzShowSort nzColumnKey="{{header['id']}}">{{ header['title']}}</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let data of basicTable.data; let index = index;"
+                class="mainTable">
+                <td *ngFor="let header of headerRecord.header; let index2 = index;">
+                    <tc-checkbox
+                            *ngIf="index2 == 0"
+                            id="is-required-{{index + 1}}"
+                            [(ngModel)]="checkData[index]"
+                            [value]="checkData[index]"
+                            (click)="changeCheckbox(index)"
+                            class="check-table"
+                    ></tc-checkbox>
+                    <span
+                            [ngClass]="{'ml-check': hasCheck && index2 == 0}"
+                            (click)="changeCheckbox(index, true)"
+                            [innerHTML]="data[header['id']] | translate"
+                    ></span>
+                </td>
+            </tr>
+            </tbody>
+        </nz-table>
+    </ng-template>
+    <nz-tabset *ngIf="isStructure" [nzTabPosition]="'top'" [nzSize]="'small'" (nzSelectedIndexChange)="onChangeIndexTab($event)">
+        <nz-tab [nzTitle]="'Все'">
+            <ng-template *ngIf="true then allList"></ng-template>
+        </nz-tab>
+        <nz-tab [nzTitle]="'Структуры'" *ngIf="reference.enableSubdivision">
+            <nz-tree class="structure-node"
+                     *ngIf="loadedStructure"
+                     [nzData]="nodes"
+                     nzCheckable
+                     [nzBlockNode]="true"
+                     [nzMultiple]="!reference.isSingle"
+                     (nzClick)="nzEventStructure($event)"
+                     (nzExpandChange)="nzEventStructure($event)"
+                     (nzCheckBoxChange)="nzCheckChange($event)"
+            ></nz-tree>
+        </nz-tab>
+        <nz-tab [nzTitle]="'Роли'" *ngIf="reference.enableGroup">
+            <nz-table
+                #rolesTable
+                [nzData]="roles"
+                [nzShowPagination]="totalPagesRoles > 1"
+                [nzPageSize]="pageSize"
+                [nzTotal]="totalDataRoles"
+                [nzLoading]="loading"
+                [nzPageIndex]="pageIndexRoles"
+                [nzFrontPagination]="false"
+                (nzPageIndexChange)="onChangePageIndex($event)"
+                [nzSize]="'default'"
+            >
+                <thead (nzSortChange)="onChangeSort($event)">
+                <tr>
+                    <th *ngFor="let header of headerRoles.header" nzShowSort nzColumnKey="{{header['id']}}">{{ header['title']}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let data of rolesTable.data; let index = index;"
+                    class="mainTable">
+                    <td *ngFor="let header of headerRoles.header; let index2 = index;">
+                        <tc-checkbox
+                                *ngIf="index2 == 0"
+                                id="is-required-{{index + 1}}-1"
+                                [(ngModel)]="checkDataRoles[index]"
+                                [value]="checkDataRoles[index]"
+                                (click)="changeCheckboxRoles(index, false)"
+                                class="check-table"
+                        ></tc-checkbox>
+                        <span
+                                [ngClass]="{'ml-check': hasCheck && index2 == 0}"
+                                (click)="changeCheckboxRoles(index, true)"
+                                [innerHTML]="data[header['id']] | translate"
+                        ></span>
+                    </td>
+                </tr>
+                </tbody>
+            </nz-table>
+        </nz-tab>
+    </nz-tabset>
+    <ng-template *ngIf="!isStructure then allList"></ng-template>
 </tc-card>

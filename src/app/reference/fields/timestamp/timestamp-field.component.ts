@@ -43,6 +43,8 @@ export class TCTimestampFieldComponent implements OnInit, OnChanges, ControlValu
 	timeValue = '';
 
 	isFocused = false;
+	clientTimezoneOffset = new Date().getTimezoneOffset();
+	isChanged = false;
 
 	onChange = (value: any) => {};
 	onTouched = () => {};
@@ -58,29 +60,13 @@ export class TCTimestampFieldComponent implements OnInit, OnChanges, ControlValu
 			if (this.isNew) {
 				if (this._valueField.currentTimestamp && this.isConfig) {
 
-				} else if (!this._valueField.currentTimestamp || !this.isConfig) {
+				} else if (!this._valueField.currentTimestamp && !this.isConfig) {
 					this.value = this._valueField.defaultValue;
 				}
 
 			}
 			this.timestampChanged();
-		}
-	}
-
-	defaultSetDate() {
-		if ((!this._valueField.currentTimestamp || !this.isConfig)
-			&& this._valueField.defaultValue
-			&& this.value
-		) {
-			this.dateValue = this.value.toString().slice(0, 10);
-			this.timeValue = this.value.toString().slice(11, 16);
-		} else if (this._valueField.currentTimestamp || !this.isConfig) {
-			const defaultDate = this.setDate(this._valueField.addDays, this._valueField.addTime);
-			const formatDate = defaultDate.getFullYear() + '-'
-				+ (defaultDate.getMonth() + 1 > 9 ? defaultDate.getMonth() + 1 : '0' + (defaultDate.getMonth() + 1))
-				+ '-' + (defaultDate.getDate() > 9 ? defaultDate.getDate() : '0' + defaultDate.getDate());
-			this.dateValue = formatDate;
-			this.timeValue = defaultDate.toTimeString().substring(0, 5);
+			// this.form.addControl(this._valueField.id, this.formBuilder.control(this.value, []));
 		}
 	}
 
@@ -91,51 +77,18 @@ export class TCTimestampFieldComponent implements OnInit, OnChanges, ControlValu
 			&& this.type === 'edit'
 			&& this.form
 		) {
-			validate.push(
-				CustomValidators.minTimestamp(this.setDate(this._valueField.minDay, this._valueField.minTime, 'minus')),
-				CustomValidators.maxTimestamp(this.setDate(this._valueField.maxDay, this._valueField.maxTime))
-			);
-
-			if (this._valueField.currentTimestamp && this.isConfig) {
-				this.value = this.setDate(this._valueField.addDays, this._valueField.addTime);
-				if (this.form.contains(this._valueField.id)) {
-					this.form.setControl(this._valueField.id, this.formBuilder.control(this.value, validate));
-				} else {
-					this.form.addControl(this._valueField.id, this.formBuilder.control(this.value, validate));
-				}
-
-				this.form.addControl(this._valueField.id + 'time',
-					this.formBuilder.control(this._valueField.addTime, (this._valueField.isRequired) ? [Validators.required] : []));
-				this.form.addControl(this._valueField.id + 'date',
-					this.formBuilder.control(this._valueField.addDays, (this._valueField.isRequired) ? [Validators.required] : []));
-
-				if (this.form.get([this._valueField.id]).invalid) {
-					this.form.get([this._valueField.id + 'time']).setErrors({'date-max-day': {
-							'date-maximum': this.setDate(this._valueField.maxDay, this._valueField.maxTime),
-							'actual': this.value
-						}});
-					this.form.get([this._valueField.id + 'date']).setErrors({'date-max-day': {
-							'date-maximum': this.setDate(this._valueField.maxDay, this._valueField.maxTime),
-							'actual': this.value
-						}});
-				}
-			} else if (!this._valueField.currentTimestamp || !this.isConfig) {
-				this.form.addControl(this._valueField.id + 'time',
-					this.formBuilder.control(this.timeValue, (this._valueField.isRequired) ? [Validators.required] : []));
-				this.form.addControl(this._valueField.id + 'date',
-					this.formBuilder.control(this.dateValue, (this._valueField.isRequired) ? [Validators.required] : []));
-
-				if (this.dateValue.length || this.timeValue.length) {
-					this.value = this.dateValue + ' ' + this.timeValue;
-				}
-				if (this.form.contains(this._valueField.id)) {
-					this.form.setControl(this._valueField.id, this.formBuilder.control(this.value, validate));
-				} else {
-					this.form.addControl(this._valueField.id, this.formBuilder.control(this.value, validate));
-				}
-
-				this.defaultSetDate();
+			if (this._valueField.minDay ||  this._valueField.minTime) {
+				validate.push(CustomValidators.minTimestamp(this.setDate(this._valueField.minDay, this._valueField.minTime, 'minus')));
 			}
+			if (this._valueField.maxDay || this._valueField.maxTime) {
+				validate.push(CustomValidators.maxTimestamp(this.setDate(this._valueField.maxDay, this._valueField.maxTime)));
+			}
+			if (this.isNew) {
+				if (this._valueField.currentTimestamp && !this.isConfig) {
+					this.value = this.setDate(this._valueField.addDays, this._valueField.addTime);
+				}
+			}
+			this.form.addControl(this._valueField.id, this.formBuilder.control(this.value, validate));
 
 		}
 
@@ -143,16 +96,29 @@ export class TCTimestampFieldComponent implements OnInit, OnChanges, ControlValu
 
 	// get value
 	get value() {
+		if (this.type !== 'edit' && !this.isChanged && this.innerValue) {
+			this.innerValue = new Date(this.innerValue);
+			this.innerValue.setMinutes(this.innerValue.getMinutes() - Number(this.clientTimezoneOffset));
+			this.isChanged = true;
+		}
 		return this.innerValue;
 	}
 
 	// set value
 	set value(value: any) {
+		if (!this.isNew && typeof value === 'string' && !this.isChanged) {
+			value = new Date(value);
+			value.setMinutes(value.getMinutes() - Number(this.clientTimezoneOffset));
+			this.isChanged = true;
+		}
 		this.writeValue(value);
 		this.onChange(value);
 	}
 
 	writeValue(value: any) {
+		if (!this.isFocused && value === null) {
+			return;
+		}
 		if (value !== this.innerValue) {
 			this.innerValue = value;
 		}
@@ -170,7 +136,6 @@ export class TCTimestampFieldComponent implements OnInit, OnChanges, ControlValu
 
 	focused() {
 		this.isFocused = true;
-		this.timestampChanged();
 	}
 
 	setDate(day: number, time: any, event: string = 'plus'): Date {
@@ -195,6 +160,14 @@ export class TCTimestampFieldComponent implements OnInit, OnChanges, ControlValu
 			}
 		}
 		return dateValue;
+	}
+
+	onChangeTimestamp(result: Date): void {
+		// console.log('Selected Time: ', result);
+	}
+
+	onOk(result: Date | Date[] | null): void {
+		// console.log('onOk', result);
 	}
 
 }

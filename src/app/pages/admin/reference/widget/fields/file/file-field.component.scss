@@ -1,0 +1,43 @@
+.row-flex {
+  display: flex;
+  flex-flow: wrap;
+}
+.match-height tc-card {
+  height: calc(100% - 24px);
+}
+
+h5.edu {
+  color: #086dda;
+}
+h5.exp {
+  color: #53b324;
+}
+.card-tabset {
+  border: 1px solid #e8e8e8;
+  border-top: none;
+  padding: 15px;
+}
+::ng-deep .ant-tabs-bar {
+  margin-bottom: 0;
+}
+.hint {
+  background: rgba(248,231,28,.3);
+  border: 1px solid #fff685;
+  color: #4a505c;
+  padding: 3px 12px;
+  border-radius: 7px;
+  margin-top: 7px;
+}
+
+.avatar {
+  width: 128px;
+  height: 128px;
+}
+.upload-icon {
+  font-size: 32px;
+  color: #999;
+}
+.ant-upload-text {
+  margin-top: 8px;
+  color: #666;
+}

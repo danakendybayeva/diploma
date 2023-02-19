@@ -1,12 +1,13 @@
 export const SETTINGS = {
   boxed: false, // boolean
   layout: 'vertical', // horizontal | vertical
-  // sidebarBg: '#405fac', // string
-  sidebarBg: '#213A8F', // string
-  // sidebarBg2: '#462354', // string
-  sidebarBg2: '#213A8F', // string
+  sidebarBg: '#3d3dd8', // string MDS
+  // sidebarBg: '#9c352f', // string SKILL
+  sidebarBg2: '#213A8F', // string MDS
+  // sidebarBg2: '#9c352f', // string SKILL
   sidebarColor: '#ffffff', // string
-  sidebarAccentColor: '#3fbb95', // string
+  // sidebarAccentColor: '#ffeb00', // string SKILL
+  sidebarAccentColor: '#3fbb95', // string MDS
   sidebarAccentContrastColor: '#fff', // string
   sidebarOpened: false, // boolean
   topbarBg: '#ffffff', // string

@@ -1,0 +1,17 @@
+* {
+    list-style: none;
+}
+
+.select-Menu {
+    min-width: 125px;
+}
+
+.select-icon {
+    max-width: 40px;
+}
+
+ul {
+    margin-left: -40px;
+}
+
+

@@ -1,4 +1,4 @@
-<tc-form-group *ngIf="_valueField && type === 'edit' && form" [formGroup]="form">
+<tc-form-group *ngIf="_valueField && type === 'edit' && form" [formGroup]="form" [ngClass]="{'mb-0' : styleType === 'no-label'}">
   <tc-reference-field
           [_valueField]="_valueField"
           [type]="'edit'"
@@ -6,6 +6,8 @@
           [form]="form"
           [formControlName]="_valueField.id"
           [styleType]="styleType"
+          [isConfig]="isConfig"
+          [isNew]="isNew"
           [isStructure]="true"
   ></tc-reference-field>
 </tc-form-group>
@@ -15,4 +17,5 @@
         [isConfig]="true"
         [value]="value"
         [styleType]="styleType"
+        [isStructure]="true"
 ></tc-reference-field>

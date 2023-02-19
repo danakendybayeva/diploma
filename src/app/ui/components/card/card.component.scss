@@ -44,8 +44,8 @@ $_types: (
 :host {
   background: #fff 50% 50% no-repeat;
   background-size: cover;
-  border-radius: $_shape;
-  box-shadow: $_shadow;
+  border-radius: 16px; //$_shape;
+  box-shadow: none; //$_shadow;
   display: block;
   margin-bottom: $_module-rem * 2;
   position: relative;

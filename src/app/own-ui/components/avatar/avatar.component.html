@@ -1,0 +1,7 @@
+<img *ngIf="src" (load)="imageLoaded()" src="{{ src }}" alt="{{ alt }}" width="{{ size }}" height="{{ size }}" [style]="{height: size}" >
+
+<div *ngIf="(!loaded || !src) && initials" class="initials">{{ initials }}</div>
+
+<span *ngIf="(!loaded || !src) && !initials && !icon" class="avatar-loader"><i class="icofont-ui-laoding rotate"></i></span>
+
+<span *ngIf="(!loaded || !src) && !initials && icon" [style]="{background: bgColor}"><i class="{{icon}}"></i></span>
