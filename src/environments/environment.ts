@@ -17,14 +17,13 @@ const firebaseConfig = {
 export const environment = {
   production: false,
   appSettings: SETTINGS,
-  apiUrl: 'http://localhost:9228',
-  tmp: 'https://tmp.mdsp.kz',
+  apiUrl: 'http://localhost:9227',
   defaultLanguage: 'kz',
   appMenu: 'assets/data/menu.json',
   // logo: 'assets/img/mdsg.png',
   // logoSign: 'assets/img/mdsg-n.svg',
-  logo: 'assets/img/mugalim-logo.svg',
-  logoSign: 'assets/img/mugalim-logo-white.png',
+  logo: 'assets/img/talaptan-logo.svg',
+  logoSign: 'assets/img/talaptan-logo.png',
   version: npm.version,
   firebaseConfig: firebaseConfig,
 };

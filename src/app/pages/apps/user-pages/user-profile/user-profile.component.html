@@ -98,39 +98,6 @@
     </div>
 
     <div class="col-12 col-md-8">
-        <tc-card>
-            <div class="row">
-                <div class="col-12 col-md-3">
-                    <nz-progress
-                        *ngIf="profileStatistic"
-                        nzStrokeWidth="8"
-                        nzStrokeLinecap="round"
-                        nzType="circle"
-                        [nzPercent]="profileStatistic[selectedSemester] ? profileStatistic[selectedSemester] / numDir : 0"
-                        [nzFormat]="formatOne"
-                        nzWidth="160"
-                        nzStrokeColor="#3D3DD8"
-                    ></nz-progress>
-                </div>
-
-                <div class="col-12 col-md-9 main-statistics">
-                    <div class="row">
-                        <div class="col-12 col-md-8">
-                            <h4 class="mt-0">{{'Rating'|translate}}</h4>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <tc-select placeholder="Семестр" [(ngModel)]="selectedSemester" [options]="semester">
-                            </tc-select>
-                        </div>
-                        <div class="col-12">
-                            <p class="text-desc">{{'RatingDescription'|translate}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </tc-card>
-
         <tc-card *ngIf="profileStatistic">
             <div class="d-flex justify-content-between">
                 <h4 class="mt-0">{{'RatingEducation'|translate}}</h4>

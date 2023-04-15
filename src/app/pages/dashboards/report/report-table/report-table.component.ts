@@ -16,15 +16,7 @@ export class ReportTableComponent implements OnInit, OnChanges, OnDestroy {
   listOfStudent: any[] = [];
   listOfStudentFiltered: any[] = [];
   types = [
-    { value: 'lingua', label: 'Lingua' },
-    { value: 'reading', label: 'Book' },
-    { value: 'passport', label: 'M Passport' },
     { value: 'course', label: 'Menu Courses' },
-    { value: 'seminar', label: 'Seminar' },
-    { value: 'eduway', label: 'Eduway' },
-    { value: 'edutest', label: 'Edutest' },
-    { value: 'practice', label: 'Experience' },
-    { value: 'gpa', label: 'GPA' },
   ];
   private reportTypes = ['lingua', 'reading', 'passport', 'course', 'seminar', 'eduway', 'edutest', 'practice', 'gpa'];
   semester = {

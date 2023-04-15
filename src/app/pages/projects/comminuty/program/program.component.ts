@@ -79,7 +79,7 @@ export class ProgramComponent extends BasePageComponent implements OnInit {
     getPrograms() {
         this.initTable();
         this.loading = true;
-        return this.http.get<Program[]>(`${environment.apiUrl}/api/project/community/programs/list1`)
+        return this.http.get<Program[]>(`${environment.apiUrl}/api/project/community/programs/list`)
             .pipe(map(data => {
                 return data;
             }))

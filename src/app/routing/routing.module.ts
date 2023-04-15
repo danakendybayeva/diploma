@@ -37,9 +37,7 @@ import {PageAnalyticsComponent} from '../pages/dashboards/analytics';
 import {HabitListComponent} from '../pages/projects/habit/list';
 
 const CHILD_ROUTES: Routes = [
-  { path: 'dashboard', component: PageDashboardComponent, canActivate: [AuthGuard], data: { roles: ['admin', 'chief', 'head_city', 'mentor'] }  },
   { path: 'analytics', component: PageAnalyticsComponent, canActivate: [AuthGuard], data: { roles: ['admin', 'chief', 'head_city', 'mentor'] }  },
-  { path: 'habits', component: HabitListComponent, canActivate: [AuthGuard], data: { roles: ['admin', 'chief', 'head_city', 'mentor'] }  },
   { path: 'profile/:id', component: PageUserProfileComponent, canActivate: [AuthGuard], data: { roles: ['admin', 'chief', 'head_city', 'mentor'] } },
   { path: 'profile/archive/:id', component: PageUserProfileComponent, canActivate: [AuthGuard], data: { roles: ['admin', 'chief'] } },
   { path: 'user-profile', component: PageUserProfileComponent },
@@ -49,47 +47,18 @@ const CHILD_ROUTES: Routes = [
   { path: 'edit-account/:id', component: PageEditAccountComponent },
   { path: 'settings', component: PageSettingsComponent, canActivate: [AuthGuard], data: { roles: ['admin'] } },
   { path: 'widgets', component: PageWidgetsComponent, canActivate: [AuthGuard], data: { roles: ['admin'] } },
-  { path: 'groups', component: PageGroupsComponent, canActivate: [AuthGuard], data: { roles: ['admin'] } },
-  { path: 'groups-list', component: GroupsListComponent, canActivate: [AuthGuard], data: { roles: ['admin'] } },
-  { path: 'structure', component: PageStructureComponent, canActivate: [AuthGuard], data: { roles: ['admin', 'chief', 'head_city'] } },
   {
     path: 'courses',
     children: COURSES_ROUTES
   },
   {
-    path: 'passports',
-    children: PASSPORT_ROUTES
-  },
-  {
     path: 'community',
     children: COMMUNITY_ROUTES
   },
-  {
-    path: 'lingua',
-    children: LINGUA_ROUTES
-  },
-  {
-    path: 'reading',
-    children: READING_ROUTES
-  },
-  {
-    path: 'edugrade',
-    children: EDUGRADE_ROUTES
-  },
-  {
-    path: 'reports',
-    children: REPORT_PROJECT_ROUTES
-  },
-  { path: 'coming-soon-english', component: SoonComponent },
-  { path: 'coming-soon-skills', component: SoonComponent },
-  { path: 'coming-soon-community', component: SoonComponent },
+  { path: 'coming-soon', component: SoonComponent },
   {
     path: 'admin-panel',
     children: ADMIN_PANEL_ROUTES
-  },
-  {
-    path: 'reference',
-    children: REFERENCE_ROUTES
   },
 ];
 
